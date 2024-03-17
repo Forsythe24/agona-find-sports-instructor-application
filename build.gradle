@@ -3,9 +3,9 @@ buildscript {
         versionName = '1.0.0'
         versionCode = 1
 
-        compileSdkVersion = 33
-        minSdkVersion = 23
-        targetSdkVersion = 33
+        compileSdkVersion = 34
+        minSdkVersion = 21
+        targetSdkVersion = 34
 
         kotlinVersion = '1.8.0'
 
