@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <color name="colorPrimary">#990099</color>
     <color name="colorPrimaryDark">#770077</color>
     <color name="colorAccent">#FF8000</color>
@@ -9,4 +9,9 @@
     <color name="colorError">#F44336</color>
     <color name="colorTextPrimary">#e6000000</color>
     <color name="colorTextSecondary">#88000000</color>
+    <color name="black">#FF000000</color>
+    <color name="blueberry">#4280EF</color>
+    <color name="cultured">#F5F5F5</color>
+    <color name="chinese_white">#E1E1E1</color>
+    <color name="snow">#FFFAFA</color>
 </resources>

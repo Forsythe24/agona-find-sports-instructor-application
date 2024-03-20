@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -30,14 +31,16 @@ dependencies {
 
     implementation kotlinDep
 
+    implementation materialDep
+
     implementation androidDep
     implementation cardViewDep
     implementation recyclerViewDep
     implementation constraintDep
 
-    implementation rxJavaDep
-
     implementation daggerDep
+    implementation 'androidx.core:core-ktx:+'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     kapt daggerKapt
 
     implementation lifecycleDep

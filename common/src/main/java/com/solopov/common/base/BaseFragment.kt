@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.solopov.common.R
-import com.solopov.common.utils.Event
-import com.solopov.common.utils.EventObserver
 import javax.inject.Inject
 
 abstract class BaseFragment<T : BaseViewModel> : Fragment() {
@@ -23,8 +21,6 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
         initViews()
         subscribe(viewModel)
 
-        viewModel.alertLiveData.observeEvent(::showAlert)
-        viewModel.errorWithTitleLiveData.observeEvent(::showErrorWithTitle)
     }
 
     protected fun showAlert(alertMessage: String) {
@@ -53,15 +49,6 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
         observables.add(this)
     }
 
-    protected fun <T> LiveData<Event<T>>.observeEvent(observer: EventObserver<T>) {
-        observe(viewLifecycleOwner, observer)
-        observables.add(this)
-    }
-
-    protected fun <T> LiveData<Event<T>>.observeEvent(observer: (T) -> Unit) {
-        observe(viewLifecycleOwner, EventObserver { observer(it) })
-        observables.add(this)
-    }
 
     abstract fun initViews()
 
