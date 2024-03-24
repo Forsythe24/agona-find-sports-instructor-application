@@ -10,11 +10,11 @@ class InstructorMappers @Inject constructor() {
         return with(instructorData) {
             Instructor(
                 id = id.toString(),
-                name = name,
-                age = age,
-                gender = otherData?.genderData?.gender,
+                name = name?: "",
+                age = age?: 1,
+                gender = genderData?.gender?: "M",
                 sport = sportTypes[((sportId)?: 1) - 1],
-                photo = photo,
+                photo = photo?: "",
                 experience = "",
                 description = "",
                 rating = (rating?: 0f) / 20,

@@ -10,14 +10,14 @@ import com.solopov.common.di.FeatureUtils
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.feature_instructor_impl.di.InstructorFeatureComponent
-import com.solopov.feature_instructor_impl.utils.ParamKeys
+import com.solopov.feature_instructor_impl.utils.ParamsKey
 import com.solopov.instructors.databinding.FragmentInstructorBinding
 import javax.inject.Inject
 
 
 class InstructorFragment : BaseFragment<InstructorViewModel>() {
     companion object {
-        fun createBundle(instructorId: String): Bundle = bundleOf(ParamKeys.KEY_INSTRUCTOR_ID to instructorId)
+        fun createBundle(instructorId: String): Bundle = bundleOf(ParamsKey.KEY_INSTRUCTOR_ID to instructorId)
     }
 
     @Inject
@@ -31,15 +31,14 @@ class InstructorFragment : BaseFragment<InstructorViewModel>() {
     }
 
     override fun inject() {
-        val instructorId = requireArguments().getString(ParamKeys.KEY_INSTRUCTOR_ID, "")
+        val instructorId = requireArguments().getString(ParamsKey.KEY_INSTRUCTOR_ID, "")
         FeatureUtils.getFeature<InstructorFeatureComponent>(this, InstructorFeatureApi::class.java)
             .instructorComponentFactory()
             .create(this, instructorId)
             .inject(this)
     }
 
-    override fun initViews() {
-    }
+    override fun initViews() {}
 
 
     override fun subscribe(viewModel: InstructorViewModel) {

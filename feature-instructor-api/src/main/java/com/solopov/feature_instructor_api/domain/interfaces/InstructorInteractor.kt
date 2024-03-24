@@ -1,23 +1,18 @@
 package com.solopov.feature_instructor_api.domain.interfaces
 
+import com.solopov.feature_instructor_api.domain.model.Instructor
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+
 
 class  InstructorInteractor(
-    private val InstructorRepository: InstructorRepository
+    private val instructorRepository: InstructorRepository,
+    private val dispatcher: CoroutineDispatcher
 ) {
-//
-//    fun observeInstructors(): Observable<List<Instructor>> {
-//        return InstructorRepository.observeInstructors()
-//    }
-//
-//    fun updateInstructors(): Completable {
-//        return InstructorRepository.updateInstructors()
-//    }
-//
-//    fun updateInstructor(id: Int): Completable {
-//        return InstructorRepository.updateInstructor(id)
-//    }
-//
-//    fun observeInstructor(id: Int): Observable<Instructor> {
-//        return InstructorRepository.observeInstructor(id)
-//    }
+
+    suspend fun getInstructorsBySportId(sportId: Int): List<Instructor> {
+        return withContext(dispatcher) {
+            instructorRepository.getInstructorsBySportId(sportId)
+        }
+    }
 }

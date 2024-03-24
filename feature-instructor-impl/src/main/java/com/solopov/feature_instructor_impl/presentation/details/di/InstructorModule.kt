@@ -27,7 +27,7 @@ class InstructorModule {
     @Provides
     @IntoMap
     @ViewModelKey(InstructorViewModel::class)
-    fun provideSignInViewModel(interactor: InstructorInteractor, instructorId: String, resourceManager: ResourceManager): ViewModel {
+    fun provideInstructorViewModel(interactor: InstructorInteractor, instructorId: String, resourceManager: ResourceManager): ViewModel {
         return InstructorViewModel(interactor, instructorId, resourceManager)
     }
 }

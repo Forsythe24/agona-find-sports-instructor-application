@@ -15,10 +15,6 @@ class InstructorData {
     val photo: String? = null
     val age: Int? = null
     val rating: Float? = null
-    val otherData: OtherData? = null
-}
-
-class OtherData {
     @SerializedName("main_team")
     val genderData: GenderData? = null
 }

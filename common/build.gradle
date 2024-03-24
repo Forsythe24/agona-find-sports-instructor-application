@@ -39,8 +39,8 @@ dependencies {
     implementation constraintDep
 
     implementation daggerDep
-    implementation 'androidx.core:core-ktx:+'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation androidXCoreDep
+    implementation lifecycleViewModelDep
     kapt daggerKapt
 
     implementation lifecycleDep

@@ -11,17 +11,6 @@ open class BaseViewModel : ViewModel() {
         val message: String
     )
 
-    protected val disposables = CompositeDisposable()
-
-    override fun onCleared() {
-        super.onCleared()
-        if (!disposables.isDisposed) disposables.dispose()
-    }
-
-    operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
-        add(disposable)
-    }
-
     protected fun showAlert(errorText: String) {
     }
 
