@@ -37,4 +37,21 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- Text -->
+    <style name="UserInfoFieldTextInputLayout">
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxBackgroundColor">@color/cultured</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
+    </style>
+
+    <!-- Button -->
+    <style name="DefaultButton">
+        <item name="backgroundTint">@color/blueberry</item>
+        <item name="textAllCaps">true</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
 </resources>

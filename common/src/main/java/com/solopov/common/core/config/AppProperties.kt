@@ -24,5 +24,6 @@ class AppProperties(context: Context) {
         return NetworkProperties(connectTimeout, readTimeout, writeTimeout)
     }
 
+
     fun getBaseUrl(): String = properties["base_url"] ?: ""
 }

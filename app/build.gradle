@@ -27,6 +27,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common')
+    implementation project(':feature-instructor-api')
+    implementation project(':feature-instructor-impl')
 
     implementation kotlinDep
 

@@ -8,6 +8,8 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Named
 
 @Module
 class NetworkModule {
