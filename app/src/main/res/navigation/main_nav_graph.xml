@@ -11,4 +11,11 @@
         android:label="fragment_instructors"
         tools:layout="@layout/fragment_instructors"/>
 
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.solopov.feature_authentication_impl.presentation.signup.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up"/>
+
+
 </navigation>

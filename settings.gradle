@@ -1,3 +1,5 @@
 include ':app', ':test-shared', ':common', ':'
 include ':feature-instructor-api'
 include ':feature-instructor-impl'
+include ':feature-authentication-api'
+include ':feature-authentication-impl'

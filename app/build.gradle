@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -24,11 +26,14 @@ android {
     }
 }
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common')
     implementation project(':feature-instructor-api')
     implementation project(':feature-instructor-impl')
+    implementation project(':feature-authentication-api')
+    implementation project(':feature-authentication-impl')
 
     implementation kotlinDep
 
@@ -41,6 +46,7 @@ dependencies {
     implementation roomDep
 
     implementation daggerDep
+    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
     kapt daggerKapt
 
     implementation lifecycleDep
@@ -49,4 +55,10 @@ dependencies {
     implementation retrofitDep
     implementation gsonConvertedDep
     implementation rxCallAdapterDep
+
+    implementation materialDep
+
+
+    implementation platform('com.google.firebase:firebase-bom:32.8.0')
+    implementation 'com.google.firebase:firebase-analytics'
 }

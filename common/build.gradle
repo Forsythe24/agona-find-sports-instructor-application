@@ -2,11 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
     defaultConfig {
+
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
 
@@ -41,6 +43,8 @@ dependencies {
     implementation daggerDep
     implementation androidXCoreDep
     implementation lifecycleViewModelDep
+    implementation 'com.google.firebase:firebase-auth:22.3.1'
+    implementation 'com.google.firebase:firebase-database:20.3.1'
     kapt daggerKapt
 
     implementation lifecycleDep
@@ -58,4 +62,7 @@ dependencies {
     testImplementation mockitoDep
 
     implementation splashScreenDep
+
+    implementation platform('com.google.firebase:firebase-bom:32.8.0')
+    implementation 'com.google.firebase:firebase-analytics'
 }

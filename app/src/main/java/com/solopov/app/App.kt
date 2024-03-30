@@ -1,6 +1,7 @@
 package com.solopov.app
 
 import android.app.Application
+import com.google.firebase.FirebaseApp
 import com.solopov.app.di.app.AppComponent
 import com.solopov.app.di.deps.ComponentDependenciesProvider
 import com.solopov.app.di.deps.FeatureHolderManager
@@ -18,6 +19,7 @@ open class App : Application(), FeatureContainer {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
 
         appComponent = AppComponent.init(this)
         appComponent.inject(this)
