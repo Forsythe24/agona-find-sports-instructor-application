@@ -9,9 +9,10 @@ import kotlin.concurrent.timerTask
 
 class UserFirebaseDao {
 
-    @Inject lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
 
     fun createUserWithEmailAndPassword(email: String, password: String) {
+        auth = FirebaseAuth.getInstance()
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 println("Could I be more successful?")
