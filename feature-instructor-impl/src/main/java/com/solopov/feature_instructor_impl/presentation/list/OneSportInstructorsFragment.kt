@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
@@ -54,6 +56,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
             lifecycleScope.launch {
                 errorsChannel.consumeEach { error ->
                     val errorMessage = error.message ?: "Unknown error occurred"
+                    println(errorMessage)
                     Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -63,12 +66,18 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
 
     private fun updateInstructors(instructors: List<InstructorsAdapter.ListItem>) {
         with(binding) {
-            println(instructors)
             if (instructorsRv.adapter == null) {
 
-                instructorsRv.adapter = InstructorsAdapter(instructors as MutableList<InstructorsAdapter.ListItem>)
+                instructorsRv.adapter = InstructorsAdapter(instructors as MutableList<InstructorsAdapter.ListItem>, ::showImage)
             }
         }
+    }
+
+    private fun showImage(url: String, imageView: ImageView) {
+        Glide.with(requireContext())
+            .load(url)
+            .into(imageView)
+
     }
 
     override fun initViews() {

@@ -59,6 +59,8 @@ dependencies {
     implementation gsonConvertedDep
     implementation gsonDep
 
+    implementation glideDep
+
     implementation roomDep
     implementation rxRoomDep
     kapt roomKapt
