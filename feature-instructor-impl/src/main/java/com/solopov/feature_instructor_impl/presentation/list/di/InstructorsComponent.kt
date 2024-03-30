@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import com.solopov.common.di.scope.ScreenScope
 import com.solopov.feature_instructor_impl.presentation.list.InstructorsFragment
 import com.solopov.feature_instructor_impl.presentation.list.OneSportInstructorsFragment
-import com.solopov.users.presentation.list.di.InstructorsModule
+import com.solopov.feature_instructor_impl.presentation.list.di.InstructorsModule
 import dagger.BindsInstance
 import dagger.Subcomponent
 

@@ -26,9 +26,9 @@ import com.solopov.feature_instructor_impl.presentation.list.InstructorsViewMode
 import com.solopov.feature_instructor_impl.presentation.list.OneSportInstructorsFragment;
 import com.solopov.feature_instructor_impl.presentation.list.OneSportInstructorsFragment_MembersInjector;
 import com.solopov.feature_instructor_impl.presentation.list.di.InstructorsComponent;
-import com.solopov.users.presentation.list.di.InstructorsModule;
-import com.solopov.users.presentation.list.di.InstructorsModule_ProvideInstructorsViewModelFactory;
-import com.solopov.users.presentation.list.di.InstructorsModule_ProvideMainViewModelFactory;
+import com.solopov.feature_instructor_impl.presentation.list.di.InstructorsModule;
+import com.solopov.feature_instructor_impl.presentation.list.di.InstructorsModule_ProvideInstructorsViewModelFactory;
+import com.solopov.feature_instructor_impl.presentation.list.di.InstructorsModule_ProvideMainViewModelFactory;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.DoubleCheck;
 import dagger.internal.InstanceFactory;

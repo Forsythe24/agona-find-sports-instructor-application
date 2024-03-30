@@ -1,4 +1,4 @@
-package com.solopov.users.presentation.list.di
+package com.solopov.feature_instructor_impl.presentation.list.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel

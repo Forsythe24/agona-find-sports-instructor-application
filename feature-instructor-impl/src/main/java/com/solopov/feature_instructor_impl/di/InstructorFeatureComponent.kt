@@ -3,6 +3,7 @@ package com.solopov.feature_instructor_impl.di
 import com.solopov.common.di.CommonApi
 import com.solopov.common.di.scope.FeatureScope
 import com.solopov.common.data.db.di.DbApi
+import com.solopov.common.data.firebase.di.FirebaseApi
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.feature_instructor_impl.presentation.list.di.InstructorsComponent
@@ -27,7 +28,6 @@ interface  InstructorFeatureComponent : InstructorFeatureApi {
 
     @Component.Builder
     interface Builder {
-
         @BindsInstance
         fun router(instructorsRouter: InstructorsRouter): Builder
 
