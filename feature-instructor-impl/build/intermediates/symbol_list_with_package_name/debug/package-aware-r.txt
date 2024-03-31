@@ -1705,6 +1705,7 @@ color mtrl_textinput_disabled_color
 color mtrl_textinput_filled_box_default_background_color
 color mtrl_textinput_focused_box_stroke_color
 color mtrl_textinput_hovered_box_stroke_color
+color neonRed
 color notification_action_color_filter
 color notification_icon_bg_color
 color primary_dark_material_dark
@@ -3346,6 +3347,8 @@ string search_menu_title
 string sign_in
 string sign_up
 string status_bar_notification_info_overflow
+string unknown_error
+string weak_password_exception
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style AndroidThemeColorAccentYellow

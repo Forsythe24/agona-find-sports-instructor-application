@@ -28,4 +28,7 @@
     <string name="log_in_btn">log in</string>
     <string name="click_here_to_sign_up">Click here to sign up!</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
+
+    <string name="weak_password_exception">Weak password</string>
+    <string name="unknown_error">Unknown error occurred</string>
 </resources>

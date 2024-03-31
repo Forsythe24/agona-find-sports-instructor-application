@@ -1704,6 +1704,7 @@ int color mtrl_textinput_disabled_color 0x0
 int color mtrl_textinput_filled_box_default_background_color 0x0
 int color mtrl_textinput_focused_box_stroke_color 0x0
 int color mtrl_textinput_hovered_box_stroke_color 0x0
+int color neonRed 0x0
 int color notification_action_color_filter 0x0
 int color notification_icon_bg_color 0x0
 int color primary_dark_material_dark 0x0
@@ -3345,6 +3346,8 @@ int string search_menu_title 0x0
 int string sign_in 0x0
 int string sign_up 0x0
 int string status_bar_notification_info_overflow 0x0
+int string unknown_error 0x0
+int string weak_password_exception 0x0
 int style AlertDialog_AppCompat 0x0
 int style AlertDialog_AppCompat_Light 0x0
 int style AndroidThemeColorAccentYellow 0x0

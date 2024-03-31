@@ -1,14 +1,12 @@
 package com.solopov.feature_authentication_impl.di
 
-import com.solopov.common.data.firebase.dao.UserFirebaseDao
 import com.solopov.common.di.scope.FeatureScope
-import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
 import com.solopov.feature_authentication_api.domain.interfaces.AuthRepository
-import com.solopov.feature_authentication_impl.data.mappers.UserMappers
 import com.solopov.feature_authentication_impl.data.repository.AuthRepositoryImpl
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.Dispatchers
 
 @Module
 class AuthFeatureModule {
@@ -21,5 +19,5 @@ class AuthFeatureModule {
 
     @Provides
     @FeatureScope
-    fun provideAuthInteractor(authRepository: AuthRepository): AuthInteractor = AuthInteractor(authRepository)
+    fun provideAuthInteractor(authRepository: AuthRepository): AuthInteractor = AuthInteractor(authRepository, Dispatchers.IO)
 }

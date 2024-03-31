@@ -1,9 +1,10 @@
 package com.solopov.app.navigation
 
 import androidx.navigation.NavController
+import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_instructor_impl.InstructorsRouter
 
-class Navigator : InstructorsRouter {
+class Navigator : InstructorsRouter, AuthRouter {
 
     private var navController: NavController? = null
 

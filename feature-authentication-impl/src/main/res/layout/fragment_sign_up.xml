@@ -71,6 +71,7 @@
         android:layout_marginHorizontal="24dp"
         style="@style/UserInfoFieldTextInputLayout"
         app:hintEnabled="false"
+        app:counterMaxLength="50"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name_et"
@@ -79,6 +80,7 @@
             android:paddingHorizontal="20dp"
             android:inputType="text"
             android:fontFamily="@font/inter_regular"
+            android:maxLength="50"
             />
 
 
@@ -103,6 +105,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginHorizontal="24dp"
         style="@style/UserInfoFieldTextInputLayout"
+        app:counterMaxLength="2"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/age_et"
@@ -111,6 +114,7 @@
             android:layout_height="match_parent"
             android:inputType="number"
             android:fontFamily="@font/inter_regular"
+            android:maxLength="2"
             />
 
 
@@ -170,6 +174,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginHorizontal="24dp"
         style="@style/UserInfoFieldTextInputLayout"
+        app:counterMaxLength="256"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:fontFamily="@font/inter_regular"
@@ -178,6 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
+            android:maxLength="256"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -203,6 +209,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginHorizontal="24dp"
         style="@style/UserInfoFieldTextInputLayout"
+        app:passwordToggleEnabled="true"
+        app:helperTextTextColor="@color/neonRed"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_et"
@@ -210,6 +218,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:maxLength="30"
             />
 
     </com.google.android.material.textfield.TextInputLayout>

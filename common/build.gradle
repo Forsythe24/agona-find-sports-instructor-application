@@ -7,6 +7,14 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
+    }
+    kotlinOptions {
+        jvmTarget = "18"
+    }
+
     defaultConfig {
 
         minSdkVersion rootProject.minSdkVersion
@@ -26,6 +34,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'com.solopov.common'
 }
 
 dependencies {
