@@ -1,6 +1,9 @@
 package com.solopov.common.utils
 
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
@@ -13,21 +16,21 @@ class ExceptionHandlerDelegate @Inject constructor(
 
     fun handleException(ex: Throwable): Throwable {
         return when (ex) {
-            is FirebaseAuthWeakPasswordException -> AuthenticationException.SignUpException(resManager.getString(R.string.weak_password_exception))
 
-//            is FirebaseException -> {
-//                when (ex) {
-//                    is FirebaseAuthWeakPasswordException -> AuthenticationException.SignUpException(resManager.getString(R.string.weak_password_exception))
-//                    else -> {
-//                        Exception()
-//                    }
-//                }
-//            }
+            is FirebaseException -> {
+                when (ex) {
+                    is FirebaseAuthWeakPasswordException -> AuthenticationException.WeakPasswordException(resManager.getString(R.string.weak_password_exception))
 
-            else -> {
-                println("haha")
-                Exception(ex.message)
+                    is FirebaseAuthInvalidUserException -> AuthenticationException.NoSuchUserException(resManager.getString(R.string.invalid_user))
+
+                    is FirebaseAuthInvalidCredentialsException -> AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
+
+                    is FirebaseAuthUserCollisionException -> AuthenticationException.EmailAlreadyInUseException(resManager.getString(R.string.email_in_use))
+
+                    else -> ex
+                }
             }
+            else -> ex
         }
 
     }

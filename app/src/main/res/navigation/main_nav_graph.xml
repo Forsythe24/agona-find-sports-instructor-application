@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/signUpFragment">
+    app:startDestination="@id/logInFragment">
 
     <fragment
         android:id="@+id/instructorsFragment"
@@ -16,6 +16,12 @@
         android:name="com.solopov.feature_authentication_impl.presentation.signup.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up"/>
+
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.solopov.feature_authentication_impl.presentation.login.LogInFragment"
+        android:label="fragment_log_in"
+        tools:layout="@layout/fragment_log_in"/>
 
 
 </navigation>

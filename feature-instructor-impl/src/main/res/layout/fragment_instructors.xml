@@ -50,6 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintHorizontal_bias="0.5"
+        android:background="@color/snow"
         app:tabTextAppearance="@style/TabLayoutTextAppearance"/>
 
     <androidx.viewpager2.widget.ViewPager2

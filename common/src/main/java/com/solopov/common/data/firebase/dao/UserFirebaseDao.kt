@@ -1,19 +1,26 @@
 package com.solopov.common.data.firebase.dao
 
+import android.util.Patterns
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.snapshots
+import com.solopov.common.R
+import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.firebase.exceptions.AuthenticationException
 import com.solopov.common.data.firebase.model.UserFirebase
 import com.solopov.common.utils.ExceptionHandlerDelegate
-import com.solopov.common.utils.runCatching
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class UserFirebaseDao @Inject constructor(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
-    private var auth: FirebaseAuth,
-    private var dbReference: DatabaseReference
+    private val auth: FirebaseAuth,
+    private val dbReference: DatabaseReference,
+    private val resManager: ResourceManager,
 ) {
 
     suspend fun createUser(
@@ -22,7 +29,7 @@ class UserFirebaseDao @Inject constructor(
         name: String,
         age: Int,
         gender: String,
-    ): UserFirebase {
+    ): UserFirebase  {
 
         var user: UserFirebase? = null
 
@@ -36,7 +43,7 @@ class UserFirebaseDao @Inject constructor(
                         name,
                         age,
                         gender,
-                    )
+                        )
                 } catch (ex: Exception) {
                     exceptionHandlerDelegate.handleException(ex)
                 }
@@ -46,7 +53,12 @@ class UserFirebaseDao @Inject constructor(
                 }
             }
         }.await()
+
+        delay(1000L)
+
         return user as UserFirebase
+
+
     }
 
     private fun addUserToDatabase(
@@ -58,25 +70,81 @@ class UserFirebaseDao @Inject constructor(
         gender: String,
     ): UserFirebase {
         val user = UserFirebase(auth.currentUser!!.uid, email, password, name, age, gender,
-            sport = null,
-            photo = null,
-            experience = null,
-            description = null,
-            rating = null,
-            hourlyRate = null,
+            sport = "",
+            photo = "",
+            experience = "",
+            description = "",
+            rating = 0.0f,
+            hourlyRate = 0.0f,
             isInstructor = false)
-        dbReference.child("user").child(id).setValue(user)
+        dbReference.child(resManager.getString(R.string.user)).child(id).setValue(user)
         return user
     }
 
-    fun signInUser(email: String, password: String) {
+    suspend fun signInUser(email: String?, password: String?){
+
+        var user: UserFirebase? = null
+        if (email.isNullOrEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            throw AuthenticationException.InvalidEmailException(resManager.getString(R.string.invalid_email_exception))
+        }
+
+        if (password.isNullOrEmpty()) {
+            throw AuthenticationException.NoEmptyPasswordException(resManager.getString(R.string.password_must_not_be_empty))
+        }
+
+
+
+
+
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                println("Could I be more successful?")
+                try {
+                    dbReference.child(resManager.getString(R.string.user)).orderByChild(resManager.getString(R.string.id)).equalTo(auth.currentUser!!.uid)
+
+                        .addValueEventListener(object: ValueEventListener {
+
+                            override fun onDataChange(snapshot: DataSnapshot) {
+
+                                for (postSnapshot in snapshot.children) {
+                                    with(postSnapshot) {
+
+                                        user = UserFirebase(
+                                            child(resManager.getString(R.string.id)).value.toString(),
+                                            child(resManager.getString(R.string.email_lower)).value.toString(),
+                                            child(resManager.getString(R.string.password_lower)).value.toString(),
+                                            child(resManager.getString(R.string.name_lower)).value.toString(),
+                                            child(resManager.getString(R.string.age_lower)).value.toString().toInt(),
+                                            child(resManager.getString(R.string.gender_lower)).value.toString(),
+                                            child(resManager.getString(R.string.sport_lower)).value.toString(),
+                                            child(resManager.getString(R.string.photo_lower)).value.toString(),
+                                            child(resManager.getString(R.string.experience_lower)).value.toString(),
+                                            child(resManager.getString(R.string.description_lower)).value.toString(),
+                                            child(resManager.getString(R.string.rating_lower)).value.toString().toFloat(),
+                                            child(resManager.getString(R.string.hourly_rate_lower)).value.toString().toFloat(),
+                                            child(resManager.getString(R.string.instructor_lower)).value.toString().toBoolean(),
+                                        )
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+
+                    })
+                } catch (ex: Exception) {
+                    exceptionHandlerDelegate.handleException(ex)
+                }
             } else {
-                println("No!")
+                task.exception?.let {
+                    exceptionHandlerDelegate.handleException(it)
+                }
             }
-        }
+        }.await()
+
+
+        delay(2000L)
+
     }
 
 

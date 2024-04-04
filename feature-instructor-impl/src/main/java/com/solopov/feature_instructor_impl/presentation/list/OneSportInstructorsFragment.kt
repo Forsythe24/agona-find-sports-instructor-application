@@ -63,7 +63,6 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
 
     private fun updateInstructors(instructors: List<InstructorsAdapter.ListItem>) {
         with(binding) {
-            println(instructors)
             if (instructorsRv.adapter == null) {
 
                 instructorsRv.adapter = InstructorsAdapter(instructors as MutableList<InstructorsAdapter.ListItem>)

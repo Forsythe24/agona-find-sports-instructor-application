@@ -29,6 +29,27 @@
     <string name="click_here_to_sign_up">Click here to sign up!</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
 
-    <string name="weak_password_exception">Weak password</string>
+    <string name="weak_password_exception">Password must be at least 6 characters</string>
+    <string name="invalid_email_exception">Invalid email address</string>
     <string name="unknown_error">Unknown error occurred</string>
+    <string name="no_user_with_such_email">No user with such email</string>
+    <string name="id">id</string>
+    <string name="user">user</string>
+    <string name="email_lower">email</string>
+    <string name="password_lower">password</string>
+    <string name="name_lower">name</string>
+    <string name="age_lower">age</string>
+    <string name="gender_lower">gender</string>
+    <string name="sport_lower">sport</string>
+    <string name="photo_lower">photo</string>
+    <string name="experience_lower">experience</string>
+    <string name="description_lower">description</string>
+    <string name="rating_lower">rating</string>
+    <string name="hourly_rate_lower">hourlyRate</string>
+    <string name="instructor_lower">instructor</string>
+    <string name="password_must_not_be_empty">Password must not be empty</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="authentication_failed">Authentication failed. Check your email or password</string>
+    <string name="email_in_use">The email address is already in use by another account</string>
+    <string name="invalid_user">Invalid user</string>
 </resources>

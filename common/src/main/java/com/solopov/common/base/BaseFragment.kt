@@ -23,9 +23,9 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
 
     }
 
-    protected fun showAlert(alertMessage: String) {
+    protected fun showAlert(title: String, alertMessage: String) {
         AlertDialog.Builder(requireContext())
-            .setTitle(R.string.common_error_general_title)
+            .setTitle(title)
             .setMessage(alertMessage)
             .setPositiveButton(R.string.common_ok) { _, _ -> }
             .show()
