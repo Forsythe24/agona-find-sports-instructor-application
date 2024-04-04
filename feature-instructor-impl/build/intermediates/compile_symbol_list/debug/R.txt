@@ -2620,7 +2620,6 @@ int id autoComplete 0x0
 int id autoCompleteToEnd 0x0
 int id autoCompleteToStart 0x0
 int id backImg 0x0
-int id background_view 0x0
 int id barrier 0x0
 int id baseline 0x0
 int id blocking 0x0
@@ -2711,6 +2710,7 @@ int id fragment_container_view_tag 0x0
 int id fullscreen_header 0x0
 int id ghost_view 0x0
 int id ghost_view_holder 0x0
+int id glide_custom_view_target_tag 0x0
 int id gone 0x0
 int id group_divider 0x0
 int id guideline 0x0
@@ -2727,6 +2727,7 @@ int id ignoreRequest 0x0
 int id image 0x0
 int id info 0x0
 int id instructor_info_tv 0x0
+int id instructor_iv 0x0
 int id instructors_rv 0x0
 int id instructors_sv 0x0
 int id instructors_tv 0x0

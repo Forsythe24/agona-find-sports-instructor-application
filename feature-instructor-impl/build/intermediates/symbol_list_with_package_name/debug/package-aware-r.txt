@@ -2621,7 +2621,6 @@ id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
 id backImg
-id background_view
 id barrier
 id baseline
 id blocking
@@ -2712,6 +2711,7 @@ id fragment_container_view_tag
 id fullscreen_header
 id ghost_view
 id ghost_view_holder
+id glide_custom_view_target_tag
 id gone
 id group_divider
 id guideline
@@ -2728,6 +2728,7 @@ id ignoreRequest
 id image
 id info
 id instructor_info_tv
+id instructor_iv
 id instructors_rv
 id instructors_sv
 id instructors_tv

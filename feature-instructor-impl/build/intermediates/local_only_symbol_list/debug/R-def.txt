@@ -10,10 +10,10 @@ drawable instructor_item_background
 drawable lionel_messi
 drawable search_view_background
 drawable tab_indicator
-id background_view
 id description_tv
 id hourly_rate_tv
 id instructor_info_tv
+id instructor_iv
 id instructors_rv
 id instructors_sv
 id instructors_tv
