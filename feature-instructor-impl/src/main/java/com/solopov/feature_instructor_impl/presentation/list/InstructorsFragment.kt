@@ -65,7 +65,6 @@ class InstructorsFragment : Fragment() {
 
             sportsKindsVp.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
-                    println(position)
                     super.onPageSelected(position)
                     sportsKindsTabLayout.selectTab(sportsKindsTabLayout.getTabAt(position))
                 }

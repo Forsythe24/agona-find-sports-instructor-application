@@ -19,7 +19,4 @@ class FirebaseModule {
     @Provides
     fun provideFirebaseDatabaseReference(): DatabaseReference = FirebaseDatabase.getInstance().reference
 
-    @ApplicationScope
-    @Provides
-    fun provideUserFirebaseDao() = UserFirebaseDao()
 }

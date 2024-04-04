@@ -3,11 +3,11 @@ package com.solopov.feature_authentication_impl.presentation.signup.di
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
+import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
-import com.solopov.feature_authentication_impl.presentation.SignUpViewModel
+import com.solopov.feature_authentication_impl.presentation.signup.SignUpViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -28,7 +28,7 @@ class SignUpModule {
     @Provides
     @IntoMap
     @ViewModelKey(SignUpViewModel::class)
-    fun provideSignInViewModel(): ViewModel {
-        return SignUpViewModel()
+    fun provideSignInViewModel(interactor: AuthInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate): ViewModel {
+        return SignUpViewModel(interactor, exceptionHandlerDelegate)
     }
 }

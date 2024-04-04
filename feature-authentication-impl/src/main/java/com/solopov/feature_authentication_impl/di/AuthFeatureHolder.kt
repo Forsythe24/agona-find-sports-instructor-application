@@ -5,11 +5,13 @@ import com.solopov.common.data.firebase.di.FirebaseApi
 import com.solopov.common.di.FeatureApiHolder
 import com.solopov.common.di.FeatureContainer
 import com.solopov.common.di.scope.ApplicationScope
+import com.solopov.feature_authentication_impl.AuthRouter
 import javax.inject.Inject
 
 @ApplicationScope
 class AuthFeatureHolder @Inject constructor(
-    featureContainer: FeatureContainer
+    featureContainer: FeatureContainer,
+    private val authRouter: AuthRouter
 ) : FeatureApiHolder(featureContainer) {
 
 
@@ -22,6 +24,7 @@ class AuthFeatureHolder @Inject constructor(
             .build()
         return DaggerAuthFeatureComponent.builder()
             .withDependencies(authFeatureDependencies)
+            .router(authRouter)
             .build()
     }
 }
