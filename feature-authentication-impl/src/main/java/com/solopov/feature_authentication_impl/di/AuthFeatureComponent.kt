@@ -1,10 +1,14 @@
 package com.solopov.feature_authentication_impl.di
 
+import android.os.Build
 import com.solopov.common.data.firebase.di.FirebaseApi
 import com.solopov.common.di.CommonApi
 import com.solopov.common.di.scope.FeatureScope
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
+import com.solopov.feature_authentication_impl.AuthRouter
+import com.solopov.feature_authentication_impl.presentation.login.di.LogInComponent
 import com.solopov.feature_authentication_impl.presentation.signup.di.SignUpComponent
+import dagger.BindsInstance
 import dagger.Component
 
 
@@ -20,9 +24,13 @@ import dagger.Component
 interface AuthFeatureComponent: AuthFeatureApi {
 
     fun signUpComponentFactory(): SignUpComponent.Factory
+    fun logInComponentFactory(): LogInComponent.Factory
 
     @Component.Builder
     interface Builder {
+
+        @BindsInstance
+        fun router(authRouter: AuthRouter): Builder
         fun withDependencies(deps: AuthFeatureDependencies): Builder
 
         fun build(): AuthFeatureComponent

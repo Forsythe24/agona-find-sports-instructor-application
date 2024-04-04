@@ -10,6 +10,14 @@ plugins {
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
+    }
+    kotlinOptions {
+        jvmTarget = "18"
+    }
+
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
@@ -28,6 +36,7 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    namespace 'com.solopov.feature_authentication_impl'
 }
 
 

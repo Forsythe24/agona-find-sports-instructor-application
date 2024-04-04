@@ -71,14 +71,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/email_tv"
         style="@style/UserInfoFieldTextInputLayout"
+        android:layout_marginHorizontal="28dp"
+        app:hintEnabled="false"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_et"
             android:paddingHorizontal="20dp"
-            android:hint="@string/email_hint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="28dp"
             android:inputType="textEmailAddress"
             android:fontFamily="@font/inter_regular"
             />
@@ -103,14 +103,15 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/password_tv"
         style="@style/UserInfoFieldTextInputLayout"
+        app:passwordToggleEnabled="true"
+        android:layout_marginHorizontal="28dp"
+
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_et"
             android:paddingHorizontal="20dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="28dp"
-            android:inputType="textPassword"
+            android:layout_height="match_parent" android:inputType="textPassword"
             android:fontFamily="@font/inter_regular"
             />
 
