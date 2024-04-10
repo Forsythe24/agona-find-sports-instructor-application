@@ -5,7 +5,7 @@ import com.solopov.app.R
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_instructor_impl.InstructorsRouter
 
-class Navigator : InstructorsRouter, AuthRouter {
+class Navigator : InstructorsRouter, AuthRouter,  {
 
     private var navController: NavController? = null
 

@@ -90,7 +90,7 @@
             android:fontFamily="@font/inter_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lionel Messi"
+            android:text="@string/name_sample"
             android:layout_marginStart="8dp"
             android:textSize="@dimen/standard_instructor_item_text_size"
             android:textColor="@color/white"

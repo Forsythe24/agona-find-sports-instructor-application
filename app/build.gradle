@@ -46,6 +46,8 @@ dependencies {
     implementation project(':feature-instructor-impl')
     implementation project(':feature-authentication-api')
     implementation project(':feature-authentication-impl')
+    implementation project(':feature-user-profile-api')
+    implementation project(':feature-user-profile-impl')
 
     implementation kotlinDep
 
