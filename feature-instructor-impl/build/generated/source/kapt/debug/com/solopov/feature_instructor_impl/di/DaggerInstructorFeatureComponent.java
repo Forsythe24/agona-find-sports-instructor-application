@@ -10,6 +10,7 @@ import com.solopov.common.di.viewmodel.ViewModelProviderFactory;
 import com.solopov.feature_instructor_api.domain.interfaces.InstructorInteractor;
 import com.solopov.feature_instructor_api.domain.interfaces.InstructorRepository;
 import com.solopov.feature_instructor_impl.InstructorsRouter;
+import com.solopov.feature_instructor_impl.data.mappers.InstructorMappers;
 import com.solopov.feature_instructor_impl.data.mappers.InstructorMappers_Factory;
 import com.solopov.feature_instructor_impl.data.network.InstructorApi;
 import com.solopov.feature_instructor_impl.data.repository.InstructorRepositoryImpl;
@@ -158,6 +159,7 @@ public final class DaggerInstructorFeatureComponent {
         OneSportInstructorsFragment instance) {
       BaseFragment_MembersInjector.injectViewModel(instance, instructorsViewModel());
       OneSportInstructorsFragment_MembersInjector.injectRouter(instance, instructorFeatureComponentImpl.router);
+      OneSportInstructorsFragment_MembersInjector.injectMappers(instance, new InstructorMappers());
       return instance;
     }
   }

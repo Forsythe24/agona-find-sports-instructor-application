@@ -35,18 +35,18 @@
                     >
 
                     <ImageView
-                        android:id="@+id/instructor_iv"
+                        android:id="@+id/user_iv"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:src="@drawable/lionel_messi"
+                        android:src="@drawable/no_profile_photo"
                         android:scaleType="fitXY" />
 
                     <View
-                        android:id="@+id/instructor_view"
+                        android:id="@+id/user_view"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:background="@drawable/user_profile_photo_background"
@@ -106,19 +106,33 @@
                         android:layout_marginStart="8dp"
                         android:textSize="24sp"
                         android:textColor="@color/white"
-                        app:layout_constraintBottom_toTopOf="@id/instructor_info_tv"
+                        app:layout_constraintBottom_toTopOf="@id/experience_tv"
                         app:layout_constraintStart_toStartOf="parent"
 
                         />
 
                     <TextView
-                        android:id="@+id/instructor_info_tv"
+                        android:id="@+id/experience_tv"
                         android:fontFamily="@font/inter_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/instructor_info_sample"
+                        android:text="@string/experience_sample"
                         android:textSize="12sp"
                         android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@id/name_tv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginStart="8dp" />
+
+                    <TextView
+                        android:id="@+id/user_info_tv"
+                        android:fontFamily="@font/inter_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_info_sample"
+                        android:textSize="12sp"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@id/experience_tv"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginBottom="12dp"
@@ -141,9 +155,20 @@
                 app:layout_constraintStart_toStartOf="@id/user_item_cv"
                 app:layout_constraintTop_toBottomOf="@id/user_item_cv" />
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/instruct_btn"
+                app:layout_constraintStart_toStartOf="@id/instruct_btn"
+                app:layout_constraintEnd_toEndOf="@id/instruct_btn"
+                android:textSize="14sp"
+                android:fontFamily="@font/inter_semibold"
+                android:text="@string/fill_out_application"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/instruct_btn"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/user_item_cv"
@@ -151,8 +176,7 @@
                 android:backgroundTint="@color/black"
                 android:layout_marginTop="100dp"
                 android:layout_marginHorizontal="64dp"
-                android:drawableTint="@color/white"
-                android:text="@string/instruct"
+                android:text="@string/instruct_others"
                 android:drawableEnd="@drawable/baseline_sports_24"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -163,17 +187,17 @@
         style="@style/DefaultButton"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="80dp"
-        android:layout_height="40dp"
+        android:layout_height="52dp"
         android:layout_marginTop="36dp"
         android:text="@string/edit"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:fontFamily="@font/inter_semibold"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="64dp"/>
+        android:layout_marginBottom="84dp"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/send_a_message_btn"
+        android:id="@+id/send_message_btn"
         style="@style/DefaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -184,7 +208,7 @@
         android:textColor="@color/white"
         android:fontFamily="@font/inter_semibold"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="84dp"
         android:drawableTint="@color/white"
         android:drawableEnd="@drawable/baseline_message_24"/>
 </FrameLayout>

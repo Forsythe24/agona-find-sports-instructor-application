@@ -35,7 +35,7 @@ class InstructorsViewModel @Inject constructor (
 
     private fun mapInstructorToListItem(instructor: Instructor): InstructorsAdapter.ListItem {
         return with(instructor) {
-            InstructorsAdapter.ListItem(id, name, age, gender, sport, photo, experience, description, rating, hourlyRate)
+            InstructorsAdapter.ListItem(id, name, age, gender, sport, photo, experience, description, rating, hourlyRate, true)
         }
     }
 

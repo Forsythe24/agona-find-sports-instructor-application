@@ -1,6 +1,6 @@
 package com.solopov.feature_instructor_impl.data.network.interceptors
 
-import com.solopov.feature_instructor_impl.utils.ParamsKey
+import com.solopov.common.utils.ParamsKey
 import com.solopov.instructors.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response

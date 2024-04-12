@@ -10,7 +10,7 @@ import com.solopov.common.di.FeatureUtils
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.feature_instructor_impl.di.InstructorFeatureComponent
-import com.solopov.feature_instructor_impl.utils.ParamsKey
+import com.solopov.common.utils.ParamsKey
 import com.solopov.instructors.databinding.FragmentInstructorBinding
 import javax.inject.Inject
 

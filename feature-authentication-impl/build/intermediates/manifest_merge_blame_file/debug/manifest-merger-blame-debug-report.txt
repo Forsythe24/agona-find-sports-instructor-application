@@ -6,7 +6,7 @@
 5-->/Users/miron1/AndroidStudioProjects/agona-find-sports-instructor-application/feature-authentication-impl/src/main/AndroidManifest.xml
 6
 7    <uses-permission android:name="android.permission.INTERNET" />
-7-->/Users/miron1/AndroidStudioProjects/agona-find-sports-instructor-application/feature-authentication-impl/src/main/AndroidManifest.xml:4:5-67
-7-->/Users/miron1/AndroidStudioProjects/agona-find-sports-instructor-application/feature-authentication-impl/src/main/AndroidManifest.xml:4:22-64
+7-->/Users/miron1/AndroidStudioProjects/agona-find-sports-instructor-application/feature-authentication-impl/src/main/AndroidManifest.xml:3:5-67
+7-->/Users/miron1/AndroidStudioProjects/agona-find-sports-instructor-application/feature-authentication-impl/src/main/AndroidManifest.xml:3:22-64
 8
 9</manifest>

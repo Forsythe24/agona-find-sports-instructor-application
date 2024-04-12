@@ -50,7 +50,7 @@
 
     <!-- Button -->
     <style name="DefaultButton">
-        <item name="backgroundTint">@color/blueberry</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
         <item name="textAllCaps">true</item>
         <item name="cornerRadius">8dp</item>
     </style>

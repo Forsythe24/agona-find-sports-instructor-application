@@ -44,12 +44,17 @@ buildscript {
 
         glideVersion = '4.16.0'
 
+        navVersion = '2.6.0'
+
+        navFragmentKtxDep = "androidx.navigation:navigation-fragment-ktx:$navVersion"
+        navUiKtxDep = "androidx.navigation:navigation-ui-ktx:$navVersion"
+
         glideDep = "com.github.bumptech.glide:glide:$glideVersion"
 
         viewPagerDep = "androidx.viewpager2:viewpager2:$viewPagerVersion"
 
 
-       lifecycleViewModelDep =  "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+        lifecycleViewModelDep = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
         androidXCoreDep = "androidx.core:core-ktx:+"
 
@@ -77,6 +82,7 @@ buildscript {
         navigationFragmentDep = "androidx.navigation:navigation-fragment:$navControllerVersion"
         navigationUiDep = "androidx.navigation:navigation-ui:$navControllerVersion"
 
+
         fragmentDep = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
         retrofitDep = "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -94,8 +100,6 @@ buildscript {
 
         coroutinesCoreDep = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
         coroutinesAndroidDep = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-
-
     }
     repositories {
         google()

@@ -2,7 +2,30 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <string name="age_regex">[0-9]+</string>
+    <string name="alert_age">"\n\nAge: "</string>
+    <string name="alert_email">"\n\nEmail: "</string>
+    <string name="alert_name">"\n\nName: "</string>
+    <string name="alert_password">"\n\nPassword: "</string>
     <string name="app_name">feature-registration-authentication-impl</string>
+    <string name="authentication_error">Authentication Error</string>
+    <string name="female_gender">W</string>
+    <string name="invalid_email">Invalid email address</string>
+    <string name="invalid_form">Invalid form</string>
+    <string name="male_gender">M</string>
+    <string name="minimum_character_password">Minimum 8 character password</string>
+    <string name="must_be_adult">You must be at least 18 years old to use our app</string>
+    <string name="must_contain_lower_case_character">Must contain at least 1 lower-case character</string>
+    <string name="must_contain_only_digits">Must contain only digits</string>
+    <string name="must_contain_only_letters_of_the_latin_alphabet">Must contain only letters of the Latin alphabet, dashes, or hyphens</string>
+    <string name="must_contain_special_character"><![CDATA[Must contain at least 1 special character (@#$%^&+=)]]></string>
+    <string name="must_contain_upper_case_character">Must contain at least 1 upper-case character</string>
+    <string name="must_not_be_empty">Must not be empty</string>
+    <string name="name_must_be_at_least_two_characters">Name must be at least 2 characters</string>
+    <string name="name_regex">[A-Za-z -]{2,}</string>
+    <string name="password_regex_one_lowercase_char">.*[a-z].*</string>
+    <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
+    <string name="password_regex_one_uppercase_char">.*[A-Z].*</string>
     <style name="Base.Theme.SportsInstructorApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         
         

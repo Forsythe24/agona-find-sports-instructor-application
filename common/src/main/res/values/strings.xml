@@ -58,6 +58,9 @@
     <string name="hourly_rate_sample">20 $</string>
     <string name="number_of_ratings_sample">(126)</string>
     <string name="rating_sample">4.9</string>
-    <string name="instructor_info">1%s, 2%s, 3$d</string>
+    <string name="instructor_info_template">%s, %d</string>
+    <string name="rating_template">%.1f</string>
+    <string name="hourly_rate_template">%.1f $</string>
     <string name="name_sample">Lionel Messi</string>
+    <string name="this_user_does_not_exist_exception">This user does not exist</string>
 </resources>

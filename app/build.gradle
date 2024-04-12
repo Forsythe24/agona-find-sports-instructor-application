@@ -57,6 +57,9 @@ dependencies {
     implementation navigationFragmentDep
     implementation navigationUiDep
 
+    implementation navUiKtxDep
+    implementation navFragmentKtxDep
+
     implementation roomDep
 
     implementation daggerDep

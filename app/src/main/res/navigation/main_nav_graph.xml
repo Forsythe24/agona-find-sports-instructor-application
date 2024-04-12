@@ -9,7 +9,8 @@
         android:id="@+id/instructorsFragment"
         android:name="com.solopov.feature_instructor_impl.presentation.list.InstructorsFragment"
         android:label="fragment_instructors"
-        tools:layout="@layout/fragment_instructors"/>
+        tools:layout="@layout/fragment_instructors">
+    </fragment>
 
     <fragment
         android:id="@+id/signUpFragment"
@@ -22,6 +23,13 @@
         android:name="com.solopov.feature_authentication_impl.presentation.login.LogInFragment"
         android:label="fragment_log_in"
         tools:layout="@layout/fragment_log_in"/>
+
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.solopov.feature_user_profile_impl.presentation.user_profile.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile">
+    </fragment>
 
 
 </navigation>

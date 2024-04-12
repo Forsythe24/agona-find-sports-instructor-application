@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,6 +55,9 @@ public final class FragmentSignUpBinding implements ViewBinding {
   public final MaterialButton finishSignUpBtn;
 
   @NonNull
+  public final RadioGroup genderRg;
+
+  @NonNull
   public final TextView genderTv;
 
   @NonNull
@@ -85,8 +89,8 @@ public final class FragmentSignUpBinding implements ViewBinding {
       @NonNull TextView ageTv, @NonNull TextView backTv, @NonNull TextView createAccountTv,
       @NonNull TextInputEditText emailEt, @NonNull TextInputLayout emailTextInput,
       @NonNull TextView emailTv, @NonNull RadioButton femaleRb,
-      @NonNull MaterialButton finishSignUpBtn, @NonNull TextView genderTv,
-      @NonNull RadioButton maleRb, @NonNull TextInputEditText nameEt,
+      @NonNull MaterialButton finishSignUpBtn, @NonNull RadioGroup genderRg,
+      @NonNull TextView genderTv, @NonNull RadioButton maleRb, @NonNull TextInputEditText nameEt,
       @NonNull TextInputLayout nameTextInput, @NonNull TextView nameTv,
       @NonNull TextInputEditText passwordEt, @NonNull TextInputLayout passwordTextInput,
       @NonNull TextView passwordTv, @NonNull TextView signUpTv) {
@@ -101,6 +105,7 @@ public final class FragmentSignUpBinding implements ViewBinding {
     this.emailTv = emailTv;
     this.femaleRb = femaleRb;
     this.finishSignUpBtn = finishSignUpBtn;
+    this.genderRg = genderRg;
     this.genderTv = genderTv;
     this.maleRb = maleRb;
     this.nameEt = nameEt;
@@ -199,6 +204,12 @@ public final class FragmentSignUpBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.gender_rg;
+      RadioGroup genderRg = ViewBindings.findChildViewById(rootView, id);
+      if (genderRg == null) {
+        break missingId;
+      }
+
       id = R.id.gender_tv;
       TextView genderTv = ViewBindings.findChildViewById(rootView, id);
       if (genderTv == null) {
@@ -255,7 +266,7 @@ public final class FragmentSignUpBinding implements ViewBinding {
 
       return new FragmentSignUpBinding((ConstraintLayout) rootView, ageEt, ageTextInput, ageTv,
           backTv, createAccountTv, emailEt, emailTextInput, emailTv, femaleRb, finishSignUpBtn,
-          genderTv, maleRb, nameEt, nameTextInput, nameTv, passwordEt, passwordTextInput,
+          genderRg, genderTv, maleRb, nameEt, nameTextInput, nameTv, passwordEt, passwordTextInput,
           passwordTv, signUpTv);
     }
     String missingId = rootView.getResources().getResourceName(id);

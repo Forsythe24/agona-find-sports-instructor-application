@@ -3,4 +3,10 @@
     <string name="instructors">Instructors</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="unknown_error_occurred">Unknown error occurred</string>
+    <string name="football">Football</string>
+    <string name="basketball">Basketball</string>
+    <string name="hockey">Hockey</string>
+    <string name="volleyball">Volleyball</string>
+    <string name="handball">Handball</string>
 </resources>
