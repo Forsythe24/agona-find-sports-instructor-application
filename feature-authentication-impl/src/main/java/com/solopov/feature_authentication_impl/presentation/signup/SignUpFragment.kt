@@ -13,7 +13,7 @@ import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.databinding.FragmentSignUpBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
-import com.solopov.feature_authentication_impl.utils.UserDataValidator
+import com.solopov.common.utils.UserDataValidator
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject

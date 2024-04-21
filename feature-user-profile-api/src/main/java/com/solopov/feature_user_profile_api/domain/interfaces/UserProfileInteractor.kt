@@ -28,4 +28,10 @@ class  UserProfileInteractor(
         }
     }
 
+    suspend fun updateUserPassword(password: String) {
+        return withContext(dispatcher) {
+            userProfileRepository.updateUserPassword(password)
+        }
+    }
+
 }

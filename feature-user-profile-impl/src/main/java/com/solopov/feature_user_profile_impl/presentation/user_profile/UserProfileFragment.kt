@@ -56,7 +56,8 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         }
 
         if (user != null) {
-            binding.editBtn.visibility = GONE
+            binding.editBtn.visibility = GONE //since it's not the current user's profile
+
             viewModel.setUser(user)
 
         } else {
@@ -66,7 +67,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     }
 
     override fun initViews() {
-
     }
 
 
@@ -88,6 +88,10 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             userProfileFlow.observe {
                 it?.let { user ->
 
+                    binding.editBtn.setOnClickListener {
+                        router.goToEditingProfile(user)
+                    }
+
                     if (user.isInstructor.not()) {
 
                         hideInstructorSpecificViews()
@@ -95,6 +99,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                         binding.instructBtn.setOnClickListener {
                             router.goToInstructApplication(user)
                         }
+
                     } else {
                         hideRegularUserSpecificViews()
                     }

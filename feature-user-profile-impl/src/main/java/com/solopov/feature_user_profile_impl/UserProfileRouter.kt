@@ -7,4 +7,6 @@ interface UserProfileRouter {
     fun goBackToInstructors()
 
     fun goToInstructApplication(userProfile: UserProfile)
+
+    fun goToEditingProfile(userProfile: UserProfile)
 }

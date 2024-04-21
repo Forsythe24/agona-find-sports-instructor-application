@@ -27,7 +27,7 @@
 
     <TextView
         android:fontFamily="@font/inter_bold"
-        android:id="@+id/apply_tv"
+        android:id="@+id/application_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/application"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/join_our_community_of_instructors_now"
-        app:layout_constraintTop_toBottomOf="@id/apply_tv"
+        app:layout_constraintTop_toBottomOf="@id/application_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"
@@ -186,13 +186,25 @@
         >
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            >
+            <TextView
+                android:id="@+id/hourly_rate_broadcast_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/avg_hourly_rate"
+                android:fontFamily="@font/inter_bold"
+                android:textStyle="italic"
+                android:textSize="20sp"/>
             <SeekBar
                 android:id="@+id/hourly_rate_sb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/hourly_rate_broadcast_tv"
                 android:max="300"
                 android:progress="100"
                 android:progressDrawable="@drawable/seekbar_style"
@@ -231,7 +243,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hourly_text_input"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="28dp"
         android:text="@string/apply"
         android:textColor="@color/white"
         android:fontFamily="@font/inter_semibold"/>

@@ -38,5 +38,12 @@
         tools:layout="@layout/fragment_instruct_application">
     </fragment>
 
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.solopov.feature_user_profile_impl.presentation.edit_profile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile">
+    </fragment>
+
 
 </navigation>

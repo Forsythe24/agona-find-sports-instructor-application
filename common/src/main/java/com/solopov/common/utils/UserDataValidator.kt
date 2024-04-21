@@ -1,8 +1,8 @@
-package com.solopov.feature_authentication_impl.utils
+package com.solopov.common.utils
 
 import android.util.Patterns
+import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.feature_authentication_impl.R
 import javax.inject.Inject
 
 class UserDataValidator @Inject constructor (

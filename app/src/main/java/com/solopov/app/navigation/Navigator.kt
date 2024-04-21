@@ -59,6 +59,9 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter {
         navController?.navigate(R.id.instructApplicationFragment, bundleOf(ParamsKey.USER to userProfile))
     }
 
+    override fun goToEditingProfile(userProfile: UserProfile) {
+        navController?.navigate(R.id.editProfileFragment, bundleOf(ParamsKey.USER to userProfile))
+    }
 
 
 }

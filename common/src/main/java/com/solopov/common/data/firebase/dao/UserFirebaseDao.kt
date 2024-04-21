@@ -66,7 +66,6 @@ class UserFirebaseDao @Inject constructor(
     }
 
     suspend fun updateUser(user: UserFirebase) {
-        println(user)
 
         val userDetails = HashMap<String, Any>()
         with (user) {
@@ -78,7 +77,7 @@ class UserFirebaseDao @Inject constructor(
 
             userDetails["instructor"] = isInstructor
             userDetails["name"] = name
-            userDetails["password"] = password
+            userDetails["gender"] = gender
         }
         runCatching(exceptionHandlerDelegate) {
             dbReference.child("user").child(user.id).updateChildren(userDetails).addOnCompleteListener {  }.await()
@@ -87,6 +86,10 @@ class UserFirebaseDao @Inject constructor(
         }.onFailure {
             throw UserDataUpdateFailedException(resManager.getString(R.string.user_data_update_failed_exception))
         }
+    }
+
+    suspend fun updateUserPassword(password: String) {
+        auth.currentUser?.updatePassword(password)?.await()
     }
 
 

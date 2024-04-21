@@ -23,4 +23,9 @@ class UserProfileRepositoryImpl @Inject constructor (
     override suspend fun updateUser(user: User) {
         return userFirebaseDao.updateUser(userMappers.mapUserToUserFirebase(user))
     }
+
+    override suspend fun updateUserPassword(password: String) {
+        return userFirebaseDao.updateUserPassword(password)
+
+    }
 }

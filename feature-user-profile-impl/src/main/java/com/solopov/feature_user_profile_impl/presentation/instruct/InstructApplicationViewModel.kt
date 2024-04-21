@@ -9,6 +9,8 @@ import com.solopov.feature_user_profile_api.domain.model.User
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,13 +29,10 @@ class InstructApplicationViewModel @Inject constructor(
             runCatching(exceptionHandlerDelegate) {
                 interactor.updateUser(mappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
-
             }.onFailure {
                 errorsChannel.send(it)
             }
         }
-
-
     }
 
     override fun onCleared() {

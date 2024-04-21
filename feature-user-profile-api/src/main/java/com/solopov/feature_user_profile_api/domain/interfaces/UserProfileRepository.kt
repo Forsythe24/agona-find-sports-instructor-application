@@ -7,4 +7,5 @@ interface UserProfileRepository {
     suspend fun getUserByUid(uid: String): User
     suspend fun getCurrentUser(): User
     suspend fun updateUser(user: User)
+    suspend fun updateUserPassword(password: String)
 }

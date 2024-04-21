@@ -1,8 +1,8 @@
 package com.solopov.feature_authentication_impl.presentation.signup;
 
 import com.solopov.common.base.BaseFragment_MembersInjector;
+import com.solopov.common.utils.UserDataValidator;
 import com.solopov.feature_authentication_impl.AuthRouter;
-import com.solopov.feature_authentication_impl.utils.UserDataValidator;
 import dagger.MembersInjector;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.InjectedFieldSignature;

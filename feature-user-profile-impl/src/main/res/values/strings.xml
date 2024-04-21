@@ -19,4 +19,20 @@
     <string name="how_much_money_do_you_want_to_make_in_an_hour">How much money do you want to make in an hour?</string>
     <string name="apply">apply</string>
     <string name="application">Application</string>
+    <string name="avg_hourly_rate">100$</string>
+    <string name="hourly_rate_broadcast_template">%d$</string>
+    <string name="here_you_can_edit_your_profile_information">Here you can edit your profile information!</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="save">save</string>
+    <string name="new_password">new password</string>
+    <string name="instructor_s_bio">instructor\'s bio</string>
+    <string name="instructors_bio_label">Instructor\'s bio</string>
+    <string name="edit_your_instructors_bio_here">Edit your instructor\'s bio here!</string>
+    <string name="next">next</string>
+    <string name="current_password">Current password</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="new_password_header">New password</string>
+    <string name="submit">submit</string>
+    <string name="password_has_been_successfully_changed">Password has been successfully changed</string>
+    <string name="current_and_new_passwords_are_identical_password_stayed_the_same">Current and new passwords are identical. Password stayed the same</string>
 </resources>
