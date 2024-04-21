@@ -9,6 +9,7 @@ import com.google.firebase.database.ValueEventListener
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.firebase.exceptions.AuthenticationException
+import com.solopov.common.data.firebase.exceptions.UserDataUpdateFailedException
 import com.solopov.common.data.firebase.exceptions.UserDoesNotExistException
 import com.solopov.common.data.firebase.model.UserFirebase
 import com.solopov.common.utils.ExceptionHandlerDelegate
@@ -62,6 +63,30 @@ class UserFirebaseDao @Inject constructor(
     }
     suspend fun getCurrentUser(): UserFirebase {
         return getUserByUid(auth.currentUser!!.uid)
+    }
+
+    suspend fun updateUser(user: UserFirebase) {
+        println(user)
+
+        val userDetails = HashMap<String, Any>()
+        with (user) {
+            description?.let { userDetails.put("description", it) }
+            experience?.let { userDetails.put("experience", it)  }
+            hourlyRate?.let { userDetails.put("hourlyRate", it)  }
+            photo?.let { userDetails.put("photo", it)  }
+            sport?.let { userDetails.put("sport", it)  }
+
+            userDetails["instructor"] = isInstructor
+            userDetails["name"] = name
+            userDetails["password"] = password
+        }
+        runCatching(exceptionHandlerDelegate) {
+            dbReference.child("user").child(user.id).updateChildren(userDetails).addOnCompleteListener {  }.await()
+        }.onSuccess {
+            return
+        }.onFailure {
+            throw UserDataUpdateFailedException(resManager.getString(R.string.user_data_update_failed_exception))
+        }
     }
 
 
@@ -169,9 +194,7 @@ class UserFirebaseDao @Inject constructor(
                                 }
                             }
 
-                            override fun onCancelled(error: DatabaseError) {
-                                TODO("Not yet implemented")
-                            }
+                            override fun onCancelled(error: DatabaseError) {}
 
                     })
                 } catch (ex: Exception) {

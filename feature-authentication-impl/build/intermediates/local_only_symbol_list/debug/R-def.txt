@@ -2,7 +2,6 @@ R_DEF: Internal format may change without notice
 local
 color black
 color white
-drawable baseline_keyboard_arrow_left_24
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 id age_et

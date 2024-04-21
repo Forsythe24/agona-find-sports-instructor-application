@@ -73,6 +73,7 @@ array com_google_android_gms_fonts_certs
 array com_google_android_gms_fonts_certs_dev
 array com_google_android_gms_fonts_certs_prod
 array preloaded_fonts
+array sports_types
 attr actionBarDivider
 attr actionBarItemBackground
 attr actionBarPopupTheme
@@ -2432,6 +2433,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable baseline_keyboard_arrow_left_24
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -3379,6 +3381,7 @@ string this_user_does_not_exist_exception
 string unknown_error
 string unknown_error_occurred
 string user
+string user_data_update_failed_exception
 string volleyball
 string weak_password_exception
 string wrong_password

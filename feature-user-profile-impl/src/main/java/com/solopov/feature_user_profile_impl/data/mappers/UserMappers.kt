@@ -28,12 +28,52 @@ class UserMappers @Inject constructor() {
         }
     }
 
+    fun mapUserToUserFirebase(user: User): UserFirebase {
+        return with(user) {
+            UserFirebase(
+                user.id,
+                email,
+                password,
+                name,
+                age,
+                gender,
+                sport,
+                photo,
+                experience,
+                description,
+                rating,
+                hourlyRate,
+                isInstructor
+            )
+        }
+    }
+
     fun mapUserToUserProfile(user: User): UserProfile {
         return with(user) {
             UserProfile(
                 id,
                 email,
                 password,
+                name,
+                age,
+                gender,
+                sport,
+                photo,
+                experience,
+                description,
+                rating,
+                hourlyRate,
+                isInstructor
+            )
+        }
+    }
+
+    fun mapUserProfileToUser(userProfile: UserProfile): User {
+        return with(userProfile) {
+            User(
+                id,
+                email!!,
+                password!!,
                 name,
                 age,
                 gender,

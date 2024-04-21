@@ -63,4 +63,13 @@
     <string name="hourly_rate_template">%.1f $</string>
     <string name="name_sample">Lionel Messi</string>
     <string name="this_user_does_not_exist_exception">This user does not exist</string>
+    <string name="user_data_update_failed_exception">Failed to update your profile</string>
+
+    <string-array name="sports_types">
+        <item>Football</item>
+        <item>Basketball</item>
+        <item>Hockey</item>
+        <item>Volleyball</item>
+        <item>Handball</item>
+    </string-array>
 </resources>

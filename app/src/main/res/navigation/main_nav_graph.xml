@@ -31,5 +31,12 @@
         tools:layout="@layout/fragment_user_profile">
     </fragment>
 
+    <fragment
+        android:id="@+id/instructApplicationFragment"
+        android:name="com.solopov.feature_user_profile_impl.presentation.instruct.InstructApplicationFragment"
+        android:label="fragment_instruct_application"
+        tools:layout="@layout/fragment_instruct_application">
+    </fragment>
+
 
 </navigation>

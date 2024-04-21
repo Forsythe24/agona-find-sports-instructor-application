@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
@@ -20,11 +19,13 @@ import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.UserCommon
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
+import com.solopov.feature_user_profile_api.domain.model.User
+import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class UserProfileFragment: BaseFragment<UserProfileViewModel>() {
+class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     private lateinit var binding: FragmentUserProfileBinding
 
@@ -32,24 +33,27 @@ class UserProfileFragment: BaseFragment<UserProfileViewModel>() {
     lateinit var router: UserProfileRouter
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUser()
+        initUser()
     }
 
-    private fun setUser() {
-//        val userId = requireArguments().getString(ParamsKey.USER_ID)
-        
+    private fun initUser() {
+
         val user = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                arguments?.getSerializable(ParamsKey.USER, UserCommon::class.java)
-            } else {
-                arguments?.getSerializable(ParamsKey.USER) as UserCommon?
-            }
+            arguments?.getSerializable(ParamsKey.USER, UserCommon::class.java)
+        } else {
+            arguments?.getSerializable(ParamsKey.USER) as UserCommon?
+        }
 
         if (user != null) {
             binding.editBtn.visibility = GONE
@@ -57,6 +61,7 @@ class UserProfileFragment: BaseFragment<UserProfileViewModel>() {
 
         } else {
             viewModel.getCurrentUser()
+            hideOtherUserSpecificViews()
         }
     }
 
@@ -66,7 +71,10 @@ class UserProfileFragment: BaseFragment<UserProfileViewModel>() {
 
 
     override fun inject() {
-        FeatureUtils.getFeature<UserProfileFeatureComponent>(this, UserProfileFeatureApi::class.java)
+        FeatureUtils.getFeature<UserProfileFeatureComponent>(
+            this,
+            UserProfileFeatureApi::class.java
+        )
             .userProfileComponentFactory()
             .create(this)
             .inject(this)
@@ -77,34 +85,21 @@ class UserProfileFragment: BaseFragment<UserProfileViewModel>() {
 
 
         with(viewModel) {
-            with(binding) {
-                userProfileFlow.observe {
-                    it?.let { user ->
+            userProfileFlow.observe {
+                it?.let { user ->
 
-                        if (!user.isInstructor) {
-                            hideInstructorSpecificViews()
-                        } else {
-                            hideRegularUserSpecificViews()
-                        }
+                    if (user.isInstructor.not()) {
 
-                        with(user) {
-                            val fullGender = if (gender == "M") getString(R.string.male) else getString(R.string.female)
-                            userInfoTv.text = resources.getString(R.string.instructor_info_template).format(fullGender, age)
-                            nameTv.text = name
-                            if (photo.isNullOrEmpty()) {
-                                userIv.setImageResource(R.drawable.no_profile_photo)
-                            } else {
-                                showImage(photo!!, userIv)
-                            }
-                            rating?.let { rating ->
-                                ratingTv.text = resources.getString(R.string.rating_template).format(rating)
-                            }
-                            hourlyRate?.let { hourlyRate ->
-                                hourlyRateTv.text = resources.getString(R.string.hourly_rate_template).format(hourlyRate)
-                            }
+                        hideInstructorSpecificViews()
+
+                        binding.instructBtn.setOnClickListener {
+                            router.goToInstructApplication(user)
                         }
+                    } else {
+                        hideRegularUserSpecificViews()
                     }
 
+                    setUserDetails(user)
                 }
 
                 lifecycleScope.launch {
@@ -119,6 +114,37 @@ class UserProfileFragment: BaseFragment<UserProfileViewModel>() {
         }
     }
 
+    private fun setUserDetails(userProfile: UserProfile) {
+        with(binding) {
+            with(userProfile) {
+                val fullGender = if (gender == "M") getString(R.string.male) else getString(
+                    R.string.female
+                )
+                userInfoTv.text =
+                    resources.getString(R.string.instructor_info_template).format(fullGender, age)
+                nameTv.text = name
+                if (photo.isNullOrEmpty()) {
+                    userIv.setImageResource(R.drawable.no_profile_photo)
+                } else {
+                    showImage(photo!!, userIv)
+                }
+                rating?.let { rating ->
+                    ratingTv.text = resources.getString(R.string.rating_template).format(rating)
+                }
+                hourlyRate?.let { hourlyRate ->
+                    hourlyRateTv.text =
+                        resources.getString(R.string.hourly_rate_template).format(hourlyRate)
+                }
+                description?.let { description ->
+                    descriptionTv.text = description
+                }
+                experience?.let { experience ->
+                    experienceTv.text = experience
+                }
+            }
+        }
+    }
+
     private fun hideInstructorSpecificViews() {
         with(binding) {
             hourlyRateTv.visibility = GONE
@@ -126,14 +152,18 @@ class UserProfileFragment: BaseFragment<UserProfileViewModel>() {
             descriptionTv.visibility = GONE
             numberOfRatingsTv.visibility = GONE
             ratingTv.visibility = GONE
-
-            sendMessageBtn.visibility = GONE
         }
+    }
+
+
+    private fun hideOtherUserSpecificViews() {
+        binding.sendMessageBtn.visibility = GONE
     }
 
     private fun hideRegularUserSpecificViews() {
         with(binding) {
             instructBtn.visibility = GONE
+            instructTv.visibility = GONE
         }
     }
 

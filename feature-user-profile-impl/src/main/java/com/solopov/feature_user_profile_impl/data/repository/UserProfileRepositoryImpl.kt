@@ -19,4 +19,8 @@ class UserProfileRepositoryImpl @Inject constructor (
     override suspend fun getCurrentUser(): User {
         return userMappers.mapUserFirebaseToUser(userFirebaseDao.getCurrentUser())
     }
+
+    override suspend fun updateUser(user: User) {
+        return userFirebaseDao.updateUser(userMappers.mapUserToUserFirebase(user))
+    }
 }

@@ -2,13 +2,16 @@ package com.solopov.app.navigation
 
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import com.google.firebase.analytics.FirebaseAnalytics.Param
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.app.R
 import com.solopov.common.model.UserCommon
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.common.utils.ParamsKey
+import com.solopov.feature_user_profile_api.domain.model.User
 import com.solopov.feature_user_profile_impl.presentation.user_profile.UserProfileFragment
+import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 
 class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter {
 
@@ -51,6 +54,11 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter {
     override fun goBackToInstructors() {
         navController?.navigate(R.id.instructorsFragment)
     }
+
+    override fun goToInstructApplication(userProfile: UserProfile) {
+        navController?.navigate(R.id.instructApplicationFragment, bundleOf(ParamsKey.USER to userProfile))
+    }
+
 
 
 }

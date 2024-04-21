@@ -73,6 +73,7 @@ array com_google_android_gms_fonts_certs
 array com_google_android_gms_fonts_certs_dev
 array com_google_android_gms_fonts_certs_prod
 array preloaded_fonts
+array sports_types
 attr actionBarDivider
 attr actionBarItemBackground
 attr actionBarPopupTheme
@@ -3399,6 +3400,7 @@ string status_bar_notification_info_overflow
 string this_user_does_not_exist_exception
 string unknown_error
 string user
+string user_data_update_failed_exception
 string weak_password_exception
 string wrong_password
 style AlertDialog_AppCompat

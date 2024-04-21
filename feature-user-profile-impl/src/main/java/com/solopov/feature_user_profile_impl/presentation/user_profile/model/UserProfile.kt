@@ -1,5 +1,7 @@
 package com.solopov.feature_user_profile_impl.presentation.user_profile.model
 
+import java.io.Serializable
+
 data class UserProfile (
     var id: String,
     var email: String?,
@@ -14,4 +16,4 @@ data class UserProfile (
     var rating: Float?,
     var hourlyRate: Float?,
     var isInstructor: Boolean = false
-)
+): Serializable

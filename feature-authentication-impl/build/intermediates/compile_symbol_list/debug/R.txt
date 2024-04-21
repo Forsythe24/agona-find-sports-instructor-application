@@ -72,6 +72,7 @@ int array com_google_android_gms_fonts_certs 0x0
 int array com_google_android_gms_fonts_certs_dev 0x0
 int array com_google_android_gms_fonts_certs_prod 0x0
 int array preloaded_fonts 0x0
+int array sports_types 0x0
 int attr actionBarDivider 0x0
 int attr actionBarItemBackground 0x0
 int attr actionBarPopupTheme 0x0
@@ -3398,6 +3399,7 @@ int string status_bar_notification_info_overflow 0x0
 int string this_user_does_not_exist_exception 0x0
 int string unknown_error 0x0
 int string user 0x0
+int string user_data_update_failed_exception 0x0
 int string weak_password_exception 0x0
 int string wrong_password 0x0
 int style AlertDialog_AppCompat 0x0

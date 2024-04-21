@@ -22,4 +22,10 @@ class  UserProfileInteractor(
         }
     }
 
+    suspend fun updateUser(user: User) {
+        return withContext(dispatcher) {
+            userProfileRepository.updateUser(user)
+        }
+    }
+
 }

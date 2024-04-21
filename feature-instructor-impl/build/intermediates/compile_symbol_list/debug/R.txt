@@ -72,6 +72,7 @@ int array com_google_android_gms_fonts_certs 0x0
 int array com_google_android_gms_fonts_certs_dev 0x0
 int array com_google_android_gms_fonts_certs_prod 0x0
 int array preloaded_fonts 0x0
+int array sports_types 0x0
 int attr actionBarDivider 0x0
 int attr actionBarItemBackground 0x0
 int attr actionBarPopupTheme 0x0
@@ -2431,6 +2432,7 @@ int drawable abc_textfield_search_material 0x0
 int drawable abc_vector_test 0x0
 int drawable avd_hide_password 0x0
 int drawable avd_show_password 0x0
+int drawable baseline_keyboard_arrow_left_24 0x0
 int drawable btn_checkbox_checked_mtrl 0x0
 int drawable btn_checkbox_checked_to_unchecked_mtrl_animation 0x0
 int drawable btn_checkbox_unchecked_mtrl 0x0
@@ -3378,6 +3380,7 @@ int string this_user_does_not_exist_exception 0x0
 int string unknown_error 0x0
 int string unknown_error_occurred 0x0
 int string user 0x0
+int string user_data_update_failed_exception 0x0
 int string volleyball 0x0
 int string weak_password_exception 0x0
 int string wrong_password 0x0
