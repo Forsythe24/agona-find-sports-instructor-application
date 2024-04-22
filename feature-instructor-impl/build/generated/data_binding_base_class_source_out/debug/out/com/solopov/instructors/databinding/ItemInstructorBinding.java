@@ -4,6 +4,7 @@ package com.solopov.instructors.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,9 +22,6 @@ public final class ItemInstructorBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
-  public final View backgroundView;
-
-  @NonNull
   public final TextView descriptionTv;
 
   @NonNull
@@ -31,6 +29,9 @@ public final class ItemInstructorBinding implements ViewBinding {
 
   @NonNull
   public final TextView instructorInfoTv;
+
+  @NonNull
+  public final ImageView instructorIv;
 
   @NonNull
   public final ConstraintLayout itemCl;
@@ -47,16 +48,15 @@ public final class ItemInstructorBinding implements ViewBinding {
   @NonNull
   public final TextView ratingTv;
 
-  private ItemInstructorBinding(@NonNull ConstraintLayout rootView, @NonNull View backgroundView,
-      @NonNull TextView descriptionTv, @NonNull TextView hourlyRateTv,
-      @NonNull TextView instructorInfoTv, @NonNull ConstraintLayout itemCl,
-      @NonNull CardView itemCv, @NonNull TextView nameTv, @NonNull TextView numberOfRatingsTv,
-      @NonNull TextView ratingTv) {
+  private ItemInstructorBinding(@NonNull ConstraintLayout rootView, @NonNull TextView descriptionTv,
+      @NonNull TextView hourlyRateTv, @NonNull TextView instructorInfoTv,
+      @NonNull ImageView instructorIv, @NonNull ConstraintLayout itemCl, @NonNull CardView itemCv,
+      @NonNull TextView nameTv, @NonNull TextView numberOfRatingsTv, @NonNull TextView ratingTv) {
     this.rootView = rootView;
-    this.backgroundView = backgroundView;
     this.descriptionTv = descriptionTv;
     this.hourlyRateTv = hourlyRateTv;
     this.instructorInfoTv = instructorInfoTv;
+    this.instructorIv = instructorIv;
     this.itemCl = itemCl;
     this.itemCv = itemCv;
     this.nameTv = nameTv;
@@ -91,12 +91,6 @@ public final class ItemInstructorBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.background_view;
-      View backgroundView = ViewBindings.findChildViewById(rootView, id);
-      if (backgroundView == null) {
-        break missingId;
-      }
-
       id = R.id.description_tv;
       TextView descriptionTv = ViewBindings.findChildViewById(rootView, id);
       if (descriptionTv == null) {
@@ -112,6 +106,12 @@ public final class ItemInstructorBinding implements ViewBinding {
       id = R.id.instructor_info_tv;
       TextView instructorInfoTv = ViewBindings.findChildViewById(rootView, id);
       if (instructorInfoTv == null) {
+        break missingId;
+      }
+
+      id = R.id.instructor_iv;
+      ImageView instructorIv = ViewBindings.findChildViewById(rootView, id);
+      if (instructorIv == null) {
         break missingId;
       }
 
@@ -145,8 +145,8 @@ public final class ItemInstructorBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemInstructorBinding((ConstraintLayout) rootView, backgroundView, descriptionTv,
-          hourlyRateTv, instructorInfoTv, itemCl, itemCv, nameTv, numberOfRatingsTv, ratingTv);
+      return new ItemInstructorBinding((ConstraintLayout) rootView, descriptionTv, hourlyRateTv,
+          instructorInfoTv, instructorIv, itemCl, itemCv, nameTv, numberOfRatingsTv, ratingTv);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

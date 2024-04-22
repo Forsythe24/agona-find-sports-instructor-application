@@ -4,4 +4,5 @@ interface AuthRouter {
 
     fun goToSignUpPage()
     fun goToInstructorsList()
+    fun goToUserProfile()
 }

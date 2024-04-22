@@ -1,11 +1,19 @@
 package com.solopov.app.navigation
 
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import com.google.firebase.analytics.FirebaseAnalytics.Param
+import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.app.R
+import com.solopov.common.model.UserCommon
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_instructor_impl.InstructorsRouter
+import com.solopov.common.utils.ParamsKey
+import com.solopov.feature_user_profile_api.domain.model.User
+import com.solopov.feature_user_profile_impl.presentation.user_profile.UserProfileFragment
+import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 
-class Navigator : InstructorsRouter, AuthRouter {
+class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter {
 
     private var navController: NavController? = null
 
@@ -21,11 +29,14 @@ class Navigator : InstructorsRouter, AuthRouter {
     }
 
     override fun openInstructor(instructorId: String) {
-        TODO("Not yet implemented")
+        navController?.navigate(R.id.userProfileFragment, bundleOf(ParamsKey.KEY_INSTRUCTOR_ID to instructorId))
+    }
+    override fun openInstructor(instructor: UserCommon) {
+        navController?.navigate(R.id.userProfileFragment, bundleOf(ParamsKey.USER to instructor))
     }
 
     override fun returnToInstructors() {
-        TODO("Not yet implemented")
+        navController?.popBackStack()
     }
 
     override fun goToSignUpPage() {
@@ -35,5 +46,22 @@ class Navigator : InstructorsRouter, AuthRouter {
     override fun goToInstructorsList() {
         navController?.navigate(R.id.instructorsFragment)
     }
+
+    override fun goToUserProfile() {
+        navController?.navigate(R.id.userProfileFragment)
+    }
+
+    override fun goBackToInstructors() {
+        navController?.navigate(R.id.instructorsFragment)
+    }
+
+    override fun goToInstructApplication(userProfile: UserProfile) {
+        navController?.navigate(R.id.instructApplicationFragment, bundleOf(ParamsKey.USER to userProfile))
+    }
+
+    override fun goToEditingProfile(userProfile: UserProfile) {
+        navController?.navigate(R.id.editProfileFragment, bundleOf(ParamsKey.USER to userProfile))
+    }
+
 
 }

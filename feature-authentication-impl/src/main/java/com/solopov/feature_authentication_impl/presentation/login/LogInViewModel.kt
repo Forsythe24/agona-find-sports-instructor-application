@@ -18,10 +18,15 @@ class LogInViewModel @Inject constructor(
 
     val errorsChannel = Channel<Throwable>()
 
+    private val _authenticationResultFlow = MutableStateFlow(false)
+    val authenticationResultFlow: StateFlow<Boolean>
+        get() = _authenticationResultFlow
+
     fun signIn(
         email: String?,
         password: String?,
-    ) {
+    ){
+
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.signInUser(
@@ -29,7 +34,7 @@ class LogInViewModel @Inject constructor(
                     password,
                 )
             }.onSuccess {
-
+                _authenticationResultFlow.value = it
             }.onFailure {
                 errorsChannel.send(it)
             }

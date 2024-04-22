@@ -11,5 +11,5 @@ interface AuthRepository {
         gender: String,
     ): User
 
-    suspend fun signInUser(email: String?, password: String?)
+    suspend fun signInUser(email: String?, password: String?): Boolean
 }

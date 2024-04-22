@@ -35,7 +35,7 @@ class AuthRepositoryImpl @Inject constructor (
 
 
 
-    override suspend fun signInUser(email: String?, password: String?) {
+    override suspend fun signInUser(email: String?, password: String?): Boolean {
         return userFirebaseDao.signInUser(email, password)
     }
 }

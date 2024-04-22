@@ -16,7 +16,9 @@ import com.solopov.common.di.FeatureUtils
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.feature_instructor_impl.di.InstructorFeatureComponent
-import com.solopov.feature_instructor_impl.utils.ParamsKey
+import com.solopov.common.utils.ParamsKey
+import com.solopov.feature_instructor_impl.data.mappers.InstructorMappers
+import com.solopov.instructors.R
 import com.solopov.instructors.databinding.FragmentOneSportInstructorsBinding
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
@@ -25,6 +27,9 @@ import javax.inject.Inject
 class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
     @Inject
     lateinit var router: InstructorsRouter
+
+    @Inject
+    lateinit var mappers: InstructorMappers
 
     private lateinit var binding: FragmentOneSportInstructorsBinding
 
@@ -55,7 +60,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
 
             lifecycleScope.launch {
                 errorsChannel.consumeEach { error ->
-                    val errorMessage = error.message ?: "Unknown error occurred"
+                    val errorMessage = error.message ?: getString(R.string.unknown_error_occurred)
                     println(errorMessage)
                     Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                 }
@@ -68,7 +73,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
         with(binding) {
             if (instructorsRv.adapter == null) {
 
-                instructorsRv.adapter = InstructorsAdapter(instructors as MutableList<InstructorsAdapter.ListItem>, ::showImage)
+                instructorsRv.adapter = InstructorsAdapter(instructors as MutableList<InstructorsAdapter.ListItem>, ::showImage, ::onItemClicked, ::getStringCallback)
             }
         }
     }
@@ -83,6 +88,18 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
     override fun initViews() {
         val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.instructorsRv.layoutManager = layoutManager
+    }
+
+    private fun onItemClicked(instructor: InstructorsAdapter.ListItem) {
+        if (instructor.isFromApi) {
+            router.openInstructor(mappers.mapInstructorListItemToUserCommon(instructor))
+        } else {
+            router.openInstructor(instructor.id)
+        }
+    }
+
+    private fun getStringCallback(id: Int): String {
+        return getString(id)
     }
     
     companion object {

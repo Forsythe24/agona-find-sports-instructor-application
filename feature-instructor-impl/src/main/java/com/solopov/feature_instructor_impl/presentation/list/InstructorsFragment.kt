@@ -1,14 +1,9 @@
 package com.solopov.feature_instructor_impl.presentation.list
 
-import android.graphics.Typeface
-import android.graphics.fonts.Font
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -35,17 +30,17 @@ class InstructorsFragment : Fragment() {
 
     private fun initViews() {
         with(binding) {
-            sportsKindsVp.adapter = FragmentAdapter(parentFragmentManager, lifecycle)
-            
+            sportsKindsVp.adapter = FragmentAdapter(childFragmentManager, lifecycle)
+
             with(sportsKindsTabLayout) {
-                addTab(newTab().setText("Football"))
-                addTab(newTab().setText("Basketball"))
-                addTab(newTab().setText("Hockey"))
-                addTab(newTab().setText("Volleyball"))
-                addTab(newTab().setText("Handball"))
+                addTab(newTab().setText(context.getString(R.string.football)))
+                addTab(newTab().setText(context.getString(R.string.basketball)))
+                addTab(newTab().setText(context.getString(R.string.hockey)))
+                addTab(newTab().setText(context.getString(R.string.volleyball)))
+                addTab(newTab().setText(context.getString(R.string.handball)))
 
 
-                addOnTabSelectedListener (object: OnTabSelectedListener {
+                addOnTabSelectedListener(object : OnTabSelectedListener {
                     override fun onTabSelected(tab: TabLayout.Tab?) {
                         if (tab != null) {
                             sportsKindsVp.currentItem = tab.position
@@ -63,16 +58,14 @@ class InstructorsFragment : Fragment() {
                 selectTab(sportsKindsTabLayout.getTabAt(0))
             }
 
-            sportsKindsVp.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+            sportsKindsVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     sportsKindsTabLayout.selectTab(sportsKindsTabLayout.getTabAt(position))
                 }
             })
 
-            
+
         }
     }
-
-
 }

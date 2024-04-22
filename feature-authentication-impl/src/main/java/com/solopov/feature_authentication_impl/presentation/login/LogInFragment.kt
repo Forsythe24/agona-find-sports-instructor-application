@@ -31,7 +31,6 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
     }
 
     override fun initViews() {
-
         with (viewModel) {
             with(binding) {
 
@@ -80,6 +79,11 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
     }
 
     override fun subscribe(viewModel: LogInViewModel) {
+        viewModel.authenticationResultFlow.observe {
+            if (it) {
+                router.goToUserProfile()
+            }
+        }
     }
 
 }

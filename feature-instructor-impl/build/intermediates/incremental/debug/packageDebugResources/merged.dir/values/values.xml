@@ -5,14 +5,14 @@
     <color name="white">#FFFFFFFF</color>
     <dimen name="standard_instructor_item_text_size">24sp</dimen>
     <string name="app_name">feature-instructor-impl</string>
-    <string name="description_sample">Hi! I\'m Ross Geller. My way of learning is to never give up! Me and you are gonna have so much fun training! I have a major experience in swimming which is going to make your training sessions a pleasure!</string>
+    <string name="basketball">Basketball</string>
+    <string name="football">Football</string>
+    <string name="handball">Handball</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hourly_rate_sample">20 $</string>
-    <string name="instructor_info">1%s, 2%s, 3$d</string>
-    <string name="instructor_info_sample">Won a world cup, have 8 Ballon d\'Ors, male, 36</string>
+    <string name="hockey">Hockey</string>
     <string name="instructors">Instructors</string>
-    <string name="number_of_ratings_sample">(126)</string>
-    <string name="rating_sample">4.9</string>
+    <string name="unknown_error_occurred">Unknown error occurred</string>
+    <string name="volleyball">Volleyball</string>
     <style name="Base.Theme.AgonaFindSportsInstructorApplication" parent="Theme.Material3.DayNight.NoActionBar">
         
         

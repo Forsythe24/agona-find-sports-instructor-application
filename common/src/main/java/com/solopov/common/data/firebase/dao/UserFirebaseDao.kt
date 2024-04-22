@@ -6,12 +6,14 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.snapshots
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.firebase.exceptions.AuthenticationException
+import com.solopov.common.data.firebase.exceptions.UserDataUpdateFailedException
+import com.solopov.common.data.firebase.exceptions.UserDoesNotExistException
 import com.solopov.common.data.firebase.model.UserFirebase
 import com.solopov.common.utils.ExceptionHandlerDelegate
+import com.solopov.common.utils.runCatching
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -23,13 +25,81 @@ class UserFirebaseDao @Inject constructor(
     private val resManager: ResourceManager,
 ) {
 
+    suspend fun getUserByUid(uid: String): UserFirebase {
+
+        runCatching(exceptionHandlerDelegate) {
+            dbReference.child("user").child(uid).get().await()
+        }.onSuccess { value ->
+            if (value.exists()) {
+                with(value) {
+                    return UserFirebase(
+                        child(resManager.getString(R.string.id)).value.toString(),
+                        child(resManager.getString(R.string.email_lower)).value.toString(),
+                        child(resManager.getString(R.string.password_lower)).value.toString(),
+                        child(resManager.getString(R.string.name_lower)).value.toString(),
+                        child(resManager.getString(R.string.age_lower)).value.toString()
+                            .toInt(),
+                        child(resManager.getString(R.string.gender_lower)).value.toString(),
+                        child(resManager.getString(R.string.sport_lower)).value.toString(),
+                        child(resManager.getString(R.string.photo_lower)).value.toString(),
+                        child(resManager.getString(R.string.experience_lower)).value.toString(),
+                        child(resManager.getString(R.string.description_lower)).value.toString(),
+                        child(resManager.getString(R.string.rating_lower)).value.toString()
+                            .toFloat(),
+                        child(resManager.getString(R.string.hourly_rate_lower)).value.toString()
+                            .toFloat(),
+                        child(resManager.getString(R.string.instructor_lower)).value.toString()
+                            .toBoolean(),
+                    )
+                }
+            } else {
+                throw UserDoesNotExistException(resManager.getString(R.string.this_user_does_not_exist_exception))
+            }
+        }.onFailure {
+            throw UserDoesNotExistException(resManager.getString(R.string.this_user_does_not_exist_exception))
+        }
+        throw UserDoesNotExistException(resManager.getString(R.string.this_user_does_not_exist_exception))
+
+    }
+    suspend fun getCurrentUser(): UserFirebase {
+        return getUserByUid(auth.currentUser!!.uid)
+    }
+
+    suspend fun updateUser(user: UserFirebase) {
+
+        val userDetails = HashMap<String, Any>()
+        with (user) {
+            description?.let { userDetails.put("description", it) }
+            experience?.let { userDetails.put("experience", it)  }
+            hourlyRate?.let { userDetails.put("hourlyRate", it)  }
+            photo?.let { userDetails.put("photo", it)  }
+            sport?.let { userDetails.put("sport", it)  }
+
+            userDetails["instructor"] = isInstructor
+            userDetails["name"] = name
+            userDetails["gender"] = gender
+        }
+        runCatching(exceptionHandlerDelegate) {
+            dbReference.child("user").child(user.id).updateChildren(userDetails).addOnCompleteListener {  }.await()
+        }.onSuccess {
+            return
+        }.onFailure {
+            throw UserDataUpdateFailedException(resManager.getString(R.string.user_data_update_failed_exception))
+        }
+    }
+
+    suspend fun updateUserPassword(password: String) {
+        auth.currentUser?.updatePassword(password)?.await()
+    }
+
+
     suspend fun createUser(
         email: String,
         password: String,
         name: String,
         age: Int,
         gender: String,
-    ): UserFirebase  {
+    ): UserFirebase {
 
         var user: UserFirebase? = null
 
@@ -81,7 +151,7 @@ class UserFirebaseDao @Inject constructor(
         return user
     }
 
-    suspend fun signInUser(email: String?, password: String?){
+    suspend fun signInUser(email: String?, password: String?): Boolean {
 
         var user: UserFirebase? = null
         if (email.isNullOrEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -127,9 +197,7 @@ class UserFirebaseDao @Inject constructor(
                                 }
                             }
 
-                            override fun onCancelled(error: DatabaseError) {
-                                TODO("Not yet implemented")
-                            }
+                            override fun onCancelled(error: DatabaseError) {}
 
                     })
                 } catch (ex: Exception) {
@@ -142,9 +210,14 @@ class UserFirebaseDao @Inject constructor(
             }
         }.await()
 
+        delay(1000L)
+        println(user)
 
-        delay(2000L)
-
+        return if(user == null) {
+            throw AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
+        } else {
+            true
+        }
     }
 
 
