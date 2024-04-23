@@ -25,6 +25,7 @@ android {
         versionName rootProject.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -48,6 +49,8 @@ dependencies {
     implementation project(':feature-authentication-impl')
     implementation project(':feature-user-profile-api')
     implementation project(':feature-user-profile-impl')
+    implementation project(':feature-chat-api')
+    implementation project(':feature-chat-impl')
 
     implementation kotlinDep
 
