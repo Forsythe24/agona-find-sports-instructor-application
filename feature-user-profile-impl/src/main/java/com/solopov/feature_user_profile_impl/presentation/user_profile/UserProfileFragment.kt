@@ -1,5 +1,7 @@
 package com.solopov.feature_user_profile_impl.presentation.user_profile
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.solopov.com.solopov.feature_user_profile_impl.R
@@ -19,7 +22,6 @@ import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.UserCommon
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
-import com.solopov.feature_user_profile_api.domain.model.User
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
@@ -56,7 +58,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         }
 
         if (user != null) {
-            binding.editBtn.visibility = GONE //since it's not the current user's profile
+            hideProfileEditingViews()
 
             viewModel.setUser(user)
 
@@ -67,6 +69,9 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     }
 
     override fun initViews() {
+        binding.imageSearchIv.setOnClickListener {
+            selectImage()
+        }
     }
 
 
@@ -172,9 +177,41 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         }
     }
 
-    private fun showImage(url: String, imageView: ImageView) {
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+        with(result) {
+            if (resultCode == Activity.RESULT_OK && data != null && data!!.data != null) {
+                val imageUri = data!!.data!!
+
+                viewModel.uploadProfileImage(imageUri)
+                showImage(imageUri.toString(), binding.userIv)
+            } else {
+                showAlert(getString(R.string.file_uploading_error), getString(R.string.uploading_went_wrong))
+            }
+        }
+    }
+
+    private fun selectImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        resultLauncher.launch(intent)
+
+    }
+
+    private fun hideProfileEditingViews() {
+        //since it's not the current user's profile
+        with(binding) {
+            editBtn.visibility = GONE
+            imageSearchIv.visibility = GONE
+        }
+
+    }
+
+    private fun showImage(uri: String, imageView: ImageView) {
         Glide.with(requireContext())
-            .load(url)
+            .load(uri)
             .into(imageView)
 
     }

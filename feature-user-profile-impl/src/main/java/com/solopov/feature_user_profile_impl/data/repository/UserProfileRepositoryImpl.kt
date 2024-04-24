@@ -28,4 +28,9 @@ class UserProfileRepositoryImpl @Inject constructor (
         return userFirebaseDao.updateUserPassword(password)
 
     }
+    override suspend fun uploadProfileImage(imageUri: String): String {
+        return userFirebaseDao.uploadProfileImage(imageUri)
+
+    }
 }
+

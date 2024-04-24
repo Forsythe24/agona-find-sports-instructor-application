@@ -1,14 +1,19 @@
 package com.solopov.common.data.firebase.dao
 
+import android.net.Uri
 import android.util.Patterns
+import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.firebase.exceptions.AuthenticationException
+import com.solopov.common.data.firebase.exceptions.FileUploadingException
 import com.solopov.common.data.firebase.exceptions.UserDataUpdateFailedException
 import com.solopov.common.data.firebase.exceptions.UserDoesNotExistException
 import com.solopov.common.data.firebase.model.UserFirebase
@@ -16,6 +21,9 @@ import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class UserFirebaseDao @Inject constructor(
@@ -23,7 +31,26 @@ class UserFirebaseDao @Inject constructor(
     private val auth: FirebaseAuth,
     private val dbReference: DatabaseReference,
     private val resManager: ResourceManager,
+    private val storage: FirebaseStorage,
 ) {
+
+    suspend fun uploadProfileImage(imageUri: String): String {
+        val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US)
+        val now = Date()
+        val filename = formatter.format(now)
+        val location = "images/$filename"
+
+        val ref = storage.getReference(location)
+        runCatching(exceptionHandlerDelegate) {
+            ref.putFile(imageUri.toUri()).await()
+        }.onSuccess {
+            return ref.downloadUrl.await().toString()
+
+        }.onFailure {
+            throw FileUploadingException(resManager.getString(R.string.file_uploading_exception))
+        }
+        throw FileUploadingException(resManager.getString(R.string.file_uploading_exception))
+    }
 
     suspend fun getUserByUid(uid: String): UserFirebase {
 
@@ -211,7 +238,6 @@ class UserFirebaseDao @Inject constructor(
         }.await()
 
         delay(1000L)
-        println(user)
 
         return if(user == null) {
             throw AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
