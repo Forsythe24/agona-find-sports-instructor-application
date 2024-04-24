@@ -34,4 +34,10 @@ class  UserProfileInteractor(
         }
     }
 
+    suspend fun uploadProfileImage(imageUri: String): String {
+        return withContext(dispatcher) {
+            userProfileRepository.uploadProfileImage(imageUri)
+        }
+    }
+
 }

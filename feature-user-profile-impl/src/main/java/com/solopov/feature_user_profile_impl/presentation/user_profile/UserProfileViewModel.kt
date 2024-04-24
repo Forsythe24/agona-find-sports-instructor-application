@@ -1,5 +1,6 @@
 package com.solopov.feature_user_profile_impl.presentation.user_profile
 
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
 import com.solopov.common.base.BaseViewModel
@@ -49,8 +50,40 @@ class UserProfileViewModel(
         }
     }
 
+    private fun updateUser(
+        userProfile: UserProfile
+    ) {
+        viewModelScope.launch {
+            runCatching(exceptionHandlerDelegate) {
+                interactor.updateUser(userMappers.mapUserProfileToUser(userProfile))
+            }.onSuccess {
+            }.onFailure {
+                errorsChannel.send(it)
+            }
+        }
+    }
+
     fun setUser(user: UserCommon) {
         _userProfileFlow.value = userMappers.mapUserCommonToUserProfile(user)
+    }
+
+    fun updateProfileImage(imageUri: String) {
+        _userProfileFlow.value?.let {
+            it.photo = imageUri
+            updateUser(it)
+        }
+    }
+
+    fun uploadProfileImage(imageUri: Uri) {
+        viewModelScope.launch {
+            runCatching(exceptionHandlerDelegate) {
+                interactor.uploadProfileImage(imageUri.toString())
+            }.onSuccess {
+                updateProfileImage(it)
+            }.onFailure {
+                errorsChannel.send(it)
+            }
+        }
     }
 
     override fun onCleared() {
