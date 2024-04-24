@@ -34,7 +34,7 @@ android {
         viewBinding = true
         buildConfig = true
     }
-    namespace 'com.solopov.com.solopov.feature_chat_impl'
+    namespace 'com.solopov.feature_chat_impl'
 }
 
 dependencies {

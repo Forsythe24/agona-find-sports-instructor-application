@@ -9,11 +9,12 @@ import com.solopov.common.model.UserCommon
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.common.utils.ParamsKey
+import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_user_profile_api.domain.model.User
 import com.solopov.feature_user_profile_impl.presentation.user_profile.UserProfileFragment
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 
-class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter {
+class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
 
     private var navController: NavController? = null
 

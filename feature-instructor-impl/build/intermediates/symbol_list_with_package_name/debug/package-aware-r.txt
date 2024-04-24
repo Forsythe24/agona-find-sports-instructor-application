@@ -1183,6 +1183,7 @@ color common_google_signin_btn_text_light_focused
 color common_google_signin_btn_text_light_pressed
 color common_google_signin_btn_tint
 color cultured
+color deepSaffron
 color design_bottom_navigation_shadow_color
 color design_box_stroke_color
 color design_dark_default_color_background

@@ -10,6 +10,8 @@ import com.solopov.common.data.firebase.di.FirebaseApi
 import com.solopov.common.data.firebase.di.FirebaseHolder
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.di.AuthFeatureHolder
+import com.solopov.feature_chat_api.di.ChatFeatureApi
+import com.solopov.feature_chat_impl.di.ChatFeatureHolder
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.di.InstructorFeatureComponent
 import com.solopov.feature_instructor_impl.di.InstructorFeatureHolder
@@ -57,4 +59,9 @@ interface ComponentHolderModule {
     @IntoMap
     fun provideUserProfileFeatureHolder(userProfileFeatureHolder: UserProfileFeatureHolder): FeatureApiHolder
 
+    @ApplicationScope
+    @Binds
+    @ClassKey(ChatFeatureApi::class)
+    @IntoMap
+    fun provideChatFeatureHolder(chatFeatureHolder: ChatFeatureHolder): FeatureApiHolder
 }

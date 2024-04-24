@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">feature-chat-impl</string>
+    <string name="user_name_sample">Ross Geller</string>
+    <string name="received_message_sample">This is a received message</string>
+    <string name="sent_message_sample">This is a sent message</string>
+    <string name="date_sample">18:36 24.04.24</string>
+    <string name="type_something_hint">Type something...</string>
 </resources>
