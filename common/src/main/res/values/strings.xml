@@ -89,6 +89,7 @@
     <string name="password_regex_one_lowercase_char">.*[a-z].*</string>
     <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
     <string name="age_regex">[0-9]+</string>
+    <string name="file_uploading_exception">Failed to upload the file</string>
 
     <string-array name="sports_types">
         <item>Football</item>

@@ -54,6 +54,7 @@ dependencies {
     implementation lifecycleViewModelDep
     implementation 'com.google.firebase:firebase-auth:22.3.1'
     implementation 'com.google.firebase:firebase-database:20.3.1'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     kapt daggerKapt
 
     implementation lifecycleDep
