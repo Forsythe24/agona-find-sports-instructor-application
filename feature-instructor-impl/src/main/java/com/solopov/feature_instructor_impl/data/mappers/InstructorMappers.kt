@@ -1,11 +1,11 @@
 package com.solopov.feature_instructor_impl.data.mappers
 
+import com.solopov.common.data.firebase.model.UserFirebase
 import com.solopov.common.model.UserCommon
 import com.solopov.feature_instructor_api.domain.model.Instructor
 import com.solopov.feature_instructor_impl.data.network.pojo.response.InstructorData
 import com.solopov.feature_instructor_impl.presentation.list.InstructorsAdapter
 import javax.inject.Inject
-import kotlin.math.exp
 
 class InstructorMappers @Inject constructor() {
 
@@ -13,6 +13,8 @@ class InstructorMappers @Inject constructor() {
         return with(instructorData) {
             Instructor(
                 id = id.toString(),
+                password = "",
+                email = "",
                 name = name?: "",
                 age = age?: 1,
                 gender = genderData?.gender?: "M",
@@ -22,6 +24,25 @@ class InstructorMappers @Inject constructor() {
                 description = "",
                 rating = (rating?: 0f) / 20,
                 hourlyRate = 0f,
+            )
+        }
+    }
+
+    fun mapUserFirebaseToInstructor(userFirebase: UserFirebase): Instructor {
+        return with(userFirebase) {
+            Instructor(
+                id = id,
+                password = password,
+                email = email,
+                name = name,
+                age = age,
+                gender = gender,
+                sport = sport ?: "Football",
+                photo = photo?: "",
+                experience = experience?: "",
+                description = description?: "",
+                rating = rating?: 0f,
+                hourlyRate = hourlyRate?: 0f,
             )
         }
     }

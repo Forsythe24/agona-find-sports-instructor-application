@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 import com.solopov.common.base.BaseFragment_MembersInjector;
 import com.solopov.common.core.resources.ResourceManager;
 import com.solopov.common.data.db.AppDatabase;
+import com.solopov.common.data.firebase.dao.UserFirebaseDao;
 import com.solopov.common.data.network.NetworkApiCreator;
 import com.solopov.common.di.viewmodel.ViewModelProviderFactory;
 import com.solopov.feature_instructor_api.domain.interfaces.InstructorInteractor;
@@ -229,13 +230,15 @@ public final class DaggerInstructorFeatureComponent {
 
     private Provider<AppDatabase> dbProvider;
 
+    private Provider<UserFirebaseDao> userFirebaseDaoProvider;
+
+    private Provider<ResourceManager> resourceManagerProvider;
+
     private Provider<InstructorRepositoryImpl> instructorRepositoryImplProvider;
 
     private Provider<InstructorRepository> provideInstructorRepositoryProvider;
 
     private Provider<InstructorInteractor> provideInstructorInteractorProvider;
-
-    private Provider<ResourceManager> resourceManagerProvider;
 
     private InstructorFeatureComponentImpl(InstructorFeatureModule instructorFeatureModuleParam,
         InstructorFeatureDependencies instructorFeatureDependenciesParam,
@@ -252,10 +255,11 @@ public final class DaggerInstructorFeatureComponent {
       this.networkApiCreatorProvider = new NetworkApiCreatorProvider(instructorFeatureDependenciesParam);
       this.provideInstructorApiProvider = DoubleCheck.provider(InstructorFeatureModule_ProvideInstructorApiFactory.create(instructorFeatureModuleParam, networkApiCreatorProvider));
       this.dbProvider = new DbProvider(instructorFeatureDependenciesParam);
-      this.instructorRepositoryImplProvider = InstructorRepositoryImpl_Factory.create(provideInstructorApiProvider, dbProvider, InstructorMappers_Factory.create());
+      this.userFirebaseDaoProvider = new UserFirebaseDaoProvider(instructorFeatureDependenciesParam);
+      this.resourceManagerProvider = new ResourceManagerProvider(instructorFeatureDependenciesParam);
+      this.instructorRepositoryImplProvider = InstructorRepositoryImpl_Factory.create(provideInstructorApiProvider, dbProvider, InstructorMappers_Factory.create(), userFirebaseDaoProvider, resourceManagerProvider);
       this.provideInstructorRepositoryProvider = DoubleCheck.provider(InstructorFeatureModule_ProvideInstructorRepositoryFactory.create(instructorFeatureModuleParam, instructorRepositoryImplProvider));
       this.provideInstructorInteractorProvider = DoubleCheck.provider(InstructorFeatureModule_ProvideInstructorInteractorFactory.create(instructorFeatureModuleParam, provideInstructorRepositoryProvider));
-      this.resourceManagerProvider = new ResourceManagerProvider(instructorFeatureDependenciesParam);
     }
 
     @Override
@@ -301,6 +305,19 @@ public final class DaggerInstructorFeatureComponent {
       @Override
       public AppDatabase get() {
         return Preconditions.checkNotNullFromComponent(instructorFeatureDependencies.db());
+      }
+    }
+
+    private static final class UserFirebaseDaoProvider implements Provider<UserFirebaseDao> {
+      private final InstructorFeatureDependencies instructorFeatureDependencies;
+
+      UserFirebaseDaoProvider(InstructorFeatureDependencies instructorFeatureDependencies) {
+        this.instructorFeatureDependencies = instructorFeatureDependencies;
+      }
+
+      @Override
+      public UserFirebaseDao get() {
+        return Preconditions.checkNotNullFromComponent(instructorFeatureDependencies.userFirebaseDao());
       }
     }
 

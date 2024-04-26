@@ -1,6 +1,5 @@
 package com.solopov.common.data.firebase.dao
 
-import android.net.Uri
 import android.util.Patterns
 import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
@@ -9,11 +8,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.firebase.exceptions.AuthenticationException
 import com.solopov.common.data.firebase.exceptions.FileUploadingException
+import com.solopov.common.data.firebase.exceptions.NoInstructorsFoundException
 import com.solopov.common.data.firebase.exceptions.UserDataUpdateFailedException
 import com.solopov.common.data.firebase.exceptions.UserDoesNotExistException
 import com.solopov.common.data.firebase.model.UserFirebase
@@ -34,11 +33,43 @@ class UserFirebaseDao @Inject constructor(
     private val storage: FirebaseStorage,
 ) {
 
+    suspend fun getInstructorsBySport(sport: String): List<UserFirebase> {
+        runCatching(exceptionHandlerDelegate) {
+            dbReference.child("user").orderByChild("sport").equalTo(sport).get().await()
+        }.onSuccess { dataSnapshot ->
+            return dataSnapshot.children.map { child ->
+                 with(child) {
+                    UserFirebase(
+                        child(resManager.getString(R.string.id)).value.toString(),
+                        child(resManager.getString(R.string.email_lower)).value.toString(),
+                        child(resManager.getString(R.string.password_lower)).value.toString(),
+                        child(resManager.getString(R.string.name_lower)).value.toString(),
+                        child(resManager.getString(R.string.age_lower)).value.toString().toInt(),
+                        child(resManager.getString(R.string.gender_lower)).value.toString(),
+                        child(resManager.getString(R.string.sport_lower)).value.toString(),
+                        child(resManager.getString(R.string.photo_lower)).value.toString(),
+                        child(resManager.getString(R.string.experience_lower)).value.toString(),
+                        child(resManager.getString(R.string.description_lower)).value.toString(),
+                        child(resManager.getString(R.string.rating_lower)).value.toString().toFloat(),
+                        child(resManager.getString(R.string.hourly_rate_lower)).value.toString().toFloat(),
+                        child(resManager.getString(R.string.instructor_lower)).value.toString().toBoolean(),
+                    )
+                 }
+            }
+        }.onFailure {
+            throw NoInstructorsFoundException(resManager.getString(R.string.no_instructors_found_exception))
+        }
+        throw NoInstructorsFoundException(resManager.getString(R.string.no_instructors_found_exception))
+    }
+
+
     suspend fun uploadProfileImage(imageUri: String): String {
-        val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US)
+        val formatter = SimpleDateFormat(resManager.getString(R.string.profile_image_upload_date_format), Locale.US)
         val now = Date()
         val filename = formatter.format(now)
-        val location = "images/$filename"
+        val location = resManager.getString(R.string.profile_image_upload_date_format).format(filename)
+        
+        
 
         val ref = storage.getReference(location)
         runCatching(exceptionHandlerDelegate) {
@@ -55,7 +86,7 @@ class UserFirebaseDao @Inject constructor(
     suspend fun getUserByUid(uid: String): UserFirebase {
 
         runCatching(exceptionHandlerDelegate) {
-            dbReference.child("user").child(uid).get().await()
+            dbReference.child(resManager.getString(R.string.user)).child(uid).get().await()
         }.onSuccess { value ->
             if (value.exists()) {
                 with(value) {
@@ -96,18 +127,18 @@ class UserFirebaseDao @Inject constructor(
 
         val userDetails = HashMap<String, Any>()
         with (user) {
-            description?.let { userDetails.put("description", it) }
-            experience?.let { userDetails.put("experience", it)  }
-            hourlyRate?.let { userDetails.put("hourlyRate", it)  }
-            photo?.let { userDetails.put("photo", it)  }
-            sport?.let { userDetails.put("sport", it)  }
+            description?.let { userDetails.put(resManager.getString(R.string.description), it) }
+            experience?.let { userDetails.put(resManager.getString(R.string.experience), it)  }
+            hourlyRate?.let { userDetails.put(resManager.getString(R.string.hourlyrate), it)  }
+            photo?.let { userDetails.put(resManager.getString(R.string.photo), it)  }
+            sport?.let { userDetails.put(resManager.getString(R.string.sport), it)  }
 
-            userDetails["instructor"] = isInstructor
-            userDetails["name"] = name
-            userDetails["gender"] = gender
+            userDetails[resManager.getString(R.string.instructor)] = isInstructor
+            userDetails[resManager.getString(R.string.name_lower)] = name
+            userDetails[resManager.getString(R.string.gender_lower)] = gender
         }
         runCatching(exceptionHandlerDelegate) {
-            dbReference.child("user").child(user.id).updateChildren(userDetails).addOnCompleteListener {  }.await()
+            dbReference.child(resManager.getString(R.string.user)).child(user.id).updateChildren(userDetails).addOnCompleteListener {  }.await()
         }.onSuccess {
             return
         }.onFailure {
@@ -237,7 +268,7 @@ class UserFirebaseDao @Inject constructor(
             }
         }.await()
 
-        delay(1000L)
+        delay(2000L)
 
         return if(user == null) {
             throw AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))

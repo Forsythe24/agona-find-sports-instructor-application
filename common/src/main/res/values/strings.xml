@@ -89,10 +89,21 @@
     <string name="password_regex_one_lowercase_char">.*[a-z].*</string>
     <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
     <string name="age_regex">[0-9]+</string>
+
     <string name="file_uploading_exception">Failed to upload the file</string>
+    <string name="profile_image_upload_date_format">yyyy_MM_dd_HH_mm_ss</string>
+    <string name="profile_image_file_path_template">images/%s</string>
+    <string name="description">description</string>
+    <string name="experience">experience</string>
+    <string name="hourlyrate">hourlyRate</string>
+    <string name="photo">photo</string>
+    <string name="sport">sport</string>
+    <string name="instructor">instructor</string>
+    <string name="no_instructors_found_exception">No instructors found specializing in this sport</string>
 
     <string-array name="sports_types">
         <item>Football</item>
+        <item>Tennis</item>
         <item>Basketball</item>
         <item>Hockey</item>
         <item>Volleyball</item>

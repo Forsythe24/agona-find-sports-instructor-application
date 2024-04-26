@@ -1,6 +1,8 @@
 package com.solopov.feature_instructor_impl.data.repository;
 
+import com.solopov.common.core.resources.ResourceManager;
 import com.solopov.common.data.db.AppDatabase;
+import com.solopov.common.data.firebase.dao.UserFirebaseDao;
 import com.solopov.feature_instructor_impl.data.mappers.InstructorMappers;
 import com.solopov.feature_instructor_impl.data.network.InstructorApi;
 import dagger.internal.DaggerGenerated;
@@ -28,25 +30,36 @@ public final class InstructorRepositoryImpl_Factory implements Factory<Instructo
 
   private final Provider<InstructorMappers> instructorMappersProvider;
 
+  private final Provider<UserFirebaseDao> userFirebaseDaoProvider;
+
+  private final Provider<ResourceManager> resManagerProvider;
+
   public InstructorRepositoryImpl_Factory(Provider<InstructorApi> apiProvider,
-      Provider<AppDatabase> dbProvider, Provider<InstructorMappers> instructorMappersProvider) {
+      Provider<AppDatabase> dbProvider, Provider<InstructorMappers> instructorMappersProvider,
+      Provider<UserFirebaseDao> userFirebaseDaoProvider,
+      Provider<ResourceManager> resManagerProvider) {
     this.apiProvider = apiProvider;
     this.dbProvider = dbProvider;
     this.instructorMappersProvider = instructorMappersProvider;
+    this.userFirebaseDaoProvider = userFirebaseDaoProvider;
+    this.resManagerProvider = resManagerProvider;
   }
 
   @Override
   public InstructorRepositoryImpl get() {
-    return newInstance(apiProvider.get(), dbProvider.get(), instructorMappersProvider.get());
+    return newInstance(apiProvider.get(), dbProvider.get(), instructorMappersProvider.get(), userFirebaseDaoProvider.get(), resManagerProvider.get());
   }
 
   public static InstructorRepositoryImpl_Factory create(Provider<InstructorApi> apiProvider,
-      Provider<AppDatabase> dbProvider, Provider<InstructorMappers> instructorMappersProvider) {
-    return new InstructorRepositoryImpl_Factory(apiProvider, dbProvider, instructorMappersProvider);
+      Provider<AppDatabase> dbProvider, Provider<InstructorMappers> instructorMappersProvider,
+      Provider<UserFirebaseDao> userFirebaseDaoProvider,
+      Provider<ResourceManager> resManagerProvider) {
+    return new InstructorRepositoryImpl_Factory(apiProvider, dbProvider, instructorMappersProvider, userFirebaseDaoProvider, resManagerProvider);
   }
 
   public static InstructorRepositoryImpl newInstance(InstructorApi api, AppDatabase db,
-      InstructorMappers instructorMappers) {
-    return new InstructorRepositoryImpl(api, db, instructorMappers);
+      InstructorMappers instructorMappers, UserFirebaseDao userFirebaseDao,
+      ResourceManager resManager) {
+    return new InstructorRepositoryImpl(api, db, instructorMappers, userFirebaseDao, resManager);
   }
 }

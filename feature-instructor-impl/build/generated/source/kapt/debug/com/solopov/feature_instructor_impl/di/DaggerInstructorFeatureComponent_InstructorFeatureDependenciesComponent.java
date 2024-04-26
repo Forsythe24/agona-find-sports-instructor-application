@@ -3,6 +3,8 @@ package com.solopov.feature_instructor_impl.di;
 import com.solopov.common.core.resources.ResourceManager;
 import com.solopov.common.data.db.AppDatabase;
 import com.solopov.common.data.db.di.DbApi;
+import com.solopov.common.data.firebase.dao.UserFirebaseDao;
+import com.solopov.common.data.firebase.di.FirebaseApi;
 import com.solopov.common.data.network.NetworkApiCreator;
 import com.solopov.common.di.CommonApi;
 import dagger.internal.DaggerGenerated;
@@ -31,6 +33,8 @@ public final class DaggerInstructorFeatureComponent_InstructorFeatureDependencie
 
     private DbApi dbApi;
 
+    private FirebaseApi firebaseApi;
+
     private Builder() {
     }
 
@@ -44,22 +48,32 @@ public final class DaggerInstructorFeatureComponent_InstructorFeatureDependencie
       return this;
     }
 
+    public Builder firebaseApi(FirebaseApi firebaseApi) {
+      this.firebaseApi = Preconditions.checkNotNull(firebaseApi);
+      return this;
+    }
+
     public InstructorFeatureComponent.InstructorFeatureDependenciesComponent build() {
       Preconditions.checkBuilderRequirement(commonApi, CommonApi.class);
       Preconditions.checkBuilderRequirement(dbApi, DbApi.class);
-      return new InstructorFeatureDependenciesComponentImpl(commonApi, dbApi);
+      Preconditions.checkBuilderRequirement(firebaseApi, FirebaseApi.class);
+      return new InstructorFeatureDependenciesComponentImpl(commonApi, dbApi, firebaseApi);
     }
   }
 
   private static final class InstructorFeatureDependenciesComponentImpl implements InstructorFeatureComponent.InstructorFeatureDependenciesComponent {
     private final CommonApi commonApi;
 
+    private final FirebaseApi firebaseApi;
+
     private final DbApi dbApi;
 
     private final InstructorFeatureDependenciesComponentImpl instructorFeatureDependenciesComponentImpl = this;
 
-    private InstructorFeatureDependenciesComponentImpl(CommonApi commonApiParam, DbApi dbApiParam) {
+    private InstructorFeatureDependenciesComponentImpl(CommonApi commonApiParam, DbApi dbApiParam,
+        FirebaseApi firebaseApiParam) {
       this.commonApi = commonApiParam;
+      this.firebaseApi = firebaseApiParam;
       this.dbApi = dbApiParam;
 
     }
@@ -67,6 +81,11 @@ public final class DaggerInstructorFeatureComponent_InstructorFeatureDependencie
     @Override
     public NetworkApiCreator networkApiCreator() {
       return Preconditions.checkNotNullFromComponent(commonApi.provideNetworkApiCreator());
+    }
+
+    @Override
+    public UserFirebaseDao userFirebaseDao() {
+      return Preconditions.checkNotNullFromComponent(firebaseApi.provideUserFirebaseDao());
     }
 
     @Override
