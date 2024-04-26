@@ -71,6 +71,7 @@ int animator mtrl_fab_transformation_sheet_expand_spec 0x0
 int array com_google_android_gms_fonts_certs 0x0
 int array com_google_android_gms_fonts_certs_dev 0x0
 int array com_google_android_gms_fonts_certs_prod 0x0
+int array current_sports_types 0x0
 int array preloaded_fonts 0x0
 int array sports_types 0x0
 int attr actionBarDivider 0x0
@@ -3246,6 +3247,7 @@ int string common_signin_button_text 0x0
 int string common_signin_button_text_long 0x0
 int string copy_toast_msg 0x0
 int string create_a_new_account_here 0x0
+int string description 0x0
 int string description_lower 0x0
 int string description_sample 0x0
 int string don_t_have_an_account 0x0
@@ -3254,6 +3256,7 @@ int string email_hint 0x0
 int string email_in_use 0x0
 int string email_lower 0x0
 int string error_icon_content_description 0x0
+int string experience 0x0
 int string experience_lower 0x0
 int string exposed_dropdown_menu_content_description 0x0
 int string fab_transformation_scrim_behavior 0x0
@@ -3272,8 +3275,10 @@ int string hide_bottom_view_on_scroll_behavior 0x0
 int string hourly_rate_lower 0x0
 int string hourly_rate_sample 0x0
 int string hourly_rate_template 0x0
+int string hourlyrate 0x0
 int string icon_content_description 0x0
 int string id 0x0
+int string instructor 0x0
 int string instructor_info_sample 0x0
 int string instructor_info_template 0x0
 int string instructor_lower 0x0
@@ -3375,6 +3380,7 @@ int string name_must_be_at_least_two_characters 0x0
 int string name_regex 0x0
 int string name_sample 0x0
 int string next 0x0
+int string no_instructors_found_exception 0x0
 int string no_user_with_such_email 0x0
 int string number_of_ratings_sample 0x0
 int string password 0x0
@@ -3388,14 +3394,18 @@ int string path_password_eye 0x0
 int string path_password_eye_mask_strike_through 0x0
 int string path_password_eye_mask_visible 0x0
 int string path_password_strike_through 0x0
+int string photo 0x0
 int string photo_lower 0x0
 int string please_log_in_into_your_account 0x0
+int string profile_image_file_path_template 0x0
+int string profile_image_upload_date_format 0x0
 int string rating_lower 0x0
 int string rating_sample 0x0
 int string rating_template 0x0
 int string search_menu_title 0x0
 int string sign_in 0x0
 int string sign_up 0x0
+int string sport 0x0
 int string sport_lower 0x0
 int string status_bar_notification_info_overflow 0x0
 int string this_user_does_not_exist_exception 0x0

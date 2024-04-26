@@ -9,6 +9,7 @@ import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +39,7 @@ class UserProfileViewModel(
         }
     }
 
-    fun getCurrentUser() {
+    fun setCurrentUser() {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.getCurrentUser()

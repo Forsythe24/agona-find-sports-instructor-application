@@ -2,6 +2,8 @@ package com.solopov.feature_instructor_api.domain.model
 
 data class Instructor(
     val id: String,
+    val password: String,
+    val email: String,
     var name: String,
     var age: Int,
     var gender: String,
@@ -11,7 +13,7 @@ data class Instructor(
     var description: String,
     var rating: Float,
     var hourlyRate: Float,
-//    var isInstructor: Boolean = true
+    var isInstructor: Boolean = true
 )
 
 

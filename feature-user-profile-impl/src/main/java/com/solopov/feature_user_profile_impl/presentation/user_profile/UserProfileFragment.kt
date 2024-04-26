@@ -63,7 +63,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             viewModel.setUser(user)
 
         } else {
-            viewModel.getCurrentUser()
+            viewModel.setCurrentUser()
             hideOtherUserSpecificViews()
         }
     }
@@ -87,8 +87,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
 
     override fun subscribe(viewModel: UserProfileViewModel) {
-
-
         with(viewModel) {
             userProfileFlow.observe {
                 it?.let { user ->

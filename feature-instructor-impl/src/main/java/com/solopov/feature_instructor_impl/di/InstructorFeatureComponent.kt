@@ -39,7 +39,8 @@ interface  InstructorFeatureComponent : InstructorFeatureApi {
     @Component(
         dependencies = [
             CommonApi::class,
-            DbApi::class
+            DbApi::class,
+            FirebaseApi::class,
         ]
     )
     interface InstructorFeatureDependenciesComponent : InstructorFeatureDependencies
