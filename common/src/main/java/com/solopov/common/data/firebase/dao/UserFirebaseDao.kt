@@ -35,10 +35,14 @@ class UserFirebaseDao @Inject constructor(
 
     suspend fun getInstructorsBySport(sport: String): List<UserFirebase> {
         runCatching(exceptionHandlerDelegate) {
-            dbReference.child("user").orderByChild("sport").equalTo(sport).get().await()
+            dbReference.child("user").get().await()
         }.onSuccess { dataSnapshot ->
-            return dataSnapshot.children.map { child ->
-                 with(child) {
+            return dataSnapshot.children
+                .filter { uid ->
+                uid.child("sport").value.toString() == sport
+                }
+                .map { child ->
+                with(child) {
                     UserFirebase(
                         child(resManager.getString(R.string.id)).value.toString(),
                         child(resManager.getString(R.string.email_lower)).value.toString(),
@@ -54,8 +58,32 @@ class UserFirebaseDao @Inject constructor(
                         child(resManager.getString(R.string.hourly_rate_lower)).value.toString().toFloat(),
                         child(resManager.getString(R.string.instructor_lower)).value.toString().toBoolean(),
                     )
-                 }
+                }
             }
+//            for (uid in dataSnapshot.children) {
+//                if (uid.child("sport").value.toString() == sport) {
+//
+//                }
+//            }
+//            return dataSnapshot.children.map { child ->
+//                 with(child) {
+//                    UserFirebase(
+//                        child(resManager.getString(R.string.id)).value.toString(),
+//                        child(resManager.getString(R.string.email_lower)).value.toString(),
+//                        child(resManager.getString(R.string.password_lower)).value.toString(),
+//                        child(resManager.getString(R.string.name_lower)).value.toString(),
+//                        child(resManager.getString(R.string.age_lower)).value.toString().toInt(),
+//                        child(resManager.getString(R.string.gender_lower)).value.toString(),
+//                        child(resManager.getString(R.string.sport_lower)).value.toString(),
+//                        child(resManager.getString(R.string.photo_lower)).value.toString(),
+//                        child(resManager.getString(R.string.experience_lower)).value.toString(),
+//                        child(resManager.getString(R.string.description_lower)).value.toString(),
+//                        child(resManager.getString(R.string.rating_lower)).value.toString().toFloat(),
+//                        child(resManager.getString(R.string.hourly_rate_lower)).value.toString().toFloat(),
+//                        child(resManager.getString(R.string.instructor_lower)).value.toString().toBoolean(),
+//                    )
+//                 }
+//            }
         }.onFailure {
             throw NoInstructorsFoundException(resManager.getString(R.string.no_instructors_found_exception))
         }

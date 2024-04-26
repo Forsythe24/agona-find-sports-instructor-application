@@ -60,6 +60,7 @@ class InstructorMappers @Inject constructor() {
                 description = description,
                 rating = rating,
                 hourlyRate = hourlyRate,
+                isInstructor = true,
             )
         }
     }

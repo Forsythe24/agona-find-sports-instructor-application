@@ -109,4 +109,12 @@
         <item>Volleyball</item>
         <item>Handball</item>
     </string-array>
+
+    <string-array name="current_sports_types">
+        <item>Football</item>
+        <item>Basketball</item>
+        <item>Hockey</item>
+        <item>Volleyball</item>
+        <item>Handball</item>
+    </string-array>
 </resources>

@@ -28,10 +28,4 @@ class InstructorRepositoryImpl @Inject constructor(
         return domainInstructorsList
 
     }
-
-//    override suspend fun getInstructorsBySport(sport: String): List<Instructor> {
-//        val domainInstructorsList = api.getInstructorsBySportId(sportId + offset)?.instructorsList?.map(instructorMappers::mapInstructorDataToInstructor)
-//        return domainInstructorsList ?: throw RuntimeException("No instructors specializing in this sport")
-//
-//    }
 }

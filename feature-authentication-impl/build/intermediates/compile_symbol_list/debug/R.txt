@@ -71,6 +71,7 @@ int animator mtrl_fab_transformation_sheet_expand_spec 0x0
 int array com_google_android_gms_fonts_certs 0x0
 int array com_google_android_gms_fonts_certs_dev 0x0
 int array com_google_android_gms_fonts_certs_prod 0x0
+int array current_sports_types 0x0
 int array preloaded_fonts 0x0
 int array sports_types 0x0
 int attr actionBarDivider 0x0

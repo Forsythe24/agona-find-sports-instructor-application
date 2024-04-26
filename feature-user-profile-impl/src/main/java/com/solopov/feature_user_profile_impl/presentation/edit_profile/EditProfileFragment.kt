@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
@@ -21,6 +22,7 @@ import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.ParamsKey
 import com.solopov.common.utils.UserDataValidator
+import com.solopov.common.utils.hide
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
@@ -66,7 +68,6 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
                         it.name = nameEt.text.toString()
                         it.age = ageEt.text.toString().toInt()
                         it.gender = if (maleRb.isChecked) "M" else "F"
-                        println(maleRb.isChecked)
                         viewModel.updateUser(it)
                         viewModel.setCurrentUser(it)
                     }
@@ -79,11 +80,13 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
                 showCurrentPasswordInputDialog()
             }
 
-            instructorsBioBtn.setOnClickListener {
-                currentUser?.let {
-                    router.goToInstructApplication(it)
+            currentUser?.let { user ->
+                instructorsBioBtn.setOnClickListener {
+                    router.goToInstructApplication(user)
                 }
+
             }
+
         }
     }
 
@@ -190,6 +193,10 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
                         maleRb.isChecked = true
                     } else {
                         femaleRb.isChecked = true
+                    }
+
+                    if (it.isInstructor.not()) {
+                        instructorsBioBtn.visibility = GONE
                     }
                 }
             }

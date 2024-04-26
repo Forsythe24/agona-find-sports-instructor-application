@@ -61,7 +61,6 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
             lifecycleScope.launch {
                 errorsChannel.consumeEach { error ->
                     val errorMessage = error.message ?: getString(R.string.unknown_error_occurred)
-                    println(errorMessage)
                     Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                 }
             }

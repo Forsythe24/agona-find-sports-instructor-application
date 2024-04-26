@@ -72,6 +72,7 @@ animator mtrl_fab_transformation_sheet_expand_spec
 array com_google_android_gms_fonts_certs
 array com_google_android_gms_fonts_certs_dev
 array com_google_android_gms_fonts_certs_prod
+array current_sports_types
 array preloaded_fonts
 array sports_types
 attr actionBarDivider

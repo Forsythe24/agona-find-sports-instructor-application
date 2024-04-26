@@ -94,7 +94,7 @@ class InstructApplicationFragment: BaseFragment<InstructApplicationViewModel>(){
     }
 
     private fun setSportsTypeDropDownMenuAdapter() {
-        val sportsTypes = resources.getStringArray(R.array.sports_types)
+        val sportsTypes = resources.getStringArray(R.array.current_sports_types)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.sports_type_dropdown_item, sportsTypes)
 
         binding.sportsTypeAutocompleteTv.setAdapter(arrayAdapter)
