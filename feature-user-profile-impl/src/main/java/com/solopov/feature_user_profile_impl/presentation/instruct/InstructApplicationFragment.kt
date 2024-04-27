@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
@@ -27,10 +28,14 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 
 
-class InstructApplicationFragment: BaseFragment<InstructApplicationViewModel>(){
+class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>() {
     private lateinit var binding: FragmentInstructApplicationBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentInstructApplicationBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -43,9 +48,11 @@ class InstructApplicationFragment: BaseFragment<InstructApplicationViewModel>(){
 
         with(binding) {
 
-            hourlyRateSb.setOnSeekBarChangeListener(object: OnSeekBarChangeListener {
+            hourlyRateSb.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
-                    hourlyRateBroadcastTv.text = resources.getString(R.string.hourly_rate_broadcast_template).format(progress)
+                    hourlyRateBroadcastTv.text =
+                        resources.getString(R.string.hourly_rate_broadcast_template)
+                            .format(progress)
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {}
@@ -65,6 +72,12 @@ class InstructApplicationFragment: BaseFragment<InstructApplicationViewModel>(){
                     hourlyRateSb.progress = it.hourlyRate!!.toInt()
 
                     sportsTypeAutocompleteTv.setText(it.sport)
+
+                    val drawableId = getSportsTypeDrawableId(resources.getStringArray(R.array.current_sports_types).indexOf(it.sport))
+                    specialtyTextInput.setStartIconDrawable(drawableId)
+
+
+
                     setSportsTypeDropDownMenuAdapter()
                 }
             }
@@ -85,6 +98,15 @@ class InstructApplicationFragment: BaseFragment<InstructApplicationViewModel>(){
         }
     }
 
+    private fun getSportsTypeDrawableId(index: Int): Int =
+        when (index) {
+            0 -> R.drawable.baseline_sports_soccer_24
+            1 -> R.drawable.baseline_sports_basketball_24
+            2 -> R.drawable.baseline_sports_hockey_24
+            3 -> R.drawable.baseline_sports_volleyball_24
+            else -> R.drawable.baseline_sports_handball_24
+        }
+
     private fun setViewsToEditingMode() {
         with(binding) {
             applyBtn.text = getString(R.string.save)
@@ -95,7 +117,8 @@ class InstructApplicationFragment: BaseFragment<InstructApplicationViewModel>(){
 
     private fun setSportsTypeDropDownMenuAdapter() {
         val sportsTypes = resources.getStringArray(R.array.current_sports_types)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.sports_type_dropdown_item, sportsTypes)
+        val arrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.sports_type_dropdown_item, sportsTypes)
 
         binding.sportsTypeAutocompleteTv.setAdapter(arrayAdapter)
     }
@@ -111,22 +134,19 @@ class InstructApplicationFragment: BaseFragment<InstructApplicationViewModel>(){
     private fun setOnSportsTypeSelectedListener() {
         with(binding) {
             sportsTypeAutocompleteTv.onItemClickListener =
-                OnItemClickListener { _, _, id, _ ->
-                    val resourceId = when (id) {
-                        0 -> R.drawable.baseline_sports_soccer_24
-                        1 -> R.drawable.baseline_sports_basketball_24
-                        2 -> R.drawable.baseline_sports_hockey_24
-                        3 -> R.drawable.baseline_sports_volleyball_24
-                        else -> R.drawable.baseline_sports_handball_24
-                    }
-                    specialtyTextInput.setStartIconDrawable(resourceId)
+                OnItemClickListener { _, _, index, _ ->
+                    val drawableId = getSportsTypeDrawableId(index)
+                    specialtyTextInput.setStartIconDrawable(drawableId)
                 }
         }
     }
 
 
     override fun inject() {
-        FeatureUtils.getFeature<UserProfileFeatureComponent>(this, UserProfileFeatureApi::class.java)
+        FeatureUtils.getFeature<UserProfileFeatureComponent>(
+            this,
+            UserProfileFeatureApi::class.java
+        )
             .instructApplicationComponentFactory()
             .create(this)
             .inject(this)

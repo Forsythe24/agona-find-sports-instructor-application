@@ -60,30 +60,6 @@ class UserFirebaseDao @Inject constructor(
                     )
                 }
             }
-//            for (uid in dataSnapshot.children) {
-//                if (uid.child("sport").value.toString() == sport) {
-//
-//                }
-//            }
-//            return dataSnapshot.children.map { child ->
-//                 with(child) {
-//                    UserFirebase(
-//                        child(resManager.getString(R.string.id)).value.toString(),
-//                        child(resManager.getString(R.string.email_lower)).value.toString(),
-//                        child(resManager.getString(R.string.password_lower)).value.toString(),
-//                        child(resManager.getString(R.string.name_lower)).value.toString(),
-//                        child(resManager.getString(R.string.age_lower)).value.toString().toInt(),
-//                        child(resManager.getString(R.string.gender_lower)).value.toString(),
-//                        child(resManager.getString(R.string.sport_lower)).value.toString(),
-//                        child(resManager.getString(R.string.photo_lower)).value.toString(),
-//                        child(resManager.getString(R.string.experience_lower)).value.toString(),
-//                        child(resManager.getString(R.string.description_lower)).value.toString(),
-//                        child(resManager.getString(R.string.rating_lower)).value.toString().toFloat(),
-//                        child(resManager.getString(R.string.hourly_rate_lower)).value.toString().toFloat(),
-//                        child(resManager.getString(R.string.instructor_lower)).value.toString().toBoolean(),
-//                    )
-//                 }
-//            }
         }.onFailure {
             throw NoInstructorsFoundException(resManager.getString(R.string.no_instructors_found_exception))
         }
@@ -164,6 +140,8 @@ class UserFirebaseDao @Inject constructor(
             userDetails[resManager.getString(R.string.instructor)] = isInstructor
             userDetails[resManager.getString(R.string.name_lower)] = name
             userDetails[resManager.getString(R.string.gender_lower)] = gender
+            userDetails["age"] = age
+            userDetails["password"] = password
         }
         runCatching(exceptionHandlerDelegate) {
             dbReference.child(resManager.getString(R.string.user)).child(user.id).updateChildren(userDetails).addOnCompleteListener {  }.await()
