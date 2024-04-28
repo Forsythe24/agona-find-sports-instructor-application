@@ -100,6 +100,10 @@
     <string name="sport">sport</string>
     <string name="instructor">instructor</string>
     <string name="no_instructors_found_exception">No instructors found specializing in this sport</string>
+    <string name="failed_save_message_exception">Failed to save the message</string>
+    <string name="chat">chat</string>
+    <string name="message">message</string>
+    <string name="chat_data_retrieving_failed_exception">Failed to retrieve this chat data</string>
 
     <string-array name="sports_types">
         <item>Football</item>

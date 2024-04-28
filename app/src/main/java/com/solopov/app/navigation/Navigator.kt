@@ -40,6 +40,10 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
         navController?.popBackStack()
     }
 
+    override fun openChat(instructor: UserCommon) {
+        navController?.navigate(R.id.chatFragment, bundleOf(ParamsKey.USER to instructor))
+    }
+
     override fun goToSignUpPage() {
         navController?.navigate(R.id.signUpFragment)
     }
@@ -63,6 +67,4 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
     override fun goToEditingProfile(userProfile: UserProfile) {
         navController?.navigate(R.id.editProfileFragment, bundleOf(ParamsKey.USER to userProfile))
     }
-
-
 }

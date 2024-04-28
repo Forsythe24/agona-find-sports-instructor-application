@@ -6,6 +6,6 @@ import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
 
 class ChatsViewModel(
     interactor: ChatInteractor,
-    exceptionHandlerDelegate: ExceptionHandlerDelegate
+    exceptionHandlerDelegate: ExceptionHandlerDelegate,
 ): BaseViewModel() {
 }

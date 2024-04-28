@@ -59,8 +59,11 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
         if (user != null) {
             hideProfileEditingViews()
-
             viewModel.setUser(user)
+
+            binding.sendMessageBtn.setOnClickListener {
+                router.openChat(user)
+            }
 
         } else {
             viewModel.setCurrentUser()

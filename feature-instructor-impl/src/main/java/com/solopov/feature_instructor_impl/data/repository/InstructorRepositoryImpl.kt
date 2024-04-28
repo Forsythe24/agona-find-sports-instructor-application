@@ -21,14 +21,14 @@ class InstructorRepositoryImpl @Inject constructor(
 
     override suspend fun getInstructorsBySportId(sportId: Int): List<Instructor> {
         val offset = if (sportId == 0) 1 else 2
-        val domainInstructorsList: MutableList<Instructor> = api.getInstructorsBySportId(sportId + offset)?.instructorsList
-            ?.map(instructorMappers::mapInstructorDataToInstructor) as MutableList<Instructor>
+//        val domainInstructorsList: MutableList<Instructor> = api.getInstructorsBySportId(sportId + offset)?.instructorsList
+//            ?.map(instructorMappers::mapInstructorDataToInstructor) as MutableList<Instructor>
 
         val firebaseInstructorsList = userFirebaseDao.getInstructorsBySport(resManager.getStringArray(R.array.sports_types)[sportId + offset - 1])
             .map(instructorMappers::mapUserFirebaseToInstructor)
 
-        domainInstructorsList.addAll(0, firebaseInstructorsList)
-        return domainInstructorsList
+//        domainInstructorsList.addAll(0, firebaseInstructorsList)
+        return firebaseInstructorsList
 
     }
 }

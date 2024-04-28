@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginEnd="40dp"
+    >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/message_cv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
-        app:cardCornerRadius="12dp"
-        android:backgroundTint="@color/colorPrimary"
+        app:cardCornerRadius="40dp"
+        android:backgroundTint="#56AFF4"
         app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+
         >
         <TextView
-            android:id="@+id/sent_message_tv"
+            android:id="@+id/received_message_tv"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sent_message_sample"
+            android:text="@string/received_message_sample"
             android:fontFamily="@font/inter_regular"
             android:padding="12dp"
             android:textSize="18sp"/>
 
     </androidx.cardview.widget.CardView>
     <TextView
+        android:id="@+id/date_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_regular"
-        android:textColor="#75000000"
+        android:textColor="@color/subtleBlack"
         android:text="@string/date_sample"
-        android:layout_marginEnd="6dp"
-        android:textStyle="italic"
-        app:layout_constraintTop_toBottomOf="@id/message_cv"
-        app:layout_constraintEnd_toEndOf="@id/message_cv" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginStart="20dp"
+        android:textStyle="italic" />
+</androidx.appcompat.widget.LinearLayoutCompat>
