@@ -3,13 +3,16 @@ package com.solopov.feature_chat_impl.presentation.chat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.solopov.common.utils.DateFormatter
+import com.solopov.feature_chat_impl.R
 import com.solopov.feature_chat_impl.databinding.ItemDataMessageBinding
 import com.solopov.feature_chat_impl.databinding.ItemReceivedMessageBinding
 import com.solopov.feature_chat_impl.databinding.ItemSentMessageBinding
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.utils.UserMessagesTypes
+import java.util.Date
+import javax.inject.Inject
 
 class ChatAdapter(
     private val currentSenderId: String,
@@ -48,18 +51,19 @@ class ChatAdapter(
         }
     }
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (holder) {
             is SentMessageViewHolder -> {
-                holder.bindItem(getItem(position))
+                getItem(position)?.let { holder.bindItem(it) }
             }
 
             is ReceivedMessageViewHolder -> {
-                holder.bindItem(getItem(position))
+                getItem(position)?.let { holder.bindItem(it) }
             }
 
             is DataMessageViewHolder -> {
-                holder.bindItem("")
+                getItem(position)?.let { holder.bindItem(it) }
             }
 
             else -> Unit
@@ -73,7 +77,7 @@ class ChatAdapter(
             with(viewBinding) {
                 with(messageItem) {
                     sentMessageTv.text = text
-                    dateTv.text = date
+                    dateTv.text = date.split(" ")[1]
                 }
             }
         }
@@ -86,7 +90,7 @@ class ChatAdapter(
             with(viewBinding) {
                 with(messageItem) {
                     receivedMessageTv.text = text
-                    dateTv.text = date
+                    dateTv.text = date.split(" ")[1]
                 }
             }
         }
@@ -96,19 +100,17 @@ class ChatAdapter(
         private val viewBinding: ItemDataMessageBinding
     ) : ViewHolder(viewBinding.root) {
 
-        fun bindItem(date: String) {
-
+        fun bindItem(messageItem: MessageItem) {
+            viewBinding.tvDate.text = messageItem.date
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         val currentItem = getItem(position)
-        return when {
-
-
-            currentItem.senderId == currentSenderId -> UserMessagesTypes.SENT_MESSAGE.number
-            currentItem.senderId != currentSenderId -> UserMessagesTypes.RECEIVED_MESSAGE.number
-            else -> UserMessagesTypes.DATA_MESSAGE.number
+        return when (currentItem?.senderId) {
+            currentSenderId -> UserMessagesTypes.SENT_MESSAGE.number
+            "" -> UserMessagesTypes.DATA_MESSAGE.number
+            else -> UserMessagesTypes.RECEIVED_MESSAGE.number
         }
     }
 

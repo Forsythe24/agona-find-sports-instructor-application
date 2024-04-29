@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
-        app:cardCornerRadius="40dp"
+        app:cardCornerRadius="48dp"
         android:backgroundTint="#56AFF4"
         app:cardElevation="0dp"
 
@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_regular"
         android:textColor="@color/subtleBlack"
-        android:text="@string/date_sample"
-        android:layout_marginStart="20dp"
-        android:textStyle="italic" />
+        android:text="@string/time_sample"
+        android:layout_marginStart="20dp" />
 </androidx.appcompat.widget.LinearLayoutCompat>

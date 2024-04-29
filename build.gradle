@@ -46,6 +46,10 @@ buildscript {
 
         navVersion = '2.6.0'
 
+        pagingVersion = "3.2.1"
+
+        pagingDep = "androidx.paging:paging-runtime:$pagingVersion"
+
         navFragmentKtxDep = "androidx.navigation:navigation-fragment-ktx:$navVersion"
         navUiKtxDep = "androidx.navigation:navigation-ui-ktx:$navVersion"
 

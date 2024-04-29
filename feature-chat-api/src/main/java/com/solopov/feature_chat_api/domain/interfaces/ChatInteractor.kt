@@ -1,8 +1,10 @@
 package com.solopov.feature_chat_api.domain.interfaces
 
+import androidx.paging.PagingData
 import com.solopov.feature_chat_api.domain.model.Message
 import com.solopov.feature_chat_api.domain.model.User
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class ChatInteractor(
@@ -24,6 +26,12 @@ class ChatInteractor(
     suspend fun downloadMessages(roomId: String): List<Message> {
         return withContext(dispatcher) {
             chatRepository.downloadMessages(roomId)
+        }
+    }
+
+    suspend fun getRecentMessages(): Flow<PagingData<Message>>{
+        return withContext(dispatcher) {
+            chatRepository.getRecentMessages()
         }
     }
 }

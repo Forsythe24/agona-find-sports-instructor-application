@@ -6,8 +6,12 @@ object ParamsKey {
     const val API_HOST = "X-RapidAPI-Host"
     const val SPORT_KEY = "SPORT"
 
-
     const val KEY_INSTRUCTOR_ID = "inctrustor_id"
     const val USER_ID = "user_id"
     const val USER = "user"
+
+    //paging
+    const val PAGE_SIZE = 10
+
+
 }

@@ -2,6 +2,7 @@ package com.solopov.common.data.firebase.dao
 
 import android.util.Patterns
 import androidx.core.net.toUri
+import androidx.paging.PagingSource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
