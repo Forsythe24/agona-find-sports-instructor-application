@@ -22,8 +22,8 @@ import dagger.Component
 )
 interface ChatFeatureComponent: ChatFeatureApi {
 
-    fun chatComponent(): ChatComponent.Factory
-    fun chatsComponent(): ChatsComponent.Factory
+    fun chatComponentFactory(): ChatComponent.Factory
+    fun chatsComponentFactory(): ChatsComponent.Factory
 
     @Component.Builder
     interface Builder {

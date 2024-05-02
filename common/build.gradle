@@ -49,6 +49,8 @@ dependencies {
     implementation recyclerViewDep
     implementation constraintDep
 
+    implementation pagingDep
+
     implementation daggerDep
     implementation androidXCoreDep
     implementation lifecycleViewModelDep

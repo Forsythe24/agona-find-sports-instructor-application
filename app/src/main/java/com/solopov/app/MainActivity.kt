@@ -21,7 +21,8 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
-    @Inject lateinit var navigator: Navigator
+    @Inject
+    lateinit var navigator: Navigator
 
     private var navController: NavController? = null
 
@@ -45,7 +46,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.main_bnv)
         navController?.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.logInFragment ||
-                destination.id == R.id.signUpFragment) {
+                destination.id == R.id.signUpFragment ||
+                destination.id == R.id.chatFragment
+            ) {
                 bottomNavigationView.visibility = GONE
             } else {
                 bottomNavigationView.visibility = VISIBLE

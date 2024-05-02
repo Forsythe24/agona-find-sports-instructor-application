@@ -2,6 +2,7 @@ package com.solopov.common.data.firebase.dao
 
 import android.util.Patterns
 import androidx.core.net.toUri
+import androidx.paging.PagingSource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -39,51 +40,31 @@ class UserFirebaseDao @Inject constructor(
         }.onSuccess { dataSnapshot ->
             return dataSnapshot.children
                 .filter { uid ->
-                uid.child("sport").value.toString() == sport
+                    uid.child("sport").value.toString() == sport
                 }
                 .map { child ->
-                with(child) {
-                    UserFirebase(
-                        child(resManager.getString(R.string.id)).value.toString(),
-                        child(resManager.getString(R.string.email_lower)).value.toString(),
-                        child(resManager.getString(R.string.password_lower)).value.toString(),
-                        child(resManager.getString(R.string.name_lower)).value.toString(),
-                        child(resManager.getString(R.string.age_lower)).value.toString().toInt(),
-                        child(resManager.getString(R.string.gender_lower)).value.toString(),
-                        child(resManager.getString(R.string.sport_lower)).value.toString(),
-                        child(resManager.getString(R.string.photo_lower)).value.toString(),
-                        child(resManager.getString(R.string.experience_lower)).value.toString(),
-                        child(resManager.getString(R.string.description_lower)).value.toString(),
-                        child(resManager.getString(R.string.rating_lower)).value.toString().toFloat(),
-                        child(resManager.getString(R.string.hourly_rate_lower)).value.toString().toFloat(),
-                        child(resManager.getString(R.string.instructor_lower)).value.toString().toBoolean(),
-                    )
+                    with(child) {
+                        UserFirebase(
+                            child(resManager.getString(R.string.id)).value.toString(),
+                            child(resManager.getString(R.string.email_lower)).value.toString(),
+                            child(resManager.getString(R.string.password_lower)).value.toString(),
+                            child(resManager.getString(R.string.name_lower)).value.toString(),
+                            child(resManager.getString(R.string.age_lower)).value.toString()
+                                .toInt(),
+                            child(resManager.getString(R.string.gender_lower)).value.toString(),
+                            child(resManager.getString(R.string.sport_lower)).value.toString(),
+                            child(resManager.getString(R.string.photo_lower)).value.toString(),
+                            child(resManager.getString(R.string.experience_lower)).value.toString(),
+                            child(resManager.getString(R.string.description_lower)).value.toString(),
+                            child(resManager.getString(R.string.rating_lower)).value.toString()
+                                .toFloat(),
+                            child(resManager.getString(R.string.hourly_rate_lower)).value.toString()
+                                .toFloat(),
+                            child(resManager.getString(R.string.instructor_lower)).value.toString()
+                                .toBoolean(),
+                        )
+                    }
                 }
-            }
-//            for (uid in dataSnapshot.children) {
-//                if (uid.child("sport").value.toString() == sport) {
-//
-//                }
-//            }
-//            return dataSnapshot.children.map { child ->
-//                 with(child) {
-//                    UserFirebase(
-//                        child(resManager.getString(R.string.id)).value.toString(),
-//                        child(resManager.getString(R.string.email_lower)).value.toString(),
-//                        child(resManager.getString(R.string.password_lower)).value.toString(),
-//                        child(resManager.getString(R.string.name_lower)).value.toString(),
-//                        child(resManager.getString(R.string.age_lower)).value.toString().toInt(),
-//                        child(resManager.getString(R.string.gender_lower)).value.toString(),
-//                        child(resManager.getString(R.string.sport_lower)).value.toString(),
-//                        child(resManager.getString(R.string.photo_lower)).value.toString(),
-//                        child(resManager.getString(R.string.experience_lower)).value.toString(),
-//                        child(resManager.getString(R.string.description_lower)).value.toString(),
-//                        child(resManager.getString(R.string.rating_lower)).value.toString().toFloat(),
-//                        child(resManager.getString(R.string.hourly_rate_lower)).value.toString().toFloat(),
-//                        child(resManager.getString(R.string.instructor_lower)).value.toString().toBoolean(),
-//                    )
-//                 }
-//            }
         }.onFailure {
             throw NoInstructorsFoundException(resManager.getString(R.string.no_instructors_found_exception))
         }
@@ -92,12 +73,15 @@ class UserFirebaseDao @Inject constructor(
 
 
     suspend fun uploadProfileImage(imageUri: String): String {
-        val formatter = SimpleDateFormat(resManager.getString(R.string.profile_image_upload_date_format), Locale.US)
+        val formatter = SimpleDateFormat(
+            resManager.getString(R.string.profile_image_upload_date_format),
+            Locale.getDefault()
+        )
         val now = Date()
         val filename = formatter.format(now)
-        val location = resManager.getString(R.string.profile_image_upload_date_format).format(filename)
-        
-        
+        val location =
+            resManager.getString(R.string.profile_image_upload_date_format).format(filename)
+
 
         val ref = storage.getReference(location)
         runCatching(exceptionHandlerDelegate) {
@@ -147,6 +131,7 @@ class UserFirebaseDao @Inject constructor(
         throw UserDoesNotExistException(resManager.getString(R.string.this_user_does_not_exist_exception))
 
     }
+
     suspend fun getCurrentUser(): UserFirebase {
         return getUserByUid(auth.currentUser!!.uid)
     }
@@ -154,19 +139,22 @@ class UserFirebaseDao @Inject constructor(
     suspend fun updateUser(user: UserFirebase) {
 
         val userDetails = HashMap<String, Any>()
-        with (user) {
+        with(user) {
             description?.let { userDetails.put(resManager.getString(R.string.description), it) }
-            experience?.let { userDetails.put(resManager.getString(R.string.experience), it)  }
-            hourlyRate?.let { userDetails.put(resManager.getString(R.string.hourlyrate), it)  }
-            photo?.let { userDetails.put(resManager.getString(R.string.photo), it)  }
-            sport?.let { userDetails.put(resManager.getString(R.string.sport), it)  }
+            experience?.let { userDetails.put(resManager.getString(R.string.experience), it) }
+            hourlyRate?.let { userDetails.put(resManager.getString(R.string.hourlyrate), it) }
+            photo?.let { userDetails.put(resManager.getString(R.string.photo), it) }
+            sport?.let { userDetails.put(resManager.getString(R.string.sport), it) }
 
             userDetails[resManager.getString(R.string.instructor)] = isInstructor
             userDetails[resManager.getString(R.string.name_lower)] = name
             userDetails[resManager.getString(R.string.gender_lower)] = gender
+            userDetails["age"] = age
+            userDetails["password"] = password
         }
         runCatching(exceptionHandlerDelegate) {
-            dbReference.child(resManager.getString(R.string.user)).child(user.id).updateChildren(userDetails).addOnCompleteListener {  }.await()
+            dbReference.child(resManager.getString(R.string.user)).child(user.id)
+                .updateChildren(userDetails).addOnCompleteListener { }.await()
         }.onSuccess {
             return
         }.onFailure {
@@ -199,7 +187,7 @@ class UserFirebaseDao @Inject constructor(
                         name,
                         age,
                         gender,
-                        )
+                    )
                 } catch (ex: Exception) {
                     exceptionHandlerDelegate.handleException(ex)
                 }
@@ -225,14 +213,16 @@ class UserFirebaseDao @Inject constructor(
         age: Int,
         gender: String,
     ): UserFirebase {
-        val user = UserFirebase(auth.currentUser!!.uid, email, password, name, age, gender,
+        val user = UserFirebase(
+            auth.currentUser!!.uid, email, password, name, age, gender,
             sport = "",
             photo = "",
             experience = "",
             description = "",
             rating = 0.0f,
             hourlyRate = 0.0f,
-            isInstructor = false)
+            isInstructor = false
+        )
         dbReference.child(resManager.getString(R.string.user)).child(id).setValue(user)
         return user
     }
@@ -255,9 +245,11 @@ class UserFirebaseDao @Inject constructor(
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 try {
-                    dbReference.child(resManager.getString(R.string.user)).orderByChild(resManager.getString(R.string.id)).equalTo(auth.currentUser!!.uid)
+                    dbReference.child(resManager.getString(R.string.user))
+                        .orderByChild(resManager.getString(R.string.id))
+                        .equalTo(auth.currentUser!!.uid)
 
-                        .addValueEventListener(object: ValueEventListener {
+                        .addValueEventListener(object : ValueEventListener {
 
                             override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -269,15 +261,19 @@ class UserFirebaseDao @Inject constructor(
                                             child(resManager.getString(R.string.email_lower)).value.toString(),
                                             child(resManager.getString(R.string.password_lower)).value.toString(),
                                             child(resManager.getString(R.string.name_lower)).value.toString(),
-                                            child(resManager.getString(R.string.age_lower)).value.toString().toInt(),
+                                            child(resManager.getString(R.string.age_lower)).value.toString()
+                                                .toInt(),
                                             child(resManager.getString(R.string.gender_lower)).value.toString(),
                                             child(resManager.getString(R.string.sport_lower)).value.toString(),
                                             child(resManager.getString(R.string.photo_lower)).value.toString(),
                                             child(resManager.getString(R.string.experience_lower)).value.toString(),
                                             child(resManager.getString(R.string.description_lower)).value.toString(),
-                                            child(resManager.getString(R.string.rating_lower)).value.toString().toFloat(),
-                                            child(resManager.getString(R.string.hourly_rate_lower)).value.toString().toFloat(),
-                                            child(resManager.getString(R.string.instructor_lower)).value.toString().toBoolean(),
+                                            child(resManager.getString(R.string.rating_lower)).value.toString()
+                                                .toFloat(),
+                                            child(resManager.getString(R.string.hourly_rate_lower)).value.toString()
+                                                .toFloat(),
+                                            child(resManager.getString(R.string.instructor_lower)).value.toString()
+                                                .toBoolean(),
                                         )
                                     }
                                 }
@@ -285,7 +281,7 @@ class UserFirebaseDao @Inject constructor(
 
                             override fun onCancelled(error: DatabaseError) {}
 
-                    })
+                        })
                 } catch (ex: Exception) {
                     exceptionHandlerDelegate.handleException(ex)
                 }
@@ -298,16 +294,12 @@ class UserFirebaseDao @Inject constructor(
 
         delay(2000L)
 
-        return if(user == null) {
+        return if (user == null) {
             throw AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
         } else {
             true
         }
     }
-
-
-
-
 
 
 }

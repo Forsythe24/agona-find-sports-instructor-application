@@ -50,6 +50,10 @@ dependencies {
     implementation constraintDep
     implementation materialDep
 
+    implementation pagingDep
+
+    implementation 'com.google.firebase:firebase-database:20.3.1'
+
     implementation rxJavaDep
     implementation rxAndroidDep
 

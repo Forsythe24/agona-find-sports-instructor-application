@@ -19,9 +19,11 @@ import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentUserProfileBinding
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
+import com.solopov.common.model.ChatCommon
 import com.solopov.common.model.UserCommon
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
+import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
@@ -59,8 +61,15 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
         if (user != null) {
             hideProfileEditingViews()
-
             viewModel.setUser(user)
+
+            binding.sendMessageBtn.setOnClickListener {
+                router.openChat(ChatCommon(
+                    user.id,
+                    user.name,
+                    user.photo
+                ))
+            }
 
         } else {
             viewModel.setCurrentUser()

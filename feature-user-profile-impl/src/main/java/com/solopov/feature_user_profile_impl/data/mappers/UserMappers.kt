@@ -1,6 +1,7 @@
 package com.solopov.feature_user_profile_impl.data.mappers
 
 import com.solopov.common.data.firebase.model.UserFirebase
+import com.solopov.common.model.ChatCommon
 import com.solopov.common.model.UserCommon
 import com.solopov.feature_user_profile_api.domain.model.User
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
@@ -24,6 +25,16 @@ class UserMappers @Inject constructor() {
                 rating,
                 hourlyRate,
                 isInstructor
+            )
+        }
+    }
+
+    fun mapUserCommonToChatCommon(userCommon: UserCommon): ChatCommon {
+        return with(userCommon) {
+            ChatCommon(
+                id,
+                name,
+                photo
             )
         }
     }

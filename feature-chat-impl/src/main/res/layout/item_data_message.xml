@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="4dp">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:cardCornerRadius="48dp"
+        android:backgroundTint="@color/intenseBlack">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/chat_date_sample"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:id="@+id/tv_date"
+            android:padding="4dp">
+        </TextView>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

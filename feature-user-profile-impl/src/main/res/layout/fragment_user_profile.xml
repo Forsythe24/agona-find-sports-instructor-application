@@ -207,7 +207,7 @@
         android:textColor="@color/white"
         android:fontFamily="@font/inter_semibold"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="84dp"/>
+        android:layout_marginBottom="96dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/send_message_btn"
@@ -221,7 +221,7 @@
         android:textColor="@color/white"
         android:fontFamily="@font/inter_semibold"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="96dp"
         android:drawableTint="@color/white"
         android:drawableEnd="@drawable/baseline_message_24"/>
 </FrameLayout>

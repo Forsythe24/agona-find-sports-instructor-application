@@ -3,7 +3,7 @@
         
         
 
-    </style><style name="Theme.SportsInstructorApp" parent="Base.Theme.SportsInstructorApp"/></file><file path="/Users/miron1/AndroidStudioProjects/agona-find-sports-instructor-application/feature-authentication-impl/src/main/res/values/colors.xml" qualifiers=""><color name="black">#FF000000</color><color name="white">#FFFFFFFF</color></file><file path="/Users/miron1/AndroidStudioProjects/agona-find-sports-instructor-application/feature-authentication-impl/src/main/res/values/themes.xml" qualifiers=""><style name="Base.Theme.SportsInstructorApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    </style><style name="Theme.SportsInstructorApp" parent="Base.Theme.SportsInstructorApp"/></file><file path="/Users/miron1/AndroidStudioProjects/agona-find-sports-instructor-application/feature-authentication-impl/src/main/res/values/colors.xml" qualifiers=""><color name="black">#FF000000</color><color name="white">#FFFFFFFF</color></file><file path="/Users/miron1/AndroidStudioProjects/agona-find-sports-instructor-application/feature-authentication-impl/src/main/res/values/themes.xml" qualifiers=""><style name="Base.Theme.SportsInstructorApp" parent="Theme.Material3.DayNight.NoActionBar">
         
         
 

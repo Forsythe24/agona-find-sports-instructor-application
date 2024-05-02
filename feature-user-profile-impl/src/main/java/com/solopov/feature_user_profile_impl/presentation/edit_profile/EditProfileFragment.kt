@@ -80,13 +80,6 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
                 showCurrentPasswordInputDialog()
             }
 
-            currentUser?.let { user ->
-                instructorsBioBtn.setOnClickListener {
-                    router.goToInstructApplication(user)
-                }
-
-            }
-
         }
     }
 
@@ -186,17 +179,21 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
 
             with(binding) {
 
-                userProfile?.let {
-                    nameEt.setText(it.name)
-                    ageEt.setText(it.age.toString())
-                    if (it.gender == "M") {
+                userProfile?.let { user ->
+                    nameEt.setText(user.name)
+                    ageEt.setText(user.age.toString())
+                    if (user.gender == "M") {
                         maleRb.isChecked = true
                     } else {
                         femaleRb.isChecked = true
                     }
 
-                    if (it.isInstructor.not()) {
+                    if (user.isInstructor.not()) {
                         instructorsBioBtn.visibility = GONE
+                    }
+
+                    instructorsBioBtn.setOnClickListener {
+                        router.goToInstructApplication(user)
                     }
                 }
             }

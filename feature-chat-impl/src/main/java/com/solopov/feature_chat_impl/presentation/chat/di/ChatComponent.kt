@@ -2,6 +2,7 @@ package com.solopov.feature_chat_impl.presentation.chat.di
 
 import androidx.fragment.app.Fragment
 import com.solopov.common.di.scope.ScreenScope
+import com.solopov.feature_chat_impl.presentation.chat.ChatFragment
 import dagger.BindsInstance
 import dagger.Subcomponent
 
@@ -20,5 +21,5 @@ interface ChatComponent {
         ): ChatComponent
     }
 
-//    fun inject(fragment: ChatsFragment)
+    fun inject(fragment: ChatFragment)
 }

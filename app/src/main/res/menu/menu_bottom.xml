@@ -3,11 +3,16 @@
     <item
         android:id="@+id/instructorsFragment"
         android:icon="@drawable/baseline_sports_24"
-        android:title="Instructors" />
+        android:title="@string/instructors" />
 
+    <item
+        android:id="@+id/chatsFragment"
+        android:icon="@drawable/baseline_message_24"
+        android:title="@string/chats" />
 
     <item
         android:id="@+id/userProfileFragment"
         android:icon="@drawable/baseline_person_24"
-        android:title="Profile" />
+        android:title="@string/profile" />
+
 </menu>

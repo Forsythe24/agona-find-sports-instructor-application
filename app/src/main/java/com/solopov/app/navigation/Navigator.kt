@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import com.google.firebase.analytics.FirebaseAnalytics.Param
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.app.R
+import com.solopov.common.model.ChatCommon
 import com.solopov.common.model.UserCommon
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_instructor_impl.InstructorsRouter
@@ -40,6 +41,10 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
         navController?.popBackStack()
     }
 
+    override fun openChat(chat: ChatCommon) {
+        navController?.navigate(R.id.chatFragment, bundleOf(ParamsKey.CHAT to chat))
+    }
+
     override fun goToSignUpPage() {
         navController?.navigate(R.id.signUpFragment)
     }
@@ -63,6 +68,4 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
     override fun goToEditingProfile(userProfile: UserProfile) {
         navController?.navigate(R.id.editProfileFragment, bundleOf(ParamsKey.USER to userProfile))
     }
-
-
 }

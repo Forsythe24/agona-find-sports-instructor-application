@@ -126,7 +126,7 @@
         app:layout_constraintTop_toBottomOf="@id/item_cv"
         app:layout_constraintStart_toStartOf="@id/item_cv"
         android:fontFamily="@font/inter_regular"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="28dp"
         android:gravity="start" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
