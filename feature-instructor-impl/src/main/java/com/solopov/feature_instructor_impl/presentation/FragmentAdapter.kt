@@ -1,4 +1,4 @@
-package com.solopov.feature_instructor_impl.presentation.list
+package com.solopov.feature_instructor_impl.presentation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

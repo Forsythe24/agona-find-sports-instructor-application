@@ -9,4 +9,5 @@
     <string name="hockey">Hockey</string>
     <string name="volleyball">Volleyball</string>
     <string name="handball">Handball</string>
+    <string name="no_instructors_found">No instructors found</string>
 </resources>

@@ -1,5 +1,6 @@
-package com.solopov.feature_instructor_impl.presentation.list
+package com.solopov.feature_instructor_impl.presentation
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -7,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.solopov.instructors.databinding.ItemInstructorBinding
 
 class InstructorsAdapter(
-    private val items: MutableList<ListItem>,
+    private var items: List<ListItem>,
     private val showImage: (url: String, imageView: ImageView) -> Unit,
     private val onItemClicked: (ListItem) -> Unit,
     private val getStringCallback: (id: Int) -> String,
@@ -31,6 +32,12 @@ class InstructorsAdapter(
         return InstructorViewHolder(ItemInstructorBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         ), showImage, onItemClicked, getStringCallback)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setFilteredList(list: List<ListItem>) {
+        items = list
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = items.count()

@@ -4,7 +4,7 @@ import com.solopov.common.data.firebase.model.UserFirebase
 import com.solopov.common.model.UserCommon
 import com.solopov.feature_instructor_api.domain.model.Instructor
 import com.solopov.feature_instructor_impl.data.network.pojo.response.InstructorData
-import com.solopov.feature_instructor_impl.presentation.list.InstructorsAdapter
+import com.solopov.feature_instructor_impl.presentation.InstructorsAdapter
 import javax.inject.Inject
 
 class InstructorMappers @Inject constructor() {

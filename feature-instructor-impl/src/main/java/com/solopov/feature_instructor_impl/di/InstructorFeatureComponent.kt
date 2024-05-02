@@ -6,8 +6,7 @@ import com.solopov.common.data.db.di.DbApi
 import com.solopov.common.data.firebase.di.FirebaseApi
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.InstructorsRouter
-import com.solopov.feature_instructor_impl.presentation.list.di.InstructorsComponent
-import com.solopov.feature_instructor_impl.presentation.details.di.InstructorComponent
+import com.solopov.feature_instructor_impl.presentation.di.InstructorsComponent
 import dagger.BindsInstance
 import dagger.Component
 
@@ -24,7 +23,6 @@ interface  InstructorFeatureComponent : InstructorFeatureApi {
 
     fun instructorsComponentFactory(): InstructorsComponent.Factory
 
-    fun instructorComponentFactory(): InstructorComponent.Factory
 
     @Component.Builder
     interface Builder {

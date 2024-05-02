@@ -1,4 +1,4 @@
-package com.solopov.feature_instructor_impl.presentation.list
+package com.solopov.feature_instructor_impl.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
@@ -35,7 +35,19 @@ class InstructorsViewModel @Inject constructor (
 
     private fun mapInstructorToListItem(instructor: Instructor): InstructorsAdapter.ListItem {
         return with(instructor) {
-            InstructorsAdapter.ListItem(id, name, age, gender, sport, photo, experience, description, rating, hourlyRate, true)
+            InstructorsAdapter.ListItem(
+                id,
+                name,
+                age,
+                gender,
+                sport,
+                photo,
+                experience,
+                description,
+                rating,
+                hourlyRate,
+                true
+            )
         }
     }
 

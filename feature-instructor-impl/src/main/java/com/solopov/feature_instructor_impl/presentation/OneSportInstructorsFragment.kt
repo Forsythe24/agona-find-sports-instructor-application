@@ -1,15 +1,20 @@
-package com.solopov.feature_instructor_impl.presentation.list
+package com.solopov.feature_instructor_impl.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.util.query
 import com.bumptech.glide.Glide
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
@@ -33,6 +38,12 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
 
     private lateinit var binding: FragmentOneSportInstructorsBinding
 
+    private var instructorsList: List<InstructorsAdapter.ListItem> = listOf()
+
+    private lateinit var instructorsAdapter: InstructorsAdapter
+
+    private lateinit var instructorsSearchView: SearchView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentOneSportInstructorsBinding.inflate(inflater, container, false)
         return binding.root
@@ -50,11 +61,18 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
             .inject(this)
     }
 
+    override fun onPause() {
+        super.onPause()
+        instructorsSearchView.setQuery("", false)
+    }
+
     override fun subscribe(viewModel: InstructorsViewModel) {
         with(viewModel) {
             currentInstructorsFlow.observe {
                 if (it != null) {
+                    instructorsList = it
                     updateInstructors(it)
+                    initSearchView()
                 }
             }
 
@@ -71,8 +89,8 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
     private fun updateInstructors(instructors: List<InstructorsAdapter.ListItem>) {
         with(binding) {
             if (instructorsRv.adapter == null) {
-
-                instructorsRv.adapter = InstructorsAdapter(instructors as MutableList<InstructorsAdapter.ListItem>, ::showImage, ::onItemClicked, ::getStringCallback)
+                instructorsAdapter = InstructorsAdapter(instructors, ::showImage, ::onItemClicked, ::getStringCallback)
+                instructorsRv.adapter = instructorsAdapter
             }
         }
     }
@@ -89,6 +107,29 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
         binding.instructorsRv.layoutManager = layoutManager
     }
 
+    private fun initSearchView() {
+        instructorsSearchView = requireParentFragment().requireView().findViewById(R.id.instructors_sv)
+        instructorsSearchView.setOnQueryTextListener(object:
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                if (text != null) {
+                    filterInstructorsList(text)
+                }
+
+                return true
+            }
+
+            override fun onQueryTextChange(text: String?): Boolean {
+                if (text != null) {
+                    filterInstructorsList(text)
+                }
+
+                return true
+            }
+
+        })
+    }
+
     private fun onItemClicked(instructor: InstructorsAdapter.ListItem) {
         if (instructor.isFromApi) {
             router.openInstructor(mappers.mapInstructorListItemToUserCommon(instructor))
@@ -99,6 +140,23 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
 
     private fun getStringCallback(id: Int): String {
         return getString(id)
+    }
+
+    private fun filterInstructorsList(text: String) {
+        val filteredList = mutableListOf<InstructorsAdapter.ListItem>()
+        instructorsList.forEach {instructor ->
+            if (instructor.name.lowercase().startsWith(text.lowercase())) {
+                filteredList.add(instructor)
+            }
+        }
+
+        if (filteredList.isEmpty()) {
+            binding.noInstructorsFoundTv.visibility = VISIBLE
+            instructorsAdapter.setFilteredList(filteredList)
+        } else {
+            binding.noInstructorsFoundTv.visibility = GONE
+            instructorsAdapter.setFilteredList(filteredList)
+        }
     }
     
     companion object {

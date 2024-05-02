@@ -1,10 +1,8 @@
-package com.solopov.feature_instructor_impl.presentation.list.di
+package com.solopov.feature_instructor_impl.presentation.di
 
 import androidx.fragment.app.Fragment
 import com.solopov.common.di.scope.ScreenScope
-import com.solopov.feature_instructor_impl.presentation.list.InstructorsFragment
-import com.solopov.feature_instructor_impl.presentation.list.OneSportInstructorsFragment
-import com.solopov.feature_instructor_impl.presentation.list.di.InstructorsModule
+import com.solopov.feature_instructor_impl.presentation.OneSportInstructorsFragment
 import dagger.BindsInstance
 import dagger.Subcomponent
 
