@@ -9,15 +9,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.solopov.common.R
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
-import com.solopov.common.model.UserCommon
+import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_chat_api.di.ChatFeatureApi
@@ -25,12 +23,9 @@ import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
-import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 class ChatFragment : BaseFragment<ChatViewModel>() {
@@ -66,16 +61,16 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
     private fun initChatters() {
 
-        val user = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getSerializable(ParamsKey.USER, UserCommon::class.java)
+        val chatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getSerializable(ParamsKey.CHAT, ChatCommon::class.java)
         } else {
-            arguments?.getSerializable(ParamsKey.USER) as UserCommon?
+            arguments?.getSerializable(ParamsKey.CHAT) as ChatCommon?
         }
 
-        user?.let {
+        chatter?.let {
             viewModel.setReceiver(it)
-            viewModel.setSender()
         }
+        viewModel.setSender()
 
     }
 
@@ -90,7 +85,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 //                adapter = ChatAdapter(senderId)
 //                chatRv.adapter = adapter
 //            }
-//            (chatRv.adapter as ChatAdapter).submitData(lifecycle, messages)
+//            (chatRv.adapter as ChatAdapter).(viewLifecycleOwner.lifecycle, messages)
 //
 //        }
 //    }
@@ -122,36 +117,46 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             senderFlow.observe { sender ->
                 with(viewBinding) {
 
-                    val senderRoomId = sender?.uid + viewModel.receiverFlow.value?.uid
+                    val receiver = viewModel.receiverFlow.value
 
-                    val receiverRoomId = viewModel.receiverFlow.value?.uid + sender?.uid
+                    if (receiver != null && sender != null) {
 
-                    sender?.let {
-                        senderId = it.uid
-                        viewModel.downloadMessages(senderRoomId)
-//                        viewModel.getRecentMessages()
-                    }
+                        val receiverId = receiver.userId
 
-                    sendBtn.setOnClickListener {
+                        senderId = sender.userId
 
-                        sender?.let {
-                            val date = dateFormatter.formatDateTime(Date())
-                            val message = MessageItem("", messageEt.text.toString(), it.uid, date)
+                        val senderRoomId = senderId + receiverId
 
-                            messageEt.setText("")
+                        println(senderRoomId)
 
-                            viewModel.createNewMessage(senderRoomId, message)
-                            viewModel.createNewMessage(receiverRoomId, message)
-
-                            currentMessageList.add(message)
-                            updateMessagesWithRespectToDate()
+                        val receiverRoomId = receiverId + senderId
 
 
+                        viewModel.downloadMessages(senderId, senderRoomId)
+//                      viewModel.getRecentMessages()
 
-                            viewBinding.chatRv.smoothScrollToPosition(adapter.itemCount)
 
+                        sendBtn.setOnClickListener {
+
+                            sender.let {
+                                val date = dateFormatter.formatDateTime(Date())
+                                val message =
+                                    MessageItem("", messageEt.text.toString(), it.userId, date)
+
+                                messageEt.setText("")
+
+                                viewModel.createNewMessage(senderId, senderRoomId, message)
+                                viewModel.createNewMessage(receiverId, receiverRoomId, message)
+
+                                currentMessageList.add(message)
+                                updateMessagesWithRespectToDate()
+
+                                viewBinding.chatRv.smoothScrollToPosition(adapter.itemCount)
+
+                            }
                         }
                     }
+
                 }
 
             }
@@ -182,8 +187,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                 }
             }
         }
-
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -191,7 +194,8 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         // adding dates only when it's the first message of the chat or when it's a new day
         if (currentMessageList.size == 1 || currentMessageList.size > 1
             && dateFormatter.parseStringToDate(currentMessageList[currentMessageList.size - 2].date) // previous last date
-            != dateFormatter.parseStringToDate(currentMessageList.last().date)) // last date
+            != dateFormatter.parseStringToDate(currentMessageList.last().date)
+        ) // last date
         {
             currentMessageListWithDates = currentMessageList.addDates() as MutableList<MessageItem>
             updateMessages(currentMessageListWithDates)
@@ -203,17 +207,19 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         adapter.notifyDataSetChanged()
     }
 
+
     private fun List<MessageItem>.addDates(): List<MessageItem> {
         if (this.isEmpty()) {
             return this
         }
-        println("hey")
         // 0 by default because the first message in a chat always needs its' date above it
         val dateIndices = mutableListOf(0)
         var offset = 1
         for (i in 0 until this.size - 1) {
-            val currMessageDate = dateFormatter.formatDate(dateFormatter.parseStringToDate(this[i].date)!!)
-            val nextMessageDate = dateFormatter.formatDate(dateFormatter.parseStringToDate(this[i + 1].date)!!)
+            val currMessageDate =
+                dateFormatter.formatDate(dateFormatter.parseStringToDate(this[i].date)!!)
+            val nextMessageDate =
+                dateFormatter.formatDate(dateFormatter.parseStringToDate(this[i + 1].date)!!)
             if (currMessageDate != nextMessageDate) {
                 dateIndices.add(i + 1 + offset)
                 offset++
@@ -221,16 +227,19 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         }
         val mutableMessages = this.toMutableList()
 
-        val todaySimpleDateFormatString = dateFormatter.formatDateTo_ddMMMyyyy_DateFormat(Date())
+        val todayString = dateFormatter.formatDateTo_ddMMMyyyy_DateFormat(Date())
 
         dateIndices.forEach { index ->
             with(mutableMessages[index]) {
 
-                var chatDate = dateFormatter.formatDateTo_ddMMMyyyy_DateFormat(dateFormatter.parseStringToDate(date)!!)
+                var chatDate = dateFormatter.formatDateTo_ddMMMyyyy_DateFormat(
+                    dateFormatter.parseStringToDate(date)!!
+                )
 
-                if (todaySimpleDateFormatString == chatDate) {
+                if (todayString == chatDate) {
                     //change to "today" if the chat date and the current date match
-                    chatDate = requireContext().getString(com.solopov.feature_chat_impl.R.string.today)
+                    chatDate =
+                        requireContext().getString(com.solopov.feature_chat_impl.R.string.today)
                 }
 
                 mutableMessages.add(

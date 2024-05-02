@@ -23,14 +23,16 @@ class ChatFirebaseDao @Inject constructor(
     private val resManager: ResourceManager,
 ): PagingSource<DataSnapshot, MessageFirebase>() {
     suspend fun addMessageToDatabase(
+        userId: String,
         roomId: String,
         message: MessageFirebase,
     ) {
         runCatching(exceptionHandlerDelegate) {
             val messageDbRef = dbReference
-                .child("chat")
+                .child(resManager.getString(R.string.chat_lower))
+                .child(userId)
                 .child(roomId)
-                .child("message")
+                .child(resManager.getString(R.string.message))
 
             message.id = messageDbRef.push().key ?: ""
 
@@ -41,26 +43,82 @@ class ChatFirebaseDao @Inject constructor(
         }
     }
 
+
+    suspend fun getAllReceiversByUserId(id: String): List<String> {
+        runCatching(exceptionHandlerDelegate) {
+
+            dbReference
+                .child(resManager.getString(R.string.chat_lower))
+                .child(id)
+                .get().await()
+
+        }.onSuccess { dataSnapshot ->
+            return dataSnapshot.children.map { child ->
+
+                val roomId = child.key.toString()
+
+                val receiverId = if (roomId.startsWith(id)) {
+                    roomId.removePrefix(id)
+                } else {
+                    roomId.removeSuffix(id)
+                }
+
+                receiverId
+            }
+        }.onFailure {
+            throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
+        }
+        throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
+    }
+
     suspend fun getAllMessagesByRoomId(
+        userId: String,
         roomId: String,
     ): List<MessageFirebase> {
         runCatching(exceptionHandlerDelegate) {
 
             dbReference
-                .child("chat")
+                .child(resManager.getString(R.string.chat_lower))
+                .child(userId)
                 .child(roomId)
-                .child("message")
+                .child(resManager.getString(R.string.message))
                 .get().await()
         }.onSuccess { dataSnapshot ->
             return dataSnapshot.children.map { child ->
                 with(child) {
                     MessageFirebase(
-                        child("id").value.toString(),
-                        child("text").value.toString(),
-                        child("senderId").value.toString(),
-                        child("date").value.toString(),
+                        child(resManager.getString(R.string.id)).value.toString(),
+                        child(resManager.getString(R.string.text)).value.toString(),
+                        child(resManager.getString(R.string.sender_id)).value.toString(),
+                        child(resManager.getString(R.string.date)).value.toString(),
                     )
                 }
+            }
+        }.onFailure {
+            throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
+        }
+        throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
+    }
+
+    suspend fun getLastMessageByUsersIds(senderId: String, receiverId: String): MessageFirebase {
+        runCatching(exceptionHandlerDelegate){
+            dbReference
+                .child(resManager.getString(R.string.chat_lower))
+                .child(senderId)
+                .child(senderId + receiverId)
+                .child(resManager.getString(R.string.message))
+                .orderByKey()
+                .limitToLast(1)
+                .get().await()
+        }.onSuccess { dataSnapshot ->
+            println(dataSnapshot)
+            return with(dataSnapshot.children.last()) {
+                MessageFirebase(
+                    child(resManager.getString(R.string.id)).value.toString(),
+                    child(resManager.getString(R.string.text)).value.toString(),
+                    child(resManager.getString(R.string.sender_id)).value.toString(),
+                    child(resManager.getString(R.string.date)).value.toString(),
+                )
             }
         }.onFailure {
             throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
@@ -71,12 +129,12 @@ class ChatFirebaseDao @Inject constructor(
     suspend fun updateMessage(roomId: String, message: MessageFirebase) {
         val messageDetails = HashMap<String, Any>()
         with(message) {
-            messageDetails["id"] = id
-            messageDetails["text"] = text
+            messageDetails[resManager.getString(R.string.id)] = id
+            messageDetails[resManager.getString(R.string.text)] = text
         }
         runCatching(exceptionHandlerDelegate) {
 
-            dbReference.child(resManager.getString(R.string.chat)).child(roomId)
+            dbReference.child(resManager.getString(R.string.chat_lower)).child(roomId)
                 .child(resManager.getString(R.string.message)).child(message.id)
                 .updateChildren(messageDetails).addOnCompleteListener { }.await()
         }.onSuccess {
@@ -90,7 +148,7 @@ class ChatFirebaseDao @Inject constructor(
 
     override suspend fun load(params: LoadParams<DataSnapshot>): LoadResult<DataSnapshot, MessageFirebase> =
         try {
-            
+
 
             val queryMessages = dbReference.child("chat").child("HqmLsYR0YbQ2NlIIyF688pz7s5g2JK3EIt4BouOBWCQjmqOVwa0CbjW2").child("message").orderByKey().limitToLast(ParamsKey.PAGE_SIZE)
 

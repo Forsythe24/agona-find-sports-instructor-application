@@ -3221,8 +3221,8 @@ string call_notification_screening_text
 string character_counter_content_description
 string character_counter_overflowed_content_description
 string character_counter_pattern
-string chat
 string chat_data_retrieving_failed_exception
+string chat_lower
 string chip_text
 string clear_text_end_icon_content_description
 string click_here_to_sign_up
@@ -3250,6 +3250,7 @@ string common_signin_button_text
 string common_signin_button_text_long
 string copy_toast_msg
 string create_a_new_account_here
+string date
 string description
 string description_lower
 string description_sample
@@ -3408,11 +3409,13 @@ string rating_lower
 string rating_sample
 string rating_template
 string search_menu_title
+string sender_id
 string sign_in
 string sign_up
 string sport
 string sport_lower
 string status_bar_notification_info_overflow
+string text
 string this_user_does_not_exist_exception
 string unknown_error
 string user

@@ -8,4 +8,6 @@
     <string name="chat_date_sample">29 Apr 2024</string>
     <string name="today">Today</string>
     <string name="time_sample">18:36</string>
+    <string name="chats">Chats</string>
+    <string name="message_preview_sample">We were on a break! We were on a brea... We were on a break!</string>
 </resources>

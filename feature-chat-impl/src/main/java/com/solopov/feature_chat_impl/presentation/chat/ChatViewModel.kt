@@ -4,13 +4,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.solopov.common.base.BaseViewModel
-import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.model.UserCommon
-import com.solopov.common.utils.DateFormatter
+import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
-import com.solopov.feature_chat_impl.R
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.data.mappers.MessageMappers
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
@@ -23,9 +20,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.util.Calendar
-import java.util.Date
 
 class ChatViewModel(
     private val interactor: ChatInteractor,
@@ -52,14 +46,14 @@ class ChatViewModel(
 
     val errorsChannel = Channel<Throwable>()
 
-    fun setReceiver(user: UserCommon) {
-        _receiverFlow.value = chatMappers.mapUserCommonToChatItem(user)
+    fun setReceiver(chat: ChatCommon) {
+        _receiverFlow.value = chatMappers.mapChatCommonToChatItem(chat)
     }
 
-    fun createNewMessage(roomId: String, message: MessageItem) {
+    fun createNewMessage(userId: String, roomId: String, message: MessageItem) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
-                interactor.createNewMessage(roomId, messageMappers.mapMessageItemToMessage(message))
+                interactor.createNewMessage(userId, roomId, messageMappers.mapMessageItemToMessage(message))
             }.onSuccess {
 
             }.onFailure {
@@ -68,10 +62,10 @@ class ChatViewModel(
         }
     }
 
-    fun downloadMessages(roomId: String) {
+    fun downloadMessages(userId: String, roomId: String) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
-                interactor.downloadMessages(roomId)
+                interactor.downloadMessages(userId, roomId)
             }.onSuccess {
                 _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
             }.onFailure {

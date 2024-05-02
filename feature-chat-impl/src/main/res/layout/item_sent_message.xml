@@ -25,7 +25,10 @@
             android:layout_height="wrap_content"
             android:text="@string/sent_message_sample"
             android:fontFamily="@font/inter_regular"
-            android:padding="12dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:textSize="18sp"/>
 
     </androidx.cardview.widget.CardView>

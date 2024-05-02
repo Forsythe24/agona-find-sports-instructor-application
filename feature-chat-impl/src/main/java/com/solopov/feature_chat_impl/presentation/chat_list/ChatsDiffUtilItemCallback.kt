@@ -5,7 +5,7 @@ import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 
 class ChatsDiffUtilItemCallback: DiffUtil.ItemCallback<ChatItem>() {
     override fun areItemsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
-        return oldItem.uid == newItem.uid
+        return oldItem.userId == newItem.userId
     }
 
     override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {

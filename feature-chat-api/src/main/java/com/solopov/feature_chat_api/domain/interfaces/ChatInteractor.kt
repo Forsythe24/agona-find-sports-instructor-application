@@ -1,6 +1,7 @@
 package com.solopov.feature_chat_api.domain.interfaces
 
 import androidx.paging.PagingData
+import com.solopov.feature_chat_api.domain.model.Chat
 import com.solopov.feature_chat_api.domain.model.Message
 import com.solopov.feature_chat_api.domain.model.User
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,9 +12,9 @@ class ChatInteractor(
     private val chatRepository: ChatRepository,
     private val dispatcher: CoroutineDispatcher
 ) {
-    suspend fun createNewMessage(roomId: String, message: Message) {
+    suspend fun createNewMessage(userId: String, roomId: String, message: Message) {
         return withContext(dispatcher) {
-            chatRepository.createNewMessage(roomId, message)
+            chatRepository.createNewMessage(userId, roomId, message)
         }
     }
 
@@ -23,9 +24,15 @@ class ChatInteractor(
         }
     }
 
-    suspend fun downloadMessages(roomId: String): List<Message> {
+    suspend fun downloadMessages(userId: String, roomId: String): List<Message> {
         return withContext(dispatcher) {
-            chatRepository.downloadMessages(roomId)
+            chatRepository.downloadMessages(userId, roomId)
+        }
+    }
+
+    suspend fun getAllChatsByUserId(userId: String): List<Chat> {
+        return withContext(dispatcher) {
+            chatRepository.getAllChatsByUserId(userId)
         }
     }
 
