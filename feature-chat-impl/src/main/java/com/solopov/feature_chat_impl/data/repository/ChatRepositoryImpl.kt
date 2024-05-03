@@ -57,22 +57,6 @@ class ChatRepositoryImpl @Inject constructor(
         }
 
         return chats
-//        val users = receiversIds.map {id ->
-//            userFirebaseDao.getUserByUid(id)
-//        }
-//        return chatFirebaseDao.getAllReceiversByUserId(userId)
-//            .map { _receiverId ->
-//                val receiverId = _receiverId
-//                userFirebaseDao.getUserByUid(_receiverId)
-//            }.map(chatMappers::mapUserFirebaseToChat)
-//            .map { chat ->
-//                println(receiverId)
-//                val lastMessage = chatFirebaseDao.getLastMessageByUsersIds(userId, receiverId)
-//                chat.lastMessageDate = lastMessage.date
-//                chat.lastMessageText = lastMessage.text
-//
-//                chat
-//            }
     }
 
     override suspend fun getRecentMessages(): Flow<PagingData<Message>> {

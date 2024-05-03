@@ -4,9 +4,10 @@ package com.solopov.instructors.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
@@ -17,20 +18,24 @@ import java.lang.String;
 
 public final class FragmentOneSportInstructorsBinding implements ViewBinding {
   @NonNull
-  private final FrameLayout rootView;
+  private final ConstraintLayout rootView;
 
   @NonNull
   public final RecyclerView instructorsRv;
 
-  private FragmentOneSportInstructorsBinding(@NonNull FrameLayout rootView,
-      @NonNull RecyclerView instructorsRv) {
+  @NonNull
+  public final TextView noInstructorsFoundTv;
+
+  private FragmentOneSportInstructorsBinding(@NonNull ConstraintLayout rootView,
+      @NonNull RecyclerView instructorsRv, @NonNull TextView noInstructorsFoundTv) {
     this.rootView = rootView;
     this.instructorsRv = instructorsRv;
+    this.noInstructorsFoundTv = noInstructorsFoundTv;
   }
 
   @Override
   @NonNull
-  public FrameLayout getRoot() {
+  public ConstraintLayout getRoot() {
     return rootView;
   }
 
@@ -61,7 +66,14 @@ public final class FragmentOneSportInstructorsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentOneSportInstructorsBinding((FrameLayout) rootView, instructorsRv);
+      id = R.id.no_instructors_found_tv;
+      TextView noInstructorsFoundTv = ViewBindings.findChildViewById(rootView, id);
+      if (noInstructorsFoundTv == null) {
+        break missingId;
+      }
+
+      return new FragmentOneSportInstructorsBinding((ConstraintLayout) rootView, instructorsRv,
+          noInstructorsFoundTv);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

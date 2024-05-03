@@ -1,5 +1,6 @@
 package com.solopov.feature_chat_impl.presentation.chat_list
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,6 +31,8 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
+import java.util.Timer
+import java.util.TimerTask
 import javax.inject.Inject
 
 class ChatsFragment : BaseFragment<ChatsViewModel>() {
@@ -41,6 +44,9 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
     @Inject
     lateinit var dateFormatter: DateFormatter
+
+    private var timer: Timer? = null
+    private var lastTimeUpdatedMillis = 0L
 
 
     override fun onCreateView(
@@ -55,6 +61,37 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUser()
+    }
+
+
+    override fun onStop() {
+        timer?.cancel()
+        super.onStop()
+    }
+
+    override fun onStart() {
+        repeatCheckingMessagesForUpdates()
+        super.onStart()
+    }
+
+    private fun repeatCheckingMessagesForUpdates() {
+        timer?.cancel()
+        val delay = (1 * 1000 - (System.currentTimeMillis() - lastTimeUpdatedMillis)).coerceIn(0, null)
+
+        timer = Timer().apply {
+            schedule (
+                object : TimerTask() {
+                    override fun run() {
+                        viewModel.userFlow.value?.let {
+                            viewModel.getAllChatsByUserId(it.userId)
+                        }
+                        lastTimeUpdatedMillis = System.currentTimeMillis()
+                    }
+                },
+                delay,
+                1 * 1000
+            )
+        }
     }
 
     private fun initUser() = viewModel.setUser()
@@ -72,7 +109,6 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                 chatsRv.adapter = ChatsAdapter(::showImage, ::onItemClicked)
             }
             (chatsRv.adapter as ChatsAdapter).submitList(chats)
-
         }
     }
 
@@ -103,6 +139,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
         with(viewModel) {
             chatsFlow.observe { chats ->
                 chats?.let {
+                    println(it)
                     updateChatList(it.date())
                 }
             }
@@ -148,8 +185,6 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                 chatItem.userFriendlyLastMessageDate = "Yesterday"
             }
         }
-//        println(this)
-//        println(result)
         return this
     }
 

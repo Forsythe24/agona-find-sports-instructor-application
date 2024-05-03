@@ -111,7 +111,6 @@ class ChatFirebaseDao @Inject constructor(
                 .limitToLast(1)
                 .get().await()
         }.onSuccess { dataSnapshot ->
-            println(dataSnapshot)
             return with(dataSnapshot.children.last()) {
                 MessageFirebase(
                     child(resManager.getString(R.string.id)).value.toString(),

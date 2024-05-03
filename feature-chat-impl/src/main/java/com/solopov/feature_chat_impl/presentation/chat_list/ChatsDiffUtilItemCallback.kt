@@ -9,7 +9,7 @@ class ChatsDiffUtilItemCallback: DiffUtil.ItemCallback<ChatItem>() {
     }
 
     override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
-        return oldItem.name == newItem.name && oldItem.photo == newItem.photo
+        return oldItem == newItem
     }
 
 }

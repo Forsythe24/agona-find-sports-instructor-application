@@ -43,7 +43,6 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
     private lateinit var instructorsAdapter: InstructorsAdapter
 
     private lateinit var instructorsSearchView: SearchView
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentOneSportInstructorsBinding.inflate(inflater, container, false)
         return binding.root
@@ -51,7 +50,20 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.getInstructorsBySportId(requireArguments().getInt(ParamsKey.SPORT_KEY))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        instructorsSearchView = requireParentFragment().requireView().findViewById(R.id.instructors_sv)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        instructorsSearchView.setQuery("", false)
+        setOnInstructorsSearchListener()
+
     }
 
     override fun inject() {
@@ -61,18 +73,12 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
             .inject(this)
     }
 
-    override fun onPause() {
-        super.onPause()
-        instructorsSearchView.setQuery("", false)
-    }
-
     override fun subscribe(viewModel: InstructorsViewModel) {
         with(viewModel) {
             currentInstructorsFlow.observe {
                 if (it != null) {
                     instructorsList = it
                     updateInstructors(it)
-                    initSearchView()
                 }
             }
 
@@ -89,9 +95,10 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
     private fun updateInstructors(instructors: List<InstructorsAdapter.ListItem>) {
         with(binding) {
             if (instructorsRv.adapter == null) {
-                instructorsAdapter = InstructorsAdapter(instructors, ::showImage, ::onItemClicked, ::getStringCallback)
+                instructorsAdapter = InstructorsAdapter(::showImage, ::onItemClicked, ::getStringCallback)
                 instructorsRv.adapter = instructorsAdapter
             }
+            (instructorsRv.adapter as InstructorsAdapter).submitList(instructors)
         }
     }
 
@@ -107,8 +114,8 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
         binding.instructorsRv.layoutManager = layoutManager
     }
 
-    private fun initSearchView() {
-        instructorsSearchView = requireParentFragment().requireView().findViewById(R.id.instructors_sv)
+    private fun setOnInstructorsSearchListener() {
+
         instructorsSearchView.setOnQueryTextListener(object:
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(text: String?): Boolean {
@@ -143,20 +150,20 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
     }
 
     private fun filterInstructorsList(text: String) {
+        val query = text.trim().lowercase()
         val filteredList = mutableListOf<InstructorsAdapter.ListItem>()
         instructorsList.forEach {instructor ->
-            if (instructor.name.lowercase().startsWith(text.lowercase())) {
+            if (instructor.name.lowercase().startsWith(query)) {
                 filteredList.add(instructor)
             }
         }
 
         if (filteredList.isEmpty()) {
             binding.noInstructorsFoundTv.visibility = VISIBLE
-            instructorsAdapter.setFilteredList(filteredList)
         } else {
             binding.noInstructorsFoundTv.visibility = GONE
-            instructorsAdapter.setFilteredList(filteredList)
         }
+        updateInstructors(filteredList)
     }
     
     companion object {
