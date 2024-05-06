@@ -11,6 +11,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hockey">Hockey</string>
     <string name="instructors">Instructors</string>
+    <string name="no_instructors_found">No instructors found</string>
     <string name="unknown_error_occurred">Unknown error occurred</string>
     <string name="volleyball">Volleyball</string>
     <style name="Base.Theme.AgonaFindSportsInstructorApplication" parent="Theme.Material3.DayNight.NoActionBar">

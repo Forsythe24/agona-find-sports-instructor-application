@@ -20,11 +20,11 @@ id instructors_tv
 id item_cl
 id item_cv
 id name_tv
+id no_instructors_found_tv
 id number_of_ratings_tv
 id rating_tv
 id sports_kinds_tab_layout
 id sports_kinds_vp
-layout fragment_instructor
 layout fragment_instructors
 layout fragment_one_sport_instructors
 layout item_instructor
@@ -37,6 +37,7 @@ string handball
 string hello_blank_fragment
 string hockey
 string instructors
+string no_instructors_found
 string unknown_error_occurred
 string volleyball
 style Base.Theme.AgonaFindSportsInstructorApplication

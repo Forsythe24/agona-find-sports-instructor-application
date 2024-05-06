@@ -1,11 +1,9 @@
-package com.solopov.feature_instructor_impl.presentation.list
+package com.solopov.feature_instructor_impl.presentation
 
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.solopov.common.core.resources.ResourceManager
 import com.solopov.instructors.R
 import com.solopov.instructors.databinding.ItemInstructorBinding
-import javax.inject.Inject
 
 class InstructorViewHolder (
     private val viewBinding: ItemInstructorBinding,

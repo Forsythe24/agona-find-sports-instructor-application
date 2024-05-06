@@ -127,8 +127,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
                         val senderRoomId = senderId + receiverId
 
-                        println(senderRoomId)
-
                         val receiverRoomId = receiverId + senderId
 
 
@@ -189,7 +187,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun updateMessagesWithRespectToDate() {
         // adding dates only when it's the first message of the chat or when it's a new day
         if (currentMessageList.size == 1 || currentMessageList.size > 1
@@ -203,8 +200,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         } else {
             updateMessages(currentMessageListWithDates)
         }
-
-        adapter.notifyDataSetChanged()
     }
 
 

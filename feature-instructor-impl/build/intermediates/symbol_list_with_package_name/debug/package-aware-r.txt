@@ -2819,6 +2819,7 @@ id navigation_bar_item_labels_group
 id navigation_bar_item_large_label_view
 id navigation_bar_item_small_label_view
 id navigation_header_container
+id no_instructors_found_tv
 id none
 id normal
 id notification_background
@@ -3079,7 +3080,6 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
-layout fragment_instructor
 layout fragment_instructors
 layout fragment_one_sport_instructors
 layout ime_base_split_test_activity
@@ -3389,6 +3389,7 @@ string name_must_be_at_least_two_characters
 string name_regex
 string name_sample
 string next
+string no_instructors_found
 string no_instructors_found_exception
 string no_user_with_such_email
 string number_of_ratings_sample

@@ -1,4 +1,4 @@
-package com.solopov.feature_instructor_impl.presentation.list.di
+package com.solopov.feature_instructor_impl.presentation.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.feature_instructor_api.domain.interfaces.InstructorInteractor
-import com.solopov.feature_instructor_impl.presentation.list.InstructorsViewModel
+import com.solopov.feature_instructor_impl.presentation.InstructorsViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
