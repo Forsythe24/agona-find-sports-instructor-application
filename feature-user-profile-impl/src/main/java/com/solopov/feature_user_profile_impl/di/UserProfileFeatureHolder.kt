@@ -1,5 +1,6 @@
 package com.solopov.feature_user_profile_impl.di
 
+import com.solopov.common.data.db.di.DbApi
 import com.solopov.common.data.firebase.di.FirebaseApi
 import com.solopov.common.di.FeatureApiHolder
 import com.solopov.common.di.FeatureContainer
@@ -20,6 +21,7 @@ class UserProfileFeatureHolder @Inject constructor(
     override fun initializeDependencies(): Any {
         val userProfileFeatureDependencies = DaggerUserProfileFeatureComponent_UserProfileFeatureDependenciesComponent.builder()
             .firebaseApi(getFeature(FirebaseApi::class.java))
+            .dbApi(getFeature(DbApi::class.java))
             .commonApi(commonApi())
             .build()
         return DaggerUserProfileFeatureComponent.builder()

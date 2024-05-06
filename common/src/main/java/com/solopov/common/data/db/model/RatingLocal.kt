@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "rating", indices = [Index(value = ["instructor_id", "user_id"], unique = true)])
 data class RatingLocal (
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    var id: Int?,
 
     @ColumnInfo(name = "instructor_id")
     val instructorId: String,

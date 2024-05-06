@@ -6,14 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
+import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.databinding.FragmentSignUpBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
 import com.solopov.common.utils.UserDataValidator
+import com.solopov.common.utils.runCatching
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,19 +43,21 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
             with(binding) {
                 finishSignUpBtn.setOnClickListener {
                     if (isValidForm()) {
-
                         createUser(
                             email = emailEt.text.toString(),
                             password = passwordEt.text.toString(),
                             name = nameEt.text.toString(),
                             age = ageEt.text.toString().toInt(),
                             gender = if (maleRb.isChecked) getString(R.string.male_gender) else getString(
-                                                            R.string.female_gender)
+                                R.string.female_gender)
                         )
+
                         router.goToInstructorsList()
+
                     } else {
                         showInvalidFormAlert()
                     }
+
                 }
 
                 emailEt.setOnFocusChangeListener {_, focused ->
@@ -84,12 +90,14 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
 
                 lifecycleScope.launch {
                     errorsChannel.consumeEach { error ->
+
                         val errorMessage = error.message ?: getString(R.string.unknown_error)
 
-                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+                        router.goToSignUpPage()
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                     }
-                }
 
+                }
             }
         }
     }

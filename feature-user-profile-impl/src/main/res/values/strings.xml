@@ -37,4 +37,6 @@
     <string name="current_and_new_passwords_are_identical_password_stayed_the_same">Current and new passwords are identical. Password stayed the same</string>
     <string name="file_uploading_error">File uploading error</string>
     <string name="uploading_went_wrong">Uploading the profile image went wrong. Please, try again</string>
+    <string name="rate">rate</string>
+    <string name="cancel">cancel</string>
 </resources>

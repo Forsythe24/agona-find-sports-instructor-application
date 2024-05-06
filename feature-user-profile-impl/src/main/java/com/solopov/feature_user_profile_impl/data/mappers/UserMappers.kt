@@ -59,6 +59,24 @@ class UserMappers @Inject constructor() {
         }
     }
 
+    fun mapUserProfileToUserCommon(user: UserProfile): UserCommon {
+        return with(user) {
+            UserCommon(
+                user.id,
+                name,
+                age,
+                gender,
+                sport,
+                photo,
+                experience,
+                description,
+                rating,
+                hourlyRate,
+                isInstructor
+            )
+        }
+    }
+
     fun mapUserToUserProfile(user: User): UserProfile {
         return with(user) {
             UserProfile(
@@ -98,6 +116,27 @@ class UserMappers @Inject constructor() {
             )
         }
     }
+
+    fun mapUserProfileToUserForRating(userProfile: UserProfile): User {
+        return with(userProfile) {
+            User(
+                id,
+                "",
+                "",
+                name,
+                age,
+                gender,
+                sport,
+                photo,
+                experience,
+                description,
+                rating,
+                hourlyRate,
+                isInstructor
+            )
+        }
+    }
+
 
     fun mapUserCommonToUserProfile(userCommon: UserCommon): UserProfile {
         return with(userCommon) {

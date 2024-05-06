@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.solopov.common.data.db.dao.RatingDao
 import com.solopov.common.data.db.dao.UserDao
+import com.solopov.common.data.db.model.RatingLocal
 import com.solopov.common.data.db.model.UserLocal
 
 private const val DATABASE_NAME = "app.db"
@@ -12,7 +14,8 @@ private const val DATABASE_NAME = "app.db"
 @Database(
     version = 1,
     entities = [
-        UserLocal::class
+        UserLocal::class,
+        RatingLocal::class,
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -26,4 +29,5 @@ abstract class AppDatabase : RoomDatabase() {
     }
 
     abstract fun userDao(): UserDao
+    abstract fun ratingDao(): RatingDao
 }
