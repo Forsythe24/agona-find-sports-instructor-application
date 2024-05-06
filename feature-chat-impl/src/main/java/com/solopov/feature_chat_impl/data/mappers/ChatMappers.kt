@@ -22,6 +22,16 @@ class ChatMappers @Inject constructor() {
         }
     }
 
+    fun mapChatItemToChatCommon(chat: ChatItem): ChatCommon {
+        return with(chat) {
+            ChatCommon(
+                userId,
+                name,
+                photo,
+            )
+        }
+    }
+
     fun mapChatToChatItem(chat: Chat): ChatItem {
         return with(chat) {
             ChatItem(

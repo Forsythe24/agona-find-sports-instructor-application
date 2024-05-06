@@ -76,7 +76,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
     private fun repeatCheckingMessagesForUpdates() {
         timer?.cancel()
-        val delay = (1 * 1000 - (System.currentTimeMillis() - lastTimeUpdatedMillis)).coerceIn(0, null)
+        val delay = (MESSAGE_UPDATE_INTERVAL - (System.currentTimeMillis() - lastTimeUpdatedMillis)).coerceIn(0, null)
 
         timer = Timer().apply {
             schedule (
@@ -89,7 +89,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                     }
                 },
                 delay,
-                1 * 1000
+                MESSAGE_UPDATE_INTERVAL
             )
         }
     }
@@ -182,10 +182,14 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
             if (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
                 && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR)) {
-                chatItem.userFriendlyLastMessageDate = "Yesterday"
+                chatItem.userFriendlyLastMessageDate = getString(com.solopov.feature_chat_impl.R.string.yesterday)
             }
         }
         return this
+    }
+
+    companion object {
+        private const val MESSAGE_UPDATE_INTERVAL = 1 * 1000L
     }
 
 }

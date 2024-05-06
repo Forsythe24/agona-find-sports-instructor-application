@@ -43,6 +43,7 @@ class UserProfileViewModel(
             runCatching(exceptionHandlerDelegate) {
                 interactor.getUserByUid(uid)
             }.onSuccess {
+                println(it)
                 _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
                 errorsChannel.send(it)
@@ -99,7 +100,7 @@ class UserProfileViewModel(
         }
     }
 
-    fun getAllInstructorRatingsById(
+    private fun getAllInstructorRatingsById(
         instructorId: String
     ) {
         viewModelScope.launch {

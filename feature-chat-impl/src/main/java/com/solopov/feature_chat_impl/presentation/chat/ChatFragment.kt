@@ -1,10 +1,10 @@
 package com.solopov.feature_chat_impl.presentation.chat
 
-import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
@@ -20,6 +20,7 @@ import com.solopov.common.utils.DateFormatter
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_chat_api.di.ChatFeatureApi
 import com.solopov.feature_chat_impl.ChatRouter
+import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
@@ -41,6 +42,9 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
     @Inject
     lateinit var router: ChatRouter
+
+    @Inject
+    lateinit var chatMappers: ChatMappers
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -110,6 +114,12 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                         receiver.photo?.let {
                             showImage(it, userImageIv)
                         }
+
+                        val onClickListener = OnClickListener {
+                            router.openUserProfile(chatMappers.mapChatItemToChatCommon(receiver))
+                        }
+                        userImageCv.setOnClickListener(onClickListener)
+                        receiverNameTv.setOnClickListener(onClickListener)
                     }
                 }
             }

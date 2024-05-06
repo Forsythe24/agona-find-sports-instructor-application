@@ -68,24 +68,39 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             arguments?.getSerializable(ParamsKey.USER) as UserCommon?
         }
 
-        if (user != null) {
+        val chat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getSerializable(ParamsKey.CHAT, ChatCommon::class.java)
+        } else {
+            arguments?.getSerializable(ParamsKey.CHAT) as ChatCommon?
+        }
 
-            with(binding) {
-                sendMessageBtn.setOnClickListener {
-                    router.openChat(
-                        ChatCommon(
-                            user.id,
-                            user.name,
-                            user.photo
-                        )
-                    )
-                }
+        if (user != null || chat != null) {
+            // we can get here either from instructors list, or from chat
+            val chatCommon: ChatCommon = if (user != null) {
+                viewModel.setUserProfile(user)
+                ChatCommon(
+                    user.id,
+                    user.name,
+                    user.photo
+                )
+
+            } else {
+                println("hey")
+                viewModel.getUserByUid(chat!!.userId)
+                chat
+            }
+
+            binding.sendMessageBtn.setOnClickListener {
+                router.openChat(
+                    chatCommon
+                )
             }
 
             hideProfileEditingViews()
-            viewModel.setUserProfile(user)
+
             viewModel.setCurrentUser()
         } else {
+            //if it's the current user's profile
             viewModel.setCurrentUserProfile()
             hideOtherUserSpecificViews()
         }
@@ -158,8 +173,10 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             }
 
             currentUserFlow.observe { user ->
-                if (user?.id == viewModel.userProfileFlow.value?.id) {
-                    hideOtherUserSpecificViews()
+                user?.let {
+                    if (user.id == viewModel.userProfileFlow.value?.id) {
+                        hideOtherUserSpecificViews()
+                    }
                 }
             }
 
