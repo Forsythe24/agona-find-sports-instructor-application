@@ -195,6 +195,19 @@
                 android:text="@string/instruct_others"
                 android:drawableEnd="@drawable/baseline_sports_24"/>
 
+            <RatingBar
+                android:id="@+id/instructor_rating_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_item_cv"
+                android:layout_marginTop="120dp"
+                android:layout_marginHorizontal="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5">
+
+            </RatingBar>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
