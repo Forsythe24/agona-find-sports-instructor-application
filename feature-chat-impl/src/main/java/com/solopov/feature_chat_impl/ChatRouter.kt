@@ -4,6 +4,7 @@ import com.solopov.common.model.ChatCommon
 
 interface ChatRouter {
 
+    fun goBack()
     fun openChat(chat: ChatCommon)
     fun openUserProfile(chat: ChatCommon)
 

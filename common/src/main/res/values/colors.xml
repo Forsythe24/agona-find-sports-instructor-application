@@ -11,6 +11,7 @@
     <color name="colorTextPrimary">#e6000000</color>
     <color name="colorTextSecondary">#88000000</color>
     <color name="black">#FF000000</color>
+    <color name="subtleBlack">#75000000</color>
     <color name="cultured">#F5F5F5</color>
     <color name="chinese_white">#E1E1E1</color>
     <color name="snow">#FFFAFA</color>

@@ -36,6 +36,10 @@ class UserProfileViewModel(
     val ratingsFlow: StateFlow<List<RatingUi>?>
         get() = _ratingsFlow
 
+    private val _progressBarFlow = MutableStateFlow(false)
+    val progressBarFlow: StateFlow<Boolean>
+        get() = _progressBarFlow
+
     val errorsChannel = Channel<Throwable>()
 
     fun getUserByUid(uid: String) {
@@ -129,13 +133,16 @@ class UserProfileViewModel(
     }
 
     fun uploadProfileImage(imageUri: Uri) {
+        _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.uploadProfileImage(imageUri.toString())
             }.onSuccess {
                 updateProfileImage(it)
+                _progressBarFlow.value = false
             }.onFailure {
                 errorsChannel.send(it)
+                _progressBarFlow.value = false
             }
         }
     }

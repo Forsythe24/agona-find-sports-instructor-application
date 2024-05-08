@@ -4,6 +4,7 @@ package com.solopov.feature_authentication_impl.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,9 +22,6 @@ import java.lang.String;
 public final class FragmentLogInBinding implements ViewBinding {
   @NonNull
   private final ConstraintLayout rootView;
-
-  @NonNull
-  public final TextView backTv;
 
   @NonNull
   public final TextInputEditText emailEt;
@@ -56,17 +54,19 @@ public final class FragmentLogInBinding implements ViewBinding {
   public final TextView passwordTv;
 
   @NonNull
+  public final ProgressBar progressBar;
+
+  @NonNull
   public final TextView signupLnk;
 
-  private FragmentLogInBinding(@NonNull ConstraintLayout rootView, @NonNull TextView backTv,
+  private FragmentLogInBinding(@NonNull ConstraintLayout rootView,
       @NonNull TextInputEditText emailEt, @NonNull TextInputLayout emailTextInput,
       @NonNull TextView emailTv, @NonNull TextView haveAccountQuestionTv,
       @NonNull MaterialButton logInBtn, @NonNull TextView logInIntoAccountTv,
       @NonNull TextView logInTv, @NonNull TextInputEditText passwordEt,
       @NonNull TextInputLayout passwordTextInput, @NonNull TextView passwordTv,
-      @NonNull TextView signupLnk) {
+      @NonNull ProgressBar progressBar, @NonNull TextView signupLnk) {
     this.rootView = rootView;
-    this.backTv = backTv;
     this.emailEt = emailEt;
     this.emailTextInput = emailTextInput;
     this.emailTv = emailTv;
@@ -77,6 +77,7 @@ public final class FragmentLogInBinding implements ViewBinding {
     this.passwordEt = passwordEt;
     this.passwordTextInput = passwordTextInput;
     this.passwordTv = passwordTv;
+    this.progressBar = progressBar;
     this.signupLnk = signupLnk;
   }
 
@@ -107,12 +108,6 @@ public final class FragmentLogInBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.back_tv;
-      TextView backTv = ViewBindings.findChildViewById(rootView, id);
-      if (backTv == null) {
-        break missingId;
-      }
-
       id = R.id.email_et;
       TextInputEditText emailEt = ViewBindings.findChildViewById(rootView, id);
       if (emailEt == null) {
@@ -173,15 +168,21 @@ public final class FragmentLogInBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.progressBar;
+      ProgressBar progressBar = ViewBindings.findChildViewById(rootView, id);
+      if (progressBar == null) {
+        break missingId;
+      }
+
       id = R.id.signup_lnk;
       TextView signupLnk = ViewBindings.findChildViewById(rootView, id);
       if (signupLnk == null) {
         break missingId;
       }
 
-      return new FragmentLogInBinding((ConstraintLayout) rootView, backTv, emailEt, emailTextInput,
-          emailTv, haveAccountQuestionTv, logInBtn, logInIntoAccountTv, logInTv, passwordEt,
-          passwordTextInput, passwordTv, signupLnk);
+      return new FragmentLogInBinding((ConstraintLayout) rootView, emailEt, emailTextInput, emailTv,
+          haveAccountQuestionTv, logInBtn, logInIntoAccountTv, logInTv, passwordEt,
+          passwordTextInput, passwordTv, progressBar, signupLnk);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

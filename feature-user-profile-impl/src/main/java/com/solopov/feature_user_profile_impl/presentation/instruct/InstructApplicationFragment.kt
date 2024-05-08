@@ -5,31 +5,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.com.solopov.feature_user_profile_impl.R
 import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentInstructApplicationBinding
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
-import com.solopov.common.model.UserCommon
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
-import com.solopov.feature_user_profile_api.domain.model.User
+import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>() {
     private lateinit var binding: FragmentInstructApplicationBinding
+
+    @Inject
+    lateinit var router: UserProfileRouter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +49,10 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
         setSportsTypeDropDownMenuAdapter()
 
         with(binding) {
+
+            backBtn.setOnClickListener {
+                router.goBack()
+            }
 
             hourlyRateSb.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
@@ -91,11 +97,16 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
                     it.hourlyRate = hourlyRateSb.progress.toFloat()
                     it.isInstructor = true
 
-                    viewModel.updateUser(it)
+                    viewModel.updateUser(it, ::onUserUpdatedCallback)
                 }
             }
 
         }
+    }
+
+    private fun onUserUpdatedCallback() {
+        router.goBack()
+        Snackbar.make(binding.root, getString(R.string.your_instructor_s_bio_has_been_successfully_saved), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun getSportsTypeDrawableId(index: Int): Int =
@@ -153,6 +164,11 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
     }
 
     override fun subscribe(viewModel: InstructApplicationViewModel) {
+
+        viewModel.progressBarFlow.observe { isLoading ->
+            binding.progressBar.isVisible = isLoading
+        }
+
         lifecycleScope.launch {
             viewModel.errorsChannel.consumeEach { error ->
                 val errorMessage = error.message ?: getString(R.string.unknown_error)

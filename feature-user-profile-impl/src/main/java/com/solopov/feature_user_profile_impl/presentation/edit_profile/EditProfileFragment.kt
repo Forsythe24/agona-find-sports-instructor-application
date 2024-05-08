@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -27,6 +28,8 @@ import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 
@@ -58,6 +61,10 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
     override fun initViews() {
         with(binding) {
 
+            backBtn.setOnClickListener {
+                router.goBack()
+            }
+
             saveBtn.setOnClickListener {
 
                 ageTextInput.helperText = userDataValidator.validateAge(ageEt.text.toString())
@@ -68,7 +75,7 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
                         it.name = nameEt.text.toString()
                         it.age = ageEt.text.toString().toInt()
                         it.gender = if (maleRb.isChecked) "M" else "F"
-                        viewModel.updateUser(it)
+                        viewModel.updateUser(it, ::onUserUpdatedCallback)
                         viewModel.setCurrentUser(it)
                     }
                 }
@@ -93,6 +100,11 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
         extractUserArgument()?.let {
             viewModel.setCurrentUser(it)
         }
+    }
+
+    private fun onUserUpdatedCallback() {
+        router.goBack()
+        Snackbar.make(binding.root, getString(R.string.your_data_has_been_successfully_saved), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun initDialogViews() {
@@ -140,20 +152,22 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
                 if (potentialNewPassword != currentUser?.password) {
                     currentUser?.let {
                         it.password = potentialNewPassword
-                        viewModel.updateUser(it)
+                        viewModel.updateUser(it, ::onPasswordChangedCallback)
                         viewModel.updateUserPassword(potentialNewPassword)
                     }
 
                     dialog.hide()
-
-                    Snackbar.make(binding.root, getString(R.string.password_has_been_successfully_changed), Snackbar.LENGTH_SHORT).show()
                 } else {
                     dialog.hide()
 
-                    Snackbar.make(binding.root, getString(R.string.current_and_new_passwords_are_identical_password_stayed_the_same), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.current_and_new_passwords_are_identical_password_stayed_the_same), Snackbar.LENGTH_LONG).show()
                 }
             }
         }
+    }
+
+    private fun onPasswordChangedCallback() {
+        Snackbar.make(binding.root, getString(R.string.password_has_been_successfully_saved), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun extractUserArgument(): UserProfile? {
@@ -174,30 +188,37 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
     }
 
     override fun subscribe(viewModel: EditProfileViewModel) {
-        viewModel.editProfileFlow.observe { userProfile ->
-            currentUser = userProfile
+        with(viewModel) {
+            editProfileFlow.observe { userProfile ->
+                currentUser = userProfile
 
-            with(binding) {
+                with(binding) {
 
-                userProfile?.let { user ->
-                    nameEt.setText(user.name)
-                    ageEt.setText(user.age.toString())
-                    if (user.gender == "M") {
-                        maleRb.isChecked = true
-                    } else {
-                        femaleRb.isChecked = true
-                    }
+                    userProfile?.let { user ->
+                        nameEt.setText(user.name)
+                        ageEt.setText(user.age.toString())
+                        if (user.gender == "M") {
+                            maleRb.isChecked = true
+                        } else {
+                            femaleRb.isChecked = true
+                        }
 
-                    if (user.isInstructor.not()) {
-                        instructorsBioBtn.visibility = GONE
-                    }
+                        if (user.isInstructor.not()) {
+                            instructorsBioBtn.visibility = GONE
+                        }
 
-                    instructorsBioBtn.setOnClickListener {
-                        router.goToInstructApplication(user)
+                        instructorsBioBtn.setOnClickListener {
+                            router.goToInstructApplication(user)
+                        }
                     }
                 }
             }
+
+            progressBarFlow.observe { isLoading ->
+                binding.progressBar.isVisible = isLoading
+            }
         }
+
     }
 
 }

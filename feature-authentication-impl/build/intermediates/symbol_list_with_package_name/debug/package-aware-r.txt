@@ -1727,6 +1727,7 @@ color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
 color snow
+color subtleBlack
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
 color switch_thumb_material_dark
@@ -2433,6 +2434,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable baseline_arrow_back_24
 drawable baseline_heart_broken_24
 drawable baseline_keyboard_arrow_left_24
 drawable btn_checkbox_checked_mtrl
@@ -2629,7 +2631,7 @@ id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
 id backImg
-id back_tv
+id back_btn
 id background
 id barrier
 id baseline
@@ -2854,6 +2856,7 @@ id pin
 id position
 id postLayout
 id progress
+id progressBar
 id progress_circular
 id progress_horizontal
 id radio
@@ -3398,6 +3401,8 @@ string next
 string no_instructors_found_exception
 string no_user_with_such_email
 string number_of_ratings_sample
+string number_of_ratings_template
+string numberofratings
 string password
 string password_lower
 string password_must_not_be_empty
@@ -3414,6 +3419,7 @@ string photo_lower
 string please_log_in_into_your_account
 string profile_image_file_path_template
 string profile_image_upload_date_format
+string rating
 string rating_lower
 string rating_sample
 string rating_template

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
@@ -41,6 +42,10 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
 
         with (viewModel) {
             with(binding) {
+                backBtn.setOnClickListener {
+                    router.goBack()
+                }
+
                 finishSignUpBtn.setOnClickListener {
                     if (isValidForm()) {
                         createUser(
@@ -139,6 +144,9 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
     }
 
     override fun subscribe(viewModel: SignUpViewModel) {
+        viewModel.progressBarFlow.observe { isLoading ->
+            binding.progressBar.isVisible = isLoading
+        }
     }
 
 }

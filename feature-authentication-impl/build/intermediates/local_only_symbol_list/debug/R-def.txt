@@ -7,7 +7,7 @@ drawable ic_launcher_foreground
 id age_et
 id age_text_input
 id age_tv
-id back_tv
+id back_btn
 id create_account_tv
 id email_et
 id email_text_input
@@ -27,6 +27,7 @@ id name_tv
 id password_et
 id password_text_input
 id password_tv
+id progressBar
 id sign_up_tv
 id signup_lnk
 layout fragment_log_in

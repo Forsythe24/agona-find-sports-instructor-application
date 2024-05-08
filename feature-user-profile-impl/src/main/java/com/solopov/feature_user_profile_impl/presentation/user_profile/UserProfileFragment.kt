@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.RatingBar.OnRatingBarChangeListener
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.solopov.com.solopov.feature_user_profile_impl.R
@@ -107,6 +108,10 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     private fun initListeners() {
         with(binding) {
+            backBtn.setOnClickListener {
+                router.goBack()
+            }
+
             imageSearchIv.setOnClickListener {
                 selectImage()
             }
@@ -185,6 +190,10 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
             }
 
+            progressBarFlow.observe { isLoading ->
+                binding.progressBar.isVisible = isLoading
+            }
+
             lifecycleScope.launch {
                 errorsChannel.consumeEach { error ->
                     val errorMessage = error.message ?: getString(R.string.unknown_error)
@@ -227,24 +236,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             val newRating = ratingsSum / if (allRatings.isEmpty()) 1 else newNumberOfRatings
 
             viewModel.userProfileFlow.value?.let {
-                val newUserProfile = with(it) {
-                    UserProfile(
-                        id = id,
-                        email = email,
-                        password = password,
-                        name = name,
-                        age = age,
-                        gender = gender,
-                        sport = sport,
-                        photo = photo,
-                        experience = experience,
-                        description = description,
-                        rating = newRating,
-                        numberOfRatings = newNumberOfRatings,
-                        hourlyRate = hourlyRate,
-                        isInstructor = isInstructor
-                    )
-                }
+                val newUserProfile = it.copy(rating = newRating, numberOfRatings = newNumberOfRatings)
 
                 viewModel.updateUserRating(newUserProfile)
                 viewModel.setUserProfile(userMappers.mapUserProfileToUserCommon(newUserProfile))
@@ -267,7 +259,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                     showImage(photo!!, userIv)
                 }
                 rating?.let { rating ->
-                    ratingTv.text = resources.getString(R.string.rating_template).format(rating)
+                    ratingTv.text = getString(R.string.rating_template).format(rating)
                 }
                 hourlyRate?.let { hourlyRate ->
                     hourlyRateTv.text =
@@ -281,8 +273,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
 
                 numberOfRatings?.let { numberOfRatings ->
-                    numberOfRatingsTv.text = numberOfRatings.toString()
-
+                    numberOfRatingsTv.text = getString(R.string.number_of_ratings_template).format(numberOfRatings)
                 }
             }
         }
@@ -319,6 +310,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         with(binding) {
             sendMessageBtn.visibility = GONE
             instructorRatingBar.visibility = GONE
+            backBtn.visibility = GONE
         }
     }
 

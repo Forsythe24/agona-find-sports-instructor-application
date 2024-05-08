@@ -24,6 +24,8 @@ import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
+import com.solopov.feature_chat_impl.presentation.chat_list.ChatsFragment
+import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -58,8 +60,56 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     }
 
     override fun initViews() {
-        viewBinding.chatRv.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        with(viewBinding) {
+            chatRv.layoutManager =
+                LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+            backBtn.setOnClickListener {
+                router.goBack()
+            }
+        }
+
+
+    }
+
+    override fun onStart() {
+        repeatCheckingMessagesForUpdates()
+        super.onStart()
+    }
+
+    override fun onStop() {
+        viewModel.stopRepeatWork()
+        super.onStop()
+    }
+    // фото через crop
+
+    private fun repeatCheckingMessagesForUpdates() {
+
+        viewModel.let { vm ->
+            vm.doRepeatWork(
+                MESSAGE_UPDATE_INTERVAL
+            ) {
+                getMessages()
+            }
+        }
+
+
+    }
+
+    private fun getMessages() {
+        val sender = viewModel.senderFlow.value
+        val receiver = viewModel.receiverFlow.value
+
+        if (receiver != null && sender != null) {
+
+            val receiverId = receiver.userId
+            senderId = sender.userId
+
+            val senderRoomId = senderId + receiverId
+
+            // viewModel.getRecentMessages()
+            viewModel.downloadMessages(senderId, senderRoomId)
+        }
     }
 
 
@@ -132,17 +182,10 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                     if (receiver != null && sender != null) {
 
                         val receiverId = receiver.userId
-
                         senderId = sender.userId
 
                         val senderRoomId = senderId + receiverId
-
                         val receiverRoomId = receiverId + senderId
-
-
-                        viewModel.downloadMessages(senderId, senderRoomId)
-//                      viewModel.getRecentMessages()
-
 
                         sendBtn.setOnClickListener {
 
@@ -160,7 +203,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                                 updateMessagesWithRespectToDate()
 
                                 viewBinding.chatRv.smoothScrollToPosition(adapter.itemCount)
-
                             }
                         }
                     }
@@ -263,6 +305,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     }
 
     private fun showImage(url: String, imageView: ImageView) {
-        Glide.with(requireContext()).load(url).into(imageView)
+        Glide.with(requireContext()).load(url).optionalCircleCrop().into(imageView)
     }
 }

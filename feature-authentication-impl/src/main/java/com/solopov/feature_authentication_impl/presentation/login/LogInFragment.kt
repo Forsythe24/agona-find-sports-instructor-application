@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.data.firebase.exceptions.AuthenticationException
@@ -79,9 +80,15 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
     }
 
     override fun subscribe(viewModel: LogInViewModel) {
-        viewModel.authenticationResultFlow.observe {
-            if (it) {
-                router.goToUserProfile()
+        with(viewModel) {
+            authenticationResultFlow.observe {
+                if (it) {
+                    router.goToUserProfile()
+                }
+            }
+
+            progressBarFlow.observe { isLoading ->
+                binding.progressBar.isVisible = isLoading
             }
         }
     }

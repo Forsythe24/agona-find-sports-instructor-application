@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,8 @@ import com.solopov.feature_chat_impl.databinding.FragmentChatListBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
+import com.solopov.feature_chat_impl.utils.Constants
+import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -45,10 +48,6 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
     @Inject
     lateinit var dateFormatter: DateFormatter
 
-    private var timer: Timer? = null
-    private var lastTimeUpdatedMillis = 0L
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,7 +64,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
 
     override fun onStop() {
-        timer?.cancel()
+        viewModel.stopRepeatWork()
         super.onStop()
     }
 
@@ -75,23 +74,17 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
     }
 
     private fun repeatCheckingMessagesForUpdates() {
-        timer?.cancel()
-        val delay = (MESSAGE_UPDATE_INTERVAL - (System.currentTimeMillis() - lastTimeUpdatedMillis)).coerceIn(0, null)
-
-        timer = Timer().apply {
-            schedule (
-                object : TimerTask() {
-                    override fun run() {
-                        viewModel.userFlow.value?.let {
-                            viewModel.getAllChatsByUserId(it.userId)
-                        }
-                        lastTimeUpdatedMillis = System.currentTimeMillis()
-                    }
-                },
-                delay,
+        viewModel.let { vm ->
+            vm.doRepeatWork(
                 MESSAGE_UPDATE_INTERVAL
-            )
+            ) {
+                vm.userFlow.value?.let {
+                    vm.getAllChatsByUserId(it.userId)
+                }
+            }
         }
+
+
     }
 
     private fun initUser() = viewModel.setUser()
@@ -99,7 +92,8 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
     private fun initChats(userId: String) = viewModel.getAllChatsByUserId(userId)
 
     override fun initViews() {
-        viewBinding.chatsRv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        viewBinding.chatsRv.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
     }
 
@@ -110,13 +104,6 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
             }
             (chatsRv.adapter as ChatsAdapter).submitList(chats)
         }
-    }
-
-    private fun showImage(url: String, imageView: ImageView) {
-        Glide.with(requireContext())
-            .load(url)
-            .into(imageView)
-
     }
 
     private fun onItemClicked(chat: ChatItem) {
@@ -130,6 +117,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
             )
         }
     }
+
     override fun inject() {
         FeatureUtils.getFeature<ChatFeatureComponent>(this, ChatFeatureApi::class.java)
             .chatsComponentFactory().create(this).inject(this)
@@ -149,6 +137,10 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                 }
             }
 
+//            progressBarFlow.observe { isLoading ->
+//                viewBinding.progressBar.isVisible = isLoading
+//
+//            }
 
 
             lifecycleScope.launch {
@@ -161,6 +153,14 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
         }
     }
 
+    private fun showImage(url: String, imageView: ImageView) {
+        Glide.with(requireContext())
+            .load(url)
+            .optionalCircleCrop()
+            .into(imageView)
+
+    }
+
     private fun List<ChatItem>.date(): List<ChatItem> {
 
         this.map { chatItem ->
@@ -170,7 +170,8 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
             val todayDateString = dateFormatter.formatDate(now)
 
             if (dateString == todayDateString) {
-                chatItem.userFriendlyLastMessageDate = dateFormatter.formatDateTime(date).split(" ")[1]
+                chatItem.userFriendlyLastMessageDate =
+                    dateFormatter.formatDateTime(date).split(" ")[1]
             }
 
             val c1 = Calendar.getInstance();
@@ -180,15 +181,12 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
             c2.time = date;
 
             if (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
-                && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR)) {
-                chatItem.userFriendlyLastMessageDate = getString(com.solopov.feature_chat_impl.R.string.yesterday)
+                && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR)
+            ) {
+                chatItem.userFriendlyLastMessageDate =
+                    getString(com.solopov.feature_chat_impl.R.string.yesterday)
             }
         }
         return this
     }
-
-    companion object {
-        private const val MESSAGE_UPDATE_INTERVAL = 1 * 1000L
-    }
-
 }

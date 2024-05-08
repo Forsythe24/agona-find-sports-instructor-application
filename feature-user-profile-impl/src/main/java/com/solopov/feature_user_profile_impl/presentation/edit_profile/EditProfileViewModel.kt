@@ -24,18 +24,26 @@ class EditProfileViewModel @Inject constructor(
     val editProfileFlow: StateFlow<UserProfile?>
         get() = _editProfileFlow
 
+    private val _progressBarFlow = MutableStateFlow(false)
+    val progressBarFlow: StateFlow<Boolean>
+        get() = _progressBarFlow
+
     val errorsChannel = Channel<Throwable>()
 
     fun updateUser(
-        userProfile: UserProfile
+        userProfile: UserProfile,
+        onUserUpdated: () -> Unit
     ) {
+        _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.updateUser(mappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
-
+                onUserUpdated()
+                _progressBarFlow.value = false
             }.onFailure {
                 errorsChannel.send(it)
+                _progressBarFlow.value = false
             }
         }
     }

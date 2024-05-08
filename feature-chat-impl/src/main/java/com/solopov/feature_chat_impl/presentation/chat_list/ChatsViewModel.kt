@@ -26,15 +26,26 @@ class ChatsViewModel(
     private val _userFlow = MutableStateFlow<ChatItem?>(null)
     val userFlow: StateFlow<ChatItem?>
         get() = _userFlow
-    
+
+
+    private val _progressBarFlow = MutableStateFlow(false)
+    val progressBarFlow: StateFlow<Boolean>
+        get() = _progressBarFlow
+
+
+
+
     fun getAllChatsByUserId(userId: String) {
+        _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.getAllChatsByUserId(userId)
             }.onSuccess {
                 _chatsFlow.value = it.map(chatMappers::mapChatToChatItem)
+                _progressBarFlow.value = false
             }.onFailure {
                 errorsChannel.send(it)
+                _progressBarFlow.value = false
             }
         }
 

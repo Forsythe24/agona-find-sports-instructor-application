@@ -1726,6 +1726,7 @@ int color secondary_text_default_material_light 0x0
 int color secondary_text_disabled_material_dark 0x0
 int color secondary_text_disabled_material_light 0x0
 int color snow 0x0
+int color subtleBlack 0x0
 int color switch_thumb_disabled_material_dark 0x0
 int color switch_thumb_disabled_material_light 0x0
 int color switch_thumb_material_dark 0x0
@@ -2432,6 +2433,7 @@ int drawable abc_textfield_search_material 0x0
 int drawable abc_vector_test 0x0
 int drawable avd_hide_password 0x0
 int drawable avd_show_password 0x0
+int drawable baseline_arrow_back_24 0x0
 int drawable baseline_heart_broken_24 0x0
 int drawable baseline_keyboard_arrow_left_24 0x0
 int drawable btn_checkbox_checked_mtrl 0x0
@@ -2628,7 +2630,7 @@ int id autoComplete 0x0
 int id autoCompleteToEnd 0x0
 int id autoCompleteToStart 0x0
 int id backImg 0x0
-int id back_tv 0x0
+int id back_btn 0x0
 int id background 0x0
 int id barrier 0x0
 int id baseline 0x0
@@ -2853,6 +2855,7 @@ int id pin 0x0
 int id position 0x0
 int id postLayout 0x0
 int id progress 0x0
+int id progressBar 0x0
 int id progress_circular 0x0
 int id progress_horizontal 0x0
 int id radio 0x0
@@ -3397,6 +3400,8 @@ int string next 0x0
 int string no_instructors_found_exception 0x0
 int string no_user_with_such_email 0x0
 int string number_of_ratings_sample 0x0
+int string number_of_ratings_template 0x0
+int string numberofratings 0x0
 int string password 0x0
 int string password_lower 0x0
 int string password_must_not_be_empty 0x0
@@ -3413,6 +3418,7 @@ int string photo_lower 0x0
 int string please_log_in_into_your_account 0x0
 int string profile_image_file_path_template 0x0
 int string profile_image_upload_date_format 0x0
+int string rating 0x0
 int string rating_lower 0x0
 int string rating_sample 0x0
 int string rating_template 0x0

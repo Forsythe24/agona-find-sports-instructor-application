@@ -33,10 +33,13 @@
     <string name="wrong_password">Wrong password</string>
     <string name="new_password_header">New password</string>
     <string name="submit">submit</string>
-    <string name="password_has_been_successfully_changed">Password has been successfully changed</string>
+    <string name="password_has_been_successfully_saved">Password has been successfully saved</string>
     <string name="current_and_new_passwords_are_identical_password_stayed_the_same">Current and new passwords are identical. Password stayed the same</string>
     <string name="file_uploading_error">File uploading error</string>
     <string name="uploading_went_wrong">Uploading the profile image went wrong. Please, try again</string>
     <string name="rate">rate</string>
     <string name="cancel">cancel</string>
+    <string name="your_data_has_been_successfully_saved">Your data has been successfully saved</string>
+    <string name="your_instructor_s_bio_has_been_successfully_saved">Your instructor\'s bio has been successfully saved</string>
+    <string name="describe_your_unique_way_of_training">Describe your unique way of training</string>
 </resources>

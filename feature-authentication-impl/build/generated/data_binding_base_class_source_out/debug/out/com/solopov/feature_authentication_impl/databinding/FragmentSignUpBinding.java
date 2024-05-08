@@ -4,11 +4,13 @@ package com.solopov.feature_authentication_impl.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
@@ -34,7 +36,7 @@ public final class FragmentSignUpBinding implements ViewBinding {
   public final TextView ageTv;
 
   @NonNull
-  public final TextView backTv;
+  public final AppCompatImageButton backBtn;
 
   @NonNull
   public final TextView createAccountTv;
@@ -82,23 +84,27 @@ public final class FragmentSignUpBinding implements ViewBinding {
   public final TextView passwordTv;
 
   @NonNull
+  public final ProgressBar progressBar;
+
+  @NonNull
   public final TextView signUpTv;
 
   private FragmentSignUpBinding(@NonNull ConstraintLayout rootView,
       @NonNull TextInputEditText ageEt, @NonNull TextInputLayout ageTextInput,
-      @NonNull TextView ageTv, @NonNull TextView backTv, @NonNull TextView createAccountTv,
-      @NonNull TextInputEditText emailEt, @NonNull TextInputLayout emailTextInput,
-      @NonNull TextView emailTv, @NonNull RadioButton femaleRb,
-      @NonNull MaterialButton finishSignUpBtn, @NonNull RadioGroup genderRg,
-      @NonNull TextView genderTv, @NonNull RadioButton maleRb, @NonNull TextInputEditText nameEt,
-      @NonNull TextInputLayout nameTextInput, @NonNull TextView nameTv,
-      @NonNull TextInputEditText passwordEt, @NonNull TextInputLayout passwordTextInput,
-      @NonNull TextView passwordTv, @NonNull TextView signUpTv) {
+      @NonNull TextView ageTv, @NonNull AppCompatImageButton backBtn,
+      @NonNull TextView createAccountTv, @NonNull TextInputEditText emailEt,
+      @NonNull TextInputLayout emailTextInput, @NonNull TextView emailTv,
+      @NonNull RadioButton femaleRb, @NonNull MaterialButton finishSignUpBtn,
+      @NonNull RadioGroup genderRg, @NonNull TextView genderTv, @NonNull RadioButton maleRb,
+      @NonNull TextInputEditText nameEt, @NonNull TextInputLayout nameTextInput,
+      @NonNull TextView nameTv, @NonNull TextInputEditText passwordEt,
+      @NonNull TextInputLayout passwordTextInput, @NonNull TextView passwordTv,
+      @NonNull ProgressBar progressBar, @NonNull TextView signUpTv) {
     this.rootView = rootView;
     this.ageEt = ageEt;
     this.ageTextInput = ageTextInput;
     this.ageTv = ageTv;
-    this.backTv = backTv;
+    this.backBtn = backBtn;
     this.createAccountTv = createAccountTv;
     this.emailEt = emailEt;
     this.emailTextInput = emailTextInput;
@@ -114,6 +120,7 @@ public final class FragmentSignUpBinding implements ViewBinding {
     this.passwordEt = passwordEt;
     this.passwordTextInput = passwordTextInput;
     this.passwordTv = passwordTv;
+    this.progressBar = progressBar;
     this.signUpTv = signUpTv;
   }
 
@@ -162,9 +169,9 @@ public final class FragmentSignUpBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.back_tv;
-      TextView backTv = ViewBindings.findChildViewById(rootView, id);
-      if (backTv == null) {
+      id = R.id.back_btn;
+      AppCompatImageButton backBtn = ViewBindings.findChildViewById(rootView, id);
+      if (backBtn == null) {
         break missingId;
       }
 
@@ -258,6 +265,12 @@ public final class FragmentSignUpBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.progressBar;
+      ProgressBar progressBar = ViewBindings.findChildViewById(rootView, id);
+      if (progressBar == null) {
+        break missingId;
+      }
+
       id = R.id.sign_up_tv;
       TextView signUpTv = ViewBindings.findChildViewById(rootView, id);
       if (signUpTv == null) {
@@ -265,9 +278,9 @@ public final class FragmentSignUpBinding implements ViewBinding {
       }
 
       return new FragmentSignUpBinding((ConstraintLayout) rootView, ageEt, ageTextInput, ageTv,
-          backTv, createAccountTv, emailEt, emailTextInput, emailTv, femaleRb, finishSignUpBtn,
+          backBtn, createAccountTv, emailEt, emailTextInput, emailTv, femaleRb, finishSignUpBtn,
           genderRg, genderTv, maleRb, nameEt, nameTextInput, nameTv, passwordEt, passwordTextInput,
-          passwordTv, signUpTv);
+          passwordTv, progressBar, signUpTv);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
