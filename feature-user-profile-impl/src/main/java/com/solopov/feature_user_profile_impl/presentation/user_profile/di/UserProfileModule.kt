@@ -8,6 +8,7 @@ import com.solopov.feature_user_profile_impl.presentation.user_profile.UserProfi
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
+import com.solopov.feature_user_profile_impl.data.mappers.RatingMappers
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import dagger.Module
 import dagger.Provides
@@ -28,7 +29,7 @@ class UserProfileModule {
     @Provides
     @IntoMap
     @ViewModelKey(UserProfileViewModel::class)
-    fun provideInstructorViewModel(interactor: UserProfileInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, userMappers: UserMappers): ViewModel {
-        return UserProfileViewModel(interactor, exceptionHandlerDelegate, userMappers)
+    fun provideInstructorViewModel(interactor: UserProfileInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, userMappers: UserMappers, ratingMappers: RatingMappers): ViewModel {
+        return UserProfileViewModel(interactor, exceptionHandlerDelegate, userMappers, ratingMappers)
     }
 }

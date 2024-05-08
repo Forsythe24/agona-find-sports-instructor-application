@@ -166,6 +166,7 @@
                 android:gravity="start"
                 android:text="@string/description_sample"
                 android:textSize="16sp"
+                android:maxLines="6"
                 app:layout_constraintStart_toStartOf="@id/user_item_cv"
                 app:layout_constraintTop_toBottomOf="@id/user_item_cv" />
 
@@ -200,7 +201,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/user_item_cv"
-                android:layout_marginTop="120dp"
+                android:layout_marginTop="140dp"
                 android:layout_marginHorizontal="64dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -223,7 +224,8 @@
         android:textColor="@color/white"
         android:fontFamily="@font/inter_semibold"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="96dp"/>
+        android:layout_marginBottom="108dp"
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/send_message_btn"
@@ -237,7 +239,40 @@
         android:textColor="@color/white"
         android:fontFamily="@font/inter_semibold"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="96dp"
-        android:drawableTint="@color/white"
-        android:drawableEnd="@drawable/baseline_message_24"/>
+        android:layout_marginBottom="108dp"
+        android:drawableEnd="@drawable/baseline_message_24" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_btn"
+        style="@style/DefaultButton"
+        android:backgroundTint="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="96dp"
+        android:layout_marginTop="36dp"
+        android:paddingHorizontal="12dp"
+        android:text="@string/cancel"
+        android:drawableEnd="@drawable/baseline_cancel_24"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:fontFamily="@font/inter_semibold"
+        android:layout_gravity="bottom|start"
+        android:layout_marginBottom="108dp"
+        android:visibility="gone"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rate_btn"
+        style="@style/DefaultButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="96dp"
+        android:layout_marginTop="36dp"
+        android:paddingHorizontal="12dp"
+        android:text="@string/rate"
+        android:visibility="gone"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:fontFamily="@font/inter_semibold"
+        android:drawableEnd="@drawable/baseline_stars_24"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="108dp"/>
 </FrameLayout>

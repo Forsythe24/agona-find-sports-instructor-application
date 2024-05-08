@@ -2433,6 +2433,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable baseline_heart_broken_24
 drawable baseline_keyboard_arrow_left_24
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
@@ -2532,6 +2533,10 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable outline_heart_broken_24
+drawable rating_bar_empty
+drawable rating_bar_filled
+drawable rating_bar_full
 drawable selectable_background
 drawable shadow
 drawable test_custom_background
@@ -2625,6 +2630,7 @@ id autoCompleteToEnd
 id autoCompleteToStart
 id backImg
 id back_tv
+id background
 id barrier
 id baseline
 id blocking
@@ -2847,6 +2853,7 @@ id percent
 id pin
 id position
 id postLayout
+id progress
 id progress_circular
 id progress_horizontal
 id radio
@@ -2878,6 +2885,7 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id secondaryProgress
 id select_dialog_listview
 id selected
 id selection_type
@@ -3266,6 +3274,7 @@ string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string failed_save_message_exception
+string failed_to_rate_this_user
 string fallback_menu_item_copy_link
 string fallback_menu_item_open_in_browser
 string fallback_menu_item_share_link
@@ -4493,6 +4502,7 @@ style Widget_MaterialComponents_Toolbar_PrimarySurface
 style Widget_MaterialComponents_Toolbar_Surface
 style Widget_MaterialComponents_Tooltip
 style Widget_Support_CoordinatorLayout
+style ratingBar
 styleable ActionBar background backgroundSplit backgroundStacked contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation customNavigationLayout displayOptions divider elevation height hideOnContentScroll homeAsUpIndicator homeLayout icon indeterminateProgressStyle itemPadding logo navigationMode popupTheme progressBarPadding progressBarStyle subtitle subtitleTextStyle title titleTextStyle
 styleable ActionBarLayout android_layout_gravity
 styleable ActionMenuItemView android_minWidth

@@ -4,6 +4,8 @@ import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInterac
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileRepository
 import com.solopov.feature_user_profile_impl.data.repository.UserProfileRepositoryImpl
 import com.solopov.common.di.scope.FeatureScope
+import com.solopov.feature_user_profile_api.domain.interfaces.RatingRepository
+import com.solopov.feature_user_profile_impl.data.repository.RatingRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.Dispatchers
@@ -15,9 +17,10 @@ class UserProfileFeatureModule {
     @FeatureScope
     fun provideUserProfileRepository(repository: UserProfileRepositoryImpl): UserProfileRepository = repository
 
-
-
     @Provides
     @FeatureScope
-    fun provideUserProfileInteractor(repository: UserProfileRepository): UserProfileInteractor = UserProfileInteractor(repository, Dispatchers.IO)
+    fun provideRatingRepository(repository: RatingRepositoryImpl): RatingRepository = repository
+    @Provides
+    @FeatureScope
+    fun provideUserProfileInteractor(userProfileRepository: UserProfileRepository, ratingRepository: RatingRepository): UserProfileInteractor = UserProfileInteractor(userProfileRepository, ratingRepository, Dispatchers.IO)
 }

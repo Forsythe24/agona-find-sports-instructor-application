@@ -45,6 +45,10 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
         navController?.navigate(R.id.chatFragment, bundleOf(ParamsKey.CHAT to chat))
     }
 
+    override fun openUserProfile(chat: ChatCommon) {
+        navController?.navigate(R.id.userProfileFragment, bundleOf(ParamsKey.CHAT to chat))
+    }
+
     override fun goToSignUpPage() {
         navController?.navigate(R.id.signUpFragment)
     }

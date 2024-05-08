@@ -5,10 +5,11 @@ import com.solopov.common.base.BaseViewModel
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SignUpViewModel @Inject constructor(

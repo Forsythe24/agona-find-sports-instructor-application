@@ -16,5 +16,5 @@ abstract class RatingDao {
     abstract fun getRatingByUserAndInstructorIds(userId: String, instructorId: String): RatingLocal?
 
     @Query("SELECT * FROM rating WHERE instructor_id = :instructorId")
-    abstract fun getAllInstructorRatings(instructorId: String): List<RatingLocal>?
+    abstract fun getAllInstructorRatingsById(instructorId: String): List<RatingLocal>?
 }

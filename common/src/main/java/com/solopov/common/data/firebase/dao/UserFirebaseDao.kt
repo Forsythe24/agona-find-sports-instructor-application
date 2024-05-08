@@ -145,6 +145,7 @@ class UserFirebaseDao @Inject constructor(
             hourlyRate?.let { userDetails.put(resManager.getString(R.string.hourlyrate), it) }
             photo?.let { userDetails.put(resManager.getString(R.string.photo), it) }
             sport?.let { userDetails.put(resManager.getString(R.string.sport), it) }
+            rating?.let { userDetails.put("rating", it) }
 
             userDetails[resManager.getString(R.string.instructor)] = isInstructor
             userDetails[resManager.getString(R.string.name_lower)] = name
@@ -152,6 +153,7 @@ class UserFirebaseDao @Inject constructor(
             userDetails["age"] = age
             userDetails["password"] = password
         }
+
         runCatching(exceptionHandlerDelegate) {
             dbReference.child(resManager.getString(R.string.user)).child(user.id)
                 .updateChildren(userDetails).addOnCompleteListener { }.await()
@@ -159,6 +161,23 @@ class UserFirebaseDao @Inject constructor(
             return
         }.onFailure {
             throw UserDataUpdateFailedException(resManager.getString(R.string.user_data_update_failed_exception))
+        }
+    }
+
+    suspend fun updateUserRating(user: UserFirebase) {
+
+        val userDetails = HashMap<String, Any>()
+        with(user) {
+            rating?.let { userDetails.put("rating", it) }
+        }
+
+        runCatching(exceptionHandlerDelegate) {
+            dbReference.child(resManager.getString(R.string.user)).child(user.id)
+                .updateChildren(userDetails).addOnCompleteListener { }.await()
+        }.onSuccess {
+            return
+        }.onFailure {
+            throw UserDataUpdateFailedException(resManager.getString(R.string.failed_to_rate_this_user))
         }
     }
 
