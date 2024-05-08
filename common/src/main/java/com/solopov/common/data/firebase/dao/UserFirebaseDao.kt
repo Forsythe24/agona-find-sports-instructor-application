@@ -58,6 +58,8 @@ class UserFirebaseDao @Inject constructor(
                             child(resManager.getString(R.string.description_lower)).value.toString(),
                             child(resManager.getString(R.string.rating_lower)).value.toString()
                                 .toFloat(),
+                            child(resManager.getString(R.string.numberofratings)).value.toString()
+                                .toInt(),
                             child(resManager.getString(R.string.hourly_rate_lower)).value.toString()
                                 .toFloat(),
                             child(resManager.getString(R.string.instructor_lower)).value.toString()
@@ -116,6 +118,8 @@ class UserFirebaseDao @Inject constructor(
                         child(resManager.getString(R.string.description_lower)).value.toString(),
                         child(resManager.getString(R.string.rating_lower)).value.toString()
                             .toFloat(),
+                        child(resManager.getString(R.string.numberofratings)).value.toString()
+                            .toInt(),
                         child(resManager.getString(R.string.hourly_rate_lower)).value.toString()
                             .toFloat(),
                         child(resManager.getString(R.string.instructor_lower)).value.toString()
@@ -145,13 +149,19 @@ class UserFirebaseDao @Inject constructor(
             hourlyRate?.let { userDetails.put(resManager.getString(R.string.hourlyrate), it) }
             photo?.let { userDetails.put(resManager.getString(R.string.photo), it) }
             sport?.let { userDetails.put(resManager.getString(R.string.sport), it) }
-            rating?.let { userDetails.put("rating", it) }
+            rating?.let { userDetails.put(resManager.getString(R.string.rating_lower), it) }
+            numberOfRatings?.let {
+                userDetails.put(
+                    resManager.getString(R.string.numberofratings),
+                    it
+                )
+            }
 
             userDetails[resManager.getString(R.string.instructor)] = isInstructor
             userDetails[resManager.getString(R.string.name_lower)] = name
             userDetails[resManager.getString(R.string.gender_lower)] = gender
-            userDetails["age"] = age
-            userDetails["password"] = password
+            userDetails[resManager.getString(R.string.age_lower)] = age
+            userDetails[resManager.getString(R.string.password_lower)] = password
         }
 
         runCatching(exceptionHandlerDelegate) {
@@ -168,7 +178,13 @@ class UserFirebaseDao @Inject constructor(
 
         val userDetails = HashMap<String, Any>()
         with(user) {
-            rating?.let { userDetails.put("rating", it) }
+            rating?.let { userDetails.put(resManager.getString(R.string.rating_lower), it) }
+            numberOfRatings?.let {
+                userDetails.put(
+                    resManager.getString(R.string.numberofratings),
+                    it
+                )
+            }
         }
 
         runCatching(exceptionHandlerDelegate) {
@@ -239,6 +255,7 @@ class UserFirebaseDao @Inject constructor(
             experience = "",
             description = "",
             rating = 0.0f,
+            numberOfRatings = 0,
             hourlyRate = 0.0f,
             isInstructor = false
         )
@@ -289,6 +306,8 @@ class UserFirebaseDao @Inject constructor(
                                             child(resManager.getString(R.string.description_lower)).value.toString(),
                                             child(resManager.getString(R.string.rating_lower)).value.toString()
                                                 .toFloat(),
+                                            child(resManager.getString(R.string.numberofratings)).value.toString()
+                                                .toInt(),
                                             child(resManager.getString(R.string.hourly_rate_lower)).value.toString()
                                                 .toFloat(),
                                             child(resManager.getString(R.string.instructor_lower)).value.toString()

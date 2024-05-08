@@ -23,6 +23,7 @@ class UserMappers @Inject constructor() {
                 experience,
                 description,
                 rating,
+                numberOfRatings,
                 hourlyRate,
                 isInstructor
             )
@@ -53,6 +54,7 @@ class UserMappers @Inject constructor() {
                 experience,
                 description,
                 rating,
+                numberOfRatings,
                 hourlyRate,
                 isInstructor
             )
@@ -71,6 +73,7 @@ class UserMappers @Inject constructor() {
                 experience,
                 description,
                 rating,
+                numberOfRatings,
                 hourlyRate,
                 isInstructor
             )
@@ -91,6 +94,7 @@ class UserMappers @Inject constructor() {
                 experience,
                 description,
                 rating,
+                numberOfRatings,
                 hourlyRate,
                 isInstructor
             )
@@ -111,6 +115,7 @@ class UserMappers @Inject constructor() {
                 experience,
                 description,
                 rating,
+                numberOfRatings,
                 hourlyRate,
                 isInstructor
             )
@@ -131,6 +136,7 @@ class UserMappers @Inject constructor() {
                 experience,
                 description,
                 rating,
+                numberOfRatings,
                 hourlyRate,
                 isInstructor
             )
@@ -152,6 +158,7 @@ class UserMappers @Inject constructor() {
                 experience = experience,
                 description = description,
                 rating = rating,
+                numberOfRatings = numberOfRatings,
                 hourlyRate = hourlyRate,
                 isInstructor = isInstructor
             )

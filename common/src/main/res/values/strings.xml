@@ -60,6 +60,7 @@
     <string name="rating_sample">4.9</string>
     <string name="instructor_info_template">%s, %d</string>
     <string name="rating_template">%.1f</string>
+    <string name="number_of_ratings_template">(%d)</string>
     <string name="hourly_rate_template">%.1f $</string>
     <string name="name_sample">Lionel Messi</string>
     <string name="this_user_does_not_exist_exception">This user does not exist</string>
@@ -108,6 +109,8 @@
     <string name="sender_id">senderId</string>
     <string name="date">date</string>
     <string name="failed_to_rate_this_user">Failed to rate this user</string>
+    <string name="numberofratings">numberOfRatings</string>
+    <string name="rating">rating</string>
 
     <string-array name="sports_types">
         <item>Football</item>

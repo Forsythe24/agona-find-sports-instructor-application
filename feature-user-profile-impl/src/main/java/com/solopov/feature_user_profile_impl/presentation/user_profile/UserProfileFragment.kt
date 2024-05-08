@@ -85,7 +85,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 )
 
             } else {
-                println("hey")
                 viewModel.getUserByUid(chat!!.userId)
                 chat
             }
@@ -202,19 +201,14 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             userProfileFlow.value?.let { otherUser ->
                 currentUserFlow.value?.let { currentUser ->
 
-                    lifecycleScope.launch {
-                        withContext(Dispatchers.IO) {
-                            viewModel.addRating(
-                                RatingUi(
-                                    null,
-                                    otherUser.id,
-                                    currentUser.id,
-                                    currentRating
-                                )
-                            )
-
-                        }
-                    }
+                    viewModel.addRating(
+                        RatingUi(
+                            null,
+                            otherUser.id,
+                            currentUser.id,
+                            currentRating
+                        )
+                    )
                 }
             }
         }
@@ -229,13 +223,31 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 ratingUi.rating
             }.sum()
 
-
-            val newRating = ratingsSum / if (allRatings.isEmpty()) 1 else allRatings.size
+            val newNumberOfRatings = allRatings.size
+            val newRating = ratingsSum / if (allRatings.isEmpty()) 1 else newNumberOfRatings
 
             viewModel.userProfileFlow.value?.let {
-                it.rating = newRating
-                viewModel.updateUserRating(it)
-                viewModel.setUserProfile(userMappers.mapUserProfileToUserCommon(it))
+                val newUserProfile = with(it) {
+                    UserProfile(
+                        id = id,
+                        email = email,
+                        password = password,
+                        name = name,
+                        age = age,
+                        gender = gender,
+                        sport = sport,
+                        photo = photo,
+                        experience = experience,
+                        description = description,
+                        rating = newRating,
+                        numberOfRatings = newNumberOfRatings,
+                        hourlyRate = hourlyRate,
+                        isInstructor = isInstructor
+                    )
+                }
+
+                viewModel.updateUserRating(newUserProfile)
+                viewModel.setUserProfile(userMappers.mapUserProfileToUserCommon(newUserProfile))
             }
         }
     }
@@ -266,6 +278,11 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
                 experience?.let { experience ->
                     experienceTv.text = experience
+                }
+
+                numberOfRatings?.let { numberOfRatings ->
+                    numberOfRatingsTv.text = numberOfRatings.toString()
+
                 }
             }
         }

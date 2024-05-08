@@ -43,7 +43,6 @@ class UserProfileViewModel(
             runCatching(exceptionHandlerDelegate) {
                 interactor.getUserByUid(uid)
             }.onSuccess {
-                println(it)
                 _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
                 errorsChannel.send(it)
@@ -116,6 +115,10 @@ class UserProfileViewModel(
 
     fun setUserProfile(user: UserCommon) {
         _userProfileFlow.value = userMappers.mapUserCommonToUserProfile(user)
+    }
+
+    fun set(user: UserProfile) {
+        _userProfileFlow.value = user
     }
 
     fun updateProfileImage(imageUri: String) {

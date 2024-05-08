@@ -45,6 +45,7 @@ class InstructorsViewModel @Inject constructor (
                 experience,
                 description,
                 rating,
+                numberOfRatings,
                 hourlyRate,
                 true
             )

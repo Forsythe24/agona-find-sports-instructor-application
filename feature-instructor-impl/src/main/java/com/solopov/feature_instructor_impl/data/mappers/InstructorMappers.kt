@@ -23,6 +23,7 @@ class InstructorMappers @Inject constructor() {
                 experience = "",
                 description = "",
                 rating = (rating?: 0f) / 20,
+                numberOfRatings = 20,
                 hourlyRate = 0f,
             )
         }
@@ -42,6 +43,7 @@ class InstructorMappers @Inject constructor() {
                 experience = experience?: "",
                 description = description?: "",
                 rating = rating?: 0f,
+                numberOfRatings = numberOfRatings?: 0,
                 hourlyRate = hourlyRate?: 0f,
             )
         }
@@ -60,6 +62,7 @@ class InstructorMappers @Inject constructor() {
                 description = description,
                 rating = rating,
                 hourlyRate = hourlyRate,
+                numberOfRatings = numberOfRatings,
                 isInstructor = true,
             )
         }
