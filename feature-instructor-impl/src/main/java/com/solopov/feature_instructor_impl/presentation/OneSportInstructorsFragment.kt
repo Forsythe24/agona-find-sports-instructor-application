@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.util.query
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
@@ -81,7 +82,6 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
                     updateInstructors(it)
                 }
             }
-
             lifecycleScope.launch {
                 errorsChannel.consumeEach { error ->
                     val errorMessage = error.message ?: getString(R.string.unknown_error_occurred)
