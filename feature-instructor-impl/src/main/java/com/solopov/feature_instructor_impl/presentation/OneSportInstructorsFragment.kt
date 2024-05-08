@@ -153,8 +153,13 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
         val query = text.trim().lowercase()
         val filteredList = mutableListOf<InstructorsAdapter.ListItem>()
         instructorsList.forEach {instructor ->
-            if (instructor.name.lowercase().startsWith(query)) {
-                filteredList.add(instructor)
+            val nameParts = instructor.name.split(" ", "-")
+            for (i in nameParts.indices) {
+                nameParts[i].trim()
+                if(nameParts[i].lowercase().startsWith(query)) {
+                    filteredList.add(instructor)
+                    break
+                }
             }
         }
 

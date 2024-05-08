@@ -139,7 +139,6 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
         with(viewModel) {
             chatsFlow.observe { chats ->
                 chats?.let {
-                    println(it)
                     updateChatList(it.date())
                 }
             }
