@@ -138,11 +138,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
     }
 
     private fun onItemClicked(instructor: InstructorsAdapter.ListItem) {
-        if (instructor.isFromApi) {
-            router.openInstructor(mappers.mapInstructorListItemToUserCommon(instructor))
-        } else {
-            router.openInstructor(instructor.id)
-        }
+        router.openInstructor(instructor.id)
     }
 
     private fun getStringCallback(id: Int): String {

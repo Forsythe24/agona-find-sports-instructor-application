@@ -56,8 +56,8 @@
     <string name="description_sample">Hi! I\'m Ross Geller. My way of learning is to never give up! Me and you are gonna have so much fun training! I have a major experience in swimming which is going to make your training sessions a pleasure! SampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSample</string>
     <string name="instructor_info_sample">Won a world cup, have 8 Ballon d\'Ors, male, 36</string>
     <string name="hourly_rate_sample">20 $</string>
-    <string name="number_of_ratings_sample">(126)</string>
-    <string name="rating_sample">4.9</string>
+    <string name="number_of_ratings_sample">(0)</string>
+    <string name="rating_sample">0.0</string>
     <string name="instructor_info_template">%s, %d</string>
     <string name="rating_template">%.1f</string>
     <string name="number_of_ratings_template">(%d)</string>
@@ -111,6 +111,9 @@
     <string name="failed_to_rate_this_user">Failed to rate this user</string>
     <string name="numberofratings">numberOfRatings</string>
     <string name="rating">rating</string>
+    <string name="couldn_t_create_an_account_try_again">Couldn\'t create an account. Try again</string>
+    <string name="failed_to_verify_your_credentials_check_your_password">Failed to verify your credentials. Check your password</string>
+    <string name="failed_to_update_your_password">Failed to update your password</string>
 
     <string-array name="sports_types">
         <item>Football</item>

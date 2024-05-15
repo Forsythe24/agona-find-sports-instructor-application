@@ -7,7 +7,7 @@ data class UserCommon (
     var name: String,
     var age: Int,
     var gender: String,
-    var sport: String?,
+    var sportName: String?,
     var photo: String?,
     var experience: String?,
     var description: String?,

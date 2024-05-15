@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 class InstructorsViewModel @Inject constructor (
     private val interactor: InstructorInteractor,
-    private val resourceManager: ResourceManager,
 ) : BaseViewModel() {
     private val _currentInstructorsFlow = MutableStateFlow<List<InstructorsAdapter.ListItem>?>(null)
     val currentInstructorsFlow: StateFlow<List<InstructorsAdapter.ListItem>?>
@@ -47,7 +46,6 @@ class InstructorsViewModel @Inject constructor (
                 rating,
                 numberOfRatings,
                 hourlyRate,
-                true
             )
         }
     }

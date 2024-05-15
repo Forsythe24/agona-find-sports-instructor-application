@@ -6,6 +6,6 @@ interface ChatRouter {
 
     fun goBack()
     fun openChat(chat: ChatCommon)
-    fun openUserProfile(chat: ChatCommon)
+    fun openUserProfile(userId: String)
 
 }

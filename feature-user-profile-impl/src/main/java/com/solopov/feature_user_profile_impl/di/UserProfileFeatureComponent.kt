@@ -2,10 +2,8 @@ package com.solopov.feature_user_profile_impl.di
 
 import com.solopov.common.data.db.di.DbApi
 import com.solopov.feature_user_profile_impl.UserProfileRouter
-import com.solopov.feature_user_profile_impl.di.UserProfileFeatureDependencies
-import com.solopov.feature_user_profile_impl.di.UserProfileFeatureModule
 import com.solopov.feature_user_profile_impl.presentation.user_profile.di.UserProfileComponent
-import com.solopov.common.data.firebase.di.FirebaseApi
+import com.solopov.common.data.remote.di.RemoteApi
 import com.solopov.common.di.CommonApi
 import com.solopov.common.di.scope.FeatureScope
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
@@ -43,7 +41,7 @@ interface UserProfileFeatureComponent: UserProfileFeatureApi {
     @Component(
         dependencies = [
             CommonApi::class,
-            FirebaseApi::class,
+            RemoteApi::class,
             DbApi::class,
         ]
     )

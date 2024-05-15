@@ -2,7 +2,6 @@ package com.solopov.feature_user_profile_impl.presentation.user_profile
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,16 +22,14 @@ import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentUse
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
-import com.solopov.common.model.UserCommon
-import com.solopov.common.utils.ParamsKey
+import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
+import com.solopov.common.utils.ParamsKey.USER_ID_KEY
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.RatingUi
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
@@ -62,47 +59,38 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     }
 
     private fun initUsers() {
+        val userId = arguments?.getString(USER_ID_KEY)
 
-        val user = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getSerializable(ParamsKey.USER, UserCommon::class.java)
-        } else {
-            arguments?.getSerializable(ParamsKey.USER) as UserCommon?
-        }
 
-        val chat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getSerializable(ParamsKey.CHAT, ChatCommon::class.java)
-        } else {
-            arguments?.getSerializable(ParamsKey.CHAT) as ChatCommon?
-        }
+        val isFromInstructorsScreen = arguments?.getBoolean(FROM_INSTRUCTORS_SCREEN_FLAG_KEY)
 
-        if (user != null || chat != null) {
-            // we can get here either from instructors list, or from chat
-            val chatCommon: ChatCommon = if (user != null) {
-                viewModel.setUserProfile(user)
-                ChatCommon(
-                    user.id,
-                    user.name,
-                    user.photo
-                )
+        if (userId != null) {
+            viewModel.setCurrentUser(userId, ::onUserSetCallback)
 
-            } else {
-                viewModel.getUserByUid(chat!!.userId)
-                chat
-            }
+            with(viewModel) {
 
-            binding.sendMessageBtn.setOnClickListener {
-                router.openChat(
-                    chatCommon
-                )
+                setUserProfileByUid(userId)
+
+                binding.sendMessageBtn.setOnClickListener {
+                    chatFlow.value?.let {
+                        router.openChat(
+                            it
+                        )
+                    }
+
+                }
             }
 
             hideProfileEditingViews()
-
-            viewModel.setCurrentUser()
         } else {
             //if it's the current user's profile
             viewModel.setCurrentUserProfile()
+
             hideOtherUserSpecificViews()
+
+            if (isFromInstructorsScreen != true) {
+                binding.backBtn.visibility = GONE
+            }
         }
     }
 
@@ -156,6 +144,14 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         with(viewModel) {
             userProfileFlow.observe {
                 it?.let { user ->
+                    setChat(
+                        ChatCommon(
+                            user.id,
+                            user.name,
+                            user.photo
+                        )
+                    )
+
                     binding.editBtn.setOnClickListener {
                         router.goToEditingProfile(user)
                     }
@@ -173,6 +169,16 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                     }
 
                     setUserDetails(user)
+                }
+            }
+
+            chatFlow.observe { chat ->
+                binding.sendMessageBtn.setOnClickListener {
+                    chat?.let {
+                        router.openChat(
+                            it
+                        )
+                    }
                 }
             }
 
@@ -238,8 +244,8 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             viewModel.userProfileFlow.value?.let {
                 val newUserProfile = it.copy(rating = newRating, numberOfRatings = newNumberOfRatings)
 
-                viewModel.updateUserRating(newUserProfile)
-                viewModel.setUserProfile(userMappers.mapUserProfileToUserCommon(newUserProfile))
+                viewModel.updateUser(newUserProfile)
+                viewModel.setUserProfile(newUserProfile)
             }
         }
     }
@@ -305,12 +311,17 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         }
     }
 
+    private fun onUserSetCallback(areIdsSame: Boolean) {
+        if (areIdsSame) {
+            hideOtherUserSpecificViews()
+        }
+    }
+
 
     private fun hideOtherUserSpecificViews() {
         with(binding) {
             sendMessageBtn.visibility = GONE
             instructorRatingBar.visibility = GONE
-            backBtn.visibility = GONE
         }
     }
 
@@ -350,7 +361,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     private fun selectImage() {
         val intent = Intent()
-        intent.type = "image/*"
+        intent.type = getString(R.string.image_intent_type)
         intent.action = Intent.ACTION_GET_CONTENT
 
         resultLauncher.launch(intent)

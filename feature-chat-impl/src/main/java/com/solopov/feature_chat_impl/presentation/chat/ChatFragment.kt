@@ -108,7 +108,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             val senderRoomId = senderId + receiverId
 
             // viewModel.getRecentMessages()
-            viewModel.downloadMessages(senderId, senderRoomId)
+            viewModel.downloadMessages(senderRoomId)
         }
     }
 
@@ -166,7 +166,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                         }
 
                         val onClickListener = OnClickListener {
-                            router.openUserProfile(chatMappers.mapChatItemToChatCommon(receiver))
+                            router.openUserProfile(receiver.userId)
                         }
                         userImageCv.setOnClickListener(onClickListener)
                         receiverNameTv.setOnClickListener(onClickListener)
@@ -191,15 +191,18 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
                             sender.let {
                                 val date = dateFormatter.formatDateTime(Date())
-                                val message =
-                                    MessageItem("", messageEt.text.toString(), it.userId, date)
+                                val sentMessage =
+                                    MessageItem(null, senderRoomId, messageEt.text.toString(), it.userId, date)
+
+                                val receivedMessage =
+                                    MessageItem(null, receiverRoomId, messageEt.text.toString(), it.userId, date)
 
                                 messageEt.setText("")
 
-                                viewModel.createNewMessage(senderId, senderRoomId, message)
-                                viewModel.createNewMessage(receiverId, receiverRoomId, message)
+                                viewModel.createNewMessage(senderId, sentMessage)
+                                viewModel.createNewMessage(receiverId, receivedMessage)
 
-                                currentMessageList.add(message)
+                                currentMessageList.add(sentMessage)
                                 updateMessagesWithRespectToDate()
 
                                 viewBinding.chatRv.smoothScrollToPosition(adapter.itemCount)
@@ -292,7 +295,8 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                 mutableMessages.add(
                     index,
                     MessageItem(
-                        id = "",
+                        id = null,
+                        chatId = "",
                         text = "",
                         senderId = "",
                         date = chatDate

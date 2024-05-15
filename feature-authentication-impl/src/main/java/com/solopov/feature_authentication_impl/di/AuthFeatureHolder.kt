@@ -1,7 +1,6 @@
 package com.solopov.feature_authentication_impl.di
 
-import com.solopov.common.data.db.di.DbApi
-import com.solopov.common.data.firebase.di.FirebaseApi
+import com.solopov.common.data.remote.di.RemoteApi
 import com.solopov.common.di.FeatureApiHolder
 import com.solopov.common.di.FeatureContainer
 import com.solopov.common.di.scope.ApplicationScope
@@ -19,7 +18,7 @@ class AuthFeatureHolder @Inject constructor(
 
     override fun initializeDependencies(): Any {
         val authFeatureDependencies = DaggerAuthFeatureComponent_AuthFeatureDependenciesComponent.builder()
-            .firebaseApi(getFeature(FirebaseApi::class.java))
+            .firebaseApi(getFeature(RemoteApi::class.java))
             .commonApi(commonApi())
             .build()
         return DaggerAuthFeatureComponent.builder()

@@ -1,6 +1,6 @@
 package com.solopov.feature_chat_impl.di
 
-import com.solopov.common.data.firebase.di.FirebaseApi
+import com.solopov.common.data.remote.di.RemoteApi
 import com.solopov.common.di.CommonApi
 import com.solopov.common.di.scope.FeatureScope
 import com.solopov.feature_chat_api.di.ChatFeatureApi
@@ -38,7 +38,7 @@ interface ChatFeatureComponent: ChatFeatureApi {
     @Component(
         dependencies = [
             CommonApi::class,
-            FirebaseApi:: class
+            RemoteApi:: class
         ]
     )
     interface ChatFeatureDependenciesComponent : ChatFeatureDependencies

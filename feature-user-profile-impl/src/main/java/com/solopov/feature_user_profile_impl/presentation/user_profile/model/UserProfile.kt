@@ -4,8 +4,6 @@ import java.io.Serializable
 
 data class UserProfile (
     var id: String,
-    var email: String?,
-    var password: String?,
     var name: String,
     var age: Int,
     var gender: String,
@@ -16,5 +14,5 @@ data class UserProfile (
     var rating: Float?,
     var numberOfRatings: Int?,
     var hourlyRate: Float?,
-    var isInstructor: Boolean = false
+    var isInstructor: Boolean
 ): Serializable

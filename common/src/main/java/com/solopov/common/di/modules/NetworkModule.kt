@@ -3,13 +3,12 @@ package com.solopov.common.di.modules
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.config.NetworkProperties
 import com.solopov.common.data.network.NetworkApiCreator
+import com.solopov.common.data.remote.di.qualifier.PublicClient
 import com.solopov.common.di.scope.ApplicationScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Named
 
 @Module
 class NetworkModule {
@@ -21,8 +20,9 @@ class NetworkModule {
     }
 
     @Provides
+    @PublicClient
     @ApplicationScope
-    fun provideOkHttpClient(networkProperties: NetworkProperties): OkHttpClient {
+    fun provideUnauthenticatedOkHttpClient(networkProperties: NetworkProperties): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(networkProperties.connectTimeout, TimeUnit.SECONDS)
             .writeTimeout(networkProperties.writeTimeout, TimeUnit.SECONDS)
@@ -33,7 +33,8 @@ class NetworkModule {
 
     @Provides
     @ApplicationScope
-    fun provideApiCreator(
+    fun provideUnauthenticatedApiCreator(
+        @PublicClient
         okHttpClient: OkHttpClient,
         appProperties: AppProperties,
     ): NetworkApiCreator {

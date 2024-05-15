@@ -1,10 +1,10 @@
 package com.solopov.feature_authentication_impl.di
 
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.data.firebase.dao.UserFirebaseDao
+import com.solopov.common.data.remote.dao.UserRemoteDao
 
 interface AuthFeatureDependencies {
     fun resourceManager(): ResourceManager
 
-    fun userFirebaseDao(): UserFirebaseDao
+    fun userRemoteDao(): UserRemoteDao
 }

@@ -30,15 +30,15 @@ class  UserProfileInteractor(
         }
     }
 
-    suspend fun updateUserRating(user: User) {
-        return withContext(dispatcher) {
-            userProfileRepository.updateUserRating(user)
-        }
-    }
-
     suspend fun updateUserPassword(password: String) {
         return withContext(dispatcher) {
             userProfileRepository.updateUserPassword(password)
+        }
+    }
+
+    suspend fun verifyCredentials(password: String): Boolean {
+        return withContext(dispatcher) {
+            userProfileRepository.verifyCredentials(password)
         }
     }
 

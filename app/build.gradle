@@ -66,7 +66,6 @@ dependencies {
     implementation roomDep
 
     implementation daggerDep
-    implementation 'com.google.firebase:firebase-auth-ktx:22.3.1'
     kapt daggerKapt
 
     implementation lifecycleDep

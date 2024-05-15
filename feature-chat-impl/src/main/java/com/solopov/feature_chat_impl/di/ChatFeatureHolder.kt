@@ -1,6 +1,6 @@
 package com.solopov.feature_chat_impl.di
 
-import com.solopov.common.data.firebase.di.FirebaseApi
+import com.solopov.common.data.remote.di.RemoteApi
 import com.solopov.common.di.FeatureApiHolder
 import com.solopov.common.di.FeatureContainer
 import com.solopov.common.di.scope.ApplicationScope
@@ -16,7 +16,7 @@ class ChatFeatureHolder @Inject constructor(
 
     override fun initializeDependencies(): Any {
         val chatFeatureDependencies = DaggerChatFeatureComponent_ChatFeatureDependenciesComponent.builder()
-            .firebaseApi(getFeature(FirebaseApi::class.java))
+            .firebaseApi(getFeature(RemoteApi::class.java))
             .commonApi(commonApi())
             .build()
         return DaggerChatFeatureComponent.builder()

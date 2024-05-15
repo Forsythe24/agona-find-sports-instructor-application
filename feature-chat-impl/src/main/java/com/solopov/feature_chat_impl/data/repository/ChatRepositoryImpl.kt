@@ -4,8 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.solopov.common.data.firebase.dao.ChatFirebaseDao
-import com.solopov.common.data.firebase.dao.UserFirebaseDao
+import com.solopov.common.data.remote.dao.ChatRemoteDao
+import com.solopov.common.data.remote.dao.UserRemoteDao
 import com.solopov.feature_chat_api.domain.interfaces.ChatRepository
 import com.solopov.feature_chat_api.domain.model.Chat
 import com.solopov.feature_chat_api.domain.model.Message
@@ -17,43 +17,44 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ChatRepositoryImpl @Inject constructor(
-    private val chatFirebaseDao: ChatFirebaseDao,
-    private val userFirebaseDao: UserFirebaseDao,
+    private val chatRemoteDao: ChatRemoteDao,
+    private val userRemoteDao: UserRemoteDao,
     private val messageMappers: MessageMappers,
     private val chatMappers: ChatMappers,
 ) : ChatRepository {
-    override suspend fun createNewMessage(userId: String, roomId: String, message: Message) {
-        chatFirebaseDao.addMessageToDatabase(
-            userId, roomId, messageMappers.mapMessageToMessageFirebase(message)
+    override suspend fun createNewMessage(userId: String, message: Message) {
+
+        chatRemoteDao.createMessage(
+            userId, messageMappers.mapMessageToMessageRemote(message)
         )
     }
 
     override suspend fun getCurrentUser(): User {
-        return chatMappers.mapUserFirebaseToUser(userFirebaseDao.getCurrentUser())
+        return chatMappers.mapUserRemoteToUser(userRemoteDao.getCurrentUser())
     }
 
-    override suspend fun downloadMessages(userId: String, roomId: String): List<Message> {
-        return chatFirebaseDao.getAllMessagesByRoomId(userId, roomId).map { message ->
-            messageMappers.mapMessageFirebaseToMessage(message)
+    override suspend fun downloadMessages(chatId: String): List<Message> {
+        return chatRemoteDao.getAllMessagesByChatId(chatId).map { message ->
+            messageMappers.mapMessageRemoteToMessage(message)
         }
     }
 
     override suspend fun getAllChatsByUserId(userId: String): List<Chat> {
         var receiverId = ""
-        val receiversIds = chatFirebaseDao.getAllReceiversByUserId(userId)
+        val receiversIds = chatRemoteDao.getAllReceiversByUserId(userId)
 
-        val lastMessages = receiversIds.map { id ->
+        val allLastMessages = receiversIds.map { id ->
             receiverId = id
-            chatFirebaseDao.getLastMessageByUsersIds(userId, receiverId)
+            chatRemoteDao.getLastMessageByChatId(userId + receiverId)
         }
 
         val chats = receiversIds.map { id ->
-            userFirebaseDao.getUserByUid(id)
-        }.map(chatMappers::mapUserFirebaseToChat)
+            userRemoteDao.getUserByUid(id)
+        }.map(chatMappers::mapUserRemoteToChat)
 
         for (i in chats.indices) {
-            chats[i].lastMessageText = lastMessages[i].text
-            chats[i].lastMessageDate= lastMessages[i].date
+            chats[i].lastMessageText = allLastMessages[i].text
+            chats[i].lastMessageDate= allLastMessages[i].date
         }
 
         return chats
@@ -62,10 +63,10 @@ class ChatRepositoryImpl @Inject constructor(
     override suspend fun getRecentMessages(): Flow<PagingData<Message>> {
         val pager = Pager(
             config = PagingConfig(10),
-            pagingSourceFactory = { chatFirebaseDao },
+            pagingSourceFactory = { chatRemoteDao },
         ).flow.map { pagingData ->
             pagingData.map { messageFirebase ->
-                messageMappers.mapMessageFirebaseToMessage(messageFirebase)
+                messageMappers.mapMessageRemoteToMessage(messageFirebase)
             }
         }
         return pager

@@ -32,7 +32,7 @@ class InstructorFeatureModule {
     @Provides
     @FeatureScope
     fun provideInstructorApi(apiCreator: NetworkApiCreator): InstructorApi {
-        apiCreator.okHttpClient = apiCreator.okHttpClient.newBuilder().addInterceptor(ApiInfoInterceptor()).build()
+//        apiCreator.okHttpClient = apiCreator.okHttpClient.newBuilder().addInterceptor(ApiInfoInterceptor()).build()
         return apiCreator.create(InstructorApi::class.java)
     }
 }
