@@ -1,6 +1,6 @@
 package com.solopov.feature_authentication_impl.di
 
-import com.solopov.common.data.remote.di.FirebaseApi
+import com.solopov.common.data.remote.di.RemoteApi
 import com.solopov.common.di.CommonApi
 import com.solopov.common.di.scope.FeatureScope
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
@@ -38,7 +38,7 @@ interface AuthFeatureComponent: AuthFeatureApi {
     @Component(
         dependencies = [
             CommonApi::class,
-            FirebaseApi:: class
+            RemoteApi:: class
         ]
     )
     interface AuthFeatureDependenciesComponent : AuthFeatureDependencies

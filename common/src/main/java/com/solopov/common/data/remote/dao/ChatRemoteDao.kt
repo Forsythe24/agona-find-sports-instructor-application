@@ -20,7 +20,6 @@ import javax.inject.Inject
 
 class ChatRemoteDao @Inject constructor(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
-    private val dbReference: DatabaseReference,
     private val resManager: ResourceManager,
     private val api: SportApi,
 ) : PagingSource<DataSnapshot, MessageRemote>() {
@@ -29,6 +28,7 @@ class ChatRemoteDao @Inject constructor(
         message: MessageRemote,
     ) {
         runCatching(exceptionHandlerDelegate) {
+            // trying to retrieve the chat
             api.getChatById(message.chatId)
         }.onSuccess {
             // if it's not the first message of this chat
@@ -42,20 +42,6 @@ class ChatRemoteDao @Inject constructor(
         }
 
     }
-
-//    private suspend fun createChat(
-//        userId: String,
-//        roomId: String,
-//    ) = withContext(Dispatchers.IO) {
-//        api.createChat(ChatRemote(roomId, userId))
-//    }
-//
-//    private suspend fun addMessage(
-//        message: MessageRemote
-//    ): MessageRemote = withContext(Dispatchers.IO) {
-//        api.addMessage(message)
-//    }
-
     suspend fun getAllReceiversByUserId(id: String): List<String> {
         runCatching(exceptionHandlerDelegate) {
             api.getAllChatsByUserId()
@@ -104,42 +90,50 @@ class ChatRemoteDao @Inject constructor(
         throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
     }
 
-    override fun getRefreshKey(state: PagingState<DataSnapshot, MessageRemote>): DataSnapshot? =
-        null
+    override fun getRefreshKey(state: PagingState<DataSnapshot, MessageRemote>): DataSnapshot? {
+        TODO("Not yet implemented")
+    }
 
-    override suspend fun load(params: LoadParams<DataSnapshot>): LoadResult<DataSnapshot, MessageRemote> =
-        try {
+    override suspend fun load(params: LoadParams<DataSnapshot>): LoadResult<DataSnapshot, MessageRemote> {
+        TODO("Not yet implemented")
+    }
 
+//    override fun getRefreshKey(state: PagingState<DataSnapshot, MessageRemote>): DataSnapshot? =
+//        null
 
-            val queryMessages = dbReference.child("chat")
-                .child("HqmLsYR0YbQ2NlIIyF688pz7s5g2JK3EIt4BouOBWCQjmqOVwa0CbjW2").child("message")
-                .orderByKey().limitToLast(ParamsKey.PAGE_SIZE)
-
-            val currentPage = params.key ?: queryMessages.get().await()
-
-            val lastVisibleMessageKey = currentPage.children.last().key
-            val nextPage = queryMessages.startAfter(lastVisibleMessageKey).get().await()
-
-            val messages = currentPage.children.map { snapshot ->
-                with(snapshot) {
-                    MessageRemote(
-                        0,
-                        "",
-                        child("text").value.toString(),
-                        child("senderId").value.toString(),
-                        child("date").value.toString(),
-                    )
-                }
-            }
-
-            LoadResult.Page(
-                data = messages,
-                prevKey = null,
-                nextKey = nextPage
-            )
-        } catch (e: Exception) {
-            throw e
-        }
+//    override suspend fun load(params: LoadParams<DataSnapshot>): LoadResult<DataSnapshot, MessageRemote> =
+//        try {
+//
+//
+//            val queryMessages = dbReference.child("chat")
+//                .child("HqmLsYR0YbQ2NlIIyF688pz7s5g2JK3EIt4BouOBWCQjmqOVwa0CbjW2").child("message")
+//                .orderByKey().limitToLast(ParamsKey.PAGE_SIZE)
+//
+//            val currentPage = params.key ?: queryMessages.get().await()
+//
+//            val lastVisibleMessageKey = currentPage.children.last().key
+//            val nextPage = queryMessages.startAfter(lastVisibleMessageKey).get().await()
+//
+//            val messages = currentPage.children.map { snapshot ->
+//                with(snapshot) {
+//                    MessageRemote(
+//                        0,
+//                        "",
+//                        child("text").value.toString(),
+//                        child("senderId").value.toString(),
+//                        child("date").value.toString(),
+//                    )
+//                }
+//            }
+//
+//            LoadResult.Page(
+//                data = messages,
+//                prevKey = null,
+//                nextKey = nextPage
+//            )
+//        } catch (e: Exception) {
+//            throw e
+//        }
 
 
 }

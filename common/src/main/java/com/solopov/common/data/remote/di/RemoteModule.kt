@@ -32,7 +32,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
 @Module
-class FirebaseModule {
+class RemoteModule {
 
     @ApplicationScope
     @Provides
@@ -41,11 +41,6 @@ class FirebaseModule {
     @ApplicationScope
     @Provides
     fun provideStorage(): FirebaseStorage = FirebaseStorage.getInstance()
-
-    @ApplicationScope
-    @Provides
-    fun provideFirebaseDatabaseReference(): DatabaseReference =
-        FirebaseDatabase.getInstance().reference
 
     @ApplicationScope
     @Provides

@@ -6,7 +6,7 @@ import com.solopov.common.di.scope.ApplicationScope
 import javax.inject.Inject
 
 @ApplicationScope
-class FirebaseHolder @Inject constructor(
+class RemoteHolder @Inject constructor(
     featureContainer: FeatureContainer
 ) : FeatureApiHolder(featureContainer){
     override fun initializeDependencies(): Any {

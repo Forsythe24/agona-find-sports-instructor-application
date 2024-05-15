@@ -6,19 +6,19 @@ import dagger.Component
 
 @Component(
     modules = [
-        FirebaseModule::class
+        RemoteModule::class
     ],
     dependencies = [
-        FirebaseDependencies::class
+        RemoteDependencies::class
     ]
 )
 @ApplicationScope
-abstract class FirebaseComponent: FirebaseApi {
+abstract class RemoteComponent: RemoteApi {
 
     @Component(
         dependencies = [
             CommonApi::class
         ]
     )
-    interface FirebaseDependenciesComponent : FirebaseDependencies
+    interface RemoteDependenciesComponent : RemoteDependencies
 }

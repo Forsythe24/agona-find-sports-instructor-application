@@ -3,7 +3,7 @@ package com.solopov.feature_instructor_impl.di
 import com.solopov.common.di.CommonApi
 import com.solopov.common.di.scope.FeatureScope
 import com.solopov.common.data.db.di.DbApi
-import com.solopov.common.data.remote.di.FirebaseApi
+import com.solopov.common.data.remote.di.RemoteApi
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.feature_instructor_impl.presentation.di.InstructorsComponent
@@ -38,7 +38,7 @@ interface  InstructorFeatureComponent : InstructorFeatureApi {
         dependencies = [
             CommonApi::class,
             DbApi::class,
-            FirebaseApi::class,
+            RemoteApi::class,
         ]
     )
     interface InstructorFeatureDependenciesComponent : InstructorFeatureDependencies
