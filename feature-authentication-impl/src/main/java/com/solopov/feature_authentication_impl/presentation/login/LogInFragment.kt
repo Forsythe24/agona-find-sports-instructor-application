@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.solopov.common.base.BaseFragment
-import com.solopov.common.data.firebase.exceptions.AuthenticationException
+import com.solopov.common.data.remote.exceptions.AuthenticationException
 import com.solopov.common.di.FeatureUtils
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.AuthRouter

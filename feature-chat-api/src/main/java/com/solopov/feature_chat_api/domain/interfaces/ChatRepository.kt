@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface ChatRepository {
 
-    suspend fun createNewMessage(userId: String, roomId: String, message: Message)
+    suspend fun createNewMessage(userId: String, message: Message)
     suspend fun getCurrentUser(): User
 
-    suspend fun downloadMessages(userId: String, roomId: String): List<Message>
+    suspend fun downloadMessages(chatId: String): List<Message>
     suspend fun getAllChatsByUserId(userId: String): List<Chat>
     suspend fun getRecentMessages(): Flow<PagingData<Message>>
 }

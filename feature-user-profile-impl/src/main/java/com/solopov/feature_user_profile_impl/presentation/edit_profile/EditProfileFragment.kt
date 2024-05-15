@@ -10,7 +10,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.google.android.material.button.MaterialButton
@@ -23,13 +22,10 @@ import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.ParamsKey
 import com.solopov.common.utils.UserDataValidator
-import com.solopov.common.utils.hide
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 
@@ -125,13 +121,19 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
         dialog.show()
 
         dialogButton.setOnClickListener {
-            if (currentUser?.password == passwordEt.text.toString()) {
-                dialog.hide()
-                showPasswordSettingDialog()
-            } else {
-                passwordTextInput.helperText = getString(R.string.wrong_password)
+            currentUser?.let {
+                viewModel.verifyCredentials(passwordEt.text.toString(), ::onCorrectPassword, ::onWrongPassword)
             }
         }
+    }
+
+    private fun onCorrectPassword() {
+        dialog.hide()
+        showPasswordSettingDialog()
+    }
+
+    private fun onWrongPassword() {
+        passwordTextInput.helperText = getString(R.string.wrong_password)
     }
 
     private fun showPasswordSettingDialog() {
@@ -148,25 +150,15 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
             val potentialNewPassword = passwordEt.text.toString()
             passwordTextInput.helperText = userDataValidator.validatePassword(potentialNewPassword)
             if (passwordTextInput.helperText.isNullOrEmpty()) {
-
-                if (potentialNewPassword != currentUser?.password) {
-                    currentUser?.let {
-                        it.password = potentialNewPassword
-                        viewModel.updateUser(it, ::onPasswordChangedCallback)
-                        viewModel.updateUserPassword(potentialNewPassword)
-                    }
-
-                    dialog.hide()
-                } else {
-                    dialog.hide()
-
-                    Snackbar.make(binding.root, getString(R.string.current_and_new_passwords_are_identical_password_stayed_the_same), Snackbar.LENGTH_LONG).show()
+                currentUser?.let {
+                    viewModel.updateUserPassword(potentialNewPassword, ::onPasswordChangedCallback)
                 }
             }
         }
     }
 
     private fun onPasswordChangedCallback() {
+        dialog.hide()
         Snackbar.make(binding.root, getString(R.string.password_has_been_successfully_saved), Snackbar.LENGTH_SHORT).show()
     }
 

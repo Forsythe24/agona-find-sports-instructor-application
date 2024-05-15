@@ -12,9 +12,9 @@ class ChatInteractor(
     private val chatRepository: ChatRepository,
     private val dispatcher: CoroutineDispatcher
 ) {
-    suspend fun createNewMessage(userId: String, roomId: String, message: Message) {
+    suspend fun createNewMessage(userId: String, message: Message) {
         return withContext(dispatcher) {
-            chatRepository.createNewMessage(userId, roomId, message)
+            chatRepository.createNewMessage(userId, message)
         }
     }
 
@@ -24,9 +24,9 @@ class ChatInteractor(
         }
     }
 
-    suspend fun downloadMessages(userId: String, roomId: String): List<Message> {
+    suspend fun downloadMessages(roomId: String): List<Message> {
         return withContext(dispatcher) {
-            chatRepository.downloadMessages(userId, roomId)
+            chatRepository.downloadMessages(roomId)
         }
     }
 

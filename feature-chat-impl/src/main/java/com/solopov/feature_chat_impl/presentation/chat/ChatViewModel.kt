@@ -50,10 +50,10 @@ class ChatViewModel(
         _receiverFlow.value = chatMappers.mapChatCommonToChatItem(chat)
     }
 
-    fun createNewMessage(userId: String, roomId: String, message: MessageItem) {
+    fun createNewMessage(userId: String, message: MessageItem) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
-                interactor.createNewMessage(userId, roomId, messageMappers.mapMessageItemToMessage(message))
+                interactor.createNewMessage(userId, messageMappers.mapMessageItemToMessage(message))
             }.onSuccess {
 
             }.onFailure {
@@ -62,10 +62,10 @@ class ChatViewModel(
         }
     }
 
-    fun downloadMessages(userId: String, roomId: String) {
+    fun downloadMessages(roomId: String) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
-                interactor.downloadMessages(userId, roomId)
+                interactor.downloadMessages(roomId)
             }.onSuccess {
                 _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
             }.onFailure {

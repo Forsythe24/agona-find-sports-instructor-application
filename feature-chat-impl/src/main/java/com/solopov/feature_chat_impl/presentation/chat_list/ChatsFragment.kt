@@ -1,41 +1,30 @@
 package com.solopov.feature_chat_impl.presentation.chat_list
 
-import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.util.copy
 import com.bumptech.glide.Glide
 import com.solopov.common.R
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
-import com.solopov.common.model.UserCommon
 import com.solopov.common.utils.DateFormatter
-import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_chat_api.di.ChatFeatureApi
-import com.solopov.feature_chat_api.domain.model.Chat
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.databinding.FragmentChatListBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
-import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
-import com.solopov.feature_chat_impl.utils.Constants
 import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
-import java.util.Timer
-import java.util.TimerTask
 import javax.inject.Inject
 
 class ChatsFragment : BaseFragment<ChatsViewModel>() {
@@ -83,8 +72,6 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                 }
             }
         }
-
-
     }
 
     private fun initUser() = viewModel.setUser()
@@ -136,12 +123,6 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                     initChats(user.userId)
                 }
             }
-
-//            progressBarFlow.observe { isLoading ->
-//                viewBinding.progressBar.isVisible = isLoading
-//
-//            }
-
 
             lifecycleScope.launch {
                 errorsChannel.consumeEach { error ->

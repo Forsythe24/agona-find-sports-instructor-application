@@ -2,7 +2,6 @@ package com.solopov.feature_user_profile_impl.presentation.edit_profile
 
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
-import com.solopov.common.model.UserCommon
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
@@ -48,13 +47,40 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
-    fun updateUserPassword(password: String) {
+    fun updateUserPassword(password: String, onPasswordUpdated: () -> Unit) {
+        _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.updateUserPassword(password)
             }.onSuccess {
+                onPasswordUpdated()
+                _progressBarFlow.value = false
             }.onFailure {
                 errorsChannel.send(it)
+                _progressBarFlow.value = false
+            }
+        }
+    }
+
+    fun verifyCredentials(
+        allegedPassword: String,
+        onCorrectPasswordCallback: () -> Unit,
+        onWrongPasswordCallback: () -> Unit,
+    ){
+        _progressBarFlow.value = true
+        viewModelScope.launch {
+            runCatching(exceptionHandlerDelegate) {
+                interactor.verifyCredentials(allegedPassword)
+            }.onSuccess { areVerified ->
+                if (areVerified) {
+                    onCorrectPasswordCallback()
+                } else {
+                    onWrongPasswordCallback()
+                }
+                _progressBarFlow.value = false
+            }.onFailure {
+                errorsChannel.send(it)
+                _progressBarFlow.value = false
             }
         }
     }

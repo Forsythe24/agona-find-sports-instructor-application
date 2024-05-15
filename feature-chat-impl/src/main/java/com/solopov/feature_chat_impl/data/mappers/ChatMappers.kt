@@ -1,6 +1,6 @@
 package com.solopov.feature_chat_impl.data.mappers
 
-import com.solopov.common.data.firebase.model.UserFirebase
+import com.solopov.common.data.remote.model.UserRemote
 import com.solopov.common.model.ChatCommon
 import com.solopov.feature_chat_api.domain.model.Chat
 import com.solopov.feature_chat_api.domain.model.User
@@ -58,10 +58,10 @@ class ChatMappers @Inject constructor() {
         }
     }
 
-    fun mapUserFirebaseToChat(userFirebase: UserFirebase): Chat {
-        return with(userFirebase) {
+    fun mapUserRemoteToChat(userRemote: UserRemote): Chat {
+        return with(userRemote) {
             Chat(
-                userFirebase.id,
+                userRemote.id,
                 name,
                 photo,
                 null,
@@ -70,16 +70,14 @@ class ChatMappers @Inject constructor() {
         }
     }
 
-    fun mapUserFirebaseToUser(userFirebase: UserFirebase): User {
-        return with(userFirebase) {
+    fun mapUserRemoteToUser(userRemote: UserRemote): User {
+        return with(userRemote) {
             User(
-                userFirebase.id,
-                email,
-                password,
+                userRemote.id,
                 name,
                 age,
                 gender,
-                sport,
+                sportName,
                 photo,
                 experience,
                 description,

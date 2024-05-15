@@ -1,6 +1,6 @@
 package com.solopov.feature_chat_impl.di
 
-import com.solopov.common.data.firebase.di.FirebaseApi
+import com.solopov.common.data.remote.di.FirebaseApi
 import com.solopov.common.di.FeatureApiHolder
 import com.solopov.common.di.FeatureContainer
 import com.solopov.common.di.scope.ApplicationScope

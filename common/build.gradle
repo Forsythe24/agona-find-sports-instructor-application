@@ -51,6 +51,15 @@ dependencies {
 
     implementation pagingDep
 
+    implementation coroutinesCoreDep
+    implementation coroutinesAndroidDep
+
+    implementation dataStoreDep
+
+    implementation httpLoggingDep
+
+    implementation "androidx.datastore:datastore-preferences:1.1.1"
+
     implementation daggerDep
     implementation androidXCoreDep
     implementation lifecycleViewModelDep
@@ -74,9 +83,6 @@ dependencies {
     testImplementation mockitoDep
 
     implementation splashScreenDep
-
-    coroutinesCoreDep
-    coroutinesAndroidDep
 
     implementation platform('com.google.firebase:firebase-bom:32.8.0')
     implementation 'com.google.firebase:firebase-analytics'

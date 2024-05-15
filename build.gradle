@@ -48,6 +48,15 @@ buildscript {
 
         pagingVersion = "3.2.1"
 
+        dataStoreVersion = "1.1.1"
+
+        loggingVersion = "4.12.0"
+
+        httpLoggingDep = "com.squareup.okhttp3:logging-interceptor:$loggingVersion"
+
+
+        dataStoreDep = "androidx.datastore:datastore-preferences-core-jvm:$dataStoreVersion"
+
         pagingDep = "androidx.paging:paging-runtime:$pagingVersion"
 
         navFragmentKtxDep = "androidx.navigation:navigation-fragment-ktx:$navVersion"

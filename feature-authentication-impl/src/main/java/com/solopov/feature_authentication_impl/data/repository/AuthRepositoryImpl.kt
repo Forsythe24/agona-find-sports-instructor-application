@@ -1,15 +1,13 @@
 package com.solopov.feature_authentication_impl.data.repository
 
-import com.solopov.common.data.firebase.dao.UserFirebaseDao
-import com.solopov.common.data.firebase.exceptions.AuthenticationException
-import com.solopov.common.data.firebase.model.UserFirebase
+import com.solopov.common.data.remote.dao.UserRemoteDao
 import com.solopov.feature_authentication_api.domain.interfaces.AuthRepository
 import com.solopov.feature_authentication_api.domain.model.User
 import com.solopov.feature_authentication_impl.data.mappers.UserMappers
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor (
-    private val userFirebaseDao: UserFirebaseDao,
+    private val userRemoteDao: UserRemoteDao,
     private val userMappers: UserMappers
 ): AuthRepository {
 
@@ -21,8 +19,8 @@ class AuthRepositoryImpl @Inject constructor (
         gender: String,
     ): User {
 
-        return userMappers.mapUserFirebaseToUser(
-            userFirebaseDao.createUser(
+        return userMappers.mapUserRemoteToUser(
+            userRemoteDao.createUser(
                 email,
                 password,
                 name,
@@ -36,6 +34,6 @@ class AuthRepositoryImpl @Inject constructor (
 
 
     override suspend fun signInUser(email: String?, password: String?): Boolean {
-        return userFirebaseDao.signInUser(email, password)
+        return userRemoteDao.signInUser(email, password)
     }
 }

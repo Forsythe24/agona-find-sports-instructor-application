@@ -1,43 +1,39 @@
 package com.solopov.feature_user_profile_impl.data.repository
 
-import com.solopov.common.data.db.dao.RatingDao
-import com.solopov.common.data.firebase.dao.UserFirebaseDao
+import com.solopov.common.data.remote.dao.UserRemoteDao
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileRepository
-import com.solopov.feature_user_profile_api.domain.model.Rating
 import com.solopov.feature_user_profile_api.domain.model.User
-import com.solopov.feature_user_profile_impl.data.mappers.RatingMappers
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import javax.inject.Inject
 
 class UserProfileRepositoryImpl @Inject constructor (
-    private val userFirebaseDao: UserFirebaseDao,
+    private val userRemoteDao: UserRemoteDao,
     private val userMappers: UserMappers,
 ): UserProfileRepository {
 
 
     override suspend fun getUserByUid(uid: String): User {
-        return userMappers.mapUserFirebaseToUser(userFirebaseDao.getUserByUid(uid))
+        return userMappers.mapUserRemoteToUser(userRemoteDao.getUserByUid(uid))
     }
 
     override suspend fun getCurrentUser(): User {
-        return userMappers.mapUserFirebaseToUser(userFirebaseDao.getCurrentUser())
+        return userMappers.mapUserRemoteToUser(userRemoteDao.getCurrentUser())
     }
 
     override suspend fun updateUser(user: User) {
-        return userFirebaseDao.updateUser(userMappers.mapUserToUserFirebase(user))
-    }
-
-    override suspend fun updateUserRating(user: User) {
-        return userFirebaseDao.updateUserRating(userMappers.mapUserToUserFirebase(user))
+        return userRemoteDao.updateUser(userMappers.mapUserToUserRemote(user))
     }
 
     override suspend fun updateUserPassword(password: String) {
-        return userFirebaseDao.updateUserPassword(password)
-
+        return userRemoteDao.updateUserPassword(password)
     }
-    override suspend fun uploadProfileImage(imageUri: String): String {
-        return userFirebaseDao.uploadProfileImage(imageUri)
 
+    override suspend fun uploadProfileImage(imageUri: String): String {
+        return userRemoteDao.uploadProfileImage(imageUri)
+    }
+
+    override suspend fun verifyCredentials(password: String): Boolean {
+        return userRemoteDao.verifyCredentials(password)
     }
 }
 

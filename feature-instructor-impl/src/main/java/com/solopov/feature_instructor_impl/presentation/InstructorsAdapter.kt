@@ -24,7 +24,6 @@ class InstructorsAdapter(
         var rating: Float,
         var numberOfRatings: Int,
         var hourlyRate: Float,
-        var isFromApi: Boolean,
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InstructorViewHolder {

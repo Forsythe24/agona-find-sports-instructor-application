@@ -7,7 +7,7 @@ interface UserProfileRepository {
     suspend fun getUserByUid(uid: String): User
     suspend fun getCurrentUser(): User
     suspend fun updateUser(user: User)
-    suspend fun updateUserRating(user: User)
     suspend fun updateUserPassword(password: String)
     suspend fun uploadProfileImage(imageUri: String): String
+    suspend fun verifyCredentials(password: String): Boolean
 }

@@ -2,17 +2,16 @@ package com.solopov.app.navigation
 
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
-import com.google.firebase.analytics.FirebaseAnalytics.Param
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.app.R
 import com.solopov.common.model.ChatCommon
-import com.solopov.common.model.UserCommon
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_instructor_impl.InstructorsRouter
-import com.solopov.common.utils.ParamsKey
+import com.solopov.common.utils.ParamsKey.CHAT
+import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
+import com.solopov.common.utils.ParamsKey.USER
+import com.solopov.common.utils.ParamsKey.USER_ID_KEY
 import com.solopov.feature_chat_impl.ChatRouter
-import com.solopov.feature_user_profile_api.domain.model.User
-import com.solopov.feature_user_profile_impl.presentation.user_profile.UserProfileFragment
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 
 class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
@@ -30,11 +29,11 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
         }
     }
 
-    override fun openInstructor(instructorId: String) {
-        navController?.navigate(R.id.userProfileFragment, bundleOf(ParamsKey.KEY_INSTRUCTOR_ID to instructorId))
+    override fun openUserProfile(userId: String) {
+        navController?.navigate(R.id.userProfileFragment, bundleOf(USER_ID_KEY to userId))
     }
-    override fun openInstructor(instructor: UserCommon) {
-        navController?.navigate(R.id.userProfileFragment, bundleOf(ParamsKey.USER to instructor))
+    override fun openInstructor(userId: String) {
+        navController?.navigate(R.id.userProfileFragment, bundleOf(USER_ID_KEY to userId, FROM_INSTRUCTORS_SCREEN_FLAG_KEY to true))
     }
 
     override fun returnToInstructors() {
@@ -42,11 +41,7 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
     }
 
     override fun openChat(chat: ChatCommon) {
-        navController?.navigate(R.id.chatFragment, bundleOf(ParamsKey.CHAT to chat))
-    }
-
-    override fun openUserProfile(chat: ChatCommon) {
-        navController?.navigate(R.id.userProfileFragment, bundleOf(ParamsKey.CHAT to chat))
+        navController?.navigate(R.id.chatFragment, bundleOf(CHAT to chat))
     }
 
     override fun goToSignUpPage() {
@@ -66,7 +61,7 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
     }
 
     override fun goToInstructApplication(userProfile: UserProfile) {
-        navController?.navigate(R.id.instructApplicationFragment, bundleOf(ParamsKey.USER to userProfile))
+        navController?.navigate(R.id.instructApplicationFragment, bundleOf(USER to userProfile))
     }
 
     override fun goBack() {
@@ -74,6 +69,6 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
     }
 
     override fun goToEditingProfile(userProfile: UserProfile) {
-        navController?.navigate(R.id.editProfileFragment, bundleOf(ParamsKey.USER to userProfile))
+        navController?.navigate(R.id.editProfileFragment, bundleOf(USER to userProfile))
     }
 }

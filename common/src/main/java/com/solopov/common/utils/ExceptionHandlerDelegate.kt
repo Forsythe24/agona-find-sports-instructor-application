@@ -7,8 +7,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.data.firebase.exceptions.AuthenticationException
-import com.solopov.common.data.firebase.exceptions.UserDoesNotExistException
+import com.solopov.common.data.remote.exceptions.AuthenticationException
 import javax.inject.Inject
 
 class ExceptionHandlerDelegate @Inject constructor(

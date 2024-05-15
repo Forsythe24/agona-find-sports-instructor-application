@@ -2,8 +2,6 @@ package com.solopov.feature_instructor_api.domain.model
 
 data class Instructor(
     val id: String,
-    val password: String,
-    val email: String,
     var name: String,
     var age: Int,
     var gender: String,

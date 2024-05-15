@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
 import com.solopov.common.base.BaseViewModel
-import com.solopov.common.model.UserCommon
+import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_user_profile_api.domain.model.User
@@ -22,7 +22,7 @@ class UserProfileViewModel(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val userMappers: UserMappers,
     private val ratingMappers: RatingMappers
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val _userProfileFlow = MutableStateFlow<UserProfile?>(null)
     val userProfileFlow: StateFlow<UserProfile?>
@@ -36,13 +36,17 @@ class UserProfileViewModel(
     val ratingsFlow: StateFlow<List<RatingUi>?>
         get() = _ratingsFlow
 
+    private val _chatFlow = MutableStateFlow<ChatCommon?>(null)
+    val chatFlow: StateFlow<ChatCommon?>
+        get() = _chatFlow
+
     private val _progressBarFlow = MutableStateFlow(false)
     val progressBarFlow: StateFlow<Boolean>
         get() = _progressBarFlow
 
     val errorsChannel = Channel<Throwable>()
 
-    fun getUserByUid(uid: String) {
+    fun setUserProfileByUid(uid: String) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.getUserByUid(uid)
@@ -54,12 +58,17 @@ class UserProfileViewModel(
         }
     }
 
-    fun setCurrentUser() {
+    fun setChat(chat: ChatCommon) {
+        _chatFlow.value = chat
+    }
+
+    fun setCurrentUser(userId: String, onUserSetCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.getCurrentUser()
             }.onSuccess {
                 _currentUserFlow.value = it
+                onUserSetCallback(it.id == userId)
             }.onFailure {
                 errorsChannel.send(it)
             }
@@ -90,15 +99,18 @@ class UserProfileViewModel(
         }
     }
 
-    fun updateUserRating(
+    fun updateUser(
         userProfile: UserProfile
     ) {
+        _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
-                interactor.updateUserRating(userMappers.mapUserProfileToUserForRating(userProfile))
+                interactor.updateUser(userMappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
+                _progressBarFlow.value = false
             }.onFailure {
                 errorsChannel.send(it)
+                _progressBarFlow.value = false
             }
         }
     }
@@ -117,8 +129,8 @@ class UserProfileViewModel(
         }
     }
 
-    fun setUserProfile(user: UserCommon) {
-        _userProfileFlow.value = userMappers.mapUserCommonToUserProfile(user)
+    fun setUserProfile(user: UserProfile) {
+        _userProfileFlow.value = user
     }
 
     fun set(user: UserProfile) {
@@ -128,7 +140,7 @@ class UserProfileViewModel(
     fun updateProfileImage(imageUri: String) {
         _userProfileFlow.value?.let {
             it.photo = imageUri
-            updateUserRating(it)
+            updateUser(it)
         }
     }
 
