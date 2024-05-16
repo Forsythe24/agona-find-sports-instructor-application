@@ -5,5 +5,6 @@ interface AuthRouter {
     fun goBack()
     fun goToSignUpPage()
     fun goToInstructorsList()
-    fun goToUserProfile()
+    fun goFromLogInToUserProfile()
+    fun goFromSignUpToInstructors()
 }

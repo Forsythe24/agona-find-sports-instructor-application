@@ -16,7 +16,7 @@ class ChatFeatureHolder @Inject constructor(
 
     override fun initializeDependencies(): Any {
         val chatFeatureDependencies = DaggerChatFeatureComponent_ChatFeatureDependenciesComponent.builder()
-            .firebaseApi(getFeature(RemoteApi::class.java))
+            .remoteApi(getFeature(RemoteApi::class.java))
             .commonApi(commonApi())
             .build()
         return DaggerChatFeatureComponent.builder()

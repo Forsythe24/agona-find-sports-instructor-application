@@ -8,6 +8,7 @@ import com.solopov.common.di.scope.ApplicationScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
 @Module
@@ -23,7 +24,10 @@ class NetworkModule {
     @PublicClient
     @ApplicationScope
     fun provideUnauthenticatedOkHttpClient(networkProperties: NetworkProperties): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
             .connectTimeout(networkProperties.connectTimeout, TimeUnit.SECONDS)
             .writeTimeout(networkProperties.writeTimeout, TimeUnit.SECONDS)
             .readTimeout(networkProperties.readTimeout, TimeUnit.SECONDS)

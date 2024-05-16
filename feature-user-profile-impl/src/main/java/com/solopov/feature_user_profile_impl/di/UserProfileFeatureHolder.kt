@@ -20,7 +20,7 @@ class UserProfileFeatureHolder @Inject constructor(
 
     override fun initializeDependencies(): Any {
         val userProfileFeatureDependencies = DaggerUserProfileFeatureComponent_UserProfileFeatureDependenciesComponent.builder()
-            .firebaseApi(getFeature(RemoteApi::class.java))
+            .remoteApi(getFeature(RemoteApi::class.java))
             .dbApi(getFeature(DbApi::class.java))
             .commonApi(commonApi())
             .build()

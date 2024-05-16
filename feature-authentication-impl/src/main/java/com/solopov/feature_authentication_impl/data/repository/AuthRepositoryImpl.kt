@@ -17,18 +17,14 @@ class AuthRepositoryImpl @Inject constructor (
         name: String,
         age: Int,
         gender: String,
-    ): User {
-
-        return userMappers.mapUserRemoteToUser(
-            userRemoteDao.createUser(
-                email,
-                password,
-                name,
-                age,
-                gender,
-            )
+    ) {
+        userRemoteDao.createUser(
+            email,
+            password,
+            name,
+            age,
+            gender,
         )
-
     }
 
 

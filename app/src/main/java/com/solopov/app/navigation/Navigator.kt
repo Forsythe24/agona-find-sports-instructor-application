@@ -52,8 +52,12 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
         navController?.navigate(R.id.instructorsFragment)
     }
 
-    override fun goToUserProfile() {
-        navController?.navigate(R.id.userProfileFragment)
+    override fun goFromLogInToUserProfile() {
+        navController?.navigate(R.id.action_logInFragment_to_userProfileFragment)
+    }
+
+    override fun goFromSignUpToInstructors() {
+        navController?.navigate(R.id.action_signUpFragment_to_instructorsFragment)
     }
 
     override fun goBackToInstructors() {

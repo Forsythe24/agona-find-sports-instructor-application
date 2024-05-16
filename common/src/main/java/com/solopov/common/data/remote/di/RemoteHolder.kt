@@ -10,11 +10,11 @@ class RemoteHolder @Inject constructor(
     featureContainer: FeatureContainer
 ) : FeatureApiHolder(featureContainer){
     override fun initializeDependencies(): Any {
-        val firebaseDependencies = DaggerFirebaseComponent_FirebaseDependenciesComponent.builder()
+        val remoteDependencies = DaggerRemoteComponent_RemoteDependenciesComponent.builder()
             .commonApi(commonApi())
             .build()
-        return DaggerFirebaseComponent.builder()
-            .firebaseDependencies(firebaseDependencies)
+        return DaggerRemoteComponent.builder()
+            .remoteDependencies(remoteDependencies)
             .build()
     }
 }

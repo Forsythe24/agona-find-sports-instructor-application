@@ -21,7 +21,7 @@ class InstructorFeatureHolder @Inject constructor(
         val instructorFeatureDependencies = DaggerInstructorFeatureComponent_InstructorFeatureDependenciesComponent.builder()
             .commonApi(commonApi())
             .dbApi(getFeature(DbApi::class.java))
-            .firebaseApi(getFeature(RemoteApi::class.java))
+            .remoteApi(getFeature(RemoteApi::class.java))
             .build()
         return DaggerInstructorFeatureComponent.builder()
             .withDependencies(instructorFeatureDependencies)

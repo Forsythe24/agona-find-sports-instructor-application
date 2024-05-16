@@ -18,7 +18,7 @@ class AuthFeatureHolder @Inject constructor(
 
     override fun initializeDependencies(): Any {
         val authFeatureDependencies = DaggerAuthFeatureComponent_AuthFeatureDependenciesComponent.builder()
-            .firebaseApi(getFeature(RemoteApi::class.java))
+            .remoteApi(getFeature(RemoteApi::class.java))
             .commonApi(commonApi())
             .build()
         return DaggerAuthFeatureComponent.builder()

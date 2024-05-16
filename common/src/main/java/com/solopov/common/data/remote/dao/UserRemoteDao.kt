@@ -25,6 +25,9 @@ import com.solopov.common.data.remote.model.RefreshJwtRequestDto
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -145,29 +148,24 @@ class UserRemoteDao @Inject constructor(
         name: String,
         age: Int,
         gender: String,
-    ): UserRemote {
-
+    ) {
         runCatching(exceptionHandlerDelegate) {
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{ }.await()
         }.onSuccess {
-            runCatching {
-                 val user = addUserToRemoteStorage(
-                        auth.currentUser!!.uid,
-                        email,
-                        password,
-                        name,
-                        age,
-                        gender
-                    )
-                    val response = authService.login(CredentialsRemote(email, password))
+            addUserToRemoteStorage(
+                auth.currentUser!!.uid,
+                email,
+                password,
+                name,
+                age,
+                gender
+            )
 
-                    saveTokens(response)
-                user
-            }.onSuccess {
-                return it
-            }.onFailure {
-                throw UserNotCreatedException(resManager.getString(R.string.couldn_t_create_an_account_try_again))
-            }
+            val response = authService.login(CredentialsRemote(email, password))
+
+            saveTokens(response)
+
+            return
         }.onFailure {
             throw UserNotCreatedException(resManager.getString(R.string.couldn_t_create_an_account_try_again))
         }
@@ -184,14 +182,6 @@ class UserRemoteDao @Inject constructor(
     ): UserRemote {
         val user = UserSignUpRemote(
             auth.currentUser!!.uid, email, password, name, age, gender,
-            sportName = "",
-            photo = "",
-            experience = "",
-            description = "",
-            rating = 0.0f,
-            numberOfRatings = 0,
-            hourlyRate = 0.0f,
-            isInstructor = false
         )
 
         return withContext(Dispatchers.IO) {
@@ -217,7 +207,6 @@ class UserRemoteDao @Inject constructor(
             runCatching {
                 getUserByUid(auth.currentUser!!.uid)
             }.onSuccess {
-                println(it)
                 return true
             }.onFailure {
                 throw UserDoesNotExistException(resManager.getString(R.string.this_user_does_not_exist_exception))
@@ -231,7 +220,6 @@ class UserRemoteDao @Inject constructor(
 
     private suspend fun saveTokens(response: Response<AuthNetworkResponse>) {
         response.body()?.let { body ->
-            println(body.refreshToken)
             jwtTokenManager.saveAccessJwt(body.accessToken)
             jwtTokenManager.saveRefreshJwt(body.refreshToken)
         }

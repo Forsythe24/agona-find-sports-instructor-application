@@ -83,7 +83,7 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
         with(viewModel) {
             authenticationResultFlow.observe {
                 if (it) {
-                    router.goToUserProfile()
+                    router.goFromLogInToUserProfile()
                 }
             }
 
