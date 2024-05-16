@@ -25,6 +25,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.7.0-beta01"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -35,6 +39,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
     }
     namespace 'com.solopov.feature_authentication_impl'
 }
@@ -44,6 +49,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common')
     implementation project(':feature-authentication-api')
+
+    implementation composeMaterialDep
+    implementation composeUiToolingPreviewDep
+    implementation composeUiToolingPDep
+    implementation composeCompilerVersion
+    implementation composeActivityDep
 
     implementation kotlinDep
 

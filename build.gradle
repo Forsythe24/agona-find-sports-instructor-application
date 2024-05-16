@@ -52,6 +52,16 @@ buildscript {
 
         loggingVersion = "4.12.0"
 
+        composeVersion = "1.7.0-beta01"
+        composeCompilerVersion = "1.5.14"
+        composeActivityVersion = "1.9.0"
+
+        composeMaterialDep = "androidx.compose.material:material:$composeVersion"
+        composeUiToolingPreviewDep = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
+        composeUiToolingPDep = "androidx.compose.ui:ui-tooling:$composeVersion"
+        composeCompilerVersion = "androidx.compose.compiler:compiler:$composeCompilerVersion"
+        composeActivityDep = "androidx.activity:activity-compose:$composeActivityVersion"
+
         httpLoggingDep = "com.squareup.okhttp3:logging-interceptor:$loggingVersion"
 
 
