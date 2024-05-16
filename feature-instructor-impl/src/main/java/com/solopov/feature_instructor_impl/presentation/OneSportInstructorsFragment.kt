@@ -152,7 +152,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
             val nameParts = instructor.name.split(" ", "-")
             for (i in nameParts.indices) {
                 nameParts[i].trim()
-                if(nameParts[i].lowercase().startsWith(query)) {
+                if(nameParts[i].lowercase().startsWith(query) || instructor.name.lowercase().startsWith(query)) {
                     filteredList.add(instructor)
                     break
                 }
