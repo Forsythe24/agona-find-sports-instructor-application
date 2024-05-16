@@ -10,8 +10,9 @@ data class Instructor(
     var experience: String,
     var description: String,
     var rating: Float,
+    var numberOfRatings: Int,
     var hourlyRate: Float,
-//    var isInstructor: Boolean = true
+    var isInstructor: Boolean = true
 )
 
 

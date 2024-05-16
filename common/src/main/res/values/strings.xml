@@ -52,4 +52,83 @@
     <string name="authentication_failed">Authentication failed. Check your email or password</string>
     <string name="email_in_use">The email address is already in use by another account</string>
     <string name="invalid_user">Invalid user</string>
+
+    <string name="description_sample">Hi! I\'m Ross Geller. My way of learning is to never give up! Me and you are gonna have so much fun training! I have a major experience in swimming which is going to make your training sessions a pleasure! SampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSample</string>
+    <string name="instructor_info_sample">Won a world cup, have 8 Ballon d\'Ors, male, 36</string>
+    <string name="hourly_rate_sample">20 $</string>
+    <string name="number_of_ratings_sample">(0)</string>
+    <string name="rating_sample">0.0</string>
+    <string name="instructor_info_template">%s, %d</string>
+    <string name="rating_template">%.1f</string>
+    <string name="number_of_ratings_template">(%d)</string>
+    <string name="hourly_rate_template">%.1f $</string>
+    <string name="name_sample">Lionel Messi</string>
+    <string name="this_user_does_not_exist_exception">This user does not exist</string>
+    <string name="user_data_update_failed_exception">Failed to update your profile</string>
+
+    <string name="app_name">feature-registration-authentication-impl</string>
+    <string name="invalid_email">Invalid email address</string>
+    <string name="alert_email">"\n\nEmail: "</string>
+    <string name="alert_password">"\n\nPassword: "</string>
+    <string name="alert_name">"\n\nName: "</string>
+    <string name="alert_age">"\n\nAge: "</string>
+    <string name="invalid_form">Invalid form</string>
+    <string name="male_gender">M</string>
+    <string name="female_gender">W</string>
+    <string name="authentication_error">Authentication Error</string>
+    <string name="must_not_be_empty">Must not be empty</string>
+    <string name="must_contain_only_digits">Must contain only digits</string>
+    <string name="must_be_adult">You must be at least 18 years old to use our app</string>
+    <string name="minimum_character_password">Minimum 8 character password</string>
+    <string name="must_contain_upper_case_character">Must contain at least 1 upper-case character</string>
+    <string name="must_contain_lower_case_character">Must contain at least 1 lower-case character</string>
+    <string name="must_contain_special_character"><![CDATA[Must contain at least 1 special character (@#$%^&+=)]]></string>
+    <string name="name_must_be_at_least_two_characters">Name must be at least 2 characters</string>
+    <string name="must_contain_only_letters_of_the_latin_alphabet">Must contain only letters of the Latin alphabet, dashes, or hyphens</string>
+    <string name="name_regex">[A-Za-z -]{2,}</string>
+    <string name="password_regex_one_uppercase_char">.*[A-Z].*</string>
+    <string name="password_regex_one_lowercase_char">.*[a-z].*</string>
+    <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
+    <string name="age_regex">[0-9]+</string>
+
+    <string name="file_uploading_exception">Failed to upload the file</string>
+    <string name="profile_image_upload_date_format">yyyy_MM_dd_HH_mm_ss</string>
+    <string name="profile_image_file_path_template">images/%s</string>
+    <string name="description">description</string>
+    <string name="experience">experience</string>
+    <string name="hourlyrate">hourlyRate</string>
+    <string name="photo">photo</string>
+    <string name="sport">sport</string>
+    <string name="instructor">instructor</string>
+    <string name="no_instructors_found_exception">No instructors found specializing in this sport</string>
+    <string name="failed_save_message_exception">Failed to save the message</string>
+    <string name="chat_lower">chat</string>
+    <string name="message">message</string>
+    <string name="chat_data_retrieving_failed_exception">Failed to retrieve this chat data</string>
+    <string name="text">text</string>
+    <string name="sender_id">senderId</string>
+    <string name="date">date</string>
+    <string name="failed_to_rate_this_user">Failed to rate this user</string>
+    <string name="numberofratings">numberOfRatings</string>
+    <string name="rating">rating</string>
+    <string name="couldn_t_create_an_account_try_again">Couldn\'t create an account. Try again</string>
+    <string name="failed_to_verify_your_credentials_check_your_password">Failed to verify your credentials. Check your password</string>
+    <string name="failed_to_update_your_password">Failed to update your password</string>
+
+    <string-array name="sports_types">
+        <item>Football</item>
+        <item>Tennis</item>
+        <item>Basketball</item>
+        <item>Hockey</item>
+        <item>Volleyball</item>
+        <item>Handball</item>
+    </string-array>
+
+    <string-array name="current_sports_types">
+        <item>Football</item>
+        <item>Basketball</item>
+        <item>Hockey</item>
+        <item>Volleyball</item>
+        <item>Handball</item>
+    </string-array>
 </resources>

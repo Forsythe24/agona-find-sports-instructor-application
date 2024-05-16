@@ -6,13 +6,16 @@ import com.solopov.common.di.FeatureContainer
 import com.solopov.common.di.scope.ApplicationScope
 import com.solopov.common.data.db.di.DbApi
 import com.solopov.common.data.db.di.DbHolder
-import com.solopov.common.data.firebase.di.FirebaseApi
-import com.solopov.common.data.firebase.di.FirebaseHolder
+import com.solopov.common.data.remote.di.RemoteApi
+import com.solopov.common.data.remote.di.RemoteHolder
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.di.AuthFeatureHolder
+import com.solopov.feature_chat_api.di.ChatFeatureApi
+import com.solopov.feature_chat_impl.di.ChatFeatureHolder
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
-import com.solopov.feature_instructor_impl.di.InstructorFeatureComponent
 import com.solopov.feature_instructor_impl.di.InstructorFeatureHolder
+import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
+import com.solopov.feature_user_profile_impl.di.UserProfileFeatureHolder
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.ClassKey
@@ -45,8 +48,19 @@ interface ComponentHolderModule {
 
     @ApplicationScope
     @Binds
-    @ClassKey(FirebaseApi::class)
+    @ClassKey(RemoteApi::class)
     @IntoMap
-    fun provideFirebaseFeatureHolder(firebaseHolder: FirebaseHolder): FeatureApiHolder
+    fun provideFirebaseFeatureHolder(remoteHolder: RemoteHolder): FeatureApiHolder
 
+    @ApplicationScope
+    @Binds
+    @ClassKey(UserProfileFeatureApi::class)
+    @IntoMap
+    fun provideUserProfileFeatureHolder(userProfileFeatureHolder: UserProfileFeatureHolder): FeatureApiHolder
+
+    @ApplicationScope
+    @Binds
+    @ClassKey(ChatFeatureApi::class)
+    @IntoMap
+    fun provideChatFeatureHolder(chatFeatureHolder: ChatFeatureHolder): FeatureApiHolder
 }

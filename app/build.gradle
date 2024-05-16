@@ -25,6 +25,7 @@ android {
         versionName rootProject.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -46,6 +47,10 @@ dependencies {
     implementation project(':feature-instructor-impl')
     implementation project(':feature-authentication-api')
     implementation project(':feature-authentication-impl')
+    implementation project(':feature-user-profile-api')
+    implementation project(':feature-user-profile-impl')
+    implementation project(':feature-chat-api')
+    implementation project(':feature-chat-impl')
 
     implementation kotlinDep
 
@@ -55,10 +60,12 @@ dependencies {
     implementation navigationFragmentDep
     implementation navigationUiDep
 
+    implementation navUiKtxDep
+    implementation navFragmentKtxDep
+
     implementation roomDep
 
     implementation daggerDep
-    implementation 'com.google.firebase:firebase-auth-ktx:22.3.1'
     kapt daggerKapt
 
     implementation lifecycleDep

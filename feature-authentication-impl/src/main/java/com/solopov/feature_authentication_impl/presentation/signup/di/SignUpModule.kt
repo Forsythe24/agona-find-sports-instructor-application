@@ -7,6 +7,7 @@ import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
+import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.presentation.signup.SignUpViewModel
 import dagger.Module
 import dagger.Provides
@@ -28,7 +29,7 @@ class SignUpModule {
     @Provides
     @IntoMap
     @ViewModelKey(SignUpViewModel::class)
-    fun provideSignInViewModel(interactor: AuthInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate): ViewModel {
-        return SignUpViewModel(interactor, exceptionHandlerDelegate)
+    fun provideSignInViewModel(interactor: AuthInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, authRouter: AuthRouter): ViewModel {
+        return SignUpViewModel(interactor, exceptionHandlerDelegate, authRouter)
     }
 }

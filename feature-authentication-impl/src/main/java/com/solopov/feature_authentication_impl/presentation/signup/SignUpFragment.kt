@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
@@ -13,7 +14,7 @@ import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.databinding.FragmentSignUpBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
-import com.solopov.feature_authentication_impl.utils.UserDataValidator
+import com.solopov.common.utils.UserDataValidator
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,21 +38,25 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
 
         with (viewModel) {
             with(binding) {
+                backBtn.setOnClickListener {
+                    router.goBack()
+                }
+
                 finishSignUpBtn.setOnClickListener {
                     if (isValidForm()) {
-
                         createUser(
                             email = emailEt.text.toString(),
                             password = passwordEt.text.toString(),
                             name = nameEt.text.toString(),
                             age = ageEt.text.toString().toInt(),
                             gender = if (maleRb.isChecked) getString(R.string.male_gender) else getString(
-                                                            R.string.female_gender)
+                                R.string.female_gender)
                         )
-                        router.goToInstructorsList()
+
                     } else {
                         showInvalidFormAlert()
                     }
+
                 }
 
                 emailEt.setOnFocusChangeListener {_, focused ->
@@ -84,12 +89,14 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
 
                 lifecycleScope.launch {
                     errorsChannel.consumeEach { error ->
+
                         val errorMessage = error.message ?: getString(R.string.unknown_error)
 
-                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+                        router.goToSignUpPage()
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                     }
-                }
 
+                }
             }
         }
     }
@@ -131,6 +138,9 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
     }
 
     override fun subscribe(viewModel: SignUpViewModel) {
+        viewModel.progressBarFlow.observe { isLoading ->
+            binding.progressBar.isVisible = isLoading
+        }
     }
 
 }

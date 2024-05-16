@@ -45,14 +45,21 @@
         <item name="boxCornerRadiusTopStart">8dp</item>
         <item name="boxBackgroundColor">@color/cultured</item>
         <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
+        <item name="boxStrokeWidth">1dp</item>
         <item name="helperTextTextColor">@color/neonRed</item>
     </style>
 
     <!-- Button -->
     <style name="DefaultButton">
-        <item name="backgroundTint">@color/blueberry</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
         <item name="textAllCaps">true</item>
         <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="ratingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar_full</item>
+        <item name="android:minHeight">23dip</item>
+        <item name="android:maxHeight">25dip</item>
     </style>
 
 </resources>

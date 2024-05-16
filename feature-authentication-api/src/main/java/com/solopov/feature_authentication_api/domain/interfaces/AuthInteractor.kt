@@ -25,7 +25,7 @@ class AuthInteractor(
         }
     }
 
-    suspend fun signInUser(email: String?, password: String?) {
+    suspend fun signInUser(email: String?, password: String?): Boolean {
         return withContext(dispatcher) {
             authRepository.signInUser(email, password)
         }

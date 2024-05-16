@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -67,6 +68,8 @@ dependencies {
     implementation retrofitDep
     implementation gsonConvertedDep
     implementation gsonDep
+
+    implementation glideDep
 
     implementation roomDep
     implementation rxRoomDep
