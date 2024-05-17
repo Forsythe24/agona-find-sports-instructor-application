@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 
 class AuthInteractor(
     private val authRepository: AuthRepository,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
 ) {
     suspend fun createUser(
         email: String,
@@ -28,6 +28,12 @@ class AuthInteractor(
     suspend fun signInUser(email: String?, password: String?): Boolean {
         return withContext(dispatcher) {
             authRepository.signInUser(email, password)
+        }
+    }
+
+    suspend fun sendNewPassword(email: String) {
+        return withContext(dispatcher) {
+            authRepository.sendNewPassword(email)
         }
     }
 

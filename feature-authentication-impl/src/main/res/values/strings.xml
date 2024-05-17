@@ -23,4 +23,6 @@
     <string name="password_regex_one_lowercase_char">.*[a-z].*</string>
     <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
     <string name="age_regex">[0-9]+</string>
+    <string name="forgot_my_password">Forgot my password</string>
+    <string name="send">SEND</string>
 </resources>

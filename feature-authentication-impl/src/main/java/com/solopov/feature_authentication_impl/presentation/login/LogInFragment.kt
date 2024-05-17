@@ -15,7 +15,9 @@ import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.databinding.FragmentLogInBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
+import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,12 +33,16 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     override fun initViews() {
         with (viewModel) {
             with(binding) {
 
                 signupLnk.setOnClickListener {
-                    router.goToSignUpPage()
+                    router.goToSignUp()
                 }
 
                 logInBtn.setOnClickListener {
@@ -45,28 +51,29 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
                     signIn(emailEt.text.toString(), passwordEt.text.toString())
                 }
 
-                lifecycleScope.launch {
-                    errorsChannel.consumeEach { error ->
-                        val errorMessage = error.message ?: getString(R.string.unknown_error)
-
-                        when (error) {
-                            is AuthenticationException.NoSuchEmailException, is AuthenticationException.InvalidEmailException -> {
-                                emailTextInput.helperText = error.message
-                            }
-
-                            is AuthenticationException.NoEmptyPasswordException -> {
-                                passwordTextInput.helperText = error.message
-                            }
-
-                            is AuthenticationException.WrongEmailOrPasswordException -> {
-                                showAlert(getString(R.string.authentication_error), errorMessage)
-                            }
-
-                            else -> Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                forgotPasswordLnk.setOnClickListener {
+                    router.goToPasswordRecovery()
                 }
 
+                errorsChannel.consumeAsFlow().observe { error ->
+                    val errorMessage = error.message ?: getString(R.string.unknown_error)
+
+                    when (error) {
+                        is AuthenticationException.NoSuchEmailException, is AuthenticationException.InvalidEmailException -> {
+                            emailTextInput.helperText = error.message
+                        }
+
+                        is AuthenticationException.NoEmptyPasswordException -> {
+                            passwordTextInput.helperText = error.message
+                        }
+
+                        is AuthenticationException.WrongEmailOrPasswordException -> {
+                            showAlert(getString(R.string.authentication_error), errorMessage)
+                        }
+
+                        else -> Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }

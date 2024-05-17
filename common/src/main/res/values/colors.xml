@@ -6,7 +6,7 @@
     <color name="deepSaffron">#FF8933 </color>
     <color name="white">#fff</color>
     <color name="lightGrey">#c4c4c4</color>
-    <color name="colorBackground">#f7f7f7</color>
+    <color name="colorBackground">#FFFAFA</color>
     <color name="colorError">#F44336</color>
     <color name="colorTextPrimary">#e6000000</color>
     <color name="colorTextSecondary">#88000000</color>

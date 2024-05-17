@@ -33,6 +33,9 @@ public final class FragmentLogInBinding implements ViewBinding {
   public final TextView emailTv;
 
   @NonNull
+  public final TextView forgotPasswordLnk;
+
+  @NonNull
   public final TextView haveAccountQuestionTv;
 
   @NonNull
@@ -61,15 +64,16 @@ public final class FragmentLogInBinding implements ViewBinding {
 
   private FragmentLogInBinding(@NonNull ConstraintLayout rootView,
       @NonNull TextInputEditText emailEt, @NonNull TextInputLayout emailTextInput,
-      @NonNull TextView emailTv, @NonNull TextView haveAccountQuestionTv,
-      @NonNull MaterialButton logInBtn, @NonNull TextView logInIntoAccountTv,
-      @NonNull TextView logInTv, @NonNull TextInputEditText passwordEt,
-      @NonNull TextInputLayout passwordTextInput, @NonNull TextView passwordTv,
-      @NonNull ProgressBar progressBar, @NonNull TextView signupLnk) {
+      @NonNull TextView emailTv, @NonNull TextView forgotPasswordLnk,
+      @NonNull TextView haveAccountQuestionTv, @NonNull MaterialButton logInBtn,
+      @NonNull TextView logInIntoAccountTv, @NonNull TextView logInTv,
+      @NonNull TextInputEditText passwordEt, @NonNull TextInputLayout passwordTextInput,
+      @NonNull TextView passwordTv, @NonNull ProgressBar progressBar, @NonNull TextView signupLnk) {
     this.rootView = rootView;
     this.emailEt = emailEt;
     this.emailTextInput = emailTextInput;
     this.emailTv = emailTv;
+    this.forgotPasswordLnk = forgotPasswordLnk;
     this.haveAccountQuestionTv = haveAccountQuestionTv;
     this.logInBtn = logInBtn;
     this.logInIntoAccountTv = logInIntoAccountTv;
@@ -123,6 +127,12 @@ public final class FragmentLogInBinding implements ViewBinding {
       id = R.id.email_tv;
       TextView emailTv = ViewBindings.findChildViewById(rootView, id);
       if (emailTv == null) {
+        break missingId;
+      }
+
+      id = R.id.forgot_password_lnk;
+      TextView forgotPasswordLnk = ViewBindings.findChildViewById(rootView, id);
+      if (forgotPasswordLnk == null) {
         break missingId;
       }
 
@@ -181,8 +191,8 @@ public final class FragmentLogInBinding implements ViewBinding {
       }
 
       return new FragmentLogInBinding((ConstraintLayout) rootView, emailEt, emailTextInput, emailTv,
-          haveAccountQuestionTv, logInBtn, logInIntoAccountTv, logInTv, passwordEt,
-          passwordTextInput, passwordTv, progressBar, signupLnk);
+          forgotPasswordLnk, haveAccountQuestionTv, logInBtn, logInIntoAccountTv, logInTv,
+          passwordEt, passwordTextInput, passwordTv, progressBar, signupLnk);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

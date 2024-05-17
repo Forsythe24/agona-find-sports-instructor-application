@@ -50,7 +50,7 @@ interface ComponentHolderModule {
     @Binds
     @ClassKey(RemoteApi::class)
     @IntoMap
-    fun provideFirebaseFeatureHolder(remoteHolder: RemoteHolder): FeatureApiHolder
+    fun provideRemoteFeatureHolder(remoteHolder: RemoteHolder): FeatureApiHolder
 
     @ApplicationScope
     @Binds

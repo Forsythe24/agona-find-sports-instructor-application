@@ -2,7 +2,6 @@ package com.solopov.common.data.remote.dao
 
 import android.util.Patterns
 import androidx.core.net.toUri
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
@@ -21,13 +20,12 @@ import com.solopov.common.data.remote.model.UserSignUpRemote
 import com.solopov.common.data.remote.AuthService
 import com.solopov.common.data.remote.RefreshTokenService
 import com.solopov.common.data.remote.SportApi
+import com.solopov.common.data.remote.exceptions.HttpException
 import com.solopov.common.data.remote.model.RefreshJwtRequestDto
+import com.solopov.common.data.remote.model.SendNewPasswordOnEmailRequestDto
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -39,7 +37,6 @@ import javax.inject.Inject
 
 class UserRemoteDao @Inject constructor(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
-    private val auth: FirebaseAuth,
     private val resManager: ResourceManager,
     private val storage: FirebaseStorage,
     private val api: SportApi,
@@ -57,6 +54,18 @@ class UserRemoteDao @Inject constructor(
             throw NoInstructorsFoundException(resManager.getString(R.string.no_instructors_found_exception))
         }
         throw NoInstructorsFoundException(resManager.getString(R.string.no_instructors_found_exception))
+    }
+
+    suspend fun sendPassword(email: String) {
+        withContext(Dispatchers.IO) {
+            val response = authService.sendPassword(SendNewPasswordOnEmailRequestDto(email))
+
+//            when (response.code()) {
+//                500 -> throw HttpException.ServerNotResponding(resManager.getString(R.string.server_not_responding))
+//                403 -> throw HttpException.ServerNotResponding(resManager.getString(R.string.server_not_responding))
+//                else -> {}
+//            }
+        }
     }
 
     suspend fun verifyCredentials(password: String): Boolean {
@@ -113,7 +122,7 @@ class UserRemoteDao @Inject constructor(
     }
 
     suspend fun getCurrentUser(): UserRemote {
-        return getUserByUid(auth.currentUser!!.uid)
+        return api.getCurrentUser()
     }
 
     suspend fun updateUser(user: UserRemote) {
@@ -127,10 +136,8 @@ class UserRemoteDao @Inject constructor(
     }
 
     suspend fun updateUserPassword(password: String) {
-
         withContext(Dispatchers.IO) {
             try {
-                auth.currentUser?.updatePassword(password)?.await()
                 api.updatePassword(CredentialsRemote("", password))
 
                 val networkResponse = refreshTokenService.refreshToken(RefreshJwtRequestDto(jwtTokenManager.getRefreshJwt()))
@@ -150,16 +157,14 @@ class UserRemoteDao @Inject constructor(
         gender: String,
     ) {
         runCatching(exceptionHandlerDelegate) {
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{ }.await()
-        }.onSuccess {
             addUserToRemoteStorage(
-                auth.currentUser!!.uid,
                 email,
                 password,
                 name,
                 age,
                 gender
             )
+        }.onSuccess {
 
             val response = authService.login(CredentialsRemote(email, password))
 
@@ -173,7 +178,6 @@ class UserRemoteDao @Inject constructor(
     }
 
     private suspend fun addUserToRemoteStorage(
-        id: String,
         email: String,
         password: String,
         name: String,
@@ -181,9 +185,8 @@ class UserRemoteDao @Inject constructor(
         gender: String,
     ): UserRemote {
         val user = UserSignUpRemote(
-            auth.currentUser!!.uid, email, password, name, age, gender,
+            email, password, name, age, gender,
         )
-
         return withContext(Dispatchers.IO) {
             authService.createUser(user)
         }
@@ -200,12 +203,11 @@ class UserRemoteDao @Inject constructor(
         }
 
         runCatching(exceptionHandlerDelegate) {
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { }.await()
             authService.login(CredentialsRemote(email, password))
         }.onSuccess { response ->
             saveTokens(response)
             runCatching {
-                getUserByUid(auth.currentUser!!.uid)
+                getCurrentUser()
             }.onSuccess {
                 return true
             }.onFailure {

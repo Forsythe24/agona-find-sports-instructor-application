@@ -32,4 +32,8 @@ class AuthRepositoryImpl @Inject constructor (
     override suspend fun signInUser(email: String?, password: String?): Boolean {
         return userRemoteDao.signInUser(email, password)
     }
+
+    override suspend fun sendNewPassword(email: String) {
+        return userRemoteDao.sendPassword(email)
+    }
 }

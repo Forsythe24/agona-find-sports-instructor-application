@@ -19,6 +19,10 @@ interface SportApi {
         @Path("id") id: String
     ): UserRemote
 
+    @GET("user/current")
+    suspend fun getCurrentUser (
+    ): UserRemote
+
     @POST("user/update")
     suspend fun updateUser (
         @Body user: UserRemote

@@ -10,4 +10,6 @@ interface AuthRepository {
     )
 
     suspend fun signInUser(email: String?, password: String?): Boolean
+
+    suspend fun sendNewPassword(email: String)
 }

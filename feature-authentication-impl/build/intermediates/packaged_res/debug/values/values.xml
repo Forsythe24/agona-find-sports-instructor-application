@@ -10,6 +10,7 @@
     <string name="app_name">feature-registration-authentication-impl</string>
     <string name="authentication_error">Authentication Error</string>
     <string name="female_gender">W</string>
+    <string name="forgot_my_password">Forgot my password</string>
     <string name="invalid_email">Invalid email address</string>
     <string name="invalid_form">Invalid form</string>
     <string name="male_gender">M</string>
@@ -26,6 +27,7 @@
     <string name="password_regex_one_lowercase_char">.*[a-z].*</string>
     <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
     <string name="password_regex_one_uppercase_char">.*[A-Z].*</string>
+    <string name="send">SEND</string>
     <style name="Base.Theme.SportsInstructorApp" parent="Theme.Material3.DayNight.NoActionBar">
         
         

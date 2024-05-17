@@ -20,10 +20,6 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        buildConfigField "String", "API_KEY", "\"2e7a7775femshb136a173b335463p1571a5jsn63e23d4d1928\""
-
-        buildConfigField "String", "API_HOST", "\"sportscore1.p.rapidapi.com\""
     }
 
     buildTypes {
@@ -35,7 +31,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        buildConfig = true
     }
     namespace 'com.solopov.instructors'
 }
