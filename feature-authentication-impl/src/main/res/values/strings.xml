@@ -25,4 +25,6 @@
     <string name="age_regex">[0-9]+</string>
     <string name="forgot_my_password">Forgot my password</string>
     <string name="send">SEND</string>
+    <string name="type_in_email_used_for_registration">Type in the email you used for registration</string>
+    <string name="we_are_going_to_send_your_new_password">We are going to send your new password</string>
 </resources>

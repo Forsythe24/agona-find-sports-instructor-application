@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -74,9 +76,23 @@ fun PasswordRecoveryScreen(
 
         val shape = RoundedCornerShape(8.dp)
 
+        val fontFamilyInterSemibold = FontFamily(Font(R.font.inter_semibold))
+
+        val fontFamilyInterRegular =  FontFamily(Font(R.font.inter_regular))
+
+        Text(text = stringResource(R.string.we_are_going_to_send_your_new_password), fontFamily = fontFamilyInterSemibold, color = colorResource(
+            id = R.color.colorTextSecondary
+        ))
+
+        Text(text = stringResource(R.string.type_in_email_used_for_registration), fontFamily = fontFamilyInterRegular, color = colorResource(
+            id = R.color.colorTextSecondary
+        ))
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         TextField(
             modifier = Modifier
-                .widthIn(max = 320.dp),
+                .requiredWidth(280.dp),
 //                .border(1.dp, colorResource(id = R.color.text_input_box_stroke_color), shape),
 //                .background(colorResource(id = R.color.cultured), shape),
             shape = shape,
@@ -93,7 +109,7 @@ fun PasswordRecoveryScreen(
                 cursorColor = colorResource(id = R.color.colorPrimary),
             ),
 
-            textStyle = TextStyle(fontFamily = FontFamily(Font(R.font.inter_regular))),
+            textStyle = TextStyle(fontFamily = fontFamilyInterRegular),
             value = text,
             onValueChange = {
                 text = it
@@ -107,7 +123,7 @@ fun PasswordRecoveryScreen(
                         // if isError then errorMessage is definitely not empty or null
                         text = errorMessage!!,
                         color = MaterialTheme.colorScheme.error,
-                        fontFamily = FontFamily(Font(R.font.inter_regular)),
+                        fontFamily = fontFamilyInterRegular,
                     )
                 }
             },
@@ -129,7 +145,7 @@ fun PasswordRecoveryScreen(
         ) {
             Text(
                 text = stringResource(R.string.send),
-                fontFamily = FontFamily(Font(R.font.inter_semibold))
+                fontFamily = fontFamilyInterSemibold
             )
         }
     }
