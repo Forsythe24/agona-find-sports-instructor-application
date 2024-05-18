@@ -23,9 +23,13 @@ class EditProfileViewModel @Inject constructor(
     val editProfileFlow: StateFlow<UserProfile?>
         get() = _editProfileFlow
 
-    private val _progressBarFlow = MutableStateFlow(false)
-    val progressBarFlow: StateFlow<Boolean>
-        get() = _progressBarFlow
+    private val _saveBtnProgressBarFlow = MutableStateFlow(false)
+    val saveBtnProgressBarFlow: StateFlow<Boolean>
+        get() = _saveBtnProgressBarFlow
+
+    private val _dialogBtnProgressBarFlow = MutableStateFlow(false)
+    val dialogBtnProgressBarFlow: StateFlow<Boolean>
+        get() = _dialogBtnProgressBarFlow
 
     val errorsChannel = Channel<Throwable>()
 
@@ -33,31 +37,31 @@ class EditProfileViewModel @Inject constructor(
         userProfile: UserProfile,
         onUserUpdated: () -> Unit
     ) {
-        _progressBarFlow.value = true
+        _saveBtnProgressBarFlow.value = true
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.updateUser(mappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
                 onUserUpdated()
-                _progressBarFlow.value = false
+                _saveBtnProgressBarFlow.value = false
             }.onFailure {
                 errorsChannel.send(it)
-                _progressBarFlow.value = false
+                _saveBtnProgressBarFlow.value = false
             }
         }
     }
 
     fun updateUserPassword(password: String, onPasswordUpdated: () -> Unit) {
-        _progressBarFlow.value = true
+        _dialogBtnProgressBarFlow.value = true
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.updateUserPassword(password)
             }.onSuccess {
                 onPasswordUpdated()
-                _progressBarFlow.value = false
+                _dialogBtnProgressBarFlow.value = false
             }.onFailure {
                 errorsChannel.send(it)
-                _progressBarFlow.value = false
+                _dialogBtnProgressBarFlow.value = false
             }
         }
     }
@@ -67,7 +71,7 @@ class EditProfileViewModel @Inject constructor(
         onCorrectPasswordCallback: () -> Unit,
         onWrongPasswordCallback: () -> Unit,
     ){
-        _progressBarFlow.value = true
+        _dialogBtnProgressBarFlow.value = true
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.verifyCredentials(allegedPassword)
@@ -77,10 +81,10 @@ class EditProfileViewModel @Inject constructor(
                 } else {
                     onWrongPasswordCallback()
                 }
-                _progressBarFlow.value = false
+                _dialogBtnProgressBarFlow.value = false
             }.onFailure {
                 errorsChannel.send(it)
-                _progressBarFlow.value = false
+                _dialogBtnProgressBarFlow.value = false
             }
         }
     }

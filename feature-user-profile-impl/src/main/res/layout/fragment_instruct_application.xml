@@ -22,7 +22,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/inter_bold"
         android:text="@string/application"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/black"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,20 +114,6 @@
             android:maxLength="100" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/colorPrimary"
-        android:indeterminateTintMode="src_atop"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/description_tv"
         android:layout_width="wrap_content"
@@ -207,8 +193,7 @@
                 android:progress="100"
                 android:progressDrawable="@drawable/seekbar_style"
                 android:thumb="@drawable/seekbar_custom_thumb"
-
-                ></SeekBar>
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -230,20 +215,21 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <com.google.android.material.button.MaterialButton
+    <com.solopov.common.base.view.ProgressButton
         android:id="@+id/apply_btn"
-        style="@style/DefaultButton"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="80dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/inter_semibold"
-        android:text="@string/apply"
-        android:textColor="@color/white"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hourly_text_input" />
+        app:layout_constraintTop_toBottomOf="@id/hourly_text_input"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/inter_semibold"
+        android:backgroundTint="@color/black"
+        app:text="@string/apply"
+        style="@style/Widget.ProgressButton.Blueberry"
+        android:layout_centerInParent="true"
+        app:enabled="true"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

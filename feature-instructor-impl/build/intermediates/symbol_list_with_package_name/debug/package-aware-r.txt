@@ -417,6 +417,7 @@ attr elevationOverlayColor
 attr elevationOverlayEnabled
 attr emojiCompatEnabled
 attr enableEdgeToEdge
+attr enabled
 attr endIconCheckable
 attr endIconContentDescription
 attr endIconDrawable
@@ -681,10 +682,34 @@ attr listPreferredItemPaddingEnd
 attr listPreferredItemPaddingLeft
 attr listPreferredItemPaddingRight
 attr listPreferredItemPaddingStart
+attr loading
 attr logo
 attr logoAdjustViewBounds
 attr logoDescription
 attr logoScaleType
+attr lottieAnimationViewStyle
+attr lottie_asyncUpdates
+attr lottie_autoPlay
+attr lottie_cacheComposition
+attr lottie_clipTextToBoundingBox
+attr lottie_clipToCompositionBounds
+attr lottie_colorFilter
+attr lottie_defaultFontFileExtension
+attr lottie_enableMergePathsForKitKatAndAbove
+attr lottie_fallbackRes
+attr lottie_fileName
+attr lottie_ignoreDisabledSystemAnimations
+attr lottie_imageAssetsFolder
+attr lottie_loop
+attr lottie_progress
+attr lottie_rawRes
+attr lottie_renderMode
+attr lottie_repeatCount
+attr lottie_repeatMode
+attr lottie_resId
+attr lottie_speed
+attr lottie_url
+attr lottie_useCompositionFrameRate
 attr marginHorizontal
 attr marginLeftSystemWindowInsets
 attr marginRightSystemWindowInsets
@@ -961,6 +986,7 @@ attr targetId
 attr telltales_tailColor
 attr telltales_tailScale
 attr telltales_velocityMode
+attr text
 attr textAllCaps
 attr textAppearanceBody1
 attr textAppearanceBody2
@@ -1145,6 +1171,7 @@ color background_floating_material_light
 color background_material_dark
 color background_material_light
 color black
+color blueberry_button_text_color_selector
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
 color bright_foreground_inverse_material_dark
@@ -1155,6 +1182,7 @@ color browser_actions_bg_grey
 color browser_actions_divider_color
 color browser_actions_text_color
 color browser_actions_title_color
+color button_blueberry_background_selector
 color button_material_dark
 color button_material_light
 color call_notification_answer_color
@@ -1728,6 +1756,7 @@ color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
 color snow
 color subtleBlack
+color subtleWhite
 color subtle_black
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
@@ -2540,6 +2569,8 @@ drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable outline_heart_broken_24
+drawable progress_button_background
+drawable progress_button_blueberry
 drawable rating_bar_empty
 drawable rating_bar_filled
 drawable rating_bar_full
@@ -2633,6 +2664,7 @@ id auto
 id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
+id automatic
 id backImg
 id background
 id barrier
@@ -2646,6 +2678,7 @@ id browser_actions_menu_item_text
 id browser_actions_menu_items
 id browser_actions_menu_view
 id buttonPanel
+id button_text
 id cancel_button
 id center
 id centerCrop
@@ -2688,6 +2721,7 @@ id design_menu_item_action_area_stub
 id design_menu_item_text
 id design_navigation_view
 id dialog_button
+id disabled
 id disjoint
 id dragDown
 id dragEnd
@@ -2706,6 +2740,7 @@ id edit_text_id
 id edittext_dropdown_editable
 id edittext_dropdown_noneditable
 id elastic
+id enabled
 id end
 id endToStart
 id expand_activities_button
@@ -2729,6 +2764,7 @@ id glide_custom_view_target_tag
 id gone
 id group_divider
 id guideline
+id hardware
 id header_title
 id hide_ime_id
 id home
@@ -2764,6 +2800,7 @@ id line3
 id linear
 id listMode
 id list_item
+id lottie_layer_name
 id masked
 id material_clock_display
 id material_clock_face
@@ -2854,10 +2891,13 @@ id postLayout
 id progress
 id progress_circular
 id progress_horizontal
+id progress_indicator
 id radio
 id rating_tv
 id rectangles
 id report_drawn
+id restart
+id reverse
 id reverseSawtooth
 id right
 id rightToLeft
@@ -2893,6 +2933,7 @@ id sin
 id slide
 id snackbar_action
 id snackbar_text
+id software
 id spacer
 id special_effects_controller_view_tag
 id splashscreen_icon_view
@@ -3149,6 +3190,7 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout progress_button
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
@@ -3174,8 +3216,11 @@ layout tool_bar
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
+raw button_loader
 raw config
 raw firebase_common_keep
+raw loader
+raw lottie_loader
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -3893,6 +3938,7 @@ style TextAppearance_AppCompat_Widget_PopupMenu_Large
 style TextAppearance_AppCompat_Widget_PopupMenu_Small
 style TextAppearance_AppCompat_Widget_Switch
 style TextAppearance_AppCompat_Widget_TextView_SpinnerItem
+style TextAppearance_Body_White
 style TextAppearance_Compat_Notification
 style TextAppearance_Compat_Notification_Info
 style TextAppearance_Compat_Notification_Line2
@@ -3959,6 +4005,7 @@ style TextAppearance_MaterialComponents_Subtitle1
 style TextAppearance_MaterialComponents_Subtitle2
 style TextAppearance_MaterialComponents_TimePicker_Title
 style TextAppearance_MaterialComponents_Tooltip
+style TextAppearance_ProgressButton_Blueberry
 style TextAppearance_Test_NoTextSize
 style TextAppearance_Test_UsesDp
 style TextAppearance_Test_UsesSP
@@ -4066,6 +4113,7 @@ style ThemeOverlay_MaterialComponents_TimePicker_Display_TextInputEditText
 style ThemeOverlay_MaterialComponents_Toolbar_Popup_Primary
 style ThemeOverlay_MaterialComponents_Toolbar_Primary
 style ThemeOverlay_MaterialComponents_Toolbar_Surface
+style ThemeOverlay_Widget_ProgressButton_Blueberry
 style Theme_AgonaFindSportsInstructorApplication
 style Theme_Agonafindsportsinstructorapplication
 style Theme_AppCompat
@@ -4521,6 +4569,7 @@ style Widget_MaterialComponents_Toolbar_Primary
 style Widget_MaterialComponents_Toolbar_PrimarySurface
 style Widget_MaterialComponents_Toolbar_Surface
 style Widget_MaterialComponents_Tooltip
+style Widget_ProgressButton_Blueberry
 style Widget_Support_CoordinatorLayout
 style ratingBar
 styleable ActionBar background backgroundSplit backgroundStacked contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation customNavigationLayout displayOptions divider elevation height hideOnContentScroll homeAsUpIndicator homeLayout icon indeterminateProgressStyle itemPadding logo navigationMode popupTheme progressBarPadding progressBarStyle subtitle subtitleTextStyle title titleTextStyle
@@ -4594,6 +4643,7 @@ styleable LinearLayoutCompat_Layout android_layout_gravity android_layout_height
 styleable LinearProgressIndicator indeterminateAnimationType indicatorDirectionLinear
 styleable ListPopupWindow android_dropDownHorizontalOffset android_dropDownVerticalOffset
 styleable LoadingImageView circleCrop imageAspectRatio imageAspectRatioAdjust
+styleable LottieAnimationView lottie_asyncUpdates lottie_autoPlay lottie_cacheComposition lottie_clipTextToBoundingBox lottie_clipToCompositionBounds lottie_colorFilter lottie_defaultFontFileExtension lottie_enableMergePathsForKitKatAndAbove lottie_fallbackRes lottie_fileName lottie_ignoreDisabledSystemAnimations lottie_imageAssetsFolder lottie_loop lottie_progress lottie_rawRes lottie_renderMode lottie_repeatCount lottie_repeatMode lottie_speed lottie_url lottie_useCompositionFrameRate
 styleable MaterialAlertDialog backgroundInsetBottom backgroundInsetEnd backgroundInsetStart backgroundInsetTop
 styleable MaterialAlertDialogTheme materialAlertDialogBodyTextStyle materialAlertDialogButtonSpacerVisibility materialAlertDialogTheme materialAlertDialogTitleIconStyle materialAlertDialogTitlePanelStyle materialAlertDialogTitleTextStyle
 styleable MaterialAutoCompleteTextView android_inputType simpleItemLayout simpleItems
@@ -4627,6 +4677,7 @@ styleable OnClick clickAction targetId
 styleable OnSwipe dragDirection dragScale dragThreshold limitBoundsTo maxAcceleration maxVelocity moveWhenScrollAtTop nestedScrollFlags onTouchUp touchAnchorId touchAnchorSide touchRegionId
 styleable PopupWindow android_popupAnimationStyle android_popupBackground overlapAnchor
 styleable PopupWindowBackgroundState state_above_anchor
+styleable ProgressButton enabled loading lottie_resId text
 styleable PropertySet android_alpha android_visibility layout_constraintTag motionProgress visibilityMode
 styleable RadialViewGroup materialCircleRadius
 styleable RangeSlider minSeparation values

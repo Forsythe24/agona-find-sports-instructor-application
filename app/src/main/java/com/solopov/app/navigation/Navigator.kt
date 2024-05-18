@@ -12,9 +12,10 @@ import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
 import com.solopov.common.utils.ParamsKey.USER
 import com.solopov.common.utils.ParamsKey.USER_ID_KEY
 import com.solopov.feature_chat_impl.ChatRouter
+import com.solopov.feature_event_calendar_impl.EventCalendarRouter
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 
-class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
+class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter, EventCalendarRouter {
 
     private var navController: NavController? = null
 

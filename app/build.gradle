@@ -51,6 +51,8 @@ dependencies {
     implementation project(':feature-user-profile-impl')
     implementation project(':feature-chat-api')
     implementation project(':feature-chat-impl')
+    implementation project(':feature-event-calendar-api')
+    implementation project(':feature-event-calendar-impl')
 
     implementation kotlinDep
 

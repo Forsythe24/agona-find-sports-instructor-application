@@ -12,6 +12,8 @@ import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.di.AuthFeatureHolder
 import com.solopov.feature_chat_api.di.ChatFeatureApi
 import com.solopov.feature_chat_impl.di.ChatFeatureHolder
+import com.solopov.feature_event_calendar_api.di.EventCalendarFeatureApi
+import com.solopov.feature_event_calendar_impl.di.EventCalendarFeatureHolder
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.di.InstructorFeatureHolder
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
@@ -63,4 +65,10 @@ interface ComponentHolderModule {
     @ClassKey(ChatFeatureApi::class)
     @IntoMap
     fun provideChatFeatureHolder(chatFeatureHolder: ChatFeatureHolder): FeatureApiHolder
+
+    @ApplicationScope
+    @Binds
+    @ClassKey(EventCalendarFeatureApi::class)
+    @IntoMap
+    fun provideEventCalendarFeatureHolder(eventCalendarFeatureHolder: EventCalendarFeatureHolder): FeatureApiHolder
 }

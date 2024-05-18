@@ -139,7 +139,7 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
 
     override fun subscribe(viewModel: SignUpViewModel) {
         viewModel.progressBarFlow.observe { isLoading ->
-            binding.progressBar.isVisible = isLoading
+            binding.finishSignUpBtn.setLoading(isLoading)
         }
     }
 
