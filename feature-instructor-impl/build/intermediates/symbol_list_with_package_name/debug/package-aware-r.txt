@@ -1727,6 +1727,7 @@ color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
 color snow
+color subtleBlack
 color subtle_black
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
@@ -2435,6 +2436,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable baseline_arrow_back_24
 drawable baseline_heart_broken_24
 drawable baseline_keyboard_arrow_left_24
 drawable btn_checkbox_checked_mtrl
@@ -3256,6 +3258,7 @@ string common_open_on_phone
 string common_signin_button_text
 string common_signin_button_text_long
 string copy_toast_msg
+string couldn_t_create_an_account_try_again
 string create_a_new_account_here
 string date
 string description
@@ -3274,6 +3277,8 @@ string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string failed_save_message_exception
 string failed_to_rate_this_user
+string failed_to_update_your_password
+string failed_to_verify_your_credentials_check_your_password
 string fallback_menu_item_copy_link
 string fallback_menu_item_open_in_browser
 string fallback_menu_item_share_link
@@ -3385,11 +3390,11 @@ string mtrl_picker_toggle_to_text_input_mode
 string mtrl_picker_toggle_to_year_selection
 string mtrl_timepicker_confirm
 string must_be_adult
-string must_contain_lower_case_character
+string must_contain_lowercase_character
 string must_contain_only_digits
 string must_contain_only_letters_of_the_latin_alphabet
 string must_contain_special_character
-string must_contain_upper_case_character
+string must_contain_uppercase_character
 string must_not_be_empty
 string name
 string name_hint
@@ -3402,6 +3407,8 @@ string no_instructors_found
 string no_instructors_found_exception
 string no_user_with_such_email
 string number_of_ratings_sample
+string number_of_ratings_template
+string numberofratings
 string password
 string password_lower
 string password_must_not_be_empty
@@ -3418,11 +3425,13 @@ string photo_lower
 string please_log_in_into_your_account
 string profile_image_file_path_template
 string profile_image_upload_date_format
+string rating
 string rating_lower
 string rating_sample
 string rating_template
 string search_menu_title
 string sender_id
+string server_not_responding
 string sign_in
 string sign_up
 string sport

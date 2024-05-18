@@ -127,33 +127,41 @@
         android:textColor="@color/white"/>
 
     <TextView
+        android:id="@+id/forgot_password_lnk"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/log_in_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/forgot_my_password"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/inter_bold"/>
+
+    <TextView
         android:id="@+id/have_account_question_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/log_in_btn"
+        app:layout_constraintTop_toBottomOf="@id/forgot_password_lnk"
         android:text="@string/don_t_have_an_account"
         android:fontFamily="@font/inter_semibold"
         />
 
     <TextView
         android:id="@+id/signup_lnk"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/have_account_question_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/sign_up"
+        android:textSize="16sp"
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/inter_bold"/>
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

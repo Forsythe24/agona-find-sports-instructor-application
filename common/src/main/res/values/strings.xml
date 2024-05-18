@@ -80,8 +80,8 @@
     <string name="must_contain_only_digits">Must contain only digits</string>
     <string name="must_be_adult">You must be at least 18 years old to use our app</string>
     <string name="minimum_character_password">Minimum 8 character password</string>
-    <string name="must_contain_upper_case_character">Must contain at least 1 upper-case character</string>
-    <string name="must_contain_lower_case_character">Must contain at least 1 lower-case character</string>
+    <string name="must_contain_uppercase_character">Must contain at least 1 uppercase character</string>
+    <string name="must_contain_lowercase_character">Must contain at least 1 lowercase character</string>
     <string name="must_contain_special_character"><![CDATA[Must contain at least 1 special character (@#$%^&+=)]]></string>
     <string name="name_must_be_at_least_two_characters">Name must be at least 2 characters</string>
     <string name="must_contain_only_letters_of_the_latin_alphabet">Must contain only letters of the Latin alphabet, dashes, or hyphens</string>
@@ -114,6 +114,7 @@
     <string name="couldn_t_create_an_account_try_again">Couldn\'t create an account. Try again</string>
     <string name="failed_to_verify_your_credentials_check_your_password">Failed to verify your credentials. Check your password</string>
     <string name="failed_to_update_your_password">Failed to update your password</string>
+    <string name="server_not_responding">Server is not responding at the moment. Please, try again later</string>
 
     <string-array name="sports_types">
         <item>Football</item>

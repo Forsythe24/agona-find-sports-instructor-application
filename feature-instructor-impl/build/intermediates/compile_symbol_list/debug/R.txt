@@ -1726,6 +1726,7 @@ int color secondary_text_default_material_light 0x0
 int color secondary_text_disabled_material_dark 0x0
 int color secondary_text_disabled_material_light 0x0
 int color snow 0x0
+int color subtleBlack 0x0
 int color subtle_black 0x0
 int color switch_thumb_disabled_material_dark 0x0
 int color switch_thumb_disabled_material_light 0x0
@@ -2434,6 +2435,7 @@ int drawable abc_textfield_search_material 0x0
 int drawable abc_vector_test 0x0
 int drawable avd_hide_password 0x0
 int drawable avd_show_password 0x0
+int drawable baseline_arrow_back_24 0x0
 int drawable baseline_heart_broken_24 0x0
 int drawable baseline_keyboard_arrow_left_24 0x0
 int drawable btn_checkbox_checked_mtrl 0x0
@@ -3255,6 +3257,7 @@ int string common_open_on_phone 0x0
 int string common_signin_button_text 0x0
 int string common_signin_button_text_long 0x0
 int string copy_toast_msg 0x0
+int string couldn_t_create_an_account_try_again 0x0
 int string create_a_new_account_here 0x0
 int string date 0x0
 int string description 0x0
@@ -3273,6 +3276,8 @@ int string fab_transformation_scrim_behavior 0x0
 int string fab_transformation_sheet_behavior 0x0
 int string failed_save_message_exception 0x0
 int string failed_to_rate_this_user 0x0
+int string failed_to_update_your_password 0x0
+int string failed_to_verify_your_credentials_check_your_password 0x0
 int string fallback_menu_item_copy_link 0x0
 int string fallback_menu_item_open_in_browser 0x0
 int string fallback_menu_item_share_link 0x0
@@ -3384,11 +3389,11 @@ int string mtrl_picker_toggle_to_text_input_mode 0x0
 int string mtrl_picker_toggle_to_year_selection 0x0
 int string mtrl_timepicker_confirm 0x0
 int string must_be_adult 0x0
-int string must_contain_lower_case_character 0x0
+int string must_contain_lowercase_character 0x0
 int string must_contain_only_digits 0x0
 int string must_contain_only_letters_of_the_latin_alphabet 0x0
 int string must_contain_special_character 0x0
-int string must_contain_upper_case_character 0x0
+int string must_contain_uppercase_character 0x0
 int string must_not_be_empty 0x0
 int string name 0x0
 int string name_hint 0x0
@@ -3401,6 +3406,8 @@ int string no_instructors_found 0x0
 int string no_instructors_found_exception 0x0
 int string no_user_with_such_email 0x0
 int string number_of_ratings_sample 0x0
+int string number_of_ratings_template 0x0
+int string numberofratings 0x0
 int string password 0x0
 int string password_lower 0x0
 int string password_must_not_be_empty 0x0
@@ -3417,11 +3424,13 @@ int string photo_lower 0x0
 int string please_log_in_into_your_account 0x0
 int string profile_image_file_path_template 0x0
 int string profile_image_upload_date_format 0x0
+int string rating 0x0
 int string rating_lower 0x0
 int string rating_sample 0x0
 int string rating_template 0x0
 int string search_menu_title 0x0
 int string sender_id 0x0
+int string server_not_responding 0x0
 int string sign_in 0x0
 int string sign_up 0x0
 int string sport 0x0

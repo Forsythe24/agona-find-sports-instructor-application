@@ -14,6 +14,7 @@ id email_text_input
 id email_tv
 id female_rb
 id finish_sign_up_btn
+id forgot_password_lnk
 id gender_rg
 id gender_tv
 id have_account_question_tv
@@ -42,6 +43,7 @@ string alert_password
 string app_name
 string authentication_error
 string female_gender
+string forgot_my_password
 string invalid_email
 string invalid_form
 string male_gender
@@ -58,5 +60,6 @@ string name_regex
 string password_regex_one_lowercase_char
 string password_regex_one_special_char
 string password_regex_one_uppercase_char
+string send
 style Base.Theme.SportsInstructorApp
 style Theme.SportsInstructorApp

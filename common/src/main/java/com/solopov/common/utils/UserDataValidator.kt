@@ -37,11 +37,11 @@ class UserDataValidator @Inject constructor (
         }
         if(!text.matches(resourceManager.getString(R.string.password_regex_one_uppercase_char).toRegex()))
         {
-            return resourceManager.getString(R.string.must_contain_upper_case_character)
+            return resourceManager.getString(R.string.must_contain_uppercase_character)
         }
         if(!text.matches(resourceManager.getString(R.string.password_regex_one_lowercase_char).toRegex()))
         {
-            return resourceManager.getString(R.string.must_contain_lower_case_character)
+            return resourceManager.getString(R.string.must_contain_lowercase_character)
         }
         if(!text.matches(resourceManager.getString(R.string.password_regex_one_special_char).toRegex()))
         {

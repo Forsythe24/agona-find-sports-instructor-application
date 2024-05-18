@@ -92,7 +92,7 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
 
                         val errorMessage = error.message ?: getString(R.string.unknown_error)
 
-                        router.goToSignUpPage()
+                        router.goToSignUp()
                         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                     }
 

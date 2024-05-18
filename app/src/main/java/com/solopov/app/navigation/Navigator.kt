@@ -44,7 +44,7 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
         navController?.navigate(R.id.chatFragment, bundleOf(CHAT to chat))
     }
 
-    override fun goToSignUpPage() {
+    override fun goToSignUp() {
         navController?.navigate(R.id.signUpFragment)
     }
 
@@ -58,6 +58,10 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter {
 
     override fun goFromSignUpToInstructors() {
         navController?.navigate(R.id.action_signUpFragment_to_instructorsFragment)
+    }
+
+    override fun goToPasswordRecovery() {
+        navController?.navigate(R.id.action_logInFragment_to_passwordRecoveryFragment)
     }
 
     override fun goBackToInstructors() {
