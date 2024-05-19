@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">feature-event-calendar-impl</string>
     <string name="calendar">Calendar</string>
-    <string name="time_range_sample">19:00-20:00</string>
+    <string name="time_range_sample">12:00-14:00</string>
+    <string name="time_range_template">%s-%s</string>
     <string name="name_sample">Ross Geller</string>
     <string name="absalyamova_26">Absalyamova, 26</string>
     <string name="event_sample">Football</string>
+    <string name="pick_a_partner_from_your_chat_list">Pick a partner from your chat list</string>
+    <string name="where_will_it_take_place">Where will it take place?</string>
+    <string name="let_s_schedule">Let\'s schedule!</string>
+    <string name="activity">Activity</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="pick_a_time">Pick a time</string>
+    <string name="schedule">schedule</string>
+    <string name="possible_partner_sample">Ross Geller</string>
 </resources>

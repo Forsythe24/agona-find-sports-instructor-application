@@ -3528,6 +3528,8 @@ string not_selected
 string number_of_ratings_sample
 string number_of_ratings_template
 string numberofratings
+string off
+string on
 string password
 string password_lower
 string password_must_not_be_empty

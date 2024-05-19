@@ -1,9 +1,9 @@
 package com.solopov.feature_event_calendar_api.domain.interfaces
 
-import com.solopov.feature_event_calendar_api.domain.model.Rating
-import com.solopov.feature_event_calendar_api.domain.model.User
+import com.solopov.feature_event_calendar_api.domain.model.Event
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 
 class EventCalendarInteractor(
@@ -12,58 +12,27 @@ class EventCalendarInteractor(
     private val dispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun getUserByUid(uid: String): User {
+    suspend fun addEvent(event: Event) {
         return withContext(dispatcher) {
-            eventCalendarRepository.getUserByUid(uid)
+            eventCalendarRepository.addEvent(event)
         }
     }
 
-    suspend fun getCurrentUser(): User {
+    suspend fun getAllEventsByDate(date: Date): List<Event>? {
         return withContext(dispatcher) {
-            eventCalendarRepository.getCurrentUser()
+            eventCalendarRepository.getAllEventsByDate(date)
         }
     }
 
-    suspend fun updateUser(user: User) {
+    suspend fun getAllPossiblePartnersNamesByUserId(userId: String): List<String>? {
         return withContext(dispatcher) {
-            eventCalendarRepository.updateUser(user)
+            eventCalendarRepository.getAllPossiblePartnersNamesByUserId(userId)
         }
     }
 
-    suspend fun updateUserPassword(password: String) {
+    suspend fun getCurrentUserId(): String {
         return withContext(dispatcher) {
-            eventCalendarRepository.updateUserPassword(password)
+            eventCalendarRepository.getCurrentUserId()
         }
     }
-
-    suspend fun verifyCredentials(password: String): Boolean {
-        return withContext(dispatcher) {
-            eventCalendarRepository.verifyCredentials(password)
-        }
-    }
-
-    suspend fun uploadProfileImage(imageUri: String): String {
-        return withContext(dispatcher) {
-            eventCalendarRepository.uploadProfileImage(imageUri)
-        }
-    }
-
-    suspend fun addRating(rating: Rating) {
-        return withContext(dispatcher) {
-            ratingRepository.addRating(rating)
-        }
-    }
-
-    suspend fun getAllInstructorRatingsById(instructorId: String): List<Rating>? {
-        return withContext(dispatcher) {
-            ratingRepository.getAllInstructorRatingsById(instructorId)
-        }
-    }
-
-    suspend fun getRatingByUserAndInstructorIds(userId: String, instructorId: String): Rating? {
-        return withContext(dispatcher) {
-            ratingRepository.getRatingByUserAndInstructorIds(userId, instructorId)
-        }
-    }
-
 }

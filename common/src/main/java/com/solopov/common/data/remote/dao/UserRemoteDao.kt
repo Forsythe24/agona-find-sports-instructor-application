@@ -125,6 +125,10 @@ class UserRemoteDao @Inject constructor(
         return api.getCurrentUser()
     }
 
+    suspend fun getCurrentUserId(): String {
+        return getCurrentUser().id
+    }
+
     suspend fun updateUser(user: UserRemote) {
         runCatching(exceptionHandlerDelegate) {
             api.updateUser(user)

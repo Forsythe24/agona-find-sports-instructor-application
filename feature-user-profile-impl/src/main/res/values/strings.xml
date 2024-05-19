@@ -43,4 +43,5 @@
     <string name="your_instructor_s_bio_has_been_successfully_saved">Your instructor\'s bio has been successfully saved</string>
     <string name="describe_your_unique_way_of_training">Describe your unique way of training</string>
     <string name="image_intent_type">image/*</string>
+    <string name="rugby">Rugby</string>
 </resources>

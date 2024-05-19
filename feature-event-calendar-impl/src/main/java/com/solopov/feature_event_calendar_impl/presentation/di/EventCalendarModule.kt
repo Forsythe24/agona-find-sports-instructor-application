@@ -8,7 +8,7 @@ import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.feature_event_calendar_api.domain.interfaces.EventCalendarInteractor
 import com.solopov.feature_event_calendar_impl.EventCalendarRouter
-import com.solopov.feature_event_calendar_impl.data.mappers.UserMappers
+import com.solopov.feature_event_calendar_impl.data.mappers.EventMappers
 import com.solopov.feature_event_calendar_impl.presentation.EventCalendarViewModel
 import dagger.Module
 import dagger.Provides
@@ -29,7 +29,7 @@ class EventCalendarModule {
     @Provides
     @IntoMap
     @ViewModelKey(EventCalendarViewModel::class)
-    fun provideInstructorViewModel(interactor: EventCalendarInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, userMappers: UserMappers, eventCalendarRouter: EventCalendarRouter): ViewModel {
-        return EventCalendarViewModel(interactor, exceptionHandlerDelegate, userMappers, eventCalendarRouter)
+    fun provideInstructorViewModel(interactor: EventCalendarInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, eventMappers: EventMappers, eventCalendarRouter: EventCalendarRouter): ViewModel {
+        return EventCalendarViewModel(interactor, exceptionHandlerDelegate, eventMappers, eventCalendarRouter)
     }
 }

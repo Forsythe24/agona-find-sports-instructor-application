@@ -27,7 +27,7 @@
             />
 
         <TextView
-            android:id="@+id/name_tv"
+            android:id="@+id/person_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/time_range_tv"
@@ -40,11 +40,11 @@
             />
 
         <TextView
-            android:id="@+id/event_tv"
+            android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/name_tv"
-            app:layout_constraintBottom_toBottomOf="@id/name_tv"
+            app:layout_constraintTop_toTopOf="@id/person_name_tv"
+            app:layout_constraintBottom_toBottomOf="@id/person_name_tv"
             app:layout_constraintEnd_toEndOf="parent"
             android:textColor="@color/black"
             android:text="@string/event_sample"
@@ -57,7 +57,7 @@
             android:id="@+id/place_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/name_tv"
+            app:layout_constraintTop_toBottomOf="@id/person_name_tv"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/subtleBlack"
             android:text="@string/absalyamova_26"

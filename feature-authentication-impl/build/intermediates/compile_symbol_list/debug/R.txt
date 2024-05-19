@@ -3527,6 +3527,8 @@ int string not_selected 0x0
 int string number_of_ratings_sample 0x0
 int string number_of_ratings_template 0x0
 int string numberofratings 0x0
+int string off 0x0
+int string on 0x0
 int string password 0x0
 int string password_lower 0x0
 int string password_must_not_be_empty 0x0
