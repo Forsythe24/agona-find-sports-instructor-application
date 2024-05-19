@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.solopov.common.base.BaseFragment
+import com.solopov.common.di.FeatureUtils
+import com.solopov.feature_event_calendar_api.di.EventCalendarFeatureApi
 import com.solopov.feature_event_calendar_impl.databinding.FragmentEventCalendarBinding
+import com.solopov.feature_event_calendar_impl.di.EventCalendarFeatureComponent
 
 class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
 
@@ -26,14 +29,17 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
     }
 
     override fun initViews() {
-        TODO("Not yet implemented")
+
     }
 
     override fun inject() {
-        TODO("Not yet implemented")
+        FeatureUtils.getFeature<EventCalendarFeatureComponent>(this, EventCalendarFeatureApi::class.java)
+            .eventCalendarComponentFactory()
+            .create(this)
+            .inject(this)
     }
 
     override fun subscribe(viewModel: EventCalendarViewModel) {
-        TODO("Not yet implemented")
+
     }
 }

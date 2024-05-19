@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:backgroundTint="#F5F5F5"
+    app:cardCornerRadius="16dp"
+    android:layout_marginBottom="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="4dp">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        >
+        <TextView
+            android:id="@+id/time_range_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/subtleBlack"
+            android:text="@string/time_range_sample"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter_bold"
+            />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/time_range_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black"
+            android:text="@string/name_sample"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_regular"
+            />
+
+        <TextView
+            android:id="@+id/event_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/name_tv"
+            app:layout_constraintBottom_toBottomOf="@id/name_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/black"
+            android:text="@string/event_sample"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold"
+            />
+
+        <TextView
+            android:id="@+id/place_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/name_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/subtleBlack"
+            android:text="@string/absalyamova_26"
+            android:textSize="14sp"
+            android:fontFamily="@font/inter_regular"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>

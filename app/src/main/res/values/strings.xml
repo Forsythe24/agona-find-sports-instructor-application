@@ -6,4 +6,5 @@
     <string name="chat">Chat</string>
     <string name="profile">Profile</string>
     <string name="chats">Chats</string>
+    <string name="calendar">Calendar</string>
 </resources>
