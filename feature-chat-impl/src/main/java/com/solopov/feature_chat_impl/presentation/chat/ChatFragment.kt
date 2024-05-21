@@ -81,7 +81,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         viewModel.stopRepeatWork()
         super.onStop()
     }
-    // фото через crop
 
     private fun repeatCheckingMessagesForUpdates() {
 
@@ -92,8 +91,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                 getMessages()
             }
         }
-
-
     }
 
     private fun getMessages() {

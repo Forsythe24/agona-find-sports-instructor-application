@@ -120,7 +120,7 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
 
     private fun setViewsToEditingMode() {
         with(binding) {
-            applyBtn.text = getString(R.string.save)
+            applyBtn.setText(getString(R.string.save))
             applicationTv.text = getString(R.string.instructors_bio_label)
             joinInstructorsTv.text = getString(R.string.edit_your_instructors_bio_here)
         }
@@ -166,7 +166,7 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
     override fun subscribe(viewModel: InstructApplicationViewModel) {
 
         viewModel.progressBarFlow.observe { isLoading ->
-            binding.progressBar.isVisible = isLoading
+            binding.applyBtn.setLoading(isLoading)
         }
 
         lifecycleScope.launch {

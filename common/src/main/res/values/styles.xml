@@ -62,4 +62,26 @@
         <item name="android:maxHeight">25dip</item>
     </style>
 
+    <style name="ThemeOverlay.Widget.ProgressButton.Blueberry" parent="">
+        <item name="android:textAppearanceButton">@style/TextAppearance.ProgressButton.Blueberry</item>
+    </style>
+
+    <style name="TextAppearance.Body.White" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--Text styiling for blueberry button, with selector-->
+    <style name="TextAppearance.ProgressButton.Blueberry" parent="@style/TextAppearance.Body.White">
+        <item name="android:textColor">@color/blueberry_button_text_color_selector</item>
+    </style>
+
+    <style name="Widget.ProgressButton.Blueberry" parent="">
+        <item name="android:theme">@style/ThemeOverlay.Widget.ProgressButton.Blueberry</item>
+        <item name="android:background">@drawable/progress_button_blueberry</item>
+    </style>
+
 </resources>

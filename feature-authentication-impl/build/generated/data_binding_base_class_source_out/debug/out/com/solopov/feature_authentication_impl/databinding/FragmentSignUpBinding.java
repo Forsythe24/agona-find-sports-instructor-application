@@ -4,7 +4,6 @@ package com.solopov.feature_authentication_impl.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -14,9 +13,9 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.solopov.common.base.view.ProgressButton;
 import com.solopov.feature_authentication_impl.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -54,7 +53,7 @@ public final class FragmentSignUpBinding implements ViewBinding {
   public final RadioButton femaleRb;
 
   @NonNull
-  public final MaterialButton finishSignUpBtn;
+  public final ProgressButton finishSignUpBtn;
 
   @NonNull
   public final RadioGroup genderRg;
@@ -84,9 +83,6 @@ public final class FragmentSignUpBinding implements ViewBinding {
   public final TextView passwordTv;
 
   @NonNull
-  public final ProgressBar progressBar;
-
-  @NonNull
   public final TextView signUpTv;
 
   private FragmentSignUpBinding(@NonNull ConstraintLayout rootView,
@@ -94,12 +90,12 @@ public final class FragmentSignUpBinding implements ViewBinding {
       @NonNull TextView ageTv, @NonNull AppCompatImageButton backBtn,
       @NonNull TextView createAccountTv, @NonNull TextInputEditText emailEt,
       @NonNull TextInputLayout emailTextInput, @NonNull TextView emailTv,
-      @NonNull RadioButton femaleRb, @NonNull MaterialButton finishSignUpBtn,
+      @NonNull RadioButton femaleRb, @NonNull ProgressButton finishSignUpBtn,
       @NonNull RadioGroup genderRg, @NonNull TextView genderTv, @NonNull RadioButton maleRb,
       @NonNull TextInputEditText nameEt, @NonNull TextInputLayout nameTextInput,
       @NonNull TextView nameTv, @NonNull TextInputEditText passwordEt,
       @NonNull TextInputLayout passwordTextInput, @NonNull TextView passwordTv,
-      @NonNull ProgressBar progressBar, @NonNull TextView signUpTv) {
+      @NonNull TextView signUpTv) {
     this.rootView = rootView;
     this.ageEt = ageEt;
     this.ageTextInput = ageTextInput;
@@ -120,7 +116,6 @@ public final class FragmentSignUpBinding implements ViewBinding {
     this.passwordEt = passwordEt;
     this.passwordTextInput = passwordTextInput;
     this.passwordTv = passwordTv;
-    this.progressBar = progressBar;
     this.signUpTv = signUpTv;
   }
 
@@ -206,7 +201,7 @@ public final class FragmentSignUpBinding implements ViewBinding {
       }
 
       id = R.id.finish_sign_up_btn;
-      MaterialButton finishSignUpBtn = ViewBindings.findChildViewById(rootView, id);
+      ProgressButton finishSignUpBtn = ViewBindings.findChildViewById(rootView, id);
       if (finishSignUpBtn == null) {
         break missingId;
       }
@@ -265,12 +260,6 @@ public final class FragmentSignUpBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.progressBar;
-      ProgressBar progressBar = ViewBindings.findChildViewById(rootView, id);
-      if (progressBar == null) {
-        break missingId;
-      }
-
       id = R.id.sign_up_tv;
       TextView signUpTv = ViewBindings.findChildViewById(rootView, id);
       if (signUpTv == null) {
@@ -280,7 +269,7 @@ public final class FragmentSignUpBinding implements ViewBinding {
       return new FragmentSignUpBinding((ConstraintLayout) rootView, ageEt, ageTextInput, ageTv,
           backBtn, createAccountTv, emailEt, emailTextInput, emailTv, femaleRb, finishSignUpBtn,
           genderRg, genderTv, maleRb, nameEt, nameTextInput, nameTv, passwordEt, passwordTextInput,
-          passwordTv, progressBar, signUpTv);
+          passwordTv, signUpTv);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

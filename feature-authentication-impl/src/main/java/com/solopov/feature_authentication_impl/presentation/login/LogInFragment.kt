@@ -38,6 +38,7 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
     }
 
     override fun initViews() {
+
         with (viewModel) {
             with(binding) {
 
@@ -49,6 +50,7 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
                     emailTextInput.helperText = null
                     passwordTextInput.helperText = null
                     signIn(emailEt.text.toString(), passwordEt.text.toString())
+                    logInBtn.setLoading(true)
                 }
 
                 forgotPasswordLnk.setOnClickListener {
@@ -57,6 +59,8 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
 
                 errorsChannel.consumeAsFlow().observe { error ->
                     val errorMessage = error.message ?: getString(R.string.unknown_error)
+
+                    logInBtn.setLoading(false)
 
                     when (error) {
                         is AuthenticationException.NoSuchEmailException, is AuthenticationException.InvalidEmailException -> {
@@ -92,10 +96,6 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
                 if (it) {
                     router.goFromLogInToUserProfile()
                 }
-            }
-
-            progressBarFlow.observe { isLoading ->
-                binding.progressBar.isVisible = isLoading
             }
         }
     }

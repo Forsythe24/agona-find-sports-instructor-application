@@ -46,6 +46,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
                 destination.id == R.id.signUpFragment ||
                 destination.id == R.id.chatFragment ||
                 destination.id == R.id.passwordRecoveryFragment ||
+                destination.id == R.id.instructApplicationFragment ||
                 isFromInstructorsList(bundle)
             ) {
 

@@ -125,6 +125,10 @@ class UserRemoteDao @Inject constructor(
         return api.getCurrentUser()
     }
 
+    suspend fun getCurrentUserId(): String {
+        return getCurrentUser().id
+    }
+
     suspend fun updateUser(user: UserRemote) {
         runCatching(exceptionHandlerDelegate) {
             api.updateUser(user)
@@ -205,6 +209,9 @@ class UserRemoteDao @Inject constructor(
         runCatching(exceptionHandlerDelegate) {
             authService.login(CredentialsRemote(email, password))
         }.onSuccess { response ->
+            if (response.body() == null) {
+                throw AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
+            }
             saveTokens(response)
             runCatching {
                 getCurrentUser()

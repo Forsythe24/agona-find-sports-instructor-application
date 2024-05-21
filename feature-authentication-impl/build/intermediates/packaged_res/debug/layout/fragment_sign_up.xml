@@ -216,34 +216,20 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <com.google.android.material.button.MaterialButton
+    <com.solopov.common.base.view.ProgressButton
         android:id="@+id/finish_sign_up_btn"
-        style="@style/DefaultButton"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="80dp"
-        android:layout_height="60dp"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/password_text_input"
         android:layout_marginTop="36dp"
-        android:text="@string/finish"
-        android:textColor="@color/white"
-        android:fontFamily="@font/inter_semibold"/>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/colorPrimary"
-        android:indeterminateTintMode="src_atop"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:fontFamily="@font/inter_semibold"
+        app:text="@string/finish"
+        style="@style/Widget.ProgressButton.Blueberry"
+        android:layout_centerInParent="true"
+        app:enabled="true"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

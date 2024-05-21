@@ -4,16 +4,15 @@ package com.solopov.feature_authentication_impl.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.solopov.common.base.view.ProgressButton;
 import com.solopov.feature_authentication_impl.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -39,7 +38,7 @@ public final class FragmentLogInBinding implements ViewBinding {
   public final TextView haveAccountQuestionTv;
 
   @NonNull
-  public final MaterialButton logInBtn;
+  public final ProgressButton logInBtn;
 
   @NonNull
   public final TextView logInIntoAccountTv;
@@ -57,18 +56,15 @@ public final class FragmentLogInBinding implements ViewBinding {
   public final TextView passwordTv;
 
   @NonNull
-  public final ProgressBar progressBar;
-
-  @NonNull
   public final TextView signupLnk;
 
   private FragmentLogInBinding(@NonNull ConstraintLayout rootView,
       @NonNull TextInputEditText emailEt, @NonNull TextInputLayout emailTextInput,
       @NonNull TextView emailTv, @NonNull TextView forgotPasswordLnk,
-      @NonNull TextView haveAccountQuestionTv, @NonNull MaterialButton logInBtn,
+      @NonNull TextView haveAccountQuestionTv, @NonNull ProgressButton logInBtn,
       @NonNull TextView logInIntoAccountTv, @NonNull TextView logInTv,
       @NonNull TextInputEditText passwordEt, @NonNull TextInputLayout passwordTextInput,
-      @NonNull TextView passwordTv, @NonNull ProgressBar progressBar, @NonNull TextView signupLnk) {
+      @NonNull TextView passwordTv, @NonNull TextView signupLnk) {
     this.rootView = rootView;
     this.emailEt = emailEt;
     this.emailTextInput = emailTextInput;
@@ -81,7 +77,6 @@ public final class FragmentLogInBinding implements ViewBinding {
     this.passwordEt = passwordEt;
     this.passwordTextInput = passwordTextInput;
     this.passwordTv = passwordTv;
-    this.progressBar = progressBar;
     this.signupLnk = signupLnk;
   }
 
@@ -143,7 +138,7 @@ public final class FragmentLogInBinding implements ViewBinding {
       }
 
       id = R.id.log_in_btn;
-      MaterialButton logInBtn = ViewBindings.findChildViewById(rootView, id);
+      ProgressButton logInBtn = ViewBindings.findChildViewById(rootView, id);
       if (logInBtn == null) {
         break missingId;
       }
@@ -178,12 +173,6 @@ public final class FragmentLogInBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.progressBar;
-      ProgressBar progressBar = ViewBindings.findChildViewById(rootView, id);
-      if (progressBar == null) {
-        break missingId;
-      }
-
       id = R.id.signup_lnk;
       TextView signupLnk = ViewBindings.findChildViewById(rootView, id);
       if (signupLnk == null) {
@@ -192,7 +181,7 @@ public final class FragmentLogInBinding implements ViewBinding {
 
       return new FragmentLogInBinding((ConstraintLayout) rootView, emailEt, emailTextInput, emailTv,
           forgotPasswordLnk, haveAccountQuestionTv, logInBtn, logInIntoAccountTv, logInTv,
-          passwordEt, passwordTextInput, passwordTv, progressBar, signupLnk);
+          passwordEt, passwordTextInput, passwordTv, signupLnk);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

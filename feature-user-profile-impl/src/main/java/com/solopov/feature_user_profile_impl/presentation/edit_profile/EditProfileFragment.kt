@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.solopov.com.solopov.feature_user_profile_impl.R
 import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentEditProfileBinding
 import com.solopov.common.base.BaseFragment
+import com.solopov.common.base.view.ProgressButton
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.ParamsKey
 import com.solopov.common.utils.UserDataValidator
@@ -41,7 +42,7 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
     private var currentUser: UserProfile? = null
     private lateinit var dialog: Dialog
 
-    private lateinit var dialogButton: MaterialButton
+    private lateinit var dialogButton: ProgressButton
     private lateinit var passwordEt: TextInputEditText
     private lateinit var passwordTextInput: TextInputLayout
 
@@ -144,7 +145,7 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
 
         val tvHeader = dialog.findViewById<TextView>(R.id.header_tv)
         tvHeader.text = getString(R.string.new_password_header)
-        dialogButton.text = getString(R.string.submit)
+        dialogButton.setText(getString(R.string.submit))
 
         dialogButton.setOnClickListener {
             val potentialNewPassword = passwordEt.text.toString()
@@ -206,8 +207,12 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
                 }
             }
 
-            progressBarFlow.observe { isLoading ->
-                binding.progressBar.isVisible = isLoading
+            saveBtnProgressBarFlow.observe { isLoading ->
+                binding.saveBtn.setLoading(isLoading)
+            }
+
+            dialogBtnProgressBarFlow.observe { isLoading ->
+                binding.saveBtn.setLoading(isLoading)
             }
         }
 

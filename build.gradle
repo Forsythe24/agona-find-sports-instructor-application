@@ -57,6 +57,10 @@ buildscript {
         composeActivityVersion = "1.9.0"
         composeMaterialVersion = "1.2.1"
 
+        lottieVersion = "6.4.0"
+
+        lottieDep =  "com.airbnb.android:lottie:$lottieVersion"
+
         composeMaterialDep = "androidx.compose.material:material:$composeVersion"
         composeUiToolingPreviewDep = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
         composeUiToolingPDep = "androidx.compose.ui:ui-tooling:$composeVersion"
@@ -66,7 +70,6 @@ buildscript {
 
 
         httpLoggingDep = "com.squareup.okhttp3:logging-interceptor:$loggingVersion"
-
 
         dataStoreDep = "androidx.datastore:datastore-preferences-core-jvm:$dataStoreVersion"
 

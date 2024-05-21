@@ -28,7 +28,6 @@ id name_tv
 id password_et
 id password_text_input
 id password_tv
-id progressBar
 id sign_up_tv
 id signup_lnk
 layout fragment_log_in
@@ -43,9 +42,11 @@ string alert_password
 string app_name
 string authentication_error
 string female_gender
+string finish
 string forgot_my_password
 string invalid_email
 string invalid_form
+string log_in
 string male_gender
 string minimum_character_password
 string must_be_adult
@@ -61,5 +62,7 @@ string password_regex_one_lowercase_char
 string password_regex_one_special_char
 string password_regex_one_uppercase_char
 string send
+string type_in_email_used_for_registration
+string we_are_going_to_send_your_new_password
 style Base.Theme.SportsInstructorApp
 style Theme.SportsInstructorApp

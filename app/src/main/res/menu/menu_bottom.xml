@@ -4,6 +4,10 @@
         android:id="@+id/instructorsFragment"
         android:icon="@drawable/baseline_sports_24"
         android:title="@string/instructors" />
+    <item
+        android:id="@+id/eventCalendarFragment"
+        android:icon="@drawable/baseline_calendar_month_24"
+        android:title="@string/calendar" />
 
     <item
         android:id="@+id/chatsFragment"

@@ -82,7 +82,14 @@
         android:id="@+id/chatsFragment"
         android:name="com.solopov.feature_chat_impl.presentation.chat_list.ChatsFragment"
         android:label="fragment_chats"
-        tools:layout="@layout/fragment_chats">
+        tools:layout="@layout/fragment_chat_list">
+    </fragment>
+
+    <fragment
+        android:id="@+id/eventCalendarFragment"
+        android:name="com.solopov.feature_event_calendar_impl.presentation.EventCalendarFragment"
+        android:label="fragment_chats"
+        tools:layout="@layout/fragment_event_calendar">
     </fragment>
 
 

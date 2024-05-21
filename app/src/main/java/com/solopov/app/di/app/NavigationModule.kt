@@ -4,6 +4,7 @@ import com.solopov.app.navigation.Navigator
 import com.solopov.common.di.scope.ApplicationScope
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_chat_impl.ChatRouter
+import com.solopov.feature_event_calendar_impl.EventCalendarRouter
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import dagger.Module
@@ -31,4 +32,8 @@ class NavigationModule {
     @ApplicationScope
     @Provides
     fun provideChatRouter(navigator: Navigator): ChatRouter = navigator
+
+    @ApplicationScope
+    @Provides
+    fun provideEventCalendarRouter(navigator: Navigator): EventCalendarRouter = navigator
 }

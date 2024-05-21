@@ -416,6 +416,7 @@ int attr elevationOverlayColor 0x0
 int attr elevationOverlayEnabled 0x0
 int attr emojiCompatEnabled 0x0
 int attr enableEdgeToEdge 0x0
+int attr enabled 0x0
 int attr endIconCheckable 0x0
 int attr endIconContentDescription 0x0
 int attr endIconDrawable 0x0
@@ -680,10 +681,34 @@ int attr listPreferredItemPaddingEnd 0x0
 int attr listPreferredItemPaddingLeft 0x0
 int attr listPreferredItemPaddingRight 0x0
 int attr listPreferredItemPaddingStart 0x0
+int attr loading 0x0
 int attr logo 0x0
 int attr logoAdjustViewBounds 0x0
 int attr logoDescription 0x0
 int attr logoScaleType 0x0
+int attr lottieAnimationViewStyle 0x0
+int attr lottie_asyncUpdates 0x0
+int attr lottie_autoPlay 0x0
+int attr lottie_cacheComposition 0x0
+int attr lottie_clipTextToBoundingBox 0x0
+int attr lottie_clipToCompositionBounds 0x0
+int attr lottie_colorFilter 0x0
+int attr lottie_defaultFontFileExtension 0x0
+int attr lottie_enableMergePathsForKitKatAndAbove 0x0
+int attr lottie_fallbackRes 0x0
+int attr lottie_fileName 0x0
+int attr lottie_ignoreDisabledSystemAnimations 0x0
+int attr lottie_imageAssetsFolder 0x0
+int attr lottie_loop 0x0
+int attr lottie_progress 0x0
+int attr lottie_rawRes 0x0
+int attr lottie_renderMode 0x0
+int attr lottie_repeatCount 0x0
+int attr lottie_repeatMode 0x0
+int attr lottie_resId 0x0
+int attr lottie_speed 0x0
+int attr lottie_url 0x0
+int attr lottie_useCompositionFrameRate 0x0
 int attr marginHorizontal 0x0
 int attr marginLeftSystemWindowInsets 0x0
 int attr marginRightSystemWindowInsets 0x0
@@ -960,6 +985,7 @@ int attr targetId 0x0
 int attr telltales_tailColor 0x0
 int attr telltales_tailScale 0x0
 int attr telltales_velocityMode 0x0
+int attr text 0x0
 int attr textAllCaps 0x0
 int attr textAppearanceBody1 0x0
 int attr textAppearanceBody2 0x0
@@ -1144,6 +1170,7 @@ int color background_floating_material_light 0x0
 int color background_material_dark 0x0
 int color background_material_light 0x0
 int color black 0x0
+int color blueberry_button_text_color_selector 0x0
 int color bright_foreground_disabled_material_dark 0x0
 int color bright_foreground_disabled_material_light 0x0
 int color bright_foreground_inverse_material_dark 0x0
@@ -1154,6 +1181,7 @@ int color browser_actions_bg_grey 0x0
 int color browser_actions_divider_color 0x0
 int color browser_actions_text_color 0x0
 int color browser_actions_title_color 0x0
+int color button_blueberry_background_selector 0x0
 int color button_material_dark 0x0
 int color button_material_light 0x0
 int color call_notification_answer_color 0x0
@@ -1727,6 +1755,7 @@ int color secondary_text_disabled_material_dark 0x0
 int color secondary_text_disabled_material_light 0x0
 int color snow 0x0
 int color subtleBlack 0x0
+int color subtleWhite 0x0
 int color switch_thumb_disabled_material_dark 0x0
 int color switch_thumb_disabled_material_light 0x0
 int color switch_thumb_material_dark 0x0
@@ -2537,6 +2566,8 @@ int drawable notification_template_icon_low_bg 0x0
 int drawable notification_tile_bg 0x0
 int drawable notify_panel_notification_icon_bg 0x0
 int drawable outline_heart_broken_24 0x0
+int drawable progress_button_background 0x0
+int drawable progress_button_blueberry 0x0
 int drawable rating_bar_empty 0x0
 int drawable rating_bar_filled 0x0
 int drawable rating_bar_full 0x0
@@ -2632,6 +2663,7 @@ int id auto 0x0
 int id autoComplete 0x0
 int id autoCompleteToEnd 0x0
 int id autoCompleteToStart 0x0
+int id automatic 0x0
 int id backImg 0x0
 int id back_btn 0x0
 int id background 0x0
@@ -2646,6 +2678,7 @@ int id browser_actions_menu_item_text 0x0
 int id browser_actions_menu_items 0x0
 int id browser_actions_menu_view 0x0
 int id buttonPanel 0x0
+int id button_text 0x0
 int id cancel_button 0x0
 int id center 0x0
 int id centerCrop 0x0
@@ -2690,6 +2723,7 @@ int id design_menu_item_action_area_stub 0x0
 int id design_menu_item_text 0x0
 int id design_navigation_view 0x0
 int id dialog_button 0x0
+int id disabled 0x0
 int id disjoint 0x0
 int id dragDown 0x0
 int id dragEnd 0x0
@@ -2711,6 +2745,7 @@ int id elastic 0x0
 int id email_et 0x0
 int id email_text_input 0x0
 int id email_tv 0x0
+int id enabled 0x0
 int id end 0x0
 int id endToStart 0x0
 int id expand_activities_button 0x0
@@ -2738,6 +2773,7 @@ int id ghost_view_holder 0x0
 int id gone 0x0
 int id group_divider 0x0
 int id guideline 0x0
+int id hardware 0x0
 int id have_account_question_tv 0x0
 int id header_title 0x0
 int id hide_graphics_layer_in_inspector_tag 0x0
@@ -2772,6 +2808,7 @@ int id list_item 0x0
 int id log_in_btn 0x0
 int id log_in_into_account_tv 0x0
 int id log_in_tv 0x0
+int id lottie_layer_name 0x0
 int id male_rb 0x0
 int id masked 0x0
 int id material_clock_display 0x0
@@ -2864,12 +2901,14 @@ int id pin 0x0
 int id position 0x0
 int id postLayout 0x0
 int id progress 0x0
-int id progressBar 0x0
 int id progress_circular 0x0
 int id progress_horizontal 0x0
+int id progress_indicator 0x0
 int id radio 0x0
 int id rectangles 0x0
 int id report_drawn 0x0
+int id restart 0x0
+int id reverse 0x0
 int id reverseSawtooth 0x0
 int id right 0x0
 int id rightToLeft 0x0
@@ -2907,6 +2946,7 @@ int id sin 0x0
 int id slide 0x0
 int id snackbar_action 0x0
 int id snackbar_text 0x0
+int id software 0x0
 int id spacer 0x0
 int id special_effects_controller_view_tag 0x0
 int id splashscreen_icon_view 0x0
@@ -3161,6 +3201,7 @@ int layout notification_template_custom_big 0x0
 int layout notification_template_icon_group 0x0
 int layout notification_template_part_chronometer 0x0
 int layout notification_template_part_time 0x0
+int layout progress_button 0x0
 int layout select_dialog_item_material 0x0
 int layout select_dialog_multichoice_material 0x0
 int layout select_dialog_singlechoice_material 0x0
@@ -3186,8 +3227,11 @@ int layout tool_bar 0x0
 int mipmap ic_launcher 0x0
 int mipmap ic_launcher_round 0x0
 int plurals mtrl_badge_content_description 0x0
+int raw button_loader 0x0
 int raw config 0x0
 int raw firebase_common_keep 0x0
+int raw loader 0x0
+int raw lottie_loader 0x0
 int string abc_action_bar_home_description 0x0
 int string abc_action_bar_up_description 0x0
 int string abc_action_menu_overflow_description 0x0
@@ -3483,6 +3527,8 @@ int string not_selected 0x0
 int string number_of_ratings_sample 0x0
 int string number_of_ratings_template 0x0
 int string numberofratings 0x0
+int string off 0x0
+int string on 0x0
 int string password 0x0
 int string password_lower 0x0
 int string password_must_not_be_empty 0x0
@@ -3525,9 +3571,11 @@ int string text 0x0
 int string this_user_does_not_exist_exception 0x0
 int string tooltip_description 0x0
 int string tooltip_label 0x0
+int string type_in_email_used_for_registration 0x0
 int string unknown_error 0x0
 int string user 0x0
 int string user_data_update_failed_exception 0x0
+int string we_are_going_to_send_your_new_password 0x0
 int string weak_password_exception 0x0
 int string wrong_password 0x0
 int style AlertDialog_AppCompat 0x0
@@ -3977,6 +4025,7 @@ int style TextAppearance_AppCompat_Widget_PopupMenu_Large 0x0
 int style TextAppearance_AppCompat_Widget_PopupMenu_Small 0x0
 int style TextAppearance_AppCompat_Widget_Switch 0x0
 int style TextAppearance_AppCompat_Widget_TextView_SpinnerItem 0x0
+int style TextAppearance_Body_White 0x0
 int style TextAppearance_Compat_Notification 0x0
 int style TextAppearance_Compat_Notification_Info 0x0
 int style TextAppearance_Compat_Notification_Line2 0x0
@@ -4043,6 +4092,7 @@ int style TextAppearance_MaterialComponents_Subtitle1 0x0
 int style TextAppearance_MaterialComponents_Subtitle2 0x0
 int style TextAppearance_MaterialComponents_TimePicker_Title 0x0
 int style TextAppearance_MaterialComponents_Tooltip 0x0
+int style TextAppearance_ProgressButton_Blueberry 0x0
 int style TextAppearance_Test_NoTextSize 0x0
 int style TextAppearance_Test_UsesDp 0x0
 int style TextAppearance_Test_UsesSP 0x0
@@ -4150,6 +4200,7 @@ int style ThemeOverlay_MaterialComponents_TimePicker_Display_TextInputEditText 0
 int style ThemeOverlay_MaterialComponents_Toolbar_Popup_Primary 0x0
 int style ThemeOverlay_MaterialComponents_Toolbar_Primary 0x0
 int style ThemeOverlay_MaterialComponents_Toolbar_Surface 0x0
+int style ThemeOverlay_Widget_ProgressButton_Blueberry 0x0
 int style Theme_AppCompat 0x0
 int style Theme_AppCompat_CompactMenu 0x0
 int style Theme_AppCompat_DayNight 0x0
@@ -4603,6 +4654,7 @@ int style Widget_MaterialComponents_Toolbar_Primary 0x0
 int style Widget_MaterialComponents_Toolbar_PrimarySurface 0x0
 int style Widget_MaterialComponents_Toolbar_Surface 0x0
 int style Widget_MaterialComponents_Tooltip 0x0
+int style Widget_ProgressButton_Blueberry 0x0
 int style Widget_Support_CoordinatorLayout 0x0
 int style ratingBar 0x0
 int[] styleable ActionBar { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
@@ -5671,6 +5723,28 @@ int[] styleable LoadingImageView { 0x0, 0x0, 0x0 }
 int styleable LoadingImageView_circleCrop 0
 int styleable LoadingImageView_imageAspectRatio 1
 int styleable LoadingImageView_imageAspectRatioAdjust 2
+int[] styleable LottieAnimationView { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
+int styleable LottieAnimationView_lottie_asyncUpdates 0
+int styleable LottieAnimationView_lottie_autoPlay 1
+int styleable LottieAnimationView_lottie_cacheComposition 2
+int styleable LottieAnimationView_lottie_clipTextToBoundingBox 3
+int styleable LottieAnimationView_lottie_clipToCompositionBounds 4
+int styleable LottieAnimationView_lottie_colorFilter 5
+int styleable LottieAnimationView_lottie_defaultFontFileExtension 6
+int styleable LottieAnimationView_lottie_enableMergePathsForKitKatAndAbove 7
+int styleable LottieAnimationView_lottie_fallbackRes 8
+int styleable LottieAnimationView_lottie_fileName 9
+int styleable LottieAnimationView_lottie_ignoreDisabledSystemAnimations 10
+int styleable LottieAnimationView_lottie_imageAssetsFolder 11
+int styleable LottieAnimationView_lottie_loop 12
+int styleable LottieAnimationView_lottie_progress 13
+int styleable LottieAnimationView_lottie_rawRes 14
+int styleable LottieAnimationView_lottie_renderMode 15
+int styleable LottieAnimationView_lottie_repeatCount 16
+int styleable LottieAnimationView_lottie_repeatMode 17
+int styleable LottieAnimationView_lottie_speed 18
+int styleable LottieAnimationView_lottie_url 19
+int styleable LottieAnimationView_lottie_useCompositionFrameRate 20
 int[] styleable MaterialAlertDialog { 0x0, 0x0, 0x0, 0x0 }
 int styleable MaterialAlertDialog_backgroundInsetBottom 0
 int styleable MaterialAlertDialog_backgroundInsetEnd 1
@@ -5939,6 +6013,11 @@ int styleable PopupWindow_android_popupBackground 1
 int styleable PopupWindow_overlapAnchor 2
 int[] styleable PopupWindowBackgroundState { 0x0 }
 int styleable PopupWindowBackgroundState_state_above_anchor 0
+int[] styleable ProgressButton { 0x0, 0x0, 0x0, 0x0 }
+int styleable ProgressButton_enabled 0
+int styleable ProgressButton_loading 1
+int styleable ProgressButton_lottie_resId 2
+int styleable ProgressButton_text 3
 int[] styleable PropertySet { 0x101031f, 0x10100dc, 0x0, 0x0, 0x0 }
 int styleable PropertySet_android_alpha 0
 int styleable PropertySet_android_visibility 1
