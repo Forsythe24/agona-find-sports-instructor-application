@@ -30,9 +30,21 @@ class EventCalendarInteractor(
         }
     }
 
+    suspend fun deleteEventById(id: Long) {
+        return withContext(dispatcher) {
+            eventCalendarRepository.deleteEventById(id)
+        }
+    }
+
     suspend fun getCurrentUserId(): String {
         return withContext(dispatcher) {
             eventCalendarRepository.getCurrentUserId()
+        }
+    }
+
+    suspend fun deleteAllEventsThreeOrMoreDaysAgo(date: Date) {
+        return withContext(dispatcher) {
+            eventCalendarRepository.deleteAllEventsThreeOrMoreDaysAgo(date)
         }
     }
 }

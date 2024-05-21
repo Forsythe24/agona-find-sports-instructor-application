@@ -7,7 +7,7 @@ data class Event (
     val name: String,
     val personName: String?,
     val date: Date,
-    val startTime: Int?,
-    val endTime: Int?,
+    val startTime: Int,
+    val endTime: Int,
     val place: String?,
 )

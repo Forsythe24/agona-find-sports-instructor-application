@@ -37,6 +37,10 @@ class EventCalendarViewModel(
     val currentUserIdFlow: StateFlow<String?>
         get() = _currentUserIdFlow
 
+    private val _currentEventFlow = MutableStateFlow<EventItem?>(null)
+    val currentEventFlow: StateFlow<EventItem?>
+        get() = _currentEventFlow
+
     val errorsChannel = Channel<Throwable>()
 
     fun getAllEventsByDate(date: Date) {
@@ -45,10 +49,22 @@ class EventCalendarViewModel(
             runCatching(exceptionHandlerDelegate) {
                 interactor.getAllEventsByDate(date)
             }.onSuccess {
-                _eventListFlow.value = it?.map(eventMappers::mapEventToEventItem)
+                _eventListFlow.value = it?.map(eventMappers::mapEventToEventItem)?.sortByStartTime()
                 _progressBarFlow.value = false
             }.onFailure {
                 _progressBarFlow.value = false
+                errorsChannel.send(it)
+            }
+        }
+    }
+
+    fun deleteAllEventsThreeOrMoreDaysAgo(date: Date) {
+        viewModelScope.launch {
+            runCatching(exceptionHandlerDelegate) {
+                interactor.deleteAllEventsThreeOrMoreDaysAgo(date)
+            }.onSuccess {
+            }.onFailure {
+                errorsChannel.send(it)
             }
         }
     }
@@ -60,6 +76,35 @@ class EventCalendarViewModel(
             }.onSuccess {
                 _possiblePartnersNameListFlow.value = it
             }.onFailure {
+                errorsChannel.send(it)
+            }
+        }
+    }
+
+    fun deleteEvent(event: EventItem, onEventDeletedCallback: () -> Unit) {
+        viewModelScope.launch {
+            runCatching(exceptionHandlerDelegate) {
+                interactor.deleteEventById(event.id)
+            }.onSuccess {
+                onEventDeletedCallback()
+            }.onFailure {
+                errorsChannel.send(it)
+            }
+        }
+    }
+
+    fun setCurrentEvent(eventItem: EventItem) {
+        _currentEventFlow.value = eventItem
+    }
+
+    fun saveEvent(eventItem: EventItem, onEventCreatedCallback: () -> Unit) {
+        viewModelScope.launch {
+            runCatching(exceptionHandlerDelegate) {
+                interactor.addEvent(eventMappers.mapEventItemToEvent(eventItem))
+            }.onSuccess {
+                onEventCreatedCallback()
+            }.onFailure {
+                errorsChannel.send(it)
             }
         }
     }
@@ -71,13 +116,20 @@ class EventCalendarViewModel(
             }.onSuccess {
                 _currentUserIdFlow.value = it
             }.onFailure {
+                errorsChannel.send(it)
             }
         }
     }
-    
+
 
     override fun onCleared() {
         errorsChannel.close()
         super.onCleared()
+    }
+
+    private fun List<EventItem>.sortByStartTime(): List<EventItem> {
+        return this.sortedBy { event ->
+            event.startTime
+        }
     }
 }

@@ -20,7 +20,7 @@ class EventMappers @Inject constructor() {
         }
     }
 
-    fun mapEventUiToEvent(eventItem: EventItem): Event {
+    fun mapEventItemToEvent(eventItem: EventItem): Event {
         return with(eventItem) {
             Event(
                 id,

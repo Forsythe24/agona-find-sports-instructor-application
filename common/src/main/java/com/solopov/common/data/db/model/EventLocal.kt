@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity(tableName = "event", indices = [Index(value = ["person_name", "name", "date", "start_time", "end_time", "place"], unique = true)])
+@Entity(tableName = "event")
 data class EventLocal(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
@@ -16,8 +16,8 @@ data class EventLocal(
     @ColumnInfo(name = "date")
     val date: Date,
     @ColumnInfo(name = "start_time")
-    val startTime: Int?,
+    val startTime: Int,
     @ColumnInfo(name = "end_time")
-    val endTime: Int?,
+    val endTime: Int,
     val place: String?,
 )

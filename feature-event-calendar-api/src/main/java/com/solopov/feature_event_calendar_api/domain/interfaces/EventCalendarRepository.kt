@@ -7,5 +7,8 @@ interface EventCalendarRepository {
     suspend fun addEvent(event: Event)
     suspend fun getAllEventsByDate(date: Date): List<Event>?
     suspend fun getAllPossiblePartnersNamesByUserId(userId: String): List<String>?
+    suspend fun deleteEventById(id: Long)
     suspend fun getCurrentUserId(): String
+    
+    suspend fun deleteAllEventsThreeOrMoreDaysAgo(date: Date)
 }

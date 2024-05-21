@@ -20,7 +20,7 @@ class EventCalendarRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllEventsByDate(date: Date): List<Event>? {
-        return db.eventDao().getAllEventsByDate(date)?.map(eventMappers::mapEventLocalToEvent)
+        return db.eventDao().getAllEventsByDate(date.time)?.map(eventMappers::mapEventLocalToEvent)
     }
 
     override suspend fun getAllPossiblePartnersNamesByUserId(userId: String): List<String> {
@@ -29,8 +29,16 @@ class EventCalendarRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteEventById(id: Long) {
+        return db.eventDao().deleteEventById(id)
+    }
+
     override suspend fun getCurrentUserId(): String {
         return userRemoteDao.getCurrentUserId()
+    }
+
+    override suspend fun deleteAllEventsThreeOrMoreDaysAgo(date: Date) {
+        return db.eventDao().deleteAllEventsThreeOrMoreDaysAgo(date.time)
     }
 }
 

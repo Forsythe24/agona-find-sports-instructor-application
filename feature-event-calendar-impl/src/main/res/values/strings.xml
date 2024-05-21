@@ -15,4 +15,9 @@
     <string name="pick_a_time">Pick a time</string>
     <string name="schedule">schedule</string>
     <string name="possible_partner_sample">Ross Geller</string>
+    <string name="activity_field_must_not_be_empty">Activity field must not be empty</string>
+    <string name="saved_event">Saved this event</string>
+    <string name="no_partner">No partner</string>
+    <string name="time_template">%02d:%02d</string>
+    <string name="save">save</string>
 </resources>

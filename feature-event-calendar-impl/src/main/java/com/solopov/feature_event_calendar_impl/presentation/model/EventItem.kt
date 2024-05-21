@@ -4,11 +4,11 @@ import java.io.Serializable
 import java.util.Date
 
 data class EventItem (
-    val id: Long,
-    val name: String,
-    val personName: String?,
+    var id: Long,
+    var name: String,
+    var personName: String?,
     val date: Date,
-    val startTime: Int?,
-    val endTime: Int?,
-    val place: String?,
+    var startTime: Int,
+    var endTime: Int,
+    var place: String?,
 ): Serializable
