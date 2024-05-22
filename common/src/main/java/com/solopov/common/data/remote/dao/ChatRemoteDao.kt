@@ -7,7 +7,9 @@ import com.google.firebase.database.DatabaseReference
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.remote.SportApi
+import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.data.remote.exceptions.ChatDataRetrievingException
+import com.solopov.common.data.remote.exceptions.HttpException
 import com.solopov.common.data.remote.model.ChatRemote
 import com.solopov.common.data.remote.model.MessageRemote
 import com.solopov.common.utils.ExceptionHandlerDelegate
@@ -27,67 +29,78 @@ class ChatRemoteDao @Inject constructor(
         userId: String,
         message: MessageRemote,
     ) {
-        runCatching(exceptionHandlerDelegate) {
-            // trying to retrieve the chat
-            api.getChatById(message.chatId)
-        }.onSuccess {
-            // if it's not the first message of this chat
-            api.addMessage(message)
-        }.onFailure {
-            // if it's the first message of this chat (chat hasn't been created yet)
-            withContext(Dispatchers.IO) {
+        // trying to retrieve the chat
+        val response = api.getChatById(message.chatId)
+
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            404 -> {
+                // if it's the first message of this chat (chat hasn't been created yet)
                 api.createChat(ChatRemote(message.chatId, userId))
+                api.addMessage(message)
+            }
+
+            else -> {
+                // if it's not the first message of this chat
                 api.addMessage(message)
             }
         }
 
     }
+
     suspend fun getAllReceiversByUserId(id: String): List<String> {
-        runCatching(exceptionHandlerDelegate) {
-            api.getAllChatsByUserId()
-        }.onSuccess { chats ->
-            return if (chats.isNullOrEmpty()) {
-                listOf()
-            } else {
-                chats.map { chat ->
 
-                    val receiverId = if (chat.id.startsWith(id)) {
-                        chat.id.removePrefix(id)
-                    } else {
-                        chat.id.removeSuffix(id)
+        val response = api.getAllChatsByUserId()
+
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+
+            200 -> {
+                return if (response.body() == null) {
+                    listOf()
+                } else {
+                    response.body()!!.map { chat ->
+
+                        val receiverId = if (chat.id.startsWith(id)) {
+                            chat.id.removePrefix(id)
+                        } else {
+                            chat.id.removeSuffix(id)
+                        }
+
+                        receiverId
                     }
-
-                    receiverId
                 }
             }
-        }.onFailure {
-            throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
+
+            else -> throw ChatDataRetrievingException(resManager.getString(R.string.failed_to_retrieve_chat_data))
         }
-        throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
     }
 
     suspend fun getAllMessagesByChatId(
         chatId: String,
     ): List<MessageRemote> {
-        runCatching(exceptionHandlerDelegate) {
-            api.getAllMessagesByChatId(chatId);
-        }.onSuccess {
-            return it
-        }.onFailure {
-            throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
+        val response = api.getAllMessagesByChatId(chatId)
+
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            200 -> return response.body()!!
+            else -> throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
         }
-        throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
     }
 
     suspend fun getLastMessageByChatId(chatId: String): MessageRemote {
-        runCatching(exceptionHandlerDelegate) {
-            api.getLastMessageByChatId(chatId)
-        }.onSuccess {
-            return it
-        }.onFailure {
-            throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
+
+        val response = api.getLastMessageByChatId(chatId)
+
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            200 -> return response.body()!!
+            else -> throw ChatDataRetrievingException(resManager.getString(R.string.failed_to_retrieve_chat_data))
         }
-        throw ChatDataRetrievingException(resManager.getString(R.string.chat_data_retrieving_failed_exception))
     }
 
     override fun getRefreshKey(state: PagingState<DataSnapshot, MessageRemote>): DataSnapshot? {

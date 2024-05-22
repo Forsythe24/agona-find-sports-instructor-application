@@ -5,11 +5,8 @@ import androidx.core.net.toUri
 import com.google.firebase.storage.FirebaseStorage
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.data.remote.exceptions.AuthenticationException
-import com.solopov.common.data.remote.exceptions.CredentialsVerificationFailedException
+import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.data.remote.exceptions.FileUploadingException
-import com.solopov.common.data.remote.exceptions.NoInstructorsFoundException
-import com.solopov.common.data.remote.exceptions.UserDataUpdateFailedException
 import com.solopov.common.data.remote.exceptions.UserDoesNotExistException
 import com.solopov.common.data.remote.exceptions.UserNotCreatedException
 import com.solopov.common.data.remote.jwt.JwtTokenManager
@@ -21,13 +18,12 @@ import com.solopov.common.data.remote.AuthService
 import com.solopov.common.data.remote.RefreshTokenService
 import com.solopov.common.data.remote.SportApi
 import com.solopov.common.data.remote.exceptions.HttpException
+import com.solopov.common.data.remote.exceptions.UserException
 import com.solopov.common.data.remote.model.RefreshJwtRequestDto
 import com.solopov.common.data.remote.model.SendNewPasswordOnEmailRequestDto
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -46,42 +42,40 @@ class UserRemoteDao @Inject constructor(
 ) {
 
     suspend fun getInstructorsBySportId(sportId: Int): List<UserRemote> {
-        runCatching(exceptionHandlerDelegate) {
-            api.getInstructorsBySportId(sportId)
-        }.onSuccess {
-            return it
-        }.onFailure {
-            throw NoInstructorsFoundException(resManager.getString(R.string.no_instructors_found_exception))
+        val response = api.getInstructorsBySportId(sportId)
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            401 -> throw HttpException.UnauthorizedException(resManager.getString(R.string.unauthorized_exception))
+            else -> return response.body()!!
         }
-        throw NoInstructorsFoundException(resManager.getString(R.string.no_instructors_found_exception))
     }
 
     suspend fun sendPassword(email: String) {
-        withContext(Dispatchers.IO) {
-            val response = authService.sendPassword(SendNewPasswordOnEmailRequestDto(email))
-
-//            when (response.code()) {
-//                500 -> throw HttpException.ServerNotResponding(resManager.getString(R.string.server_not_responding))
-//                403 -> throw HttpException.ServerNotResponding(resManager.getString(R.string.server_not_responding))
-//                else -> {}
-//            }
+        val response = authService.sendPassword(SendNewPasswordOnEmailRequestDto(email))
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            404 -> throw AuthException.NoSuchEmailException(
+                resManager.getString(R.string.email_not_found_exception).format(email)
+            )
         }
     }
 
     suspend fun verifyCredentials(password: String): Boolean {
-        runCatching(exceptionHandlerDelegate) {
-            api.verifyCredentials(
-                CredentialsRemote(
-                    "",
-                    password
-                )
+        val response = api.verifyCredentials(
+            CredentialsRemote(
+                "",
+                password
             )
-        }.onSuccess {
-            return it
-        }.onFailure {
-            throw CredentialsVerificationFailedException(resManager.getString(R.string.failed_to_verify_your_credentials_check_your_password))
+        )
+
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+
+            else -> return response.body()!!
         }
-        throw CredentialsVerificationFailedException(resManager.getString(R.string.failed_to_verify_your_credentials_check_your_password))
     }
 
 
@@ -97,32 +91,35 @@ class UserRemoteDao @Inject constructor(
 
 
         val ref = storage.getReference(location)
-        runCatching(exceptionHandlerDelegate) {
-            ref.putFile(imageUri.toUri()).await()
-        }.onSuccess {
-            return ref.downloadUrl.await().toString()
 
-        }.onFailure {
+        try {
+            ref.putFile(imageUri.toUri()).await()
+            return ref.downloadUrl.await().toString()
+        } catch (ex: Exception) {
             throw FileUploadingException(resManager.getString(R.string.file_uploading_exception))
         }
-        throw FileUploadingException(resManager.getString(R.string.file_uploading_exception))
     }
 
     suspend fun getUserByUid(uid: String): UserRemote {
+        val response = api.getUser(uid)
 
-        runCatching(exceptionHandlerDelegate) {
-            api.getUser(uid)
-        }.onSuccess {
-            return it
-        }.onFailure {
-            throw UserDoesNotExistException(resManager.getString(R.string.this_user_does_not_exist_exception))
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            404 -> throw UserException.UserNotFound(resManager.getString(R.string.user_not_found_exception))
+            else -> return response.body()!!
         }
-        throw UserDoesNotExistException(resManager.getString(R.string.this_user_does_not_exist_exception))
-
     }
 
     suspend fun getCurrentUser(): UserRemote {
-        return api.getCurrentUser()
+        val response = api.getCurrentUser()
+
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            404 -> throw UserException.UserNotFound(resManager.getString(R.string.user_not_found_exception))
+            else -> return response.body()!!
+        }
     }
 
     suspend fun getCurrentUserId(): String {
@@ -130,25 +127,27 @@ class UserRemoteDao @Inject constructor(
     }
 
     suspend fun updateUser(user: UserRemote) {
-        runCatching(exceptionHandlerDelegate) {
-            api.updateUser(user)
-        }.onSuccess {
-            return
-        }.onFailure {
-            throw UserDataUpdateFailedException(resManager.getString(R.string.user_data_update_failed_exception))
+        val response = api.updateUser(user)
+
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            404 -> throw UserException.UserDataUpdateFailedException(resManager.getString(R.string.user_data_update_failed_exception))
         }
     }
 
     suspend fun updateUserPassword(password: String) {
-        withContext(Dispatchers.IO) {
-            try {
-                api.updatePassword(CredentialsRemote("", password))
 
-                val networkResponse = refreshTokenService.refreshToken(RefreshJwtRequestDto(jwtTokenManager.getRefreshJwt()))
-                saveTokens(networkResponse)
-            } catch (ex: Exception) {
-                throw UserDataUpdateFailedException(resManager.getString(R.string.failed_to_update_your_password))
-            }
+        val response = api.updatePassword(CredentialsRemote("", password))
+
+        val networkResponse =
+            refreshTokenService.refreshToken(RefreshJwtRequestDto(jwtTokenManager.getRefreshJwt()))
+
+        saveTokens(networkResponse)
+
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
         }
     }
 
@@ -160,25 +159,54 @@ class UserRemoteDao @Inject constructor(
         age: Int,
         gender: String,
     ) {
-        runCatching(exceptionHandlerDelegate) {
-            addUserToRemoteStorage(
-                email,
-                password,
-                name,
-                age,
-                gender
-            )
-        }.onSuccess {
+        val addResponse = addUserToRemoteStorage(
+            email,
+            password,
+            name,
+            age,
+            gender
+        )
 
-            val response = authService.login(CredentialsRemote(email, password))
-
-            saveTokens(response)
-
-            return
-        }.onFailure {
-            throw UserNotCreatedException(resManager.getString(R.string.couldn_t_create_an_account_try_again))
+        when (addResponse.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            409 -> throw AuthException.EmailAlreadyInUseException(resManager.getString(R.string.email_already_in_use_exception))
         }
-        throw UserNotCreatedException(resManager.getString(R.string.couldn_t_create_an_account_try_again))
+
+        val logInResponse = authService.logIn(CredentialsRemote(email, password))
+
+        when (logInResponse.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            404 -> throw UserNotCreatedException(resManager.getString(R.string.couldn_t_create_an_account_try_again))
+            else -> saveTokens(logInResponse)
+        }
+    }
+
+    suspend fun signInUser(email: String?, password: String?): Boolean {
+
+        if (email.isNullOrEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            throw AuthException.InvalidEmailException(resManager.getString(R.string.invalid_email_exception))
+        }
+
+        if (password.isNullOrEmpty()) {
+            throw AuthException.NoEmptyPasswordException(resManager.getString(R.string.password_must_not_be_empty))
+        }
+
+        val response = authService.logIn(CredentialsRemote(email, password))
+
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
+            404 -> throw AuthException.NoSuchEmailException(
+                resManager.getString(R.string.email_not_found_exception).format(email)
+            )
+            401 -> throw AuthException.WrongPasswordException(resManager.getString(R.string.wrong_password))
+            else -> {
+                saveTokens(response)
+                return true
+            }
+        }
     }
 
     private suspend fun addUserToRemoteStorage(
@@ -187,44 +215,11 @@ class UserRemoteDao @Inject constructor(
         name: String,
         age: Int,
         gender: String,
-    ): UserRemote {
+    ): Response<UserRemote> {
         val user = UserSignUpRemote(
             email, password, name, age, gender,
         )
-        return withContext(Dispatchers.IO) {
-            authService.createUser(user)
-        }
-    }
-
-    suspend fun signInUser(email: String?, password: String?): Boolean {
-
-        if (email.isNullOrEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            throw AuthenticationException.InvalidEmailException(resManager.getString(R.string.invalid_email_exception))
-        }
-
-        if (password.isNullOrEmpty()) {
-            throw AuthenticationException.NoEmptyPasswordException(resManager.getString(R.string.password_must_not_be_empty))
-        }
-
-        runCatching(exceptionHandlerDelegate) {
-            authService.login(CredentialsRemote(email, password))
-        }.onSuccess { response ->
-            if (response.body() == null) {
-                throw AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
-            }
-            saveTokens(response)
-            runCatching {
-                getCurrentUser()
-            }.onSuccess {
-                return true
-            }.onFailure {
-                throw UserDoesNotExistException(resManager.getString(R.string.this_user_does_not_exist_exception))
-            }
-        }.onFailure {
-            throw AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
-        }
-
-        throw AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
+        return authService.createUser(user)
     }
 
     private suspend fun saveTokens(response: Response<AuthNetworkResponse>) {

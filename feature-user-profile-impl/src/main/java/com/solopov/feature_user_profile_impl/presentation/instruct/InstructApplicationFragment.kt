@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.solopov.com.solopov.feature_user_profile_impl.R
@@ -136,9 +135,9 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
 
     private fun extractUserArgument(): UserProfile? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getSerializable(ParamsKey.USER, UserProfile::class.java)
+            requireArguments().getSerializable(ParamsKey.USER_KEY, UserProfile::class.java)
         } else {
-            requireArguments().getSerializable(ParamsKey.USER) as UserProfile
+            requireArguments().getSerializable(ParamsKey.USER_KEY) as UserProfile
         }
     }
 

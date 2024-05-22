@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.base.view.ProgressButton
 import com.solopov.common.di.FeatureUtils
+import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_event_calendar_api.di.EventCalendarFeatureApi
 import com.solopov.feature_event_calendar_impl.R
 import com.solopov.feature_event_calendar_impl.databinding.FragmentEventCalendarBinding
@@ -48,9 +49,6 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
     private var pickedMonth: Int = 0
     private var pickedDay: Int = 0
 
-    private val TWELVE_HOURS_IN_MINUTES = 720
-    private val FOURTEEN_HOURS_IN_MINUTES = 840
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,10 +64,11 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
         val date = getDate(pickedYear, pickedMonth, pickedDay)
         viewModel.getAllEventsByDate(date)
         viewModel.deleteAllEventsThreeOrMoreDaysAgo(date)
+
+        setPartnerNameIfArgumentPresent()
     }
 
     override fun initViews() {
-
         binding.eventRv.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
@@ -78,20 +77,6 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
         binding.addBtn.setOnClickListener {
             showEventAddingDialog()
         }
-    }
-
-    private fun onEventDeleted() {
-        viewModel.getAllEventsByDate(getDate(pickedYear, pickedMonth, pickedDay))
-    }
-
-    override fun inject() {
-        FeatureUtils.getFeature<EventCalendarFeatureComponent>(
-            this,
-            EventCalendarFeatureApi::class.java
-        )
-            .eventCalendarComponentFactory()
-            .create(this)
-            .inject(this)
     }
 
     override fun subscribe(viewModel: EventCalendarViewModel) {
@@ -131,6 +116,24 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
         }
 
         setUpOnItemTouchHelper()
+    }
+
+    private fun setPartnerNameIfArgumentPresent() {
+        val partnerName = arguments?.getString(ParamsKey.PARTNER_NAME_KEY)
+
+        if (!partnerName.isNullOrEmpty()) {
+            partnerAutoCompleteTextView.setText(partnerName)
+
+            viewModel.possiblePartnersNameListFlow.value?.let {
+                setPartnerDropDownMenuAdapter(it)
+            }
+
+            showEventAddingDialog()
+        }
+    }
+
+    private fun onEventDeleted() {
+        viewModel.getAllEventsByDate(getDate(pickedYear, pickedMonth, pickedDay))
     }
 
     private fun setUpOnItemTouchHelper() {
@@ -222,10 +225,8 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
         activityEt.setText(event.name)
         placeEt.setText(event.place)
 
-        picker.startTime = TimeRangePicker.Time(event.startTime)
-        println(event.startTime)
-        picker.endTime = TimeRangePicker.Time(event.endTime)
-        println(event.endTime)
+//        picker.startTime = TimeRangePicker.Time(event.startTime)
+//        picker.endTime = TimeRangePicker.Time(event.endTime)
 
         viewModel.currentEventFlow.value?.id = event.id
     }
@@ -358,6 +359,16 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
         pickedYear = calendar.get(Calendar.YEAR)
         pickedMonth = calendar.get(Calendar.MONTH)
         pickedDay = calendar.get(Calendar.DAY_OF_MONTH)
+    }
+
+    override fun inject() {
+        FeatureUtils.getFeature<EventCalendarFeatureComponent>(
+            this,
+            EventCalendarFeatureApi::class.java
+        )
+            .eventCalendarComponentFactory()
+            .create(this)
+            .inject(this)
     }
 
 }

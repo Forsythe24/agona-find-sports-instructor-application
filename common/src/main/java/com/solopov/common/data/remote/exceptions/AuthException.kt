@@ -1,6 +1,6 @@
 package com.solopov.common.data.remote.exceptions
 
-sealed class AuthenticationException {
+sealed class AuthException {
 
     class WeakPasswordException(message: String): Throwable(message)
     class InvalidEmailException(message: String): Throwable(message)
@@ -11,4 +11,5 @@ sealed class AuthenticationException {
 
     class NoSuchUserException(message: String): Throwable(message)
     class WrongEmailOrPasswordException(message: String): Throwable(message)
+    class WrongPasswordException(message: String): Throwable(message)
 }

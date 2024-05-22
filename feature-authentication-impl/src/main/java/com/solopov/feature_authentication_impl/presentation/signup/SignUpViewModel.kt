@@ -46,11 +46,18 @@ class SignUpViewModel @Inject constructor(
                 router.goFromSignUpToInstructors()
                 _progressBarFlow.value = false
             }.onFailure {
-                router.goBack()
                 errorsChannel.send(it)
                 _progressBarFlow.value = false
             }
         }
+    }
+
+    fun goBack() {
+        router.goBack()
+    }
+
+    fun goToSignUp() {
+        router.goToSignUp()
     }
 
     override fun onCleared() {

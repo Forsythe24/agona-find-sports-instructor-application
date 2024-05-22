@@ -55,7 +55,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUsers()
-        initListeners()
     }
 
     private fun initUsers() {
@@ -94,8 +93,29 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         }
     }
 
-    private fun initListeners() {
+    override fun initViews() {
+
         with(binding) {
+            binding.editBtn.setOnClickListener {
+                viewModel.userProfileFlow.value?.let {
+                    router.goToEditingProfile(it)
+                }
+            }
+
+            sendMessageBtn.setOnClickListener {
+                viewModel.chatFlow.value?.let {
+                    router.openChat(
+                        it
+                    )
+                }
+            }
+
+            instructBtn.setOnClickListener {
+                viewModel.userProfileFlow.value?.let {
+                    router.goToInstructApplication(it)
+                }
+            }
+
             backBtn.setOnClickListener {
                 router.goBack()
             }
@@ -123,9 +143,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                     }
                 }
         }
-    }
 
-    override fun initViews() {
     }
 
 
@@ -152,17 +170,9 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                         )
                     )
 
-                    binding.editBtn.setOnClickListener {
-                        router.goToEditingProfile(user)
-                    }
-
                     if (user.isInstructor.not()) {
 
                         hideInstructorSpecificViews()
-
-                        binding.instructBtn.setOnClickListener {
-                            router.goToInstructApplication(user)
-                        }
 
                     } else {
                         hideRegularUserSpecificViews()
@@ -172,14 +182,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
             }
 
-            chatFlow.observe { chat ->
-                binding.sendMessageBtn.setOnClickListener {
-                    chat?.let {
-                        router.openChat(
-                            it
-                        )
-                    }
-                }
+            chatFlow.observe {
             }
 
             currentUserFlow.observe { user ->
@@ -242,7 +245,8 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             val newRating = ratingsSum / if (allRatings.isEmpty()) 1 else newNumberOfRatings
 
             viewModel.userProfileFlow.value?.let {
-                val newUserProfile = it.copy(rating = newRating, numberOfRatings = newNumberOfRatings)
+                val newUserProfile =
+                    it.copy(rating = newRating, numberOfRatings = newNumberOfRatings)
 
                 viewModel.updateUser(newUserProfile)
                 viewModel.setUserProfile(newUserProfile)
@@ -279,7 +283,8 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
 
                 numberOfRatings?.let { numberOfRatings ->
-                    numberOfRatingsTv.text = getString(R.string.number_of_ratings_template).format(numberOfRatings)
+                    numberOfRatingsTv.text =
+                        getString(R.string.number_of_ratings_template).format(numberOfRatings)
                 }
             }
         }

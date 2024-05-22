@@ -8,20 +8,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
+import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
-import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
+import kotlinx.coroutines.flow.consumeAsFlow
 import javax.inject.Inject
 
 class PasswordRecoveryFragment: BaseFragment<PasswordRecoveryViewModel>() {
-
-    @Inject
-    lateinit var router: AuthRouter
-
+    
     @Inject
     lateinit var userDataValidator: UserDataValidator
 
@@ -45,7 +44,7 @@ class PasswordRecoveryFragment: BaseFragment<PasswordRecoveryViewModel>() {
             PasswordRecoveryScreen(
                 state = state,
                 onSendClick = ::sendNewPasswordOnEmail,
-                onBackClick = {router.goBack()},
+                onBackClick = {viewModel.goBack()},
                 userDataValidator = userDataValidator
             )
         }

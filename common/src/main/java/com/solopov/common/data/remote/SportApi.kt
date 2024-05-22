@@ -4,6 +4,7 @@ import com.solopov.common.data.remote.model.ChatRemote
 import com.solopov.common.data.remote.model.CredentialsRemote
 import com.solopov.common.data.remote.model.MessageRemote
 import com.solopov.common.data.remote.model.UserRemote
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -14,26 +15,26 @@ interface SportApi {
     @GET("user/{id}")
     suspend fun getUser (
         @Path("id") id: String
-    ): UserRemote
+    ): Response<UserRemote>
 
     @GET("user/current")
     suspend fun getCurrentUser (
-    ): UserRemote
+    ): Response<UserRemote>
 
     @POST("user/update")
     suspend fun updateUser (
         @Body user: UserRemote
-    )
+    ): Response<Boolean>
 
     @POST("user/update_password")
     suspend fun updatePassword (
         @Body credentials: CredentialsRemote
-    ): Boolean
+    ): Response<Boolean>
 
     @POST("user/verify")
     suspend fun verifyCredentials (
         @Body credentials: CredentialsRemote
-    ): Boolean
+    ): Response<Boolean>
 
     @POST("user/verify")
     suspend fun u (
@@ -43,7 +44,7 @@ interface SportApi {
     @GET("instructors/{id}")
     suspend fun getInstructorsBySportId (
         @Path("id") id: Int
-    ): List<UserRemote>
+    ): Response<List<UserRemote>>
 
     @POST("chat/create")
     suspend fun createChat (
@@ -53,7 +54,7 @@ interface SportApi {
     @GET("chat/{id}")
     suspend fun getChatById (
         @Path("id") id: String
-    ): ChatRemote
+    ): Response<ChatRemote>
 
     @POST("chat/add_message")
     suspend fun addMessage (
@@ -62,15 +63,15 @@ interface SportApi {
 
     @GET("chat/all")
     suspend fun getAllChatsByUserId (
-    ): List<ChatRemote>?
+    ): Response<List<ChatRemote>?>
 
     @GET("chat/{id}/messages")
     suspend fun getAllMessagesByChatId (
         @Path("id") id: String
-    ): List<MessageRemote>
+    ): Response<List<MessageRemote>>
 
     @GET("chat/{id}/last_message")
     suspend fun getLastMessageByChatId (
         @Path("id") id: String
-    ): MessageRemote
+    ): Response<MessageRemote>
 }

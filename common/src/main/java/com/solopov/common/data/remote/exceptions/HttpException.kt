@@ -2,7 +2,10 @@ package com.solopov.common.data.remote.exceptions
 
 sealed class HttpException {
 
-    class ServerNotResponding(message: String): Throwable(message)
+    class InternalServerErrorException(message: String) : Throwable(message)
+    class ServiceUnavailableException(message: String) : Throwable(message)
+    class UnauthorizedException(message: String) : Throwable(message)
+
     class InvalidEmailException(message: String): Throwable(message)
     class NoSuchEmailException(message: String): Throwable(message)
     class NoEmptyPasswordException(message: String): Throwable(message)

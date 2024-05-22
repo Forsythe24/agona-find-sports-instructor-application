@@ -8,6 +8,7 @@ import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
+import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.data.mappers.MessageMappers
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
@@ -26,6 +27,7 @@ class ChatViewModel(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val chatMappers: ChatMappers,
     private val messageMappers: MessageMappers,
+    private val router: ChatRouter,
 ) : BaseViewModel() {
 
     private val _chatFlow = MutableStateFlow<List<MessageItem>?>(null)
@@ -102,6 +104,18 @@ class ChatViewModel(
                 errorsChannel.send(it)
             }
         }
+    }
+
+    fun openUserProfile(userId: String) {
+        router.openUserProfile(userId)
+    }
+
+    fun goToEventCalendar(partnerName: String) {
+        router.goToEventCalendar(partnerName)
+    }
+
+    fun goBack() {
+        router.goBack()
     }
 
     override fun onCleared() {

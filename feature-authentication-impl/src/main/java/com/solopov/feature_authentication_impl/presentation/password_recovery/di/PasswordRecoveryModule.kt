@@ -7,6 +7,7 @@ import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
+import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.presentation.login.LogInViewModel
 import com.solopov.feature_authentication_impl.presentation.password_recovery.PasswordRecoveryViewModel
 import dagger.Module
@@ -29,7 +30,7 @@ class PasswordRecoveryModule {
     @Provides
     @IntoMap
     @ViewModelKey(PasswordRecoveryViewModel::class)
-    fun providePasswordRecoveryViewModel(interactor: AuthInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate): ViewModel {
-        return PasswordRecoveryViewModel(interactor, exceptionHandlerDelegate)
+    fun providePasswordRecoveryViewModel(interactor: AuthInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, router: AuthRouter): ViewModel {
+        return PasswordRecoveryViewModel(interactor, exceptionHandlerDelegate, router)
     }
 }

@@ -3248,6 +3248,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string access_forbidden_instructors_exception
 string age
 string age_hint
 string age_lower
@@ -3311,9 +3312,11 @@ string description_lower
 string description_sample
 string don_t_have_an_account
 string email
+string email_already_in_use_exception
 string email_hint
 string email_in_use
 string email_lower
+string email_not_found_exception
 string error_icon_content_description
 string experience
 string experience_lower
@@ -3322,6 +3325,7 @@ string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string failed_save_message_exception
 string failed_to_rate_this_user
+string failed_to_retrieve_chat_data
 string failed_to_update_your_password
 string failed_to_verify_your_credentials_check_your_password
 string fallback_menu_item_copy_link
@@ -3349,6 +3353,7 @@ string instructor_info_sample
 string instructor_info_template
 string instructor_lower
 string instructors
+string internal_server_error_exception
 string invalid_email
 string invalid_email_exception
 string invalid_form
@@ -3476,7 +3481,7 @@ string rating_sample
 string rating_template
 string search_menu_title
 string sender_id
-string server_not_responding
+string service_unavailable_exception
 string sign_in
 string sign_up
 string sport
@@ -3484,10 +3489,12 @@ string sport_lower
 string status_bar_notification_info_overflow
 string text
 string this_user_does_not_exist_exception
+string unauthorized_exception
 string unknown_error
 string unknown_error_occurred
 string user
 string user_data_update_failed_exception
+string user_not_found_exception
 string volleyball
 string weak_password_exception
 string wrong_password

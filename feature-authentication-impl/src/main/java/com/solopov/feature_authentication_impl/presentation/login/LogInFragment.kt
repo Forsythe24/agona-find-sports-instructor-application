@@ -5,28 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
-import com.solopov.common.data.remote.exceptions.AuthenticationException
+import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.di.FeatureUtils
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.databinding.FragmentLogInBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
-import kotlinx.coroutines.channels.consume
-import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LogInFragment: BaseFragment<LogInViewModel>() {
 
     private lateinit var binding: FragmentLogInBinding
-
-    @Inject
-    lateinit var router: AuthRouter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLogInBinding.inflate(inflater, container, false)
@@ -42,19 +35,11 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
         with (viewModel) {
             with(binding) {
 
-                signupLnk.setOnClickListener {
-                    router.goToSignUp()
-                }
-
                 logInBtn.setOnClickListener {
                     emailTextInput.helperText = null
                     passwordTextInput.helperText = null
                     signIn(emailEt.text.toString(), passwordEt.text.toString())
                     logInBtn.setLoading(true)
-                }
-
-                forgotPasswordLnk.setOnClickListener {
-                    router.goToPasswordRecovery()
                 }
 
                 errorsChannel.consumeAsFlow().observe { error ->
@@ -63,19 +48,16 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
                     logInBtn.setLoading(false)
 
                     when (error) {
-                        is AuthenticationException.NoSuchEmailException, is AuthenticationException.InvalidEmailException -> {
+                        is AuthException.NoSuchEmailException, is AuthException.InvalidEmailException -> {
                             emailTextInput.helperText = error.message
                         }
 
-                        is AuthenticationException.NoEmptyPasswordException -> {
+                        is AuthException.NoEmptyPasswordException, is AuthException.WrongPasswordException-> {
                             passwordTextInput.helperText = error.message
                         }
 
-                        is AuthenticationException.WrongEmailOrPasswordException -> {
-                            showAlert(getString(R.string.authentication_error), errorMessage)
-                        }
+                        else ->  Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
 
-                        else -> Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -94,7 +76,16 @@ class LogInFragment: BaseFragment<LogInViewModel>() {
         with(viewModel) {
             authenticationResultFlow.observe {
                 if (it) {
-                    router.goFromLogInToUserProfile()
+                    viewModel.goFromLogInToUserProfile()
+                }
+            }
+
+            with(binding) {
+                signupLnk.setOnClickListener {
+                    viewModel.goToSignUp()
+                }
+                forgotPasswordLnk.setOnClickListener {
+                    viewModel.goToPasswordRecovery()
                 }
             }
         }
