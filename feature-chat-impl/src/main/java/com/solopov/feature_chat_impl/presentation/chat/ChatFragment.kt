@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.R
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
@@ -24,9 +25,9 @@ import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
-import com.solopov.feature_chat_impl.presentation.chat_list.ChatsFragment
 import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
@@ -41,9 +42,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
     @Inject
     lateinit var dateFormatter: DateFormatter
-
-    @Inject
-    lateinit var router: ChatRouter
 
     @Inject
     lateinit var chatMappers: ChatMappers
@@ -63,10 +61,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         with(viewBinding) {
             chatRv.layoutManager =
                 LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-
-            backBtn.setOnClickListener {
-                router.goBack()
-            }
         }
 
 
@@ -113,9 +107,9 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     private fun initChatters() {
 
         val chatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getSerializable(ParamsKey.CHAT, ChatCommon::class.java)
+            arguments?.getSerializable(ParamsKey.CHAT_KEY, ChatCommon::class.java)
         } else {
-            arguments?.getSerializable(ParamsKey.CHAT) as ChatCommon?
+            arguments?.getSerializable(ParamsKey.CHAT_KEY) as ChatCommon?
         }
 
         chatter?.let {
@@ -163,7 +157,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                         }
 
                         val onClickListener = OnClickListener {
-                            router.openUserProfile(receiver.userId)
+                            viewModel.openUserProfile(receiver.userId)
                         }
                         userImageCv.setOnClickListener(onClickListener)
                         receiverNameTv.setOnClickListener(onClickListener)
@@ -229,12 +223,23 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 //
 //            }
 
-            lifecycleScope.launch {
-                errorsChannel.consumeEach { error ->
-                    val errorMessage = error.message ?: getString(R.string.unknown_error)
+            errorsChannel.consumeAsFlow().observe { error ->
+                val errorMessage = error.message ?: getString(R.string.unknown_error)
+                Snackbar.make(viewBinding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+            }
+        }
 
-                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
-                }
+        viewBinding.backBtn.setOnClickListener {
+            viewModel.goBack()
+        }
+
+        setUpScheduleEventButton()
+    }
+
+    private fun setUpScheduleEventButton() {
+        viewBinding.scheduleEventBtn.setOnClickListener {
+            viewModel.receiverFlow.value?.let {
+                viewModel.goToEventCalendar(it.name)
             }
         }
     }

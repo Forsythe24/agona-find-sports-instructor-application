@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.data.remote.exceptions.AuthenticationException
+import com.solopov.common.data.remote.exceptions.AuthException
 import javax.inject.Inject
 
 class ExceptionHandlerDelegate @Inject constructor(
@@ -19,13 +19,13 @@ class ExceptionHandlerDelegate @Inject constructor(
 
             is FirebaseException -> {
                 when (ex) {
-                    is FirebaseAuthWeakPasswordException -> AuthenticationException.WeakPasswordException(resManager.getString(R.string.weak_password_exception))
+                    is FirebaseAuthWeakPasswordException -> AuthException.WeakPasswordException(resManager.getString(R.string.weak_password_exception))
 
-                    is FirebaseAuthInvalidUserException -> AuthenticationException.NoSuchUserException(resManager.getString(R.string.invalid_user))
+                    is FirebaseAuthInvalidUserException -> AuthException.NoSuchUserException(resManager.getString(R.string.invalid_user))
 
-                    is FirebaseAuthInvalidCredentialsException -> AuthenticationException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
+                    is FirebaseAuthInvalidCredentialsException -> AuthException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
 
-                    is FirebaseAuthUserCollisionException -> AuthenticationException.EmailAlreadyInUseException(resManager.getString(R.string.email_in_use))
+                    is FirebaseAuthUserCollisionException -> AuthException.EmailAlreadyInUseException(resManager.getString(R.string.email_in_use))
 
                     else -> ex
                 }

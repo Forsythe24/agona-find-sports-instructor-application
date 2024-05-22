@@ -7,5 +7,5 @@ interface ChatRouter {
     fun goBack()
     fun openChat(chat: ChatCommon)
     fun openUserProfile(userId: String)
-
+    fun goToEventCalendar(partnerName: String)
 }

@@ -76,6 +76,13 @@
         android:name="com.solopov.feature_chat_impl.presentation.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat">
+
+        <action
+            android:id="@+id/action_chatFragment_to_eventCalendarFragment"
+            app:destination="@id/eventCalendarFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

@@ -3259,6 +3259,7 @@ int string abc_searchview_description_voice 0x0
 int string abc_shareactionprovider_share_with 0x0
 int string abc_shareactionprovider_share_with_application 0x0
 int string abc_toolbar_collapse_description 0x0
+int string access_forbidden_instructors_exception 0x0
 int string age 0x0
 int string age_hint 0x0
 int string age_lower 0x0
@@ -3326,9 +3327,11 @@ int string description_sample 0x0
 int string don_t_have_an_account 0x0
 int string dropdown_menu 0x0
 int string email 0x0
+int string email_already_in_use_exception 0x0
 int string email_hint 0x0
 int string email_in_use 0x0
 int string email_lower 0x0
+int string email_not_found_exception 0x0
 int string error_icon_content_description 0x0
 int string experience 0x0
 int string experience_lower 0x0
@@ -3337,6 +3340,7 @@ int string fab_transformation_scrim_behavior 0x0
 int string fab_transformation_sheet_behavior 0x0
 int string failed_save_message_exception 0x0
 int string failed_to_rate_this_user 0x0
+int string failed_to_retrieve_chat_data 0x0
 int string failed_to_update_your_password 0x0
 int string failed_to_verify_your_credentials_check_your_password 0x0
 int string fallback_menu_item_copy_link 0x0
@@ -3363,6 +3367,7 @@ int string instructor 0x0
 int string instructor_info_sample 0x0
 int string instructor_info_template 0x0
 int string instructor_lower 0x0
+int string internal_server_error_exception 0x0
 int string invalid_email 0x0
 int string invalid_email_exception 0x0
 int string invalid_form 0x0
@@ -3555,7 +3560,7 @@ int string search_menu_title 0x0
 int string selected 0x0
 int string send 0x0
 int string sender_id 0x0
-int string server_not_responding 0x0
+int string service_unavailable_exception 0x0
 int string sign_in 0x0
 int string sign_up 0x0
 int string sport 0x0
@@ -3572,9 +3577,11 @@ int string this_user_does_not_exist_exception 0x0
 int string tooltip_description 0x0
 int string tooltip_label 0x0
 int string type_in_email_used_for_registration 0x0
+int string unauthorized_exception 0x0
 int string unknown_error 0x0
 int string user 0x0
 int string user_data_update_failed_exception 0x0
+int string user_not_found_exception 0x0
 int string we_are_going_to_send_your_new_password 0x0
 int string weak_password_exception 0x0
 int string wrong_password 0x0

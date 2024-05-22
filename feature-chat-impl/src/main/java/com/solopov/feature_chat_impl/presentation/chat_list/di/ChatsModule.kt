@@ -7,6 +7,7 @@ import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
+import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.presentation.chat.ChatViewModel
 import com.solopov.feature_chat_impl.presentation.chat_list.ChatsViewModel
@@ -28,7 +29,7 @@ class ChatsModule {
     @Provides
     @IntoMap
     @ViewModelKey(ChatsViewModel::class)
-    fun provideSignInViewModel(interactor: ChatInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, chatMappers: ChatMappers): ViewModel {
-        return ChatsViewModel(interactor, exceptionHandlerDelegate, chatMappers)
+    fun provideSignInViewModel(interactor: ChatInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, chatMappers: ChatMappers, router: ChatRouter): ViewModel {
+        return ChatsViewModel(interactor, exceptionHandlerDelegate, chatMappers, router)
     }
 }

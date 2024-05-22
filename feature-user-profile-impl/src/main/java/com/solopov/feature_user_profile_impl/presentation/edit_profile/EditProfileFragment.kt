@@ -11,8 +11,6 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
-import androidx.core.view.isVisible
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -165,9 +163,9 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
 
     private fun extractUserArgument(): UserProfile? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getSerializable(ParamsKey.USER, UserProfile::class.java)
+            requireArguments().getSerializable(ParamsKey.USER_KEY, UserProfile::class.java)
         } else {
-            requireArguments().getSerializable(ParamsKey.USER) as UserProfile
+            requireArguments().getSerializable(ParamsKey.USER_KEY) as UserProfile
         }
     }
 

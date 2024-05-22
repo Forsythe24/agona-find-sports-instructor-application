@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
+import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.di.FeatureUtils
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.AuthRouter
@@ -16,30 +18,32 @@ import com.solopov.feature_authentication_impl.databinding.FragmentSignUpBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
 import com.solopov.common.utils.UserDataValidator
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SignUpFragment: BaseFragment<SignUpViewModel>() {
+class SignUpFragment : BaseFragment<SignUpViewModel>() {
 
     private lateinit var binding: FragmentSignUpBinding
 
     @Inject
-    lateinit var router: AuthRouter
-
-    @Inject
     lateinit var validator: UserDataValidator
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun initViews() {
 
-        with (viewModel) {
+        with(viewModel) {
             with(binding) {
                 backBtn.setOnClickListener {
-                    router.goBack()
+                    viewModel.goBack()
                 }
 
                 finishSignUpBtn.setOnClickListener {
@@ -50,7 +54,8 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
                             name = nameEt.text.toString(),
                             age = ageEt.text.toString().toInt(),
                             gender = if (maleRb.isChecked) getString(R.string.male_gender) else getString(
-                                R.string.female_gender)
+                                R.string.female_gender
+                            )
                         )
 
                     } else {
@@ -59,60 +64,48 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
 
                 }
 
-                emailEt.setOnFocusChangeListener {_, focused ->
+                emailEt.setOnFocusChangeListener { _, focused ->
                     if (!focused) {
                         emailTextInput.helperText = validator.validateEmail(emailEt.text.toString())
                     }
                 }
                 passwordEt.setOnFocusChangeListener { _, focused ->
-                    if(!focused) {
-                        passwordTextInput.helperText = validator.validatePassword(passwordEt.text.toString())
+                    if (!focused) {
+                        passwordTextInput.helperText =
+                            validator.validatePassword(passwordEt.text.toString())
                     }
                 }
 
                 nameEt.setOnFocusChangeListener { _, focused ->
-                    if(!focused) {
+                    if (!focused) {
                         nameTextInput.helperText = validator.validateName(nameEt.text.toString())
                     }
                 }
 
 
                 ageEt.setOnFocusChangeListener { _, focused ->
-                    if(!focused) {
+                    if (!focused) {
                         ageTextInput.helperText = validator.validateAge(ageEt.text.toString())
-                    }
-
-                }
-
-
-
-
-                lifecycleScope.launch {
-                    errorsChannel.consumeEach { error ->
-
-                        val errorMessage = error.message ?: getString(R.string.unknown_error)
-
-                        router.goToSignUp()
-                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                     }
 
                 }
             }
         }
     }
+
     private fun showInvalidFormAlert() {
         var message = ""
-        with (binding) {
-            if(emailTextInput.helperText != null)
+        with(binding) {
+            if (emailTextInput.helperText != null)
                 message += getString(R.string.alert_email) + emailTextInput.helperText
 
-            if(passwordTextInput.helperText != null)
+            if (passwordTextInput.helperText != null)
                 message += getString(R.string.alert_password) + passwordTextInput.helperText
 
-            if(nameTextInput.helperText != null)
+            if (nameTextInput.helperText != null)
                 message += getString(R.string.alert_name) + nameTextInput.helperText
 
-            if(ageTextInput.helperText != null)
+            if (ageTextInput.helperText != null)
                 message += getString(R.string.alert_age) + ageTextInput.helperText
         }
 
@@ -120,7 +113,7 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
     }
 
     private fun isValidForm(): Boolean {
-        with (binding) {
+        with(binding) {
             emailTextInput.helperText = validator.validateEmail(emailEt.text.toString())
             passwordTextInput.helperText = validator.validatePassword(passwordEt.text.toString())
             nameTextInput.helperText = validator.validateName(nameEt.text.toString())
@@ -138,8 +131,20 @@ class SignUpFragment: BaseFragment<SignUpViewModel>() {
     }
 
     override fun subscribe(viewModel: SignUpViewModel) {
-        viewModel.progressBarFlow.observe { isLoading ->
-            binding.finishSignUpBtn.setLoading(isLoading)
+        with(viewModel) {
+            progressBarFlow.observe { isLoading ->
+                binding.finishSignUpBtn.setLoading(isLoading)
+            }
+
+            errorsChannel.consumeAsFlow().observe { error ->
+                val errorMessage = error.message ?: getString(R.string.unknown_error)
+
+                when(error) {
+
+                    is AuthException.EmailAlreadyInUseException -> binding.emailTextInput.helperText = errorMessage
+                    else -> Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

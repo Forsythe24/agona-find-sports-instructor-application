@@ -64,7 +64,7 @@
     <string name="hourly_rate_template">%.1f $</string>
     <string name="name_sample">Lionel Messi</string>
     <string name="this_user_does_not_exist_exception">This user does not exist</string>
-    <string name="user_data_update_failed_exception">Failed to update your profile</string>
+    <string name="user_data_update_failed_exception">Failed to update profile (this user was not found)</string>
 
     <string name="app_name">feature-registration-authentication-impl</string>
     <string name="invalid_email">Invalid email address</string>
@@ -104,7 +104,7 @@
     <string name="failed_save_message_exception">Failed to save the message</string>
     <string name="chat_lower">chat</string>
     <string name="message">message</string>
-    <string name="chat_data_retrieving_failed_exception">Failed to retrieve this chat data</string>
+    <string name="chat_data_retrieving_failed_exception">Failed to retrieve this chat\'s data</string>
     <string name="text">text</string>
     <string name="sender_id">senderId</string>
     <string name="date">date</string>
@@ -114,7 +114,14 @@
     <string name="couldn_t_create_an_account_try_again">Couldn\'t create an account. Try again</string>
     <string name="failed_to_verify_your_credentials_check_your_password">Failed to verify your credentials. Check your password</string>
     <string name="failed_to_update_your_password">Failed to update your password</string>
-    <string name="server_not_responding">Server is not responding at the moment. Please, try again later</string>
+    <string name="internal_server_error_exception">The server encountered an unexpected condition</string>
+    <string name="service_unavailable_exception">The service is unavailable at the moment</string>
+    <string name="access_forbidden_instructors_exception">Access to the instructor list is forbidden</string>
+    <string name="unauthorized_exception">Access to this resource is denied due to lack of authority</string>
+    <string name="email_not_found_exception">User with such email does not exist</string>
+    <string name="user_not_found_exception">This user was not found</string>
+    <string name="email_already_in_use_exception">User with such email already exists</string>
+    <string name="failed_to_retrieve_chat_data">Failed to retrieve chat data</string>
 
     <string-array name="sports_types">
         <item>Football</item>

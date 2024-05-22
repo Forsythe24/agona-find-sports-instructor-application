@@ -8,8 +8,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.solopov.common.core.config.NetworkProperties
 import com.solopov.common.data.network.NetworkApiCreator
@@ -24,7 +22,7 @@ import com.solopov.common.data.remote.jwt.JwtTokenManager
 import com.solopov.common.data.remote.RefreshTokenService
 import com.solopov.common.data.remote.SportApi
 import com.solopov.common.di.scope.ApplicationScope
-import com.solopov.common.utils.ParamsKey.AUTH_PREFERENCES
+import com.solopov.common.utils.ParamsKey.AUTH_PREFERENCES_KEY
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -120,7 +118,7 @@ class RemoteModule {
             corruptionHandler = ReplaceFileCorruptionHandler(
                 produceNewData = { emptyPreferences() }
             ),
-            produceFile = { appContext.preferencesDataStoreFile(AUTH_PREFERENCES) }
+            produceFile = { appContext.preferencesDataStoreFile(AUTH_PREFERENCES_KEY) }
         )
     }
 

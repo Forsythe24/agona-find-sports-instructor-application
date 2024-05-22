@@ -12,14 +12,14 @@ import retrofit2.http.POST
 
 interface AuthService {
     @POST("auth/login")
-    suspend fun login(
+    suspend fun logIn(
         @Body credentials: CredentialsRemote
     ): Response<AuthNetworkResponse>
 
     @POST("auth/sign_up")
     suspend fun createUser (
         @Body user: UserSignUpRemote
-    ): UserRemote
+    ): Response<UserRemote>
 
     @POST("auth/send_new_password")
     suspend fun sendPassword (

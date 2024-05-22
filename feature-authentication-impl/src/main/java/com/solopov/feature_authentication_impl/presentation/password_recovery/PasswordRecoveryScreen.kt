@@ -14,6 +14,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarData
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -49,7 +51,8 @@ fun PasswordRecoveryScreen(
     ) {
         BackIconButton(
             icon = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
-            onClick = onBackClick)
+            onClick = onBackClick
+        )
     }
 
     Column(
@@ -76,15 +79,23 @@ fun PasswordRecoveryScreen(
 
         val fontFamilyInterSemibold = FontFamily(Font(R.font.inter_semibold))
 
-        val fontFamilyInterRegular =  FontFamily(Font(R.font.inter_regular))
+        val fontFamilyInterRegular = FontFamily(Font(R.font.inter_regular))
 
-        Text(text = stringResource(R.string.we_are_going_to_send_your_new_password), fontFamily = fontFamilyInterSemibold, color = colorResource(
-            id = R.color.colorTextSecondary
-        ))
+        Text(
+            text = stringResource(R.string.we_are_going_to_send_your_new_password),
+            fontFamily = fontFamilyInterSemibold,
+            color = colorResource(
+                id = R.color.colorTextSecondary
+            )
+        )
 
-        Text(text = stringResource(R.string.type_in_email_used_for_registration), fontFamily = fontFamilyInterRegular, color = colorResource(
-            id = R.color.colorTextSecondary
-        ))
+        Text(
+            text = stringResource(R.string.type_in_email_used_for_registration),
+            fontFamily = fontFamilyInterRegular,
+            color = colorResource(
+                id = R.color.colorTextSecondary
+            )
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -133,7 +144,7 @@ fun PasswordRecoveryScreen(
             onClick = {
                 onSendClick(text)
                 text = ""
-                      },
+            },
             enabled = isEnabled,
             shape = shape,
             colors = ButtonDefaults.buttonColors(

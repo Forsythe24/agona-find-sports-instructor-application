@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.R
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
@@ -22,6 +23,7 @@ import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
@@ -30,9 +32,6 @@ import javax.inject.Inject
 class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
     private lateinit var viewBinding: FragmentChatListBinding
-
-    @Inject
-    lateinit var chatRouter: ChatRouter
 
     @Inject
     lateinit var dateFormatter: DateFormatter
@@ -95,7 +94,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
     private fun onItemClicked(chat: ChatItem) {
         with(chat) {
-            chatRouter.openChat(
+            viewModel.openChat(
                 ChatCommon(
                     userId,
                     name,
@@ -124,12 +123,9 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                 }
             }
 
-            lifecycleScope.launch {
-                errorsChannel.consumeEach { error ->
-                    val errorMessage = error.message ?: getString(R.string.unknown_error)
-
-                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
-                }
+            errorsChannel.consumeAsFlow().observe { error ->
+                val errorMessage = error.message ?: getString(R.string.unknown_error)
+                Snackbar.make(viewBinding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
     }
