@@ -79,6 +79,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             }
 
             hideProfileEditingViews()
+            hideRegularUserSpecificViews()
         } else {
             //if it's the current user's profile
             viewModel.setCurrentUserProfile()
