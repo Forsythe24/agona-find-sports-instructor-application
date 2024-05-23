@@ -16,13 +16,15 @@ class InstructorViewHolder (
         with (viewBinding) {
             with(instructor) {
                 nameTv.text = name
-                hourlyRateTv.text = getStringCallback(R.string.hourly_rate_template).format(hourlyRate)
+                hourlyRateTv.text = root.context.getString(R.string.hourly_rate_template).format(hourlyRate)
                 ratingTv.text = getStringCallback(R.string.rating_template).format(rating)
                 numberOfRatingsTv.text = getStringCallback(R.string.number_of_ratings_template).format(numberOfRatings)
                 descriptionTv.text = description
                 instructorInfoTv.text = instructorInfo.format(experience, gender, age)
 
-                showImage(photo, instructorIv)
+                if (photo.isNotEmpty()) {
+                    showImage(photo, instructorIv)
+                }
             }
 
             root.setOnClickListener {
