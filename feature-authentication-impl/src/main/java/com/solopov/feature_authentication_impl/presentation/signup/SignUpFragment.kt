@@ -1,6 +1,8 @@
 package com.solopov.feature_authentication_impl.presentation.signup
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,32 +60,37 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
 
             }
 
-            emailEt.setOnFocusChangeListener { _, focused ->
-                if (!focused) {
-                    emailTextInput.helperText = validator.validateEmail(emailEt.text.toString())
+            emailEt.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    emailTextInput.helperText = validator.validateEmail(text.toString())
                 }
-            }
-            passwordEt.setOnFocusChangeListener { _, focused ->
-                if (!focused) {
-                    passwordTextInput.helperText =
-                        validator.validatePassword(passwordEt.text.toString())
+                override fun afterTextChanged(p0: Editable?) {}
+            })
+
+            passwordEt.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    passwordTextInput.helperText = validator.validatePassword(text.toString())
                 }
-            }
+                override fun afterTextChanged(p0: Editable?) {}
+            })
 
-            nameEt.setOnFocusChangeListener { _, focused ->
-                if (!focused) {
-                    nameTextInput.helperText = validator.validateName(nameEt.text.toString())
+            nameEt.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    nameTextInput.helperText = validator.validateName(text.toString())
                 }
-            }
+                override fun afterTextChanged(p0: Editable?) {}
+            })
 
-
-            ageEt.setOnFocusChangeListener { _, focused ->
-                if (!focused) {
+            ageEt.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     ageTextInput.helperText = validator.validateAge(ageEt.text.toString())
                 }
-
-            }
-
+                override fun afterTextChanged(p0: Editable?) {}
+            })
         }
     }
 
