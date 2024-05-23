@@ -1,6 +1,8 @@
 package com.solopov.feature_authentication_impl.presentation.login
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,15 +10,20 @@ import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.di.FeatureUtils
+import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.databinding.FragmentLogInBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
 import kotlinx.coroutines.flow.receiveAsFlow
+import javax.inject.Inject
 
 class LogInFragment : BaseFragment<LogInViewModel>() {
 
     private lateinit var binding: FragmentLogInBinding
+
+    @Inject
+    lateinit var validator: UserDataValidator
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,10 +32,6 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
     ): View {
         binding = FragmentLogInBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun initViews() {
@@ -40,6 +43,14 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
             forgotPasswordLnk.setOnClickListener {
                 viewModel.goToPasswordRecovery()
             }
+
+            emailEt.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    emailTextInput.helperText = validator.validateEmail(text.toString())
+                }
+                override fun afterTextChanged(p0: Editable?) {}
+            })
 
             logInBtn.setOnClickListener {
                 emailTextInput.helperText = null
@@ -89,5 +100,4 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
             }
         }
     }
-
 }
