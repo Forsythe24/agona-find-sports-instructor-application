@@ -9,7 +9,6 @@ import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
-import com.solopov.feature_chat_impl.presentation.chat.ChatViewModel
 import com.solopov.feature_chat_impl.presentation.chat_list.ChatsViewModel
 import dagger.Module
 import dagger.Provides
@@ -22,14 +21,22 @@ import dagger.multibindings.IntoMap
 )
 class ChatsModule {
     @Provides
-    fun provideMainViewModel(fragment: Fragment, factory: ViewModelProvider.Factory): ChatsViewModel {
+    fun provideMainViewModel(
+        fragment: Fragment,
+        factory: ViewModelProvider.Factory
+    ): ChatsViewModel {
         return ViewModelProvider(fragment, factory)[ChatsViewModel::class.java]
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(ChatsViewModel::class)
-    fun provideSignInViewModel(interactor: ChatInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, chatMappers: ChatMappers, router: ChatRouter): ViewModel {
+    fun provideSignInViewModel(
+        interactor: ChatInteractor,
+        exceptionHandlerDelegate: ExceptionHandlerDelegate,
+        chatMappers: ChatMappers,
+        router: ChatRouter
+    ): ViewModel {
         return ChatsViewModel(interactor, exceptionHandlerDelegate, chatMappers, router)
     }
 }

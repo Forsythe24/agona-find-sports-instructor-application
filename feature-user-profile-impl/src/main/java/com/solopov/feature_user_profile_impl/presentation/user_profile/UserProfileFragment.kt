@@ -10,14 +10,11 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar.OnRatingBarChangeListener
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.com.solopov.feature_user_profile_impl.R
-import com.solopov.feature_user_profile_impl.UserProfileRouter
-import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentUserProfileBinding
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
@@ -25,11 +22,12 @@ import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
 import com.solopov.common.utils.ParamsKey.USER_ID_KEY
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
+import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
+import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.RatingUi
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
@@ -96,7 +94,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     override fun initViews() {
 
         with(binding) {
-            binding.editBtn.setOnClickListener {
+            editBtn.setOnClickListener {
                 viewModel.userProfileFlow.value?.let {
                     router.goToEditingProfile(it)
                 }
@@ -107,6 +105,12 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                     router.openChat(
                         it
                     )
+                }
+            }
+
+            viewModel.userProfileFlow.value?.let { user ->
+                if (user.id == viewModel.userProfileFlow.value?.id) {
+                    hideOtherUserSpecificViews()
                 }
             }
 
@@ -185,12 +189,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             chatFlow.observe {
             }
 
-            currentUserFlow.observe { user ->
-                user?.let {
-                    if (user.id == viewModel.userProfileFlow.value?.id) {
-                        hideOtherUserSpecificViews()
-                    }
-                }
+            currentUserFlow.observe {
             }
 
             ratingsFlow.observe { ratings ->
@@ -203,14 +202,11 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 binding.progressBar.isVisible = isLoading
             }
 
-            lifecycleScope.launch {
-                errorsChannel.consumeEach { error ->
-                    val errorMessage = error.message ?: getString(R.string.unknown_error)
+            errorsChannel.receiveAsFlow().observe { error ->
+                val errorMessage = error.message ?: getString(R.string.unknown_error)
 
-                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
-                }
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }
-
         }
     }
 

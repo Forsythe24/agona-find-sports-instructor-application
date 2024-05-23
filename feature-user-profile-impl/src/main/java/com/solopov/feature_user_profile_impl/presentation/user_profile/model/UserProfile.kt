@@ -2,7 +2,7 @@ package com.solopov.feature_user_profile_impl.presentation.user_profile.model
 
 import java.io.Serializable
 
-data class UserProfile (
+data class UserProfile(
     var id: String,
     var name: String,
     var age: Int,
@@ -15,4 +15,4 @@ data class UserProfile (
     var numberOfRatings: Int?,
     var hourlyRate: Float?,
     var isInstructor: Boolean
-): Serializable
+) : Serializable

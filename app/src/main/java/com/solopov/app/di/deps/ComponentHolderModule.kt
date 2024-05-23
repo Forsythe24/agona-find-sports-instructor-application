@@ -1,13 +1,13 @@
 package com.solopov.app.di.deps
 
 import com.solopov.app.App
-import com.solopov.common.di.FeatureApiHolder
-import com.solopov.common.di.FeatureContainer
-import com.solopov.common.di.scope.ApplicationScope
 import com.solopov.common.data.db.di.DbApi
 import com.solopov.common.data.db.di.DbHolder
 import com.solopov.common.data.remote.di.RemoteApi
 import com.solopov.common.data.remote.di.RemoteHolder
+import com.solopov.common.di.FeatureApiHolder
+import com.solopov.common.di.FeatureContainer
+import com.solopov.common.di.scope.ApplicationScope
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.di.AuthFeatureHolder
 import com.solopov.feature_chat_api.di.ChatFeatureApi

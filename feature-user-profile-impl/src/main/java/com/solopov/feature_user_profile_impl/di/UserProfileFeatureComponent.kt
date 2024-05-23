@@ -1,14 +1,14 @@
 package com.solopov.feature_user_profile_impl.di
 
 import com.solopov.common.data.db.di.DbApi
-import com.solopov.feature_user_profile_impl.UserProfileRouter
-import com.solopov.feature_user_profile_impl.presentation.user_profile.di.UserProfileComponent
 import com.solopov.common.data.remote.di.RemoteApi
 import com.solopov.common.di.CommonApi
 import com.solopov.common.di.scope.FeatureScope
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
+import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.presentation.edit_profile.di.EditProfileComponent
 import com.solopov.feature_user_profile_impl.presentation.instruct.di.InstructApplicationComponent
+import com.solopov.feature_user_profile_impl.presentation.user_profile.di.UserProfileComponent
 import dagger.BindsInstance
 import dagger.Component
 

@@ -5,8 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.solopov.common.data.db.model.EventLocal
-import com.solopov.common.data.db.model.RatingLocal
-import java.util.Date
 
 @Dao
 abstract class EventDao {

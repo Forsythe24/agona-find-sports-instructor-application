@@ -5,27 +5,23 @@ import androidx.core.net.toUri
 import com.google.firebase.storage.FirebaseStorage
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.data.remote.exceptions.AuthException
-import com.solopov.common.data.remote.exceptions.FileUploadingException
-import com.solopov.common.data.remote.exceptions.UserDoesNotExistException
-import com.solopov.common.data.remote.exceptions.UserNotCreatedException
-import com.solopov.common.data.remote.jwt.JwtTokenManager
-import com.solopov.common.data.remote.model.AuthNetworkResponse
-import com.solopov.common.data.remote.model.CredentialsRemote
-import com.solopov.common.data.remote.model.UserRemote
-import com.solopov.common.data.remote.model.UserSignUpRemote
 import com.solopov.common.data.remote.AuthService
 import com.solopov.common.data.remote.RefreshTokenService
 import com.solopov.common.data.remote.SportApi
+import com.solopov.common.data.remote.exceptions.AuthException
+import com.solopov.common.data.remote.exceptions.FirebaseException
 import com.solopov.common.data.remote.exceptions.HttpException
 import com.solopov.common.data.remote.exceptions.UserException
+import com.solopov.common.data.remote.jwt.JwtTokenManager
+import com.solopov.common.data.remote.model.AuthNetworkResponse
+import com.solopov.common.data.remote.model.CredentialsRemote
 import com.solopov.common.data.remote.model.RefreshJwtRequestDto
 import com.solopov.common.data.remote.model.SendNewPasswordOnEmailRequestDto
+import com.solopov.common.data.remote.model.UserRemote
+import com.solopov.common.data.remote.model.UserSignUpRemote
 import com.solopov.common.utils.ExceptionHandlerDelegate
-import com.solopov.common.utils.runCatching
 import kotlinx.coroutines.tasks.await
 import retrofit2.Response
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -96,7 +92,7 @@ class UserRemoteDao @Inject constructor(
             ref.putFile(imageUri.toUri()).await()
             return ref.downloadUrl.await().toString()
         } catch (ex: Exception) {
-            throw FileUploadingException(resManager.getString(R.string.file_uploading_exception))
+            throw FirebaseException.FileUploadingException(resManager.getString(R.string.file_uploading_exception))
         }
     }
 
@@ -178,7 +174,7 @@ class UserRemoteDao @Inject constructor(
         when (logInResponse.code()) {
             500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
             503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
-            404 -> throw UserNotCreatedException(resManager.getString(R.string.couldn_t_create_an_account_try_again))
+            404 -> throw UserException.UserNotCreatedException(resManager.getString(R.string.couldn_t_create_an_account_try_again))
             else -> saveTokens(logInResponse)
         }
     }
@@ -201,6 +197,7 @@ class UserRemoteDao @Inject constructor(
             404 -> throw AuthException.NoSuchEmailException(
                 resManager.getString(R.string.email_not_found_exception).format(email)
             )
+
             401 -> throw AuthException.WrongPasswordException(resManager.getString(R.string.wrong_password))
             else -> {
                 saveTokens(response)

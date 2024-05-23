@@ -3,7 +3,7 @@ package com.solopov.feature_chat_impl.presentation.chat
 import androidx.recyclerview.widget.DiffUtil
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 
-class MessageDiffUtilItemCallback: DiffUtil.ItemCallback<MessageItem>() {
+class MessageDiffUtilItemCallback : DiffUtil.ItemCallback<MessageItem>() {
     override fun areItemsTheSame(oldItem: MessageItem, newItem: MessageItem): Boolean {
         return oldItem.id == newItem.id;
     }

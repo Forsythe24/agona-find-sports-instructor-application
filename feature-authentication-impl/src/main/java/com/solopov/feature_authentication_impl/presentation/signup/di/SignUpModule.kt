@@ -22,14 +22,21 @@ import dagger.multibindings.IntoMap
 class SignUpModule {
 
     @Provides
-    fun provideMainViewModel(fragment: Fragment, factory: ViewModelProvider.Factory): SignUpViewModel {
+    fun provideMainViewModel(
+        fragment: Fragment,
+        factory: ViewModelProvider.Factory
+    ): SignUpViewModel {
         return ViewModelProvider(fragment, factory)[SignUpViewModel::class.java]
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(SignUpViewModel::class)
-    fun provideSignInViewModel(interactor: AuthInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, authRouter: AuthRouter): ViewModel {
+    fun provideSignInViewModel(
+        interactor: AuthInteractor,
+        exceptionHandlerDelegate: ExceptionHandlerDelegate,
+        authRouter: AuthRouter
+    ): ViewModel {
         return SignUpViewModel(interactor, exceptionHandlerDelegate, authRouter)
     }
 }

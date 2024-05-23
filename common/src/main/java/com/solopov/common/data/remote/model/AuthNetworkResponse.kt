@@ -1,6 +1,6 @@
 package com.solopov.common.data.remote.model
 
-data class AuthNetworkResponse (
+data class AuthNetworkResponse(
     val accessToken: String,
     val refreshToken: String,
 )

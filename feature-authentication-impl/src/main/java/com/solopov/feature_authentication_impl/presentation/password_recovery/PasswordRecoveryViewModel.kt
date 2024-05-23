@@ -17,7 +17,7 @@ class PasswordRecoveryViewModel @Inject constructor(
     private val interactor: AuthInteractor,
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val router: AuthRouter,
-): BaseViewModel() {
+) : BaseViewModel() {
 
     val errorsChannel = Channel<Throwable>()
 

@@ -6,20 +6,17 @@ import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
 import com.solopov.feature_authentication_impl.AuthRouter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SignUpViewModel @Inject constructor(
     private val interactor: AuthInteractor,
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val router: AuthRouter,
-): BaseViewModel() {
+) : BaseViewModel() {
     val errorsChannel = Channel<Throwable>()
     private val _progressBarFlow = MutableStateFlow(false)
     val progressBarFlow: StateFlow<Boolean>

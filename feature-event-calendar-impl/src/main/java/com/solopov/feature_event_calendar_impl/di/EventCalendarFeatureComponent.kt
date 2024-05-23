@@ -20,7 +20,7 @@ import dagger.Component
         EventCalendarFeatureModule::class
     ]
 )
-interface EventCalendarFeatureComponent: EventCalendarFeatureApi {
+interface EventCalendarFeatureComponent : EventCalendarFeatureApi {
 
     fun eventCalendarComponentFactory(): EventCalendarComponent.Factory
 

@@ -22,14 +22,27 @@ import dagger.multibindings.IntoMap
 class EventCalendarModule {
 
     @Provides
-    fun provideMainViewModel(fragment: Fragment, factory: ViewModelProvider.Factory): EventCalendarViewModel {
+    fun provideMainViewModel(
+        fragment: Fragment,
+        factory: ViewModelProvider.Factory
+    ): EventCalendarViewModel {
         return ViewModelProvider(fragment, factory)[EventCalendarViewModel::class.java]
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(EventCalendarViewModel::class)
-    fun provideInstructorViewModel(interactor: EventCalendarInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, eventMappers: EventMappers, eventCalendarRouter: EventCalendarRouter): ViewModel {
-        return EventCalendarViewModel(interactor, exceptionHandlerDelegate, eventMappers, eventCalendarRouter)
+    fun provideInstructorViewModel(
+        interactor: EventCalendarInteractor,
+        exceptionHandlerDelegate: ExceptionHandlerDelegate,
+        eventMappers: EventMappers,
+        eventCalendarRouter: EventCalendarRouter
+    ): ViewModel {
+        return EventCalendarViewModel(
+            interactor,
+            exceptionHandlerDelegate,
+            eventMappers,
+            eventCalendarRouter
+        )
     }
 }

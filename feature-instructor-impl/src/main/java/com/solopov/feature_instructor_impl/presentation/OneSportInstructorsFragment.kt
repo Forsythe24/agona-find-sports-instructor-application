@@ -1,6 +1,5 @@
 package com.solopov.feature_instructor_impl.presentation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,30 +8,23 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.util.query
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
-import com.solopov.feature_instructor_api.di.InstructorFeatureApi
-import com.solopov.feature_instructor_impl.InstructorsRouter
-import com.solopov.feature_instructor_impl.di.InstructorFeatureComponent
 import com.solopov.common.utils.ParamsKey
+import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.data.mappers.InstructorMappers
+import com.solopov.feature_instructor_impl.di.InstructorFeatureComponent
 import com.solopov.instructors.R
 import com.solopov.instructors.databinding.FragmentOneSportInstructorsBinding
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
-    @Inject
-    lateinit var router: InstructorsRouter
 
     @Inject
     lateinit var mappers: InstructorMappers
@@ -64,7 +56,6 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
         super.onResume()
         instructorsSearchView.setQuery("", false)
         setOnInstructorsSearchListener()
-
     }
 
     override fun inject() {
@@ -82,11 +73,10 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
                     updateInstructors(it)
                 }
             }
-            lifecycleScope.launch {
-                errorsChannel.consumeEach { error ->
-                    val errorMessage = error.message ?: getString(R.string.unknown_error_occurred)
-                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-                }
+            errorsChannel.receiveAsFlow().observe { error ->
+                val errorMessage = error.message ?: getString(R.string.unknown_error)
+
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
 
@@ -138,7 +128,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
     }
 
     private fun onItemClicked(instructor: InstructorsAdapter.ListItem) {
-        router.openInstructor(instructor.id)
+        viewModel.openInstructor(instructor.id)
     }
 
     private fun getStringCallback(id: Int): String {

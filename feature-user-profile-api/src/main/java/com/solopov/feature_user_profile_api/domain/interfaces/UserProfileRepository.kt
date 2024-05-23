@@ -1,6 +1,5 @@
 package com.solopov.feature_user_profile_api.domain.interfaces
 
-import com.solopov.feature_user_profile_api.domain.model.Rating
 import com.solopov.feature_user_profile_api.domain.model.User
 
 interface UserProfileRepository {

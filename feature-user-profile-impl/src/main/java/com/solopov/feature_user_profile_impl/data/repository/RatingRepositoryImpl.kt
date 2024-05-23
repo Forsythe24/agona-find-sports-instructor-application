@@ -1,7 +1,6 @@
 package com.solopov.feature_user_profile_impl.data.repository
 
 import com.solopov.common.data.db.AppDatabase
-import com.solopov.common.data.db.model.RatingLocal
 import com.solopov.feature_user_profile_api.domain.interfaces.RatingRepository
 import com.solopov.feature_user_profile_api.domain.model.Rating
 import com.solopov.feature_user_profile_impl.data.mappers.RatingMappers

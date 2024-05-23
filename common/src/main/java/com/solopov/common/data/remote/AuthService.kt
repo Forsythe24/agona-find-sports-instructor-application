@@ -17,12 +17,12 @@ interface AuthService {
     ): Response<AuthNetworkResponse>
 
     @POST("auth/sign_up")
-    suspend fun createUser (
+    suspend fun createUser(
         @Body user: UserSignUpRemote
     ): Response<UserRemote>
 
     @POST("auth/send_new_password")
-    suspend fun sendPassword (
+    suspend fun sendPassword(
         @Body user: SendNewPasswordOnEmailRequestDto
     ): Response<ResponseBody>
 }

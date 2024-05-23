@@ -54,7 +54,7 @@ class ChatRepositoryImpl @Inject constructor(
 
         for (i in chats.indices) {
             chats[i].lastMessageText = allLastMessages[i].text
-            chats[i].lastMessageDate= allLastMessages[i].date
+            chats[i].lastMessageDate = allLastMessages[i].date
         }
 
         return chats

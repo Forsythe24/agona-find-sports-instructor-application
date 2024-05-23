@@ -1,35 +1,31 @@
 package com.solopov.common.utils
 
-import com.google.firebase.FirebaseException
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.FirebaseNetworkException
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.data.remote.exceptions.AuthException
+import com.solopov.common.data.remote.exceptions.FirebaseException
+import com.solopov.common.data.remote.exceptions.SocketConnectionTimeoutException
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class ExceptionHandlerDelegate @Inject constructor(
     private val resManager: ResourceManager
 ) {
-
     fun handleException(ex: Throwable): Throwable {
         return when (ex) {
+            is FirebaseNetworkException -> FirebaseException.FirebaseConnectionFailedException(
+                resManager.getString(
+                    R.string.firebase_connection_failed_exception
+                )
+            )
 
-            is FirebaseException -> {
-                when (ex) {
-                    is FirebaseAuthWeakPasswordException -> AuthException.WeakPasswordException(resManager.getString(R.string.weak_password_exception))
 
-                    is FirebaseAuthInvalidUserException -> AuthException.NoSuchUserException(resManager.getString(R.string.invalid_user))
+            is SocketTimeoutException -> SocketConnectionTimeoutException(
+                ex.message ?: resManager.getString(
+                    R.string.socket_connection_timeout_exception
+                )
+            )
 
-                    is FirebaseAuthInvalidCredentialsException -> AuthException.WrongEmailOrPasswordException(resManager.getString(R.string.authentication_failed))
-
-                    is FirebaseAuthUserCollisionException -> AuthException.EmailAlreadyInUseException(resManager.getString(R.string.email_in_use))
-
-                    else -> ex
-                }
-            }
             else -> ex
         }
 

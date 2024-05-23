@@ -5,7 +5,7 @@ import com.solopov.feature_event_calendar_api.domain.model.Rating
 import com.solopov.feature_event_calendar_impl.presentation.model.RatingUi
 import javax.inject.Inject
 
-class RatingMappers @Inject constructor(){
+class RatingMappers @Inject constructor() {
 
     fun mapRatingLocalToRating(ratingLocal: RatingLocal): Rating {
         return with(ratingLocal) {

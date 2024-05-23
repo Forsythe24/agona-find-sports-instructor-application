@@ -28,6 +28,7 @@ import com.solopov.feature_event_calendar_impl.R
 import com.solopov.feature_event_calendar_impl.databinding.FragmentEventCalendarBinding
 import com.solopov.feature_event_calendar_impl.di.EventCalendarFeatureComponent
 import com.solopov.feature_event_calendar_impl.presentation.model.EventItem
+import kotlinx.coroutines.flow.receiveAsFlow
 import nl.joery.timerangepicker.TimeRangePicker
 import java.util.Calendar
 import java.util.Date
@@ -77,13 +78,14 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
         binding.addBtn.setOnClickListener {
             showEventAddingDialog()
         }
+
+        setSaveEventButtonOnClickListener()
+        setOnDateChangeListener()
+        setUpOnItemTouchHelper()
     }
 
     override fun subscribe(viewModel: EventCalendarViewModel) {
         with(viewModel) {
-
-            setSaveEventButtonOnClickListener()
-            setOnDateChangeListener()
 
             eventListFlow.observe { eventList ->
                 eventList?.let {
@@ -109,13 +111,14 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
             }
 
             currentEventFlow.observe {
-                it?.let {
-                    viewModel.saveEvent(it, ::onEventSaved)
-                }
+            }
+
+            errorsChannel.receiveAsFlow().observe { error ->
+                val errorMessage = error.message ?: getString(R.string.unknown_error)
+
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
-
-        setUpOnItemTouchHelper()
     }
 
     private fun setPartnerNameIfArgumentPresent() {
@@ -197,7 +200,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
             } else {
                 // if id is present, that means we are just editing an event saved earlier
                 val id = viewModel.currentEventFlow.value?.id ?: 0L
-                viewModel.setCurrentEvent(
+                viewModel.saveEvent(
                     EventItem(
                         id,
                         activityEt.text.toString(),
@@ -206,7 +209,8 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
                         picker.startTime.totalMinutes,
                         picker.endTime.totalMinutes,
                         placeEt.text.toString()
-                    )
+                    ),
+                    ::onEventSaved
                 )
             }
         }
@@ -215,6 +219,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
     private fun onEventItemClicked(event: EventItem) {
         showEventAddingDialog()
         setDialogViewsToEventEditingMode(event)
+        viewModel.setCurrentEvent(event)
     }
 
     private fun setDialogViewsToEventEditingMode(event: EventItem) {
@@ -370,5 +375,4 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
             .create(this)
             .inject(this)
     }
-
 }

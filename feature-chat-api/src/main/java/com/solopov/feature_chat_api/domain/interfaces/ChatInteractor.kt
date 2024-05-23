@@ -36,7 +36,7 @@ class ChatInteractor(
         }
     }
 
-    suspend fun getRecentMessages(): Flow<PagingData<Message>>{
+    suspend fun getRecentMessages(): Flow<PagingData<Message>> {
         return withContext(dispatcher) {
             chatRepository.getRecentMessages()
         }

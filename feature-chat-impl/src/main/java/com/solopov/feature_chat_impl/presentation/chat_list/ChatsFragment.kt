@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,14 +15,11 @@ import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
 import com.solopov.feature_chat_api.di.ChatFeatureApi
-import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.databinding.FragmentChatListBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.receiveAsFlow
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
@@ -123,7 +118,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                 }
             }
 
-            errorsChannel.consumeAsFlow().observe { error ->
+            errorsChannel.receiveAsFlow().observe { error ->
                 val errorMessage = error.message ?: getString(R.string.unknown_error)
                 Snackbar.make(viewBinding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }

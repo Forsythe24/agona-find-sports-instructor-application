@@ -6,7 +6,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
 import com.solopov.feature_chat_impl.databinding.ItemChatBinding
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
-import com.solopov.feature_chat_impl.utils.UserMessagesTypes
 
 class ChatsAdapter(
     private val showImage: (url: String, imageView: ImageView) -> Unit,

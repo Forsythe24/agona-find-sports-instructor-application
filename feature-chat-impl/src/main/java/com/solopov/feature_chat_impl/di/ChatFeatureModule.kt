@@ -1,6 +1,5 @@
 package com.solopov.feature_chat_impl.di
 
-import androidx.paging.PagingConfig
 import com.solopov.common.di.scope.FeatureScope
 import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
 import com.solopov.feature_chat_api.domain.interfaces.ChatRepository
@@ -16,8 +15,8 @@ class ChatFeatureModule {
     fun provideChatRepository(chatRepository: ChatRepositoryImpl): ChatRepository = chatRepository
 
 
-
     @Provides
     @FeatureScope
-    fun provideChatInteractor(chatRepository: ChatRepository): ChatInteractor = ChatInteractor(chatRepository, Dispatchers.IO)
+    fun provideChatInteractor(chatRepository: ChatRepository): ChatInteractor =
+        ChatInteractor(chatRepository, Dispatchers.IO)
 }

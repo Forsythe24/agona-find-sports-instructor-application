@@ -9,7 +9,8 @@ import javax.inject.Inject
 
 abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity() {
 
-    @Inject protected open lateinit var viewModel: T
+    @Inject
+    protected open lateinit var viewModel: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

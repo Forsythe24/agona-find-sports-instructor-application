@@ -97,12 +97,13 @@ class EventCalendarViewModel(
         _currentEventFlow.value = eventItem
     }
 
-    fun saveEvent(eventItem: EventItem, onEventCreatedCallback: () -> Unit) {
+    fun saveEvent(eventItem: EventItem, onEventSavedCallback: () -> Unit) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.addEvent(eventMappers.mapEventItemToEvent(eventItem))
             }.onSuccess {
-                onEventCreatedCallback()
+                onEventSavedCallback()
+                _currentEventFlow.value = null
             }.onFailure {
                 errorsChannel.send(it)
             }

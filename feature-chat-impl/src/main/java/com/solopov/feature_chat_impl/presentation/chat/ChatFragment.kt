@@ -7,8 +7,6 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -20,15 +18,12 @@ import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_chat_api.di.ChatFeatureApi
-import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.receiveAsFlow
 import java.util.Date
 import javax.inject.Inject
 
@@ -36,6 +31,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
     private lateinit var viewBinding: FragmentChatBinding
     private lateinit var senderId: String
+    private lateinit var receiverId: String
     private lateinit var adapter: ChatAdapter
     private lateinit var currentMessageList: MutableList<MessageItem>
     private lateinit var currentMessageListWithDates: MutableList<MessageItem>
@@ -61,6 +57,51 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         with(viewBinding) {
             chatRv.layoutManager =
                 LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+
+            sendBtn.setOnClickListener {
+
+                val senderRoomId = senderId + receiverId
+                val receiverRoomId = receiverId + senderId
+
+                val date = dateFormatter.formatDateTime(Date())
+                val sentMessage =
+                    MessageItem(
+                        null,
+                        senderRoomId,
+                        messageEt.text.toString(),
+                        senderId,
+                        date
+                    )
+
+                val receivedMessage =
+                    MessageItem(
+                        null,
+                        receiverRoomId,
+                        messageEt.text.toString(),
+                        senderId,
+                        date
+                    )
+
+                messageEt.setText("")
+
+                viewModel.createNewMessage(senderId, sentMessage)
+                viewModel.createNewMessage(receiverId, receivedMessage)
+
+                currentMessageList.add(sentMessage)
+                updateMessagesWithRespectToDate()
+
+                chatRv.smoothScrollToPosition(adapter.itemCount)
+            }
+
+            val onReceiverClickListener = OnClickListener {
+                viewModel.receiverFlow.value?.let {
+                    viewModel.openUserProfile(it.userId)
+                }
+
+            }
+            userImageCv.setOnClickListener(onReceiverClickListener)
+            receiverNameTv.setOnClickListener(onReceiverClickListener)
         }
 
 
@@ -151,58 +192,20 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             receiverFlow.observe { receiver ->
                 with(viewBinding) {
                     receiver?.let {
+                        receiverId = receiver.userId
+
                         receiverNameTv.text = receiver.name
                         receiver.photo?.let {
                             showImage(it, userImageIv)
                         }
-
-                        val onClickListener = OnClickListener {
-                            viewModel.openUserProfile(receiver.userId)
-                        }
-                        userImageCv.setOnClickListener(onClickListener)
-                        receiverNameTv.setOnClickListener(onClickListener)
                     }
                 }
             }
 
             senderFlow.observe { sender ->
-                with(viewBinding) {
-
-                    val receiver = viewModel.receiverFlow.value
-
-                    if (receiver != null && sender != null) {
-
-                        val receiverId = receiver.userId
-                        senderId = sender.userId
-
-                        val senderRoomId = senderId + receiverId
-                        val receiverRoomId = receiverId + senderId
-
-                        sendBtn.setOnClickListener {
-
-                            sender.let {
-                                val date = dateFormatter.formatDateTime(Date())
-                                val sentMessage =
-                                    MessageItem(null, senderRoomId, messageEt.text.toString(), it.userId, date)
-
-                                val receivedMessage =
-                                    MessageItem(null, receiverRoomId, messageEt.text.toString(), it.userId, date)
-
-                                messageEt.setText("")
-
-                                viewModel.createNewMessage(senderId, sentMessage)
-                                viewModel.createNewMessage(receiverId, receivedMessage)
-
-                                currentMessageList.add(sentMessage)
-                                updateMessagesWithRespectToDate()
-
-                                viewBinding.chatRv.smoothScrollToPosition(adapter.itemCount)
-                            }
-                        }
-                    }
-
+                sender?.let {
+                    senderId = sender.userId
                 }
-
             }
 
             chatFlow.observe { messages ->
@@ -223,7 +226,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 //
 //            }
 
-            errorsChannel.consumeAsFlow().observe { error ->
+            errorsChannel.receiveAsFlow().observe { error ->
                 val errorMessage = error.message ?: getString(R.string.unknown_error)
                 Snackbar.make(viewBinding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }

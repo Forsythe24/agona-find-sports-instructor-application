@@ -18,7 +18,7 @@ class LogInViewModel @Inject constructor(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val resManager: ResourceManager,
     private val router: AuthRouter,
-): BaseViewModel() {
+) : BaseViewModel() {
 
     val errorsChannel = Channel<Throwable>()
 
@@ -29,7 +29,7 @@ class LogInViewModel @Inject constructor(
     fun signIn(
         email: String?,
         password: String?,
-    ){
+    ) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.signInUser(
@@ -43,33 +43,6 @@ class LogInViewModel @Inject constructor(
             }
         }
     }
-
-//    fun consumeErrors() {
-//        viewModelScope.launch {
-//            errorsChannel.consumeEach { error ->
-//                val errorMessage = error.message ?: resManager.getString(R.string.unknown_error)
-//
-//                when (error) {
-//                    is AuthException.NoSuchEmailException, is AuthException.InvalidEmailException -> {
-//                        println(errorMessage)
-////                        emailTextInput.helperText = error.message
-//                    }
-//
-//                    is AuthException.NoEmptyPasswordException -> {
-//                        println(errorMessage)
-////                        passwordTextInput.helperText = error.message
-//                    }
-//
-//                    is AuthException.WrongEmailOrPasswordException -> {
-//                        println(errorMessage)
-//                        showAlert(resManager.getString(R.string.authentication_error))
-//                    }
-//
-//                    else -> println(errorMessage)
-//                }
-//            }
-//        }
-//    }
 
     fun goFromLogInToUserProfile() {
         router.goFromLogInToUserProfile()

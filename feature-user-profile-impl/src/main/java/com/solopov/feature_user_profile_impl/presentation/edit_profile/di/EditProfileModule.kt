@@ -7,6 +7,7 @@ import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
+import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.edit_profile.EditProfileViewModel
 import dagger.Module
@@ -34,8 +35,9 @@ class EditProfileModule {
     fun provideEditProfileViewModel(
         interactor: UserProfileInteractor,
         exceptionHandlerDelegate: ExceptionHandlerDelegate,
-        userMappers: UserMappers
+        userMappers: UserMappers,
+        router: UserProfileRouter,
     ): ViewModel {
-        return EditProfileViewModel(interactor, exceptionHandlerDelegate, userMappers)
+        return EditProfileViewModel(interactor, exceptionHandlerDelegate, userMappers, router)
     }
 }

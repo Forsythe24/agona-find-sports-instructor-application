@@ -13,6 +13,7 @@ class RefreshTokenInterceptor @Inject constructor(
         const val HEADER_AUTHORIZATION = "Authorization"
         const val TOKEN_TYPE = "Bearer"
     }
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val token = runBlocking {
             tokenManager.getRefreshJwt()

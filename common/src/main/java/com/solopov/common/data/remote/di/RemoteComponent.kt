@@ -13,7 +13,7 @@ import dagger.Component
     ]
 )
 @ApplicationScope
-abstract class RemoteComponent: RemoteApi {
+abstract class RemoteComponent : RemoteApi {
 
     @Component(
         dependencies = [

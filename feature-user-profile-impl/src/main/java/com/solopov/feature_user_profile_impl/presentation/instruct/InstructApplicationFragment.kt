@@ -9,8 +9,6 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.solopov.com.solopov.feature_user_profile_impl.R
 import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentInstructApplicationBinding
@@ -18,20 +16,13 @@ import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
-import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlinx.coroutines.flow.receiveAsFlow
 
 
 class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>() {
     private lateinit var binding: FragmentInstructApplicationBinding
-
-    @Inject
-    lateinit var router: UserProfileRouter
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,7 +41,7 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
         with(binding) {
 
             backBtn.setOnClickListener {
-                router.goBack()
+                viewModel.goBack()
             }
 
             hourlyRateSb.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
@@ -78,7 +69,9 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
 
                     sportsTypeAutocompleteTv.setText(it.sport)
 
-                    val drawableId = getSportsTypeDrawableId(resources.getStringArray(R.array.current_sports_types).indexOf(it.sport))
+                    val drawableId = getSportsTypeDrawableId(
+                        resources.getStringArray(R.array.current_sports_types).indexOf(it.sport)
+                    )
                     specialtyTextInput.setStartIconDrawable(drawableId)
 
 
@@ -104,8 +97,12 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
     }
 
     private fun onUserUpdatedCallback() {
-        router.goBack()
-        Snackbar.make(binding.root, getString(R.string.your_instructor_s_bio_has_been_successfully_saved), Snackbar.LENGTH_SHORT).show()
+        viewModel.goBack()
+        Snackbar.make(
+            binding.root,
+            getString(R.string.your_instructor_s_bio_has_been_successfully_saved),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun getSportsTypeDrawableId(index: Int): Int =
@@ -164,15 +161,15 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
 
     override fun subscribe(viewModel: InstructApplicationViewModel) {
 
-        viewModel.progressBarFlow.observe { isLoading ->
-            binding.applyBtn.setLoading(isLoading)
-        }
+        with(viewModel) {
+            progressBarFlow.observe { isLoading ->
+                binding.applyBtn.setLoading(isLoading)
+            }
 
-        lifecycleScope.launch {
-            viewModel.errorsChannel.consumeEach { error ->
+            errorsChannel.receiveAsFlow().observe { error ->
                 val errorMessage = error.message ?: getString(R.string.unknown_error)
 
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
     }

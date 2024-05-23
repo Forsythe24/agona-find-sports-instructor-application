@@ -21,7 +21,7 @@ import dagger.Component
         AuthFeatureModule::class
     ]
 )
-interface AuthFeatureComponent: AuthFeatureApi {
+interface AuthFeatureComponent : AuthFeatureApi {
 
     fun signUpComponentFactory(): SignUpComponent.Factory
     fun logInComponentFactory(): LogInComponent.Factory
@@ -41,7 +41,7 @@ interface AuthFeatureComponent: AuthFeatureApi {
     @Component(
         dependencies = [
             CommonApi::class,
-            RemoteApi:: class
+            RemoteApi::class
         ]
     )
     interface AuthFeatureDependenciesComponent : AuthFeatureDependencies

@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import com.solopov.common.R
 import com.solopov.common.utils.observe
 import kotlinx.coroutines.Job
@@ -14,7 +12,8 @@ import javax.inject.Inject
 
 abstract class BaseFragment<T : BaseViewModel> : Fragment() {
 
-    @Inject protected open lateinit var viewModel: T
+    @Inject
+    protected open lateinit var viewModel: T
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         inject()

@@ -13,65 +13,65 @@ import retrofit2.http.Path
 interface SportApi {
 
     @GET("user/{id}")
-    suspend fun getUser (
+    suspend fun getUser(
         @Path("id") id: String
     ): Response<UserRemote>
 
     @GET("user/current")
-    suspend fun getCurrentUser (
+    suspend fun getCurrentUser(
     ): Response<UserRemote>
 
     @POST("user/update")
-    suspend fun updateUser (
+    suspend fun updateUser(
         @Body user: UserRemote
     ): Response<Boolean>
 
     @POST("user/update_password")
-    suspend fun updatePassword (
+    suspend fun updatePassword(
         @Body credentials: CredentialsRemote
     ): Response<Boolean>
 
     @POST("user/verify")
-    suspend fun verifyCredentials (
+    suspend fun verifyCredentials(
         @Body credentials: CredentialsRemote
     ): Response<Boolean>
 
     @POST("user/verify")
-    suspend fun u (
+    suspend fun u(
         @Body credentials: CredentialsRemote
     ): Boolean
 
     @GET("instructors/{id}")
-    suspend fun getInstructorsBySportId (
+    suspend fun getInstructorsBySportId(
         @Path("id") id: Int
     ): Response<List<UserRemote>>
 
     @POST("chat/create")
-    suspend fun createChat (
+    suspend fun createChat(
         @Body chat: ChatRemote
     ): Boolean
 
     @GET("chat/{id}")
-    suspend fun getChatById (
+    suspend fun getChatById(
         @Path("id") id: String
     ): Response<ChatRemote>
 
     @POST("chat/add_message")
-    suspend fun addMessage (
+    suspend fun addMessage(
         @Body message: MessageRemote
     ): MessageRemote
 
     @GET("chat/all")
-    suspend fun getAllChatsByUserId (
+    suspend fun getAllChatsByUserId(
     ): Response<List<ChatRemote>?>
 
     @GET("chat/{id}/messages")
-    suspend fun getAllMessagesByChatId (
+    suspend fun getAllMessagesByChatId(
         @Path("id") id: String
     ): Response<List<MessageRemote>>
 
     @GET("chat/{id}/last_message")
-    suspend fun getLastMessageByChatId (
+    suspend fun getLastMessageByChatId(
         @Path("id") id: String
     ): Response<MessageRemote>
 }

@@ -10,7 +10,7 @@ class ChatsViewHolder(
     private val showImage: (url: String, imageView: ImageView) -> Unit,
     private val onItemClicked: (ChatItem) -> Unit,
 
-    ): ViewHolder(viewBinding.root) {
+    ) : ViewHolder(viewBinding.root) {
 
     fun bindItem(item: ChatItem) {
         with(item) {

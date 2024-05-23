@@ -3,21 +3,14 @@ package com.solopov.common.data.remote.dao
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.remote.SportApi
-import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.data.remote.exceptions.ChatDataRetrievingException
 import com.solopov.common.data.remote.exceptions.HttpException
 import com.solopov.common.data.remote.model.ChatRemote
 import com.solopov.common.data.remote.model.MessageRemote
 import com.solopov.common.utils.ExceptionHandlerDelegate
-import com.solopov.common.utils.ParamsKey
-import com.solopov.common.utils.runCatching
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ChatRemoteDao @Inject constructor(

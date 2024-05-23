@@ -1,6 +1,6 @@
 package com.solopov.common.data.remote.model
 
-data class UserRemote (
+data class UserRemote(
     var id: String,
     var name: String,
     var age: Int,

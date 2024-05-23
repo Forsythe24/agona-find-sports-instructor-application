@@ -17,10 +17,11 @@ class AuthFeatureHolder @Inject constructor(
     //Помогаем даггеру создать компонент именно с теми зависимостями, которые нам нужны
 
     override fun initializeDependencies(): Any {
-        val authFeatureDependencies = DaggerAuthFeatureComponent_AuthFeatureDependenciesComponent.builder()
-            .remoteApi(getFeature(RemoteApi::class.java))
-            .commonApi(commonApi())
-            .build()
+        val authFeatureDependencies =
+            DaggerAuthFeatureComponent_AuthFeatureDependenciesComponent.builder()
+                .remoteApi(getFeature(RemoteApi::class.java))
+                .commonApi(commonApi())
+                .build()
         return DaggerAuthFeatureComponent.builder()
             .withDependencies(authFeatureDependencies)
             .router(authRouter)

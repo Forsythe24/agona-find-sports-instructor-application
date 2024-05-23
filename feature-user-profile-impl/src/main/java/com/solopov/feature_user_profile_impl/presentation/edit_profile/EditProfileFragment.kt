@@ -22,17 +22,14 @@ import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.ParamsKey
 import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
-import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 
-class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
+class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
     private lateinit var binding: FragmentEditProfileBinding
-
-    @Inject
-    lateinit var router: UserProfileRouter
 
     @Inject
     lateinit var userDataValidator: UserDataValidator
@@ -44,7 +41,11 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
     private lateinit var passwordEt: TextInputEditText
     private lateinit var passwordTextInput: TextInputLayout
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,11 +54,12 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
         super.onViewCreated(view, savedInstanceState)
         initUser()
     }
+
     override fun initViews() {
         with(binding) {
 
             backBtn.setOnClickListener {
-                router.goBack()
+                viewModel.goBack()
             }
 
             saveBtn.setOnClickListener {
@@ -98,8 +100,12 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
     }
 
     private fun onUserUpdatedCallback() {
-        router.goBack()
-        Snackbar.make(binding.root, getString(R.string.your_data_has_been_successfully_saved), Snackbar.LENGTH_SHORT).show()
+        viewModel.goBack()
+        Snackbar.make(
+            binding.root,
+            getString(R.string.your_data_has_been_successfully_saved),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun initDialogViews() {
@@ -121,7 +127,11 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
 
         dialogButton.setOnClickListener {
             currentUser?.let {
-                viewModel.verifyCredentials(passwordEt.text.toString(), ::onCorrectPassword, ::onWrongPassword)
+                viewModel.verifyCredentials(
+                    passwordEt.text.toString(),
+                    ::onCorrectPassword,
+                    ::onWrongPassword
+                )
             }
         }
     }
@@ -158,7 +168,11 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
 
     private fun onPasswordChangedCallback() {
         dialog.hide()
-        Snackbar.make(binding.root, getString(R.string.password_has_been_successfully_saved), Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            binding.root,
+            getString(R.string.password_has_been_successfully_saved),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun extractUserArgument(): UserProfile? {
@@ -170,9 +184,11 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
     }
 
 
-
     override fun inject() {
-        FeatureUtils.getFeature<UserProfileFeatureComponent>(this, UserProfileFeatureApi::class.java)
+        FeatureUtils.getFeature<UserProfileFeatureComponent>(
+            this,
+            UserProfileFeatureApi::class.java
+        )
             .editProfileComponentFactory()
             .create(this)
             .inject(this)
@@ -199,7 +215,7 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
                         }
 
                         instructorsBioBtn.setOnClickListener {
-                            router.goToInstructApplication(user)
+                            viewModel.goToInstructApplication(user)
                         }
                     }
                 }
@@ -211,6 +227,12 @@ class EditProfileFragment: BaseFragment<EditProfileViewModel>(){
 
             dialogBtnProgressBarFlow.observe { isLoading ->
                 binding.saveBtn.setLoading(isLoading)
+            }
+
+            errorsChannel.receiveAsFlow().observe { error ->
+                val errorMessage = error.message ?: getString(R.string.unknown_error)
+
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
 

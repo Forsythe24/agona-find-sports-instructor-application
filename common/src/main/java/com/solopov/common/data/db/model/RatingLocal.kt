@@ -5,8 +5,11 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "rating", indices = [Index(value = ["instructor_id", "user_id"], unique = true)])
-data class RatingLocal (
+@Entity(
+    tableName = "rating",
+    indices = [Index(value = ["instructor_id", "user_id"], unique = true)]
+)
+data class RatingLocal(
     @PrimaryKey(autoGenerate = true)
     var id: Int?,
 

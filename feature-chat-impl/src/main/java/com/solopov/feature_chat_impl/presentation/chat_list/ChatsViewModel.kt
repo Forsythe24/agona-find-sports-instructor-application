@@ -19,13 +19,13 @@ class ChatsViewModel(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val chatMappers: ChatMappers,
     private val router: ChatRouter,
-): BaseViewModel() {
+) : BaseViewModel() {
     private val _chatsFlow = MutableStateFlow<List<ChatItem>?>(null)
     val chatsFlow: StateFlow<List<ChatItem>?>
         get() = _chatsFlow
 
     val errorsChannel = Channel<Throwable>()
-    
+
     private val _userFlow = MutableStateFlow<ChatItem?>(null)
     val userFlow: StateFlow<ChatItem?>
         get() = _userFlow
@@ -34,8 +34,6 @@ class ChatsViewModel(
     private val _progressBarFlow = MutableStateFlow(false)
     val progressBarFlow: StateFlow<Boolean>
         get() = _progressBarFlow
-
-
 
 
     fun getAllChatsByUserId(userId: String) {

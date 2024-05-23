@@ -2,7 +2,7 @@ package com.solopov.feature_event_calendar_api.domain.model
 
 import java.util.Date
 
-data class Event (
+data class Event(
     val id: Long,
     val name: String,
     val personName: String?,

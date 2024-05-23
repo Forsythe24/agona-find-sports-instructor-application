@@ -2,12 +2,13 @@ package com.solopov.feature_user_profile_impl.presentation.user_profile
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
+import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
 import com.solopov.feature_user_profile_api.domain.model.User
+import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.RatingMappers
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.RatingUi
@@ -21,7 +22,8 @@ class UserProfileViewModel(
     private val interactor: UserProfileInteractor,
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val userMappers: UserMappers,
-    private val ratingMappers: RatingMappers
+    private val ratingMappers: RatingMappers,
+    private val router: UserProfileRouter,
 ) : BaseViewModel() {
 
     private val _userProfileFlow = MutableStateFlow<UserProfile?>(null)

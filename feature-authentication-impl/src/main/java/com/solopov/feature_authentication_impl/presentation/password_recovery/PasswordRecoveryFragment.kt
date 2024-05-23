@@ -8,19 +8,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
-import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
-import kotlinx.coroutines.flow.consumeAsFlow
 import javax.inject.Inject
 
-class PasswordRecoveryFragment: BaseFragment<PasswordRecoveryViewModel>() {
-    
+class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
+
     @Inject
     lateinit var userDataValidator: UserDataValidator
 
@@ -38,13 +35,18 @@ class PasswordRecoveryFragment: BaseFragment<PasswordRecoveryViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        composeView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBackground))
+        composeView.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.colorBackground
+            )
+        )
         composeView.setContent {
             val state by viewModel.state.collectAsState()
             PasswordRecoveryScreen(
                 state = state,
                 onSendClick = ::sendNewPasswordOnEmail,
-                onBackClick = {viewModel.goBack()},
+                onBackClick = { viewModel.goBack() },
                 userDataValidator = userDataValidator
             )
         }
@@ -68,7 +70,7 @@ class PasswordRecoveryFragment: BaseFragment<PasswordRecoveryViewModel>() {
 
     override fun subscribe(viewModel: PasswordRecoveryViewModel) {
 
-        viewModel.state.observe {  }
+        viewModel.state.observe { }
     }
 
 }

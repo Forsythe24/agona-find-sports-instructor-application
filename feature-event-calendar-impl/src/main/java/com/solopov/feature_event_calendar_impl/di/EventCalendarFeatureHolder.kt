@@ -19,11 +19,12 @@ class EventCalendarFeatureHolder @Inject constructor(
     //Помогаем даггеру создать компонент именно с теми зависимостями, которые нам нужны
 
     override fun initializeDependencies(): Any {
-        val eventCalendarFeatureDependencies = DaggerEventCalendarFeatureComponent_EventCalendarFeatureDependenciesComponent.builder()
-            .remoteApi(getFeature(RemoteApi::class.java))
-            .dbApi(getFeature(DbApi::class.java))
-            .commonApi(commonApi())
-            .build()
+        val eventCalendarFeatureDependencies =
+            DaggerEventCalendarFeatureComponent_EventCalendarFeatureDependenciesComponent.builder()
+                .remoteApi(getFeature(RemoteApi::class.java))
+                .dbApi(getFeature(DbApi::class.java))
+                .commonApi(commonApi())
+                .build()
         return DaggerEventCalendarFeatureComponent.builder()
             .withDependencies(eventCalendarFeatureDependencies)
             .router(router)

@@ -4,22 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.di.FeatureUtils
+import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
-import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.databinding.FragmentSignUpBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
-import com.solopov.common.utils.UserDataValidator
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class SignUpFragment : BaseFragment<SignUpViewModel>() {
@@ -40,56 +34,56 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
 
     override fun initViews() {
 
-        with(viewModel) {
-            with(binding) {
-                backBtn.setOnClickListener {
-                    viewModel.goBack()
-                }
 
-                finishSignUpBtn.setOnClickListener {
-                    if (isValidForm()) {
-                        createUser(
-                            email = emailEt.text.toString(),
-                            password = passwordEt.text.toString(),
-                            name = nameEt.text.toString(),
-                            age = ageEt.text.toString().toInt(),
-                            gender = if (maleRb.isChecked) getString(R.string.male_gender) else getString(
-                                R.string.female_gender
-                            )
+        with(binding) {
+            backBtn.setOnClickListener {
+                viewModel.goBack()
+            }
+
+            finishSignUpBtn.setOnClickListener {
+                if (isValidForm()) {
+                    viewModel.createUser(
+                        email = emailEt.text.toString(),
+                        password = passwordEt.text.toString(),
+                        name = nameEt.text.toString(),
+                        age = ageEt.text.toString().toInt(),
+                        gender = if (maleRb.isChecked) getString(R.string.male_gender) else getString(
+                            R.string.female_gender
                         )
+                    )
 
-                    } else {
-                        showInvalidFormAlert()
-                    }
-
+                } else {
+                    showInvalidFormAlert()
                 }
 
-                emailEt.setOnFocusChangeListener { _, focused ->
-                    if (!focused) {
-                        emailTextInput.helperText = validator.validateEmail(emailEt.text.toString())
-                    }
-                }
-                passwordEt.setOnFocusChangeListener { _, focused ->
-                    if (!focused) {
-                        passwordTextInput.helperText =
-                            validator.validatePassword(passwordEt.text.toString())
-                    }
-                }
+            }
 
-                nameEt.setOnFocusChangeListener { _, focused ->
-                    if (!focused) {
-                        nameTextInput.helperText = validator.validateName(nameEt.text.toString())
-                    }
-                }
-
-
-                ageEt.setOnFocusChangeListener { _, focused ->
-                    if (!focused) {
-                        ageTextInput.helperText = validator.validateAge(ageEt.text.toString())
-                    }
-
+            emailEt.setOnFocusChangeListener { _, focused ->
+                if (!focused) {
+                    emailTextInput.helperText = validator.validateEmail(emailEt.text.toString())
                 }
             }
+            passwordEt.setOnFocusChangeListener { _, focused ->
+                if (!focused) {
+                    passwordTextInput.helperText =
+                        validator.validatePassword(passwordEt.text.toString())
+                }
+            }
+
+            nameEt.setOnFocusChangeListener { _, focused ->
+                if (!focused) {
+                    nameTextInput.helperText = validator.validateName(nameEt.text.toString())
+                }
+            }
+
+
+            ageEt.setOnFocusChangeListener { _, focused ->
+                if (!focused) {
+                    ageTextInput.helperText = validator.validateAge(ageEt.text.toString())
+                }
+
+            }
+
         }
     }
 
@@ -136,12 +130,14 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
                 binding.finishSignUpBtn.setLoading(isLoading)
             }
 
-            errorsChannel.consumeAsFlow().observe { error ->
+            errorsChannel.receiveAsFlow().observe { error ->
                 val errorMessage = error.message ?: getString(R.string.unknown_error)
 
-                when(error) {
+                when (error) {
 
-                    is AuthException.EmailAlreadyInUseException -> binding.emailTextInput.helperText = errorMessage
+                    is AuthException.EmailAlreadyInUseException -> binding.emailTextInput.helperText =
+                        errorMessage
+
                     else -> Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
                 }
             }

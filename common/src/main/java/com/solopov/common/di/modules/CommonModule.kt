@@ -3,9 +3,9 @@ package com.solopov.common.di.modules
 import android.app.NotificationManager
 import android.content.Context
 import com.solopov.common.core.config.AppProperties
+import com.solopov.common.core.preferences.Preferences
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.core.resources.ResourceManagerImpl
-import com.solopov.common.core.preferences.Preferences
 import com.solopov.common.data.storage.PreferencesImpl
 import com.solopov.common.di.scope.ApplicationScope
 import com.solopov.common.notification.NotificationManagerWrapper
@@ -41,7 +41,10 @@ class CommonModule {
     }
 
     @Provides
-    fun provideNotificationWrapper(context: Context, notificationManager: NotificationManager): NotificationManagerWrapper {
+    fun provideNotificationWrapper(
+        context: Context,
+        notificationManager: NotificationManager
+    ): NotificationManagerWrapper {
         return NotificationManagerWrapperImpl(context, notificationManager)
     }
 }

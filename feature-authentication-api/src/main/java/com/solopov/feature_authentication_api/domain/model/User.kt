@@ -1,6 +1,6 @@
 package com.solopov.feature_authentication_api.domain.model
 
-data class User (
+data class User(
     var id: String,
     var name: String,
     var age: Int,

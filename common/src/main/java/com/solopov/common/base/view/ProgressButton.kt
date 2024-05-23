@@ -31,7 +31,7 @@ class ProgressButton @JvmOverloads constructor(
             attrs,
             R.styleable.ProgressButton,
             defStyleAttr,
-           0
+            0
         )
 
         R.styleable.ActionBar_background
@@ -49,9 +49,9 @@ class ProgressButton @JvmOverloads constructor(
         setLoading(loading)
     }
 
-    fun setLoading(loading: Boolean){
+    fun setLoading(loading: Boolean) {
         isClickable = !loading //Disable clickable when loading
-        if(loading){
+        if (loading) {
             buttonTextView.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
         } else {
@@ -60,7 +60,7 @@ class ProgressButton @JvmOverloads constructor(
         }
     }
 
-    fun setText(text : String?) {
+    fun setText(text: String?) {
         buttonTextView.text = text
     }
 

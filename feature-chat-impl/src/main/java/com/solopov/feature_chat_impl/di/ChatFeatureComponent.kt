@@ -20,7 +20,7 @@ import dagger.Component
         ChatFeatureModule::class
     ]
 )
-interface ChatFeatureComponent: ChatFeatureApi {
+interface ChatFeatureComponent : ChatFeatureApi {
 
     fun chatComponentFactory(): ChatComponent.Factory
     fun chatsComponentFactory(): ChatsComponent.Factory
@@ -38,7 +38,7 @@ interface ChatFeatureComponent: ChatFeatureApi {
     @Component(
         dependencies = [
             CommonApi::class,
-            RemoteApi:: class
+            RemoteApi::class
         ]
     )
     interface ChatFeatureDependenciesComponent : ChatFeatureDependencies

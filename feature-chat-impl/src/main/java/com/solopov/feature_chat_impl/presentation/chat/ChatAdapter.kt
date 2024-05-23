@@ -4,19 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.solopov.common.utils.DateFormatter
-import com.solopov.feature_chat_impl.R
 import com.solopov.feature_chat_impl.databinding.ItemDataMessageBinding
 import com.solopov.feature_chat_impl.databinding.ItemReceivedMessageBinding
 import com.solopov.feature_chat_impl.databinding.ItemSentMessageBinding
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.utils.UserMessagesTypes
-import java.util.Date
-import javax.inject.Inject
 
 class ChatAdapter(
     private val currentSenderId: String,
-): ListAdapter<MessageItem, ViewHolder>(MessageDiffUtilItemCallback()) {
+) : ListAdapter<MessageItem, ViewHolder>(MessageDiffUtilItemCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
             UserMessagesTypes.RECEIVED_MESSAGE.number -> {

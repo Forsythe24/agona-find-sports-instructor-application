@@ -15,10 +15,11 @@ class ChatFeatureHolder @Inject constructor(
 
 
     override fun initializeDependencies(): Any {
-        val chatFeatureDependencies = DaggerChatFeatureComponent_ChatFeatureDependenciesComponent.builder()
-            .remoteApi(getFeature(RemoteApi::class.java))
-            .commonApi(commonApi())
-            .build()
+        val chatFeatureDependencies =
+            DaggerChatFeatureComponent_ChatFeatureDependenciesComponent.builder()
+                .remoteApi(getFeature(RemoteApi::class.java))
+                .commonApi(commonApi())
+                .build()
         return DaggerChatFeatureComponent.builder()
             .withDependencies(chatFeatureDependencies)
             .router(chatRouter)

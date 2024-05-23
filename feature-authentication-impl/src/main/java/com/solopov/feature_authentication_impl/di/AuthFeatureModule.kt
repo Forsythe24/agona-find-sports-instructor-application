@@ -16,8 +16,8 @@ class AuthFeatureModule {
     fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository = authRepository
 
 
-
     @Provides
     @FeatureScope
-    fun provideAuthInteractor(authRepository: AuthRepository): AuthInteractor = AuthInteractor(authRepository, Dispatchers.IO)
+    fun provideAuthInteractor(authRepository: AuthRepository): AuthInteractor =
+        AuthInteractor(authRepository, Dispatchers.IO)
 }

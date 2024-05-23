@@ -91,7 +91,7 @@
     <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
     <string name="age_regex">[0-9]+</string>
 
-    <string name="file_uploading_exception">Failed to upload the file</string>
+    <string name="file_uploading_exception">Failed to upload the file to the remote storage</string>
     <string name="profile_image_upload_date_format">yyyy_MM_dd_HH_mm_ss</string>
     <string name="profile_image_file_path_template">images/%s</string>
     <string name="description">description</string>
@@ -122,6 +122,8 @@
     <string name="user_not_found_exception">This user was not found</string>
     <string name="email_already_in_use_exception">User with such email already exists</string>
     <string name="failed_to_retrieve_chat_data">Failed to retrieve chat data</string>
+    <string name="firebase_connection_failed_exception">Remote service has failed due to network error. Inspect the device\'s network connectivity state or retry later to resolve</string>
+    <string name="socket_connection_timeout_exception">HTTP failed: failed to connect to server after 10 seconds</string>
 
     <string-array name="sports_types">
         <item>Football</item>

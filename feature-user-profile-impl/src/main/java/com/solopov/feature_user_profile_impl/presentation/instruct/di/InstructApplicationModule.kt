@@ -7,6 +7,7 @@ import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
+import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.instruct.InstructApplicationViewModel
 import dagger.Module
@@ -21,14 +22,27 @@ import dagger.multibindings.IntoMap
 class InstructApplicationModule {
 
     @Provides
-    fun provideMainViewModel(fragment: Fragment, factory: ViewModelProvider.Factory): InstructApplicationViewModel {
+    fun provideMainViewModel(
+        fragment: Fragment,
+        factory: ViewModelProvider.Factory
+    ): InstructApplicationViewModel {
         return ViewModelProvider(fragment, factory)[InstructApplicationViewModel::class.java]
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(InstructApplicationViewModel::class)
-    fun provideInstructApplicationViewModel(interactor: UserProfileInteractor, exceptionHandlerDelegate: ExceptionHandlerDelegate, userMappers: UserMappers): ViewModel {
-        return InstructApplicationViewModel(interactor, exceptionHandlerDelegate, userMappers)
+    fun provideInstructApplicationViewModel(
+        interactor: UserProfileInteractor,
+        exceptionHandlerDelegate: ExceptionHandlerDelegate,
+        userMappers: UserMappers,
+        router: UserProfileRouter,
+    ): ViewModel {
+        return InstructApplicationViewModel(
+            interactor,
+            exceptionHandlerDelegate,
+            userMappers,
+            router,
+        )
     }
 }

@@ -1,7 +1,7 @@
 package com.solopov.common.data.remote.jwt
 
-import com.solopov.common.data.remote.model.RefreshJwtRequestDto
 import com.solopov.common.data.remote.RefreshTokenService
+import com.solopov.common.data.remote.model.RefreshJwtRequestDto
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request

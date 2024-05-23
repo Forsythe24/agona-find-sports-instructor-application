@@ -2,18 +2,18 @@ package com.solopov.app.navigation
 
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
-import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.app.R
 import com.solopov.common.model.ChatCommon
-import com.solopov.feature_authentication_impl.AuthRouter
-import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.common.utils.ParamsKey.CHAT_KEY
 import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
 import com.solopov.common.utils.ParamsKey.PARTNER_NAME_KEY
-import com.solopov.common.utils.ParamsKey.USER_KEY
 import com.solopov.common.utils.ParamsKey.USER_ID_KEY
+import com.solopov.common.utils.ParamsKey.USER_KEY
+import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_event_calendar_impl.EventCalendarRouter
+import com.solopov.feature_instructor_impl.InstructorsRouter
+import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 
 class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter, EventCalendarRouter {

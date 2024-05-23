@@ -2,9 +2,9 @@ package com.solopov.feature_instructor_impl.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
-import com.solopov.common.core.resources.ResourceManager
 import com.solopov.feature_instructor_api.domain.interfaces.InstructorInteractor
 import com.solopov.feature_instructor_api.domain.model.Instructor
+import com.solopov.feature_instructor_impl.InstructorsRouter
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 class InstructorsViewModel @Inject constructor (
     private val interactor: InstructorInteractor,
+    private val router: InstructorsRouter,
 ) : BaseViewModel() {
     private val _currentInstructorsFlow = MutableStateFlow<List<InstructorsAdapter.ListItem>?>(null)
     val currentInstructorsFlow: StateFlow<List<InstructorsAdapter.ListItem>?>
@@ -52,6 +53,10 @@ class InstructorsViewModel @Inject constructor (
 
     private fun mapInstructorsToListItems(instructors: List<Instructor>): List<InstructorsAdapter.ListItem> {
         return instructors.map(::mapInstructorToListItem)
+    }
+
+    fun openInstructor(instructorId: String) {
+        router.openInstructor(instructorId)
     }
 
     override fun onCleared() {
