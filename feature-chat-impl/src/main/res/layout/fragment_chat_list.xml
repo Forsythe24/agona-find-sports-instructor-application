@@ -39,5 +39,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/no_chats_yet_tv"
+        android:layout_width="5dp"
+        android:layout_height="6dp"
+        android:layout_marginBottom="80dp"
+        android:fontFamily="@font/inter_semibold"
+        android:paddingHorizontal="20dp"
+        android:text="@string/no_chats_yet"
+        android:textSize="32sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
