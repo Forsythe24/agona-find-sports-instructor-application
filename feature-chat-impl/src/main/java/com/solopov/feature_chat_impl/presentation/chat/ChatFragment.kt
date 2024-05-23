@@ -4,7 +4,9 @@ import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.OnClickListener
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,12 +37,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     private lateinit var adapter: ChatAdapter
     private lateinit var currentMessageList: MutableList<MessageItem>
     private lateinit var currentMessageListWithDates: MutableList<MessageItem>
-
-    @Inject
-    lateinit var dateFormatter: DateFormatter
-
-    @Inject
-    lateinit var chatMappers: ChatMappers
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -64,7 +60,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                 val senderRoomId = senderId + receiverId
                 val receiverRoomId = receiverId + senderId
 
-                val date = dateFormatter.formatDateTime(Date())
+                val date = viewModel.formatDateTime(Date())
                 val sentMessage =
                     MessageItem(
                         null,
@@ -102,9 +98,13 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             }
             userImageCv.setOnClickListener(onReceiverClickListener)
             receiverNameTv.setOnClickListener(onReceiverClickListener)
+
+            viewBinding.backBtn.setOnClickListener {
+                viewModel.goBack()
+            }
+
+            setUpScheduleEventButton()
         }
-
-
     }
 
     override fun onStart() {
@@ -209,8 +209,17 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             }
 
             chatFlow.observe { messages ->
+                viewBinding.scheduleEventBtn.let {
+                    if (messages.isNullOrEmpty()) {
+                        it.visibility = GONE
+                    } else {
+                        it.visibility = VISIBLE
+                    }
+                }
+
+
                 messages?.let {
-                    val messagesWithDates = it.addDates()
+                    val messagesWithDates = viewModel.addDates(it)
                     updateMessages(messagesWithDates)
                     viewBinding.chatRv.scrollToPosition(adapter.itemCount - 1)
                     currentMessageList = it.toMutableList()
@@ -231,12 +240,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                 Snackbar.make(viewBinding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
-
-        viewBinding.backBtn.setOnClickListener {
-            viewModel.goBack()
-        }
-
-        setUpScheduleEventButton()
     }
 
     private fun setUpScheduleEventButton() {
@@ -250,67 +253,16 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     private fun updateMessagesWithRespectToDate() {
         // adding dates only when it's the first message of the chat or when it's a new day
         if (currentMessageList.size == 1 || currentMessageList.size > 1
-            && dateFormatter.parseStringToDate(currentMessageList[currentMessageList.size - 2].date) // previous last date
-            != dateFormatter.parseStringToDate(currentMessageList.last().date)
+            && viewModel.parseStringToDate(currentMessageList[currentMessageList.size - 2].date) // previous last date
+            != viewModel.parseStringToDate(currentMessageList.last().date)
         ) // last date
         {
-            currentMessageListWithDates = currentMessageList.addDates() as MutableList<MessageItem>
+            currentMessageListWithDates = viewModel.addDates(currentMessageList) as MutableList<MessageItem>
             updateMessages(currentMessageListWithDates)
 
         } else {
             updateMessages(currentMessageListWithDates)
         }
-    }
-
-
-    private fun List<MessageItem>.addDates(): List<MessageItem> {
-        if (this.isEmpty()) {
-            return this
-        }
-        // 0 by default because the first message in a chat always needs its' date above it
-        val dateIndices = mutableListOf(0)
-        var offset = 1
-        for (i in 0 until this.size - 1) {
-            val currMessageDate =
-                dateFormatter.formatDate(dateFormatter.parseStringToDate(this[i].date)!!)
-            val nextMessageDate =
-                dateFormatter.formatDate(dateFormatter.parseStringToDate(this[i + 1].date)!!)
-            if (currMessageDate != nextMessageDate) {
-                dateIndices.add(i + 1 + offset)
-                offset++
-            }
-        }
-        val mutableMessages = this.toMutableList()
-
-        val todayString = dateFormatter.formatDateTo_ddMMMyyyy_DateFormat(Date())
-
-        dateIndices.forEach { index ->
-            with(mutableMessages[index]) {
-
-                var chatDate = dateFormatter.formatDateTo_ddMMMyyyy_DateFormat(
-                    dateFormatter.parseStringToDate(date)!!
-                )
-
-                if (todayString == chatDate) {
-                    //change to "today" if the chat date and the current date match
-                    chatDate =
-                        requireContext().getString(com.solopov.feature_chat_impl.R.string.today)
-                }
-
-                mutableMessages.add(
-                    index,
-                    MessageItem(
-                        id = null,
-                        chatId = "",
-                        text = "",
-                        senderId = "",
-                        date = chatDate
-                    )
-                )
-            }
-        }
-
-        return mutableMessages
     }
 
     private fun showImage(url: String, imageView: ImageView) {

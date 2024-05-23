@@ -3,6 +3,8 @@ package com.solopov.feature_chat_impl.presentation.chat_list
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,10 +29,6 @@ import javax.inject.Inject
 class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
     private lateinit var viewBinding: FragmentChatListBinding
-
-    @Inject
-    lateinit var dateFormatter: DateFormatter
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -107,8 +105,16 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
     override fun subscribe(viewModel: ChatsViewModel) {
         with(viewModel) {
             chatsFlow.observe { chats ->
+                viewBinding.noChatsYetTv.let {
+                    if (chats.isNullOrEmpty()) {
+                        it.visibility = VISIBLE
+                    } else {
+                        it.visibility = GONE
+                    }
+                }
+
                 chats?.let {
-                    updateChatList(it.date())
+                    updateChatList(viewModel.date(it))
                 }
             }
 
@@ -131,34 +137,5 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
             .optionalCircleCrop()
             .into(imageView)
 
-    }
-
-    private fun List<ChatItem>.date(): List<ChatItem> {
-
-        this.map { chatItem ->
-            val date = dateFormatter.parseStringToDateTime(chatItem.lastMessageDate!!)!!
-            val dateString = dateFormatter.formatDate(date)
-            val now = Date()
-            val todayDateString = dateFormatter.formatDate(now)
-
-            if (dateString == todayDateString) {
-                chatItem.userFriendlyLastMessageDate =
-                    dateFormatter.formatDateTime(date).split(" ")[1]
-            }
-
-            val c1 = Calendar.getInstance();
-            c1.add(Calendar.DAY_OF_YEAR, -1); // yesterday
-
-            val c2 = Calendar.getInstance();
-            c2.time = date;
-
-            if (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
-                && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR)
-            ) {
-                chatItem.userFriendlyLastMessageDate =
-                    getString(com.solopov.feature_chat_impl.R.string.yesterday)
-            }
-        }
-        return this
     }
 }

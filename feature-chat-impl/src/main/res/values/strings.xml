@@ -11,4 +11,5 @@
     <string name="chats">Chats</string>
     <string name="message_preview_sample">We were on a break! We were on a brea... We were on a break!</string>
     <string name="yesterday">Yesterday</string>
+    <string name="no_chats_yet">No chats yet</string>
 </resources>

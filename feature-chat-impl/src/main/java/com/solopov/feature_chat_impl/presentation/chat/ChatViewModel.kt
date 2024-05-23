@@ -4,7 +4,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.solopov.common.base.BaseViewModel
+import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.model.ChatCommon
+import com.solopov.common.utils.DateFormatter
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
@@ -21,6 +23,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class ChatViewModel(
     private val interactor: ChatInteractor,
@@ -28,6 +31,8 @@ class ChatViewModel(
     private val chatMappers: ChatMappers,
     private val messageMappers: MessageMappers,
     private val router: ChatRouter,
+    private val dateFormatter: DateFormatter,
+    private val resManager: ResourceManager,
 ) : BaseViewModel() {
 
     private val _chatFlow = MutableStateFlow<List<MessageItem>?>(null)
@@ -57,7 +62,6 @@ class ChatViewModel(
             runCatching(exceptionHandlerDelegate) {
                 interactor.createNewMessage(userId, messageMappers.mapMessageItemToMessage(message))
             }.onSuccess {
-
             }.onFailure {
                 errorsChannel.send(it)
             }
@@ -104,6 +108,64 @@ class ChatViewModel(
                 errorsChannel.send(it)
             }
         }
+    }
+
+    fun formatDateTime(date: Date): String {
+        return dateFormatter.formatDateTime(date)
+    }
+
+    fun parseStringToDate(dateString: String): Date? {
+        return dateFormatter.parseStringToDate(dateString)
+    }
+
+    fun addDates(messages: List<MessageItem>): List<MessageItem> {
+        if (messages.isEmpty()) {
+            return messages
+        }
+        // 0 by default because the first message in a chat always needs its' date above it
+        val dateIndices = mutableListOf(0)
+        var offset = 1
+        for (i in 0 until messages.size - 1) {
+            val currMessageDate =
+                dateFormatter.formatDate(dateFormatter.parseStringToDate(messages[i].date)!!)
+            val nextMessageDate =
+                dateFormatter.formatDate(dateFormatter.parseStringToDate(messages[i + 1].date)!!)
+            if (currMessageDate != nextMessageDate) {
+                dateIndices.add(i + 1 + offset)
+                offset++
+            }
+        }
+        val mutableMessages = messages.toMutableList()
+
+        val todayString = dateFormatter.formatDateTo_ddMMMyyyy_DateFormat(Date())
+
+        dateIndices.forEach { index ->
+            with(mutableMessages[index]) {
+
+                var chatDate = dateFormatter.formatDateTo_ddMMMyyyy_DateFormat(
+                    dateFormatter.parseStringToDate(date)!!
+                )
+
+                if (todayString == chatDate) {
+                    //change to "today" if the chat date and the current date match
+                    chatDate =
+                        resManager.getString(com.solopov.feature_chat_impl.R.string.today)
+                }
+
+                mutableMessages.add(
+                    index,
+                    MessageItem(
+                        id = null,
+                        chatId = "",
+                        text = "",
+                        senderId = "",
+                        date = chatDate
+                    )
+                )
+            }
+        }
+
+        return mutableMessages
     }
 
     fun openUserProfile(userId: String) {
