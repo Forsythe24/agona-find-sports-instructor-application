@@ -29,4 +29,5 @@
     <string name="we_are_going_to_send_your_new_password">We are going to send your new password</string>
     <string name="log_in">Log in</string>
     <string name="finish">FINISH</string>
+    <string name="new_password_sent_template">Your new password was sent on %s</string>
 </resources>
