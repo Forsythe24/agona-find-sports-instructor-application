@@ -22,9 +22,6 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
 
     private lateinit var binding: FragmentSignUpBinding
 
-    @Inject
-    lateinit var validator: UserDataValidator
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,8 +32,6 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
     }
 
     override fun initViews() {
-
-
         with(binding) {
             backBtn.setOnClickListener {
                 viewModel.goBack()
@@ -60,10 +55,16 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
 
             }
 
+            addTextChangeListeners()
+        }
+    }
+
+    private fun addTextChangeListeners() {
+        with(binding) {
             emailEt.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    emailTextInput.helperText = validator.validateEmail(text.toString())
+                    emailTextInput.helperText = viewModel.validateEmail(text.toString())
                 }
                 override fun afterTextChanged(p0: Editable?) {}
             })
@@ -71,7 +72,7 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
             passwordEt.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    passwordTextInput.helperText = validator.validatePassword(text.toString())
+                    passwordTextInput.helperText = viewModel.validatePassword(text.toString())
                 }
                 override fun afterTextChanged(p0: Editable?) {}
             })
@@ -79,7 +80,7 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
             nameEt.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    nameTextInput.helperText = validator.validateName(text.toString())
+                    nameTextInput.helperText = viewModel.validateName(text.toString())
                 }
                 override fun afterTextChanged(p0: Editable?) {}
             })
@@ -87,7 +88,7 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
             ageEt.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    ageTextInput.helperText = validator.validateAge(ageEt.text.toString())
+                    ageTextInput.helperText = viewModel.validateAge(ageEt.text.toString())
                 }
                 override fun afterTextChanged(p0: Editable?) {}
             })
@@ -115,10 +116,10 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
 
     private fun isValidForm(): Boolean {
         with(binding) {
-            emailTextInput.helperText = validator.validateEmail(emailEt.text.toString())
-            passwordTextInput.helperText = validator.validatePassword(passwordEt.text.toString())
-            nameTextInput.helperText = validator.validateName(nameEt.text.toString())
-            ageTextInput.helperText = validator.validateAge(ageEt.text.toString())
+            emailTextInput.helperText = viewModel.validateEmail(emailEt.text.toString())
+            passwordTextInput.helperText = viewModel.validatePassword(passwordEt.text.toString())
+            nameTextInput.helperText = viewModel.validateName(nameEt.text.toString())
+            ageTextInput.helperText = viewModel.validateAge(ageEt.text.toString())
 
             return emailTextInput.helperText == null && passwordTextInput.helperText == null && nameTextInput.helperText == null && ageTextInput.helperText == null
         }

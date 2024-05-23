@@ -3,6 +3,7 @@ package com.solopov.feature_authentication_impl.presentation.signup
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.utils.ExceptionHandlerDelegate
+import com.solopov.common.utils.UserDataValidator
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
 import com.solopov.feature_authentication_impl.AuthRouter
@@ -16,6 +17,7 @@ class SignUpViewModel @Inject constructor(
     private val interactor: AuthInteractor,
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val router: AuthRouter,
+    private val validator: UserDataValidator,
 ) : BaseViewModel() {
     val errorsChannel = Channel<Throwable>()
     private val _progressBarFlow = MutableStateFlow(false)
@@ -49,12 +51,24 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun goBack() {
-        router.goBack()
+    fun validateEmail(email: String): String? {
+        return validator.validateEmail(email)
     }
 
-    fun goToSignUp() {
-        router.goToSignUp()
+    fun validatePassword(password: String): String? {
+        return validator.validatePassword(password)
+    }
+
+    fun validateAge(age: String): String? {
+        return validator.validateAge(age)
+    }
+
+    fun validateName(name: String): String? {
+        return validator.validateName(name)
+    }
+
+    fun goBack() {
+        router.goBack()
     }
 
     override fun onCleared() {

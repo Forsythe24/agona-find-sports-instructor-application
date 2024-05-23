@@ -7,6 +7,7 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
+import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.presentation.login.LogInViewModel
@@ -37,8 +38,15 @@ class LogInModule {
         interactor: AuthInteractor,
         exceptionHandlerDelegate: ExceptionHandlerDelegate,
         resourceManager: ResourceManager,
-        router: AuthRouter
+        router: AuthRouter,
+        validator: UserDataValidator,
     ): ViewModel {
-        return LogInViewModel(interactor, exceptionHandlerDelegate, resourceManager, router)
+        return LogInViewModel(
+            interactor,
+            exceptionHandlerDelegate,
+            resourceManager,
+            router,
+            validator
+        )
     }
 }

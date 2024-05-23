@@ -39,13 +39,13 @@
 
     <!-- Text -->
     <style name="UserInfoFieldTextInputLayout">
+        <item name="boxStrokeWidth">1dp</item>
         <item name="boxCornerRadiusBottomEnd">8dp</item>
         <item name="boxCornerRadiusBottomStart">8dp</item>
         <item name="boxCornerRadiusTopEnd">8dp</item>
         <item name="boxCornerRadiusTopStart">8dp</item>
-        <item name="boxBackgroundColor">@color/cultured</item>
+        <item name="boxBackgroundColor">@color/text_input_box_background_color_selector</item>
         <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
-        <item name="boxStrokeWidth">1dp</item>
         <item name="helperTextTextColor">@color/neonRed</item>
     </style>
 

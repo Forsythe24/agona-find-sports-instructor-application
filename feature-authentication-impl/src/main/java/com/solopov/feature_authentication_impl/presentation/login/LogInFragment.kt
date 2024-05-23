@@ -22,9 +22,6 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
 
     private lateinit var binding: FragmentLogInBinding
 
-    @Inject
-    lateinit var validator: UserDataValidator
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +44,7 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
             emailEt.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    emailTextInput.helperText = validator.validateEmail(text.toString())
+                    emailTextInput.helperText = viewModel.validateEmail(text.toString())
                 }
                 override fun afterTextChanged(p0: Editable?) {}
             })

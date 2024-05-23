@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
+import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.presentation.signup.SignUpViewModel
@@ -35,8 +36,9 @@ class SignUpModule {
     fun provideSignInViewModel(
         interactor: AuthInteractor,
         exceptionHandlerDelegate: ExceptionHandlerDelegate,
-        authRouter: AuthRouter
+        authRouter: AuthRouter,
+        validator: UserDataValidator,
     ): ViewModel {
-        return SignUpViewModel(interactor, exceptionHandlerDelegate, authRouter)
+        return SignUpViewModel(interactor, exceptionHandlerDelegate, authRouter, validator)
     }
 }

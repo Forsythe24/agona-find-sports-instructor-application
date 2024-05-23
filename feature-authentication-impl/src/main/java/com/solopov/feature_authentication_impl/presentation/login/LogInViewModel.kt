@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.utils.ExceptionHandlerDelegate
+import com.solopov.common.utils.UserDataValidator
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
 import com.solopov.feature_authentication_impl.AuthRouter
@@ -18,6 +19,7 @@ class LogInViewModel @Inject constructor(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val resManager: ResourceManager,
     private val router: AuthRouter,
+    private val validator: UserDataValidator,
 ) : BaseViewModel() {
 
     val errorsChannel = Channel<Throwable>()
@@ -42,6 +44,10 @@ class LogInViewModel @Inject constructor(
                 errorsChannel.send(it)
             }
         }
+    }
+
+    fun validateEmail(email: String): String? {
+        return validator.validateEmail(email)
     }
 
     fun goFromLogInToUserProfile() {
