@@ -230,8 +230,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
         activityEt.setText(event.name)
         placeEt.setText(event.place)
 
-//        picker.startTime = TimeRangePicker.Time(event.startTime)
-//        picker.endTime = TimeRangePicker.Time(event.endTime)
+        setTimeRange(event.startTime, event.endTime)
 
         viewModel.currentEventFlow.value?.id = event.id
     }
@@ -308,6 +307,15 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
         placeEt.setText("")
         activityEt.setText("")
         activityTextInput.helperText = ""
+
+        setTimeRange(TWELVE_O_CLOCK_IN_MINUTES, TWO_O_CLOCK_IN_MINUTES)
+    }
+
+    private fun setTimeRange(startTime: Int, endTime: Int) {
+        picker.startTimeMinutes = startTime
+        picker.endTimeMinutes = endTime
+
+        timeRangeTextView.text = getTimeRangeString(startTime, endTime)
     }
 
     private fun showEventAddingDialog() {
@@ -357,6 +365,17 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
 
     }
 
+    private fun getTimeRangeString(startTime: Int, endTime: Int): String {
+        return String.format("%s-%s", convertMinutesToHHmm(startTime), convertMinutesToHHmm(endTime))
+    }
+
+    private fun convertMinutesToHHmm(minutesTotalNumber: Int): String {
+        val hours = minutesTotalNumber / 60
+        val minutes = minutesTotalNumber % 60
+        return String.format("%02d:%02d", hours, minutes)
+    }
+
+
     private fun setCurrentDateAsPickedDate(date: Date) {
         val calendar = Calendar.getInstance()
         calendar.time = date
@@ -374,5 +393,10 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
             .eventCalendarComponentFactory()
             .create(this)
             .inject(this)
+    }
+
+    companion object {
+        const val TWELVE_O_CLOCK_IN_MINUTES = 720
+        const val TWO_O_CLOCK_IN_MINUTES = 840
     }
 }
