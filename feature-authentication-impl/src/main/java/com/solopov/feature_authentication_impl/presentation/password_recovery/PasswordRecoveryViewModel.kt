@@ -8,7 +8,6 @@ import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
 import com.solopov.feature_authentication_impl.AuthRouter
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,12 +20,11 @@ class PasswordRecoveryViewModel @Inject constructor(
 
     val errorsChannel = Channel<Throwable>()
 
-    private val _state = MutableStateFlow(FirstState())
+    private val _state = MutableStateFlow(Boolean)
     val state = _state.asStateFlow()
 
     private val _progressBarFlow = MutableStateFlow(false)
-    val progressBarFlow: StateFlow<Boolean>
-        get() = _progressBarFlow
+    val progressBarFlow = _state.asStateFlow()
 
     fun sendNewPassword(email: String) {
         viewModelScope.launch {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
@@ -14,6 +15,7 @@ import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
@@ -42,11 +44,11 @@ class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
             )
         )
         composeView.setContent {
+            val errorsState by viewModel.errorsChannel.receiveAsFlow().collectAsState(null)
             val state by viewModel.state.collectAsState()
             PasswordRecoveryScreen(
-                state = state,
-                onSendClick = ::sendNewPasswordOnEmail,
-                onBackClick = { viewModel.goBack() },
+                onSendClicked = ::sendNewPasswordOnEmail,
+                onBackClicked = { viewModel.goBack() },
                 userDataValidator = userDataValidator
             )
         }
@@ -54,6 +56,8 @@ class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
 
     private fun sendNewPasswordOnEmail(email: String) {
         viewModel.sendNewPassword(email)
+
+        Toast.makeText(requireContext(), getString(R.string.new_password_sent_template).format(email), Toast.LENGTH_LONG).show()
     }
 
     override fun initViews() {
@@ -69,6 +73,13 @@ class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
     }
 
     override fun subscribe(viewModel: PasswordRecoveryViewModel) {
+
+        viewModel.errorsChannel.receiveAsFlow().observe { error ->
+            val errorMessage = error.message ?: getString(R.string.unknown_error)
+
+            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+
+        }
 
         viewModel.state.observe { }
     }

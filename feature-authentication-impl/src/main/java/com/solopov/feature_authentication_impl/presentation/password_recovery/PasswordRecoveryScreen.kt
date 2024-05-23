@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,9 +39,8 @@ import com.solopov.feature_authentication_impl.R
 
 @Composable
 fun PasswordRecoveryScreen(
-    state: PasswordRecoveryViewModel.FirstState,
-    onSendClick: (String) -> Unit,
-    onBackClick: () -> Unit,
+    onSendClicked: (String) -> Unit,
+    onBackClicked: () -> Unit,
     userDataValidator: UserDataValidator,
 ) {
     Column(
@@ -49,7 +49,7 @@ fun PasswordRecoveryScreen(
     ) {
         BackIconButton(
             icon = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
-            onClick = onBackClick
+            onClick = onBackClicked
         )
     }
 
@@ -140,7 +140,9 @@ fun PasswordRecoveryScreen(
 
         Button(
             onClick = {
-                onSendClick(text)
+                val result = onSendClicked(text)
+
+
                 text = ""
             },
             enabled = isEnabled,
