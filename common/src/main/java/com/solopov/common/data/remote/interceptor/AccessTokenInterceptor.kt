@@ -1,13 +1,13 @@
 package com.solopov.common.data.remote.interceptor
 
-import com.solopov.common.data.remote.jwt.JwtTokenManager
+import com.solopov.common.data.remote.jwt.JwtManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
 class AccessTokenInterceptor @Inject constructor(
-    private val tokenManager: JwtTokenManager,
+    private val tokenManager: JwtManager,
 ) : Interceptor {
     companion object {
         const val HEADER_AUTHORIZATION = "Authorization"

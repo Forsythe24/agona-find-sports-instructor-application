@@ -4,10 +4,10 @@ package com.solopov.instructors.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
@@ -18,7 +18,7 @@ import java.lang.String;
 
 public final class FragmentOneSportInstructorsBinding implements ViewBinding {
   @NonNull
-  private final ConstraintLayout rootView;
+  private final FrameLayout rootView;
 
   @NonNull
   public final RecyclerView instructorsRv;
@@ -26,7 +26,7 @@ public final class FragmentOneSportInstructorsBinding implements ViewBinding {
   @NonNull
   public final TextView noInstructorsFoundTv;
 
-  private FragmentOneSportInstructorsBinding(@NonNull ConstraintLayout rootView,
+  private FragmentOneSportInstructorsBinding(@NonNull FrameLayout rootView,
       @NonNull RecyclerView instructorsRv, @NonNull TextView noInstructorsFoundTv) {
     this.rootView = rootView;
     this.instructorsRv = instructorsRv;
@@ -35,7 +35,7 @@ public final class FragmentOneSportInstructorsBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public ConstraintLayout getRoot() {
+  public FrameLayout getRoot() {
     return rootView;
   }
 
@@ -72,7 +72,7 @@ public final class FragmentOneSportInstructorsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentOneSportInstructorsBinding((ConstraintLayout) rootView, instructorsRv,
+      return new FragmentOneSportInstructorsBinding((FrameLayout) rootView, instructorsRv,
           noInstructorsFoundTv);
     }
     String missingId = rootView.getResources().getResourceName(id);

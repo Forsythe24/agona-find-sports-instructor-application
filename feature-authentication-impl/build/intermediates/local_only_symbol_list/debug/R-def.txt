@@ -58,6 +58,7 @@ string must_contain_upper_case_character
 string must_not_be_empty
 string name_must_be_at_least_two_characters
 string name_regex
+string new_password_sent_template
 string password_regex_one_lowercase_char
 string password_regex_one_special_char
 string password_regex_one_uppercase_char

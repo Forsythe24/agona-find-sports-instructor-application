@@ -1,10 +1,14 @@
 package com.solopov.feature_chat_impl.presentation.chat
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.google.gson.Gson
 import com.solopov.common.base.BaseViewModel
+import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.resources.ResourceManager
+import com.solopov.common.data.remote.jwt.JwtManager
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
 import com.solopov.common.utils.ExceptionHandlerDelegate
@@ -15,6 +19,12 @@ import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.data.mappers.MessageMappers
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
+import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_WEBSOCKET_PATH
+import com.solopov.feature_chat_impl.utils.Constants.STOMP_TAG
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +33,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.launch
+import ua.naiksoftware.stomp.Stomp
+import ua.naiksoftware.stomp.StompClient
+import ua.naiksoftware.stomp.dto.LifecycleEvent
+import ua.naiksoftware.stomp.dto.StompMessage
+import java.util.Collections
 import java.util.Date
 
 
@@ -34,6 +49,8 @@ class ChatViewModel(
     private val router: ChatRouter,
     private val dateFormatter: DateFormatter,
     private val resManager: ResourceManager,
+    private val appProperties: AppProperties,
+    private val jwtManager: JwtManager,
 ) : BaseViewModel() {
 
     private val _chatFlow = MutableStateFlow<List<MessageItem>?>(null)
@@ -54,6 +71,11 @@ class ChatViewModel(
 
     val errorsChannel = Channel<Throwable>()
 
+    private var stompClient: StompClient? = null
+    private var compositeDisposable: CompositeDisposable? = null
+    private val gson = Gson()
+    var isMessageListeningStarted = false
+
     fun setReceiver(chat: ChatCommon) {
         _receiverFlow.value = chatMappers.mapChatCommonToChatItem(chat)
     }
@@ -62,6 +84,8 @@ class ChatViewModel(
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.createNewMessage(userId, messageMappers.mapMessageItemToMessage(message))
+
+                sendMessage(message)
             }.onSuccess {
             }.onFailure {
                 errorsChannel.send(it)
@@ -69,32 +93,12 @@ class ChatViewModel(
         }
     }
 
-    fun downloadMessages(roomId: String) {
-
-//        viewModelScope.launch {
-//            runCatching(exceptionHandlerDelegate) {
-//                interactor.downloadMessages(roomId)
-//            }.onSuccess {
-//                _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
-//            }.onFailure {
-//                errorsChannel.send(it)
-//            }
-//        }
-
-    }
-
-    fun getRecentMessages() {
+    fun downloadMessages(chatId: String) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
-                interactor.getRecentMessages()
+                interactor.downloadMessages(chatId)
             }.onSuccess {
-                val list: MutableCollection<PagingData<MessageItem>> = mutableListOf()
-                val collection = it.map { pagingData ->
-                    pagingData.map { message ->
-                        messageMappers.mapMessageToMessageItem(message)
-                    }
-                }.toCollection(list)
-
+                _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
             }.onFailure {
                 errorsChannel.send(it)
             }
@@ -120,6 +124,131 @@ class ChatViewModel(
 
     fun parseStringToDate(dateString: String): Date? {
         return dateFormatter.parseStringToDate(dateString)
+    }
+
+    fun openUserProfile(userId: String) {
+        router.openUserProfile(userId)
+    }
+
+    fun goToEventCalendar(partnerName: String) {
+        router.goToEventCalendar(partnerName)
+    }
+
+    fun goBack() {
+        router.goBack()
+    }
+
+    fun getRecentMessages() {
+        viewModelScope.launch {
+            runCatching(exceptionHandlerDelegate) {
+                interactor.getRecentMessages()
+            }.onSuccess {
+                val list: MutableCollection<PagingData<MessageItem>> = mutableListOf()
+                val collection = it.map { pagingData ->
+                    pagingData.map { message ->
+                        messageMappers.mapMessageToMessageItem(message)
+                    }
+                }.toCollection(list)
+
+            }.onFailure {
+                errorsChannel.send(it)
+            }
+        }
+    }
+
+    fun initStomp(chatId: String?) {
+        viewModelScope.launch {
+            val token = jwtManager.getAccessJwt()
+            val headerMap = Collections.singletonMap("Authorization", "Bearer $token")
+            stompClient = Stomp.over(
+                Stomp.ConnectionProvider.OKHTTP,
+                appProperties.getBaseUrl() + MESSAGE_WEBSOCKET_PATH,
+                headerMap
+            )
+
+            resetSubscriptions()
+
+            if (stompClient != null) {
+                val topicSubscribe = stompClient!!.topic("/topic/chat/$chatId/messages")
+                    .subscribeOn(Schedulers.io(), false)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ topicMessage: StompMessage ->
+
+                        val message = gson.fromJson(topicMessage.payload, MessageItem::class.java)
+                        if (message.chatId == chatId) {
+                            updateMessages(message)
+                        }
+
+                    },
+                        {
+                            Log.e(STOMP_TAG, "Error", it)
+                        }
+                    )
+
+                val lifecycleSubscribe = stompClient!!.lifecycle()
+                    .subscribeOn(Schedulers.io(), false)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { lifecycleEvent: LifecycleEvent ->
+                        when (lifecycleEvent.type!!) {
+                            LifecycleEvent.Type.OPENED -> Log.d(STOMP_TAG, "Stomp connection opened")
+                            LifecycleEvent.Type.ERROR -> Log.e(
+                                STOMP_TAG,
+                                "Error",
+                                lifecycleEvent.exception
+                            )
+
+                            LifecycleEvent.Type.FAILED_SERVER_HEARTBEAT,
+                            LifecycleEvent.Type.CLOSED -> {
+                                Log.d(STOMP_TAG, "Stomp connection closed")
+                            }
+                        }
+                    }
+
+                compositeDisposable!!.add(lifecycleSubscribe)
+                compositeDisposable!!.add(topicSubscribe)
+
+                if (!stompClient!!.isConnected) {
+                    stompClient!!.connect()
+                }
+
+            } else {
+                Log.e(STOMP_TAG, "Stomp client is null")
+            }
+
+            isMessageListeningStarted = true
+        }
+    }
+
+    private fun updateMessages(message: MessageItem) {
+        val updatedMessages = _chatFlow.value?.toMutableList() ?: mutableListOf()
+        updatedMessages.add(message)
+        _chatFlow.value = updatedMessages
+    }
+
+    private fun sendMessage(message: MessageItem) {
+        sendCompletable(stompClient!!.send("/api/chat/${message.chatId}/add_message", gson.toJson(message)))
+    }
+
+    private fun resetSubscriptions() {
+        if (compositeDisposable != null) {
+            compositeDisposable!!.dispose()
+        }
+        compositeDisposable = CompositeDisposable()
+    }
+
+    private fun sendCompletable(request: Completable) {
+        compositeDisposable?.add(
+            request.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        Log.i(STOMP_TAG, "Stomp send")
+                    },
+                    {
+                        Log.e(STOMP_TAG, "Stomp error", it)
+                    }
+                )
+        )
     }
 
     fun addDates(messages: List<MessageItem>): List<MessageItem> {
@@ -172,22 +301,13 @@ class ChatViewModel(
         return mutableMessages
     }
 
-    fun openUserProfile(userId: String) {
-        router.openUserProfile(userId)
-    }
-
-    fun goToEventCalendar(partnerName: String) {
-        router.goToEventCalendar(partnerName)
-    }
-
-    fun goBack() {
-        router.goBack()
-    }
-
     override fun onCleared() {
         errorsChannel.close()
+        stompClient?.disconnect()
+        compositeDisposable?.dispose()
         super.onCleared()
     }
+
 }
 
 fun <T> Flow<T>.mutableStateIn(

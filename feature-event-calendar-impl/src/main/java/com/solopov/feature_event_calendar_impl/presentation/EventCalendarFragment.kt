@@ -157,7 +157,6 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
                     viewModel.eventListFlow.value?.let {
-                        println(it[viewHolder.bindingAdapterPosition])
                         viewModel.deleteEvent(
                             it[viewHolder.bindingAdapterPosition],
                             ::onEventDeleted

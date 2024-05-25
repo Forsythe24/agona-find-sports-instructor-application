@@ -10,7 +10,7 @@ import okhttp3.Route
 import javax.inject.Inject
 
 class JwtAuthenticator @Inject constructor(
-    private val tokenManager: JwtTokenManager,
+    private val tokenManager: JwtManager,
     private val refreshTokenService: RefreshTokenService
 ) : Authenticator {
     companion object {
