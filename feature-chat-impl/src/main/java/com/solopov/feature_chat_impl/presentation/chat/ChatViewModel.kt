@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.launch
 import java.util.Date
 
+
 class ChatViewModel(
     private val interactor: ChatInteractor,
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
@@ -69,15 +70,17 @@ class ChatViewModel(
     }
 
     fun downloadMessages(roomId: String) {
-        viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
-                interactor.downloadMessages(roomId)
-            }.onSuccess {
-                _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
-            }.onFailure {
-                errorsChannel.send(it)
-            }
-        }
+
+//        viewModelScope.launch {
+//            runCatching(exceptionHandlerDelegate) {
+//                interactor.downloadMessages(roomId)
+//            }.onSuccess {
+//                _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
+//            }.onFailure {
+//                errorsChannel.send(it)
+//            }
+//        }
+
     }
 
     fun getRecentMessages() {
@@ -109,6 +112,7 @@ class ChatViewModel(
             }
         }
     }
+
 
     fun formatDateTime(date: Date): String {
         return dateFormatter.formatDateTime(date)

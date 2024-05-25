@@ -59,6 +59,10 @@ buildscript {
 
         lottieVersion = "6.4.0"
 
+        stompProtocolVersion = "1.6.4"
+
+        stompProtocolDep = "com.github.NaikSoftware:StompProtocolAndroid:$stompProtocolVersion"
+
         lottieDep =  "com.airbnb.android:lottie:$lottieVersion"
 
         composeMaterialDep = "androidx.compose.material:material:$composeVersion"
@@ -133,6 +137,9 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url = uri("https://www.jitpack.io" )
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.2'
@@ -140,14 +147,6 @@ buildscript {
         classpath 'com.google.gms:google-services:4.4.1'
     }
 
-}
-
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
 }
 
 configurations {

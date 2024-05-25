@@ -146,7 +146,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
 
     private fun initChatters() {
-
         val chatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getSerializable(ParamsKey.CHAT_KEY, ChatCommon::class.java)
         } else {

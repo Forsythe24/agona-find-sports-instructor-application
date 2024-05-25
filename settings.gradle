@@ -1,3 +1,24 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven {
+            url = uri("https://www.jitpack.io" )
+        }
+    }
+}
+
+rootProject.name = "agona-find-sports-instructor-application"
+
 include ':app', ':test-shared', ':common', ':'
 include ':feature-instructor-api'
 include ':feature-instructor-impl'

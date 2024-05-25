@@ -1,9 +1,12 @@
 package com.solopov.common.data.remote.dao
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.google.firebase.database.DataSnapshot
+import com.google.gson.Gson
 import com.solopov.common.R
+import com.solopov.common.core.config.NetworkProperties
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.remote.SportApi
 import com.solopov.common.data.remote.exceptions.ChatDataRetrievingException
@@ -11,17 +14,24 @@ import com.solopov.common.data.remote.exceptions.HttpException
 import com.solopov.common.data.remote.model.ChatRemote
 import com.solopov.common.data.remote.model.MessageRemote
 import com.solopov.common.utils.ExceptionHandlerDelegate
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import org.java_websocket.client.WebSocketClient
+import java.net.URI
 import javax.inject.Inject
 
 class ChatRemoteDao @Inject constructor(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val resManager: ResourceManager,
     private val api: SportApi,
+    private val networkProperties: NetworkProperties,
 ) : PagingSource<DataSnapshot, MessageRemote>() {
+
     suspend fun createMessage(
         userId: String,
         message: MessageRemote,
     ) {
+
         // trying to retrieve the chat
         val response = api.getChatById(message.chatId)
 
