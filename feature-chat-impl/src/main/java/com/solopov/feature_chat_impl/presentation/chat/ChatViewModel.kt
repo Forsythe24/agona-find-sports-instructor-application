@@ -9,6 +9,7 @@ import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.remote.jwt.JwtManager
+import com.solopov.common.data.remote.model.MessageRemote
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
 import com.solopov.common.utils.ExceptionHandlerDelegate
@@ -174,9 +175,9 @@ class ChatViewModel(
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ topicMessage: StompMessage ->
 
-                        val message = gson.fromJson(topicMessage.payload, MessageItem::class.java)
+                        val message = gson.fromJson(topicMessage.payload, MessageRemote::class.java)
                         if (message.chatId == chatId) {
-                            updateMessages(message)
+                            updateMessages(messageMappers.mapMessageRemoteToMessageItem(message))
                         }
 
                     },
@@ -190,7 +191,11 @@ class ChatViewModel(
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { lifecycleEvent: LifecycleEvent ->
                         when (lifecycleEvent.type!!) {
-                            LifecycleEvent.Type.OPENED -> Log.d(STOMP_TAG, "Stomp connection opened")
+                            LifecycleEvent.Type.OPENED -> Log.d(
+                                STOMP_TAG,
+                                "Stomp connection opened"
+                            )
+
                             LifecycleEvent.Type.ERROR -> Log.e(
                                 STOMP_TAG,
                                 "Error",
@@ -226,7 +231,12 @@ class ChatViewModel(
     }
 
     private fun sendMessage(message: MessageItem) {
-        sendCompletable(stompClient!!.send("/api/chat/${message.chatId}/add_message", gson.toJson(message)))
+        sendCompletable(
+            stompClient!!.send(
+                "/api/chat/${message.chatId}/add_message",
+                gson.toJson(messageMappers.mapMessageItemToMessageRemote(message))
+            )
+        )
     }
 
     private fun resetSubscriptions() {

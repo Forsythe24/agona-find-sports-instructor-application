@@ -30,6 +30,30 @@ class MessageMappers @Inject constructor() {
         }
     }
 
+    fun mapMessageRemoteToMessageItem(messageRemote: MessageRemote): MessageItem {
+        return with(messageRemote) {
+            MessageItem(
+                id = id,
+                chatId = chatId,
+                text = text,
+                senderId = senderId,
+                date = date
+            )
+        }
+    }
+
+    fun mapMessageItemToMessageRemote(messageItem: MessageItem): MessageRemote {
+        return with(messageItem) {
+            MessageRemote(
+                id = id,
+                chatId = chatId,
+                text = text,
+                senderId = senderId,
+                date = date
+            )
+        }
+    }
+
     fun mapMessageItemToMessage(messageItem: MessageItem): Message {
         return with(messageItem) {
             Message(
