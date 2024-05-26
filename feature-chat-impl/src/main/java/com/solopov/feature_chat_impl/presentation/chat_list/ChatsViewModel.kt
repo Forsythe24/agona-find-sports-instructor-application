@@ -1,6 +1,5 @@
 package com.solopov.feature_chat_impl.presentation.chat_list
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.resources.ResourceManager
@@ -12,12 +11,10 @@ import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
-import dev.gustavoavila.websocketclient.WebSocketClient
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.net.URI
 import java.util.Calendar
 import java.util.Date
 
@@ -103,6 +100,6 @@ class ChatsViewModel(
     }
 
     fun openChat(chat: ChatCommon) {
-        router.openChat(chat)
+        router.goFromChatsToChat(chat)
     }
 }

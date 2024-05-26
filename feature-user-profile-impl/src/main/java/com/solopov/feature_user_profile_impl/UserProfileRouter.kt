@@ -5,10 +5,8 @@ import com.solopov.feature_user_profile_impl.presentation.user_profile.model.Use
 
 interface UserProfileRouter {
     fun goBackToInstructors()
-
     fun goToInstructApplication(userProfile: UserProfile)
     fun goBack()
-
     fun goToEditingProfile(userProfile: UserProfile)
-    fun openChat(chat: ChatCommon)
+    fun goFromUserProfileToChat(chat: ChatCommon)
 }

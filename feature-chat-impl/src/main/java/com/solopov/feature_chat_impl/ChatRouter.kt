@@ -4,8 +4,8 @@ import com.solopov.common.model.ChatCommon
 
 interface ChatRouter {
 
-    fun goBack()
-    fun openChat(chat: ChatCommon)
+    fun goBackToChats()
+    fun goFromChatsToChat(chat: ChatCommon)
     fun openUserProfile(userId: String)
-    fun goToEventCalendar(partnerName: String)
+    fun goFromChatToEventCalendar(partnerName: String)
 }

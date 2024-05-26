@@ -132,11 +132,11 @@ class ChatViewModel(
     }
 
     fun goToEventCalendar(partnerName: String) {
-        router.goToEventCalendar(partnerName)
+        router.goFromChatToEventCalendar(partnerName)
     }
 
     fun goBack() {
-        router.goBack()
+        router.goBackToChats()
     }
 
     fun getRecentMessages() {

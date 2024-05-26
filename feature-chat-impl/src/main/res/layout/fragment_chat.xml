@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_semibold"
         android:text="@string/long_name_sample"
-        android:textColor="@color/black"
+        android:textColor="@color/black_BB"
         />
 
     <androidx.appcompat.widget.AppCompatImageButton

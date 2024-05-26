@@ -1,13 +1,9 @@
 package com.solopov.feature_user_profile_impl.presentation.user_profile
 
-import android.Manifest
 import android.net.Uri
-import android.os.Build
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.model.ChatCommon
-import com.solopov.common.utils.Constants
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
@@ -105,7 +101,7 @@ class UserProfileViewModel(
         }
     }
 
-    fun updateUser(
+    private fun updateUser(
         userProfile: UserProfile
     ) {
         _progressBarFlow.value = true
@@ -135,7 +131,7 @@ class UserProfileViewModel(
         }
     }
 
-    fun setUserProfile(user: UserProfile) {
+    private fun setUserProfile(user: UserProfile) {
         _userProfileFlow.value = user
     }
 
@@ -163,6 +159,42 @@ class UserProfileViewModel(
                 _progressBarFlow.value = false
             }
         }
+    }
+
+    fun updateRating() {
+
+        val allRatings = ratingsFlow.value
+
+        if (allRatings != null) {
+            val ratingsSum = allRatings.map { ratingUi ->
+                ratingUi.rating
+            }.sum()
+
+            val newNumberOfRatings = allRatings.size
+            val newRating = ratingsSum / if (allRatings.isEmpty()) 1 else newNumberOfRatings
+
+            userProfileFlow.value?.let {
+                val newUserProfile =
+                    it.copy(rating = newRating, numberOfRatings = newNumberOfRatings)
+
+                updateUser(newUserProfile)
+                setUserProfile(newUserProfile)
+            }
+        }
+    }
+
+    fun goBack() {
+        router.goBack()
+    }
+    fun goToEditingProfile(userProfile: UserProfile) {
+        router.goToEditingProfile(userProfile)
+    }
+
+    fun goToInstructApplication(userProfile: UserProfile) {
+        router.goToInstructApplication(userProfile)
+    }
+    fun openChat(chat: ChatCommon) {
+        router.goFromUserProfileToChat(chat)
     }
 
     override fun onCleared() {

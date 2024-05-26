@@ -25,7 +25,7 @@
         android:layout_marginTop="8dp"
         android:textColor="@color/black"
         android:fontFamily="@font/inter_semibold"
-        android:textSize="@dimen/screen_heading_text_size"
+        android:textSize="@dimen/screen_header_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/instructors"

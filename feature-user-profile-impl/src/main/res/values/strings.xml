@@ -49,4 +49,6 @@
     <string name="experience_field_empty_helper_text">Experience field can\'t be empty</string>
     <string name="allow">allow</string>
     <string name="grant_message">Give our app access to your media to set profile image. You can do it later in settings</string>
+    <string name="profile">Profile</string>
+    <string name="your_profile">Your Profile</string>
 </resources>

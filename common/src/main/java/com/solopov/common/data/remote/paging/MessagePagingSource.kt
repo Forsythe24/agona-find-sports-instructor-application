@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.solopov.common.data.remote.model.MessageRemote
+import com.solopov.common.utils.Constants
 import com.solopov.common.utils.ParamsKey
 import kotlinx.coroutines.tasks.await
 
@@ -17,7 +18,7 @@ class MessagePagingSource : PagingSource<DataSnapshot, MessageRemote>() {
             val queryMessages = FirebaseDatabase.getInstance().reference.child("chat")
                 .child("HqmLsYR0YbQ2NlIIyF688pz7s5g2JK3EIt4BouOBWCQjmqOVwa0CbjW2").child("message")
                 .orderByKey().limitToLast(
-                ParamsKey.PAGE_SIZE
+                Constants.PAGE_SIZE
             )
 
             val currentPage = params.key ?: queryMessages.get().await()

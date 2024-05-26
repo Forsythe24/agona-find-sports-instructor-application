@@ -5,6 +5,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/snow">
 
+    <TextView
+        android:id="@+id/profile_tv"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/inter_semibold"
+        android:textSize="@dimen/screen_header_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile"
+        android:layout_gravity="center_horizontal" />
+
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/back_btn"
         android:layout_gravity="top|start"
@@ -24,10 +35,10 @@
         android:layout_marginHorizontal="8dp"
         >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <FrameLayout
                 android:id="@+id/user_item_cv"
                 android:layout_width="match_parent"
@@ -98,6 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginStart="8dp"
+                        android:text="@string/rating_sample"
                         android:textSize="20sp"
                         android:textColor="@color/white"
                         app:layout_constraintTop_toTopOf="parent"
@@ -109,6 +121,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/number_of_ratings_sample"
                         android:textSize="12sp"
                         android:textColor="@color/white"
                         app:layout_constraintTop_toBottomOf="@id/rating_tv"
@@ -190,44 +203,38 @@
 
             <TextView
                 android:id="@+id/instruct_tv"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/instruct_btn"
-                app:layout_constraintStart_toStartOf="@id/instruct_btn"
                 app:layout_constraintEnd_toEndOf="@id/instruct_btn"
                 android:textSize="14sp"
+                android:layout_marginTop="40dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/inter_semibold"
                 android:text="@string/fill_out_application"
                 />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/instruct_btn"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_item_cv"
                 style="@style/DefaultButton"
                 android:backgroundTint="@color/black"
-                android:layout_marginTop="100dp"
                 android:layout_marginHorizontal="24dp"
                 android:text="@string/instruct_others"
                 android:drawableEnd="@drawable/baseline_sports_24"/>
 
             <RatingBar
                 android:id="@+id/instructor_rating_bar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_item_cv"
                 android:layout_marginTop="140dp"
-                android:layout_marginHorizontal="64dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5">
 
             </RatingBar>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton

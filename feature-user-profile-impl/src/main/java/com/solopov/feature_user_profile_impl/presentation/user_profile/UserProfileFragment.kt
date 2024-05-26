@@ -30,13 +30,11 @@ import com.solopov.common.utils.Constants.READ_MEDIA_IMAGES_REQUEST_CODE
 import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
 import com.solopov.common.utils.ParamsKey.USER_ID_KEY
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
-import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.RatingUi
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.flow.receiveAsFlow
-import java.util.Locale
 import javax.inject.Inject
 
 
@@ -45,16 +43,10 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     private lateinit var binding: FragmentUserProfileBinding
 
     @Inject
-    lateinit var router: UserProfileRouter
-
-    @Inject
     lateinit var userMappers: UserMappers
 
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -67,20 +59,15 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     private fun initUsers() {
         val userId = arguments?.getString(USER_ID_KEY)
-
-
         val isFromInstructorsScreen = arguments?.getBoolean(FROM_INSTRUCTORS_SCREEN_FLAG_KEY)
-
         if (userId != null) {
             viewModel.setCurrentUser(userId, ::onUserSetCallback)
 
             with(viewModel) {
-
                 setUserProfileByUid(userId)
-
                 binding.sendMessageBtn.setOnClickListener {
                     chatFlow.value?.let {
-                        router.openChat(
+                        viewModel.openChat(
                             it
                         )
                     }
@@ -94,6 +81,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             //if it's the current user's profile
             viewModel.setCurrentUserProfile()
 
+            setCurrentUserProfileHeader()
             hideOtherUserSpecificViews()
 
             if (isFromInstructorsScreen != true) {
@@ -107,13 +95,13 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         with(binding) {
             editBtn.setOnClickListener {
                 viewModel.userProfileFlow.value?.let {
-                    router.goToEditingProfile(it)
+                    viewModel.goToEditingProfile(it)
                 }
             }
 
             sendMessageBtn.setOnClickListener {
                 viewModel.chatFlow.value?.let {
-                    router.openChat(
+                    viewModel.openChat(
                         it
                     )
                 }
@@ -127,12 +115,12 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
             instructBtn.setOnClickListener {
                 viewModel.userProfileFlow.value?.let {
-                    router.goToInstructApplication(it)
+                    viewModel.goToInstructApplication(it)
                 }
             }
 
             backBtn.setOnClickListener {
-                router.goBack()
+                viewModel.goBack()
             }
 
             imageSearchIv.setOnClickListener {
@@ -141,7 +129,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 } else {
                     requestPermissionWithRationale()
                 }
-//                selectImage()
             }
 
             instructorRatingBar.onRatingBarChangeListener =
@@ -169,12 +156,8 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     override fun inject() {
         FeatureUtils.getFeature<UserProfileFeatureComponent>(
-            this,
-            UserProfileFeatureApi::class.java
-        )
-            .userProfileComponentFactory()
-            .create(this)
-            .inject(this)
+            this, UserProfileFeatureApi::class.java
+        ).userProfileComponentFactory().create(this).inject(this)
     }
 
 
@@ -184,9 +167,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 it?.let { user ->
                     setChat(
                         ChatCommon(
-                            user.id,
-                            user.name,
-                            user.photo
+                            user.id, user.name, user.photo
                         )
                     )
 
@@ -202,11 +183,9 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
             }
 
-            chatFlow.observe {
-            }
+            chatFlow.observe {}
 
-            currentUserFlow.observe {
-            }
+            currentUserFlow.observe {}
 
             ratingsFlow.observe { ratings ->
                 ratings?.let {
@@ -233,35 +212,10 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
                     viewModel.addRating(
                         RatingUi(
-                            null,
-                            otherUser.id,
-                            currentUser.id,
-                            currentRating
+                            null, otherUser.id, currentUser.id, currentRating
                         )
                     )
                 }
-            }
-        }
-    }
-
-    private fun updateRating() {
-
-        val allRatings = viewModel.ratingsFlow.value
-
-        if (allRatings != null) {
-            val ratingsSum = allRatings.map { ratingUi ->
-                ratingUi.rating
-            }.sum()
-
-            val newNumberOfRatings = allRatings.size
-            val newRating = ratingsSum / if (allRatings.isEmpty()) 1 else newNumberOfRatings
-
-            viewModel.userProfileFlow.value?.let {
-                val newUserProfile =
-                    it.copy(rating = newRating, numberOfRatings = newNumberOfRatings)
-
-                viewModel.updateUser(newUserProfile)
-                viewModel.setUserProfile(newUserProfile)
             }
         }
     }
@@ -303,14 +257,12 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     private fun isPermissionGranted(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
-                requireActivity(),
-                READ_MEDIA_IMAGES
+                requireActivity(), READ_MEDIA_IMAGES
             ) == PackageManager.PERMISSION_GRANTED
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ContextCompat.checkSelfPermission(
-                    requireActivity(),
-                    READ_EXTERNAL_STORAGE
+                    requireActivity(), READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED
             } else {
                 true
@@ -321,16 +273,13 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     private fun requestPermissionWithRationale() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                READ_MEDIA_IMAGES
+                requireActivity(), READ_MEDIA_IMAGES
             ) || ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                READ_EXTERNAL_STORAGE
+                requireActivity(), READ_EXTERNAL_STORAGE
             )
         ) {
             val message = getString(R.string.grant_message)
-            Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
-                .setAction(
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).setAction(
                     getString(R.string.allow).uppercase()
                 ) { requestPerms() }.show()
         } else {
@@ -340,11 +289,15 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     private fun requestPerms() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            requireActivity().requestPermissions(arrayOf(READ_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_REQUEST_CODE)
+            requireActivity().requestPermissions(
+                arrayOf(READ_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_REQUEST_CODE
+            )
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireActivity().requestPermissions(arrayOf(READ_MEDIA_IMAGES), READ_MEDIA_IMAGES_REQUEST_CODE)
+            requireActivity().requestPermissions(
+                arrayOf(READ_MEDIA_IMAGES), READ_MEDIA_IMAGES_REQUEST_CODE
+            )
         }
         selectImageIfPermissionGranted()
     }
@@ -384,7 +337,12 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     private fun onUserSetCallback(areIdsSame: Boolean) {
         if (areIdsSame) {
             hideOtherUserSpecificViews()
+            setCurrentUserProfileHeader()
         }
+    }
+    
+    private fun setCurrentUserProfileHeader() {
+        binding.profileTv.text = getString(R.string.your_profile)
     }
 
 
@@ -439,9 +397,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     }
 
     private fun showImage(uri: String, imageView: ImageView) {
-        Glide.with(requireContext())
-            .load(uri)
-            .into(imageView)
-
+        Glide.with(requireContext()).load(uri).into(imageView)
     }
 }

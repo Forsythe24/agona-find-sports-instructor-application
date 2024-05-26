@@ -55,6 +55,12 @@
         android:name="com.solopov.feature_user_profile_impl.presentation.user_profile.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile">
+        <action
+            android:id="@+id/action_userProfileFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -90,6 +96,13 @@
         android:name="com.solopov.feature_chat_impl.presentation.chat_list.ChatsFragment"
         android:label="fragment_chats"
         tools:layout="@layout/fragment_chat_list">
+
+        <action
+            android:id="@+id/action_chatsFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

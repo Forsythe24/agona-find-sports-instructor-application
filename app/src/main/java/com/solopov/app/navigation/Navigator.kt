@@ -35,20 +35,12 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter, 
         navController?.navigate(R.id.userProfileFragment, bundleOf(USER_ID_KEY to userId))
     }
 
-    override fun goToEventCalendar(partnerName: String) {
+    override fun goFromChatToEventCalendar(partnerName: String) {
         navController?.navigate(R.id.action_chatFragment_to_eventCalendarFragment, bundleOf(PARTNER_NAME_KEY to partnerName))
     }
 
     override fun openInstructor(userId: String) {
         navController?.navigate(R.id.userProfileFragment, bundleOf(USER_ID_KEY to userId, FROM_INSTRUCTORS_SCREEN_FLAG_KEY to true))
-    }
-
-    override fun returnToInstructors() {
-        navController?.popBackStack()
-    }
-
-    override fun openChat(chat: ChatCommon) {
-        navController?.navigate(R.id.chatFragment, bundleOf(CHAT_KEY to chat))
     }
 
     override fun goToSignUp() {
@@ -79,11 +71,23 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter, 
         navController?.navigate(R.id.instructApplicationFragment, bundleOf(USER_KEY to userProfile))
     }
 
-    override fun goBack() {
-        navController?.popBackStack()
+    override fun goBackToChats() {
+        navController?.navigate(R.id.chatsFragment)
+    }
+
+    override fun goFromChatsToChat(chat: ChatCommon) {
+        navController?.navigate(R.id.action_chatsFragment_to_chatFragment, bundleOf(CHAT_KEY to chat))
     }
 
     override fun goToEditingProfile(userProfile: UserProfile) {
         navController?.navigate(R.id.editProfileFragment, bundleOf(USER_KEY to userProfile))
+    }
+
+    override fun goFromUserProfileToChat(chat: ChatCommon) {
+        navController?.navigate(R.id.action_userProfileFragment_to_chatFragment, bundleOf(CHAT_KEY to chat))
+    }
+
+    override fun goBack() {
+        navController?.popBackStack()
     }
 }
