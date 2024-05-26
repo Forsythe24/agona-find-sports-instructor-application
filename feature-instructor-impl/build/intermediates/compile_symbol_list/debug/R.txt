@@ -1766,9 +1766,11 @@ int color switch_thumb_normal_material_light 0x0
 int color test_color 0x0
 int color test_mtrl_calendar_day 0x0
 int color test_mtrl_calendar_day_selected 0x0
+int color text_input_box_background_color_selector 0x0
 int color text_input_box_stroke_color 0x0
 int color tooltip_background_dark 0x0
 int color tooltip_background_light 0x0
+int color vividCerulean 0x0
 int color white 0x0
 int dimen abc_action_bar_content_inset_material 0x0
 int dimen abc_action_bar_content_inset_with_nav 0x0
@@ -2554,6 +2556,7 @@ int drawable mtrl_popupmenu_background 0x0
 int drawable mtrl_popupmenu_background_overlay 0x0
 int drawable mtrl_tabs_default_indicator 0x0
 int drawable navigation_empty_icon 0x0
+int drawable no_profile_photo 0x0
 int drawable notification_action_background 0x0
 int drawable notification_bg 0x0
 int drawable notification_bg_low 0x0
@@ -3334,6 +3337,7 @@ int string female 0x0
 int string female_gender 0x0
 int string file_uploading_exception 0x0
 int string finish 0x0
+int string firebase_connection_failed_exception 0x0
 int string football 0x0
 int string gender 0x0
 int string gender_lower 0x0
@@ -3483,6 +3487,7 @@ int string sender_id 0x0
 int string service_unavailable_exception 0x0
 int string sign_in 0x0
 int string sign_up 0x0
+int string socket_connection_timeout_exception 0x0
 int string sport 0x0
 int string sport_lower 0x0
 int string status_bar_notification_info_overflow 0x0

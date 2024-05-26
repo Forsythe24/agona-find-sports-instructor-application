@@ -12,7 +12,7 @@ import com.solopov.common.data.remote.exceptions.AuthException
 import com.solopov.common.data.remote.exceptions.FirebaseException
 import com.solopov.common.data.remote.exceptions.HttpException
 import com.solopov.common.data.remote.exceptions.UserException
-import com.solopov.common.data.remote.jwt.JwtTokenManager
+import com.solopov.common.data.remote.jwt.JwtManager
 import com.solopov.common.data.remote.model.AuthNetworkResponse
 import com.solopov.common.data.remote.model.CredentialsRemote
 import com.solopov.common.data.remote.model.RefreshJwtRequestDto
@@ -34,7 +34,7 @@ class UserRemoteDao @Inject constructor(
     private val api: SportApi,
     private val authService: AuthService,
     private val refreshTokenService: RefreshTokenService,
-    private val jwtTokenManager: JwtTokenManager,
+    private val jwtManager: JwtManager,
 ) {
 
     suspend fun getInstructorsBySportId(sportId: Int): List<UserRemote> {
@@ -137,7 +137,7 @@ class UserRemoteDao @Inject constructor(
         val response = api.updatePassword(CredentialsRemote("", password))
 
         val networkResponse =
-            refreshTokenService.refreshToken(RefreshJwtRequestDto(jwtTokenManager.getRefreshJwt()))
+            refreshTokenService.refreshToken(RefreshJwtRequestDto(jwtManager.getRefreshJwt()))
 
         saveTokens(networkResponse)
 
@@ -221,8 +221,8 @@ class UserRemoteDao @Inject constructor(
 
     private suspend fun saveTokens(response: Response<AuthNetworkResponse>) {
         response.body()?.let { body ->
-            jwtTokenManager.saveAccessJwt(body.accessToken)
-            jwtTokenManager.saveRefreshJwt(body.refreshToken)
+            jwtManager.saveAccessJwt(body.accessToken)
+            jwtManager.saveRefreshJwt(body.refreshToken)
         }
     }
 }

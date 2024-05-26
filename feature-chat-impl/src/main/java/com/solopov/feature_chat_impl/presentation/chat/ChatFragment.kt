@@ -17,17 +17,14 @@ import com.solopov.common.R
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
-import com.solopov.common.utils.DateFormatter
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_chat_api.di.ChatFeatureApi
-import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 import kotlinx.coroutines.flow.receiveAsFlow
 import java.util.Date
-import javax.inject.Inject
 
 class ChatFragment : BaseFragment<ChatViewModel>() {
 
@@ -107,44 +104,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         }
     }
 
-    override fun onStart() {
-        repeatCheckingMessagesForUpdates()
-        super.onStart()
-    }
-
-    override fun onStop() {
-        viewModel.stopRepeatWork()
-        super.onStop()
-    }
-
-    private fun repeatCheckingMessagesForUpdates() {
-
-        viewModel.let { vm ->
-            vm.doRepeatWork(
-                MESSAGE_UPDATE_INTERVAL
-            ) {
-                getMessages()
-            }
-        }
-    }
-
-    private fun getMessages() {
-        val sender = viewModel.senderFlow.value
-        val receiver = viewModel.receiverFlow.value
-
-        if (receiver != null && sender != null) {
-
-            val receiverId = receiver.userId
-            senderId = sender.userId
-
-            val senderRoomId = senderId + receiverId
-
-            // viewModel.getRecentMessages()
-            viewModel.downloadMessages(senderRoomId)
-        }
-    }
-
-
     private fun initChatters() {
         val chatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getSerializable(ParamsKey.CHAT_KEY, ChatCommon::class.java)
@@ -205,6 +164,23 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                 sender?.let {
                     senderId = sender.userId
                 }
+
+
+                if (isMessageListeningStarted.not()) {
+                    val receiver = viewModel.receiverFlow.value
+
+                    if (receiver != null && sender != null) {
+
+                        val receiverId = receiver.userId
+                        senderId = sender.userId
+
+                        val senderRoomId = senderId + receiverId
+
+                        downloadMessages(senderRoomId)
+                        initStomp(senderRoomId)
+                    }
+                }
+
             }
 
             chatFlow.observe { messages ->

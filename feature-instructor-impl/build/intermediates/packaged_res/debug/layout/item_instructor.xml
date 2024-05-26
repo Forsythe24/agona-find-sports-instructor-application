@@ -31,8 +31,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/lionel_messi"
-            android:scaleType="fitXY" />
+            android:src="@drawable/no_profile_photo"
+            android:background="@color/colorPrimary"
+            android:scaleType="fitXY"
+            />
 
         <View
             android:layout_width="0dp"

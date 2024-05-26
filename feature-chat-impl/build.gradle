@@ -54,6 +54,10 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-database:20.3.1'
 
+    implementation "dev.gustavoavila:java-android-websocket-client:2.0.2"
+
+    implementation stompProtocolDep
+
     implementation rxJavaDep
     implementation rxAndroidDep
 

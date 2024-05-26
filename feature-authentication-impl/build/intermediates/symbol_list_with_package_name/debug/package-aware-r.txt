@@ -1766,11 +1766,13 @@ color switch_thumb_normal_material_light
 color test_color
 color test_mtrl_calendar_day
 color test_mtrl_calendar_day_selected
+color text_input_box_background_color_selector
 color text_input_box_stroke_color
 color tooltip_background_dark
 color tooltip_background_light
 color vector_tint_color
 color vector_tint_theme_color
+color vividCerulean
 color white
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
@@ -2553,6 +2555,7 @@ drawable mtrl_popupmenu_background
 drawable mtrl_popupmenu_background_overlay
 drawable mtrl_tabs_default_indicator
 drawable navigation_empty_icon
+drawable no_profile_photo
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -3351,6 +3354,7 @@ string female
 string female_gender
 string file_uploading_exception
 string finish
+string firebase_connection_failed_exception
 string forgot_my_password
 string gender
 string gender_lower
@@ -3526,6 +3530,7 @@ string name_must_be_at_least_two_characters
 string name_regex
 string name_sample
 string navigation_menu
+string new_password_sent_template
 string next
 string no_instructors_found_exception
 string no_user_with_such_email
@@ -3564,6 +3569,7 @@ string sender_id
 string service_unavailable_exception
 string sign_in
 string sign_up
+string socket_connection_timeout_exception
 string sport
 string sport_lower
 string state_empty
