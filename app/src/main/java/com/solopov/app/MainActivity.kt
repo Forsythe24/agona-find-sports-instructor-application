@@ -11,6 +11,7 @@ import com.solopov.app.di.deps.findComponentDependencies
 import com.solopov.app.di.main.MainComponent
 import com.solopov.app.navigation.Navigator
 import com.solopov.common.base.BaseActivity
+import com.solopov.common.utils.Constants.READ_MEDIA_IMAGES_REQUEST_CODE
 import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
 import javax.inject.Inject
 

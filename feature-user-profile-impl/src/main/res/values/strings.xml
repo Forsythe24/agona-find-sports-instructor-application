@@ -47,4 +47,6 @@
     <string name="empty_experience_field_message">It\'s important to tell us something about your experience in the sport you are applying for so your future clients know more about their instructor. It doesn\'t have to be about training others, it can be just about you mastering this sport</string>
     <string name="empty_experience_field">Your experience is important to us</string>
     <string name="experience_field_empty_helper_text">Experience field can\'t be empty</string>
+    <string name="allow">allow</string>
+    <string name="grant_message">Give our app access to your media to set profile image. You can do it later in settings</string>
 </resources>

@@ -1,9 +1,13 @@
 package com.solopov.feature_user_profile_impl.presentation.user_profile
 
+import android.Manifest
 import android.net.Uri
+import android.os.Build
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.model.ChatCommon
+import com.solopov.common.utils.Constants
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor

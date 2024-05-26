@@ -1,7 +1,11 @@
 package com.solopov.feature_user_profile_impl.presentation.user_profile
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +15,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar.OnRatingBarChangeListener
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -19,6 +25,8 @@ import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentUse
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
+import com.solopov.common.utils.Constants.READ_EXTERNAL_STORAGE_REQUEST_CODE
+import com.solopov.common.utils.Constants.READ_MEDIA_IMAGES_REQUEST_CODE
 import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
 import com.solopov.common.utils.ParamsKey.USER_ID_KEY
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
@@ -28,7 +36,9 @@ import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.RatingUi
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.flow.receiveAsFlow
+import java.util.Locale
 import javax.inject.Inject
+
 
 class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
@@ -126,7 +136,12 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             }
 
             imageSearchIv.setOnClickListener {
-                selectImage()
+                if (isPermissionGranted()) {
+                    selectImage()
+                } else {
+                    requestPermissionWithRationale()
+                }
+//                selectImage()
             }
 
             instructorRatingBar.onRatingBarChangeListener =
@@ -282,6 +297,61 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                         getString(R.string.number_of_ratings_template).format(numberOfRatings)
                 }
             }
+        }
+    }
+
+    private fun isPermissionGranted(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                requireActivity(),
+                READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ContextCompat.checkSelfPermission(
+                    requireActivity(),
+                    READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            } else {
+                true
+            }
+
+        }
+    }
+
+    private fun requestPermissionWithRationale() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                requireActivity(),
+                READ_MEDIA_IMAGES
+            ) || ActivityCompat.shouldShowRequestPermissionRationale(
+                requireActivity(),
+                READ_EXTERNAL_STORAGE
+            )
+        ) {
+            val message = getString(R.string.grant_message)
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+                .setAction(
+                    getString(R.string.allow).uppercase()
+                ) { requestPerms() }.show()
+        } else {
+            requestPerms()
+        }
+    }
+
+    private fun requestPerms() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().requestPermissions(arrayOf(READ_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_REQUEST_CODE)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().requestPermissions(arrayOf(READ_MEDIA_IMAGES), READ_MEDIA_IMAGES_REQUEST_CODE)
+        }
+        selectImageIfPermissionGranted()
+    }
+
+    private fun selectImageIfPermissionGranted() {
+        if (isPermissionGranted()) {
+            selectImage()
         }
     }
 

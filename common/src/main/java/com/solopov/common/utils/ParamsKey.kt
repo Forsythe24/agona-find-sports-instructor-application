@@ -11,7 +11,4 @@ object ParamsKey {
     const val FROM_INSTRUCTORS_SCREEN_FLAG_KEY = "from_instructors_screen_flag"
 
     const val AUTH_PREFERENCES_KEY = "auth_preferences"
-
-    //paging
-    const val PAGE_SIZE = 10
 }
