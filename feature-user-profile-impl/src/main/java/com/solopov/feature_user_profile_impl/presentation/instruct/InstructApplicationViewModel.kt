@@ -1,7 +1,9 @@
 package com.solopov.feature_user_profile_impl.presentation.instruct
 
 import androidx.lifecycle.viewModelScope
+import com.solopov.com.solopov.feature_user_profile_impl.R
 import com.solopov.common.base.BaseViewModel
+import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
@@ -19,6 +21,7 @@ class InstructApplicationViewModel @Inject constructor(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val mappers: UserMappers,
     private val router: UserProfileRouter,
+    private val resManager: ResourceManager
 ) : BaseViewModel() {
 
     private val _progressBarFlow = MutableStateFlow(false)
@@ -44,6 +47,13 @@ class InstructApplicationViewModel @Inject constructor(
             }
         }
     }
+
+    fun validateExperienceField(experience: String): String? = if (experience.isEmpty()) {
+        resManager.getString(R.string.experience_field_empty_helper_text)
+    } else {
+        null
+    }
+
 
     fun goBack() {
         router.goBack()

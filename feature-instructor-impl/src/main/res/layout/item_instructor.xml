@@ -32,7 +32,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:src="@drawable/no_profile_photo"
-            android:background="@color/colorPrimary"
             android:scaleType="fitXY"
             />
 
@@ -92,23 +91,37 @@
             android:fontFamily="@font/inter_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/name_sample"
             android:layout_marginStart="8dp"
-            android:textSize="@dimen/standard_instructor_item_text_size"
+            android:textSize="24sp"
+            android:maxWidth="320dp"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/instructor_info_tv"
+            app:layout_constraintBottom_toTopOf="@id/experience_tv"
             app:layout_constraintStart_toStartOf="parent"
-
             />
 
         <TextView
-            android:id="@+id/instructor_info_tv"
+            android:id="@+id/experience_tv"
             android:fontFamily="@font/inter_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/instructor_info_sample"
             android:textSize="12sp"
             android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/name_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="8dp"
+            android:maxWidth="300dp"
+
+            android:maxLines="3"/>
+
+        <TextView
+            android:id="@+id/instructor_info_tv"
+            android:fontFamily="@font/inter_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/experience_tv"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="12dp"

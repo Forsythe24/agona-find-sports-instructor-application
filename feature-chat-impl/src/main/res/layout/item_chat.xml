@@ -24,16 +24,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-
             android:layout_marginStart="12dp"
             >
             <ImageView
                 android:id="@+id/user_image_iv"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:src="@drawable/ross_geller"
+                android:src="@drawable/no_profile_photo"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true">
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop">
             </ImageView>
         </androidx.cardview.widget.CardView>
 
@@ -48,7 +48,7 @@
             android:fontFamily="@font/inter_semibold"
             android:text="@string/user_name_sample"
             android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textColor="@color/black_CC"
             />
 
         <TextView
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_regular"
             android:text="@string/time_sample"
-            android:textColor="@color/subtleBlack"
+            android:textColor="@color/black_75"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="12dp"
@@ -76,7 +76,7 @@
             android:text="@string/message_preview_sample"
             android:maxLength="40"
 
-            android:textColor="@color/subtleBlack"
+            android:textColor="@color/black_75"
             />
 
 

@@ -13,4 +13,5 @@
     <string name="yesterday">Yesterday</string>
     <string name="no_chats_yet">No chats yet</string>
     <string name="read_timed_out_message">Read timed out</string>
+    <string name="long_name_sample">Long name sample lon...</string>
 </resources>

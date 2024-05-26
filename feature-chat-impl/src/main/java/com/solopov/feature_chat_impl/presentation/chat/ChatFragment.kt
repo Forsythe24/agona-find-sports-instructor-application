@@ -22,6 +22,7 @@ import com.solopov.feature_chat_api.di.ChatFeatureApi
 import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
+import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 import kotlinx.coroutines.flow.receiveAsFlow
 import java.util.Date
@@ -50,8 +51,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         with(viewBinding) {
             chatRv.layoutManager =
                 LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-
-
+            
             sendBtn.setOnClickListener {
 
                 val senderRoomId = senderId + receiverId
@@ -148,24 +148,18 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
         with(viewModel) {
             receiverFlow.observe { receiver ->
-                with(viewBinding) {
-                    receiver?.let {
-                        receiverId = receiver.userId
-
-                        receiverNameTv.text = receiver.name
-                        receiver.photo?.let {
-                            showImage(it, userImageIv)
-                        }
-                    }
+                receiver?.let { 
+                    receiverId = receiver.userId
+                    initReceiverViews(receiver)
                 }
+                
             }
 
             senderFlow.observe { sender ->
                 sender?.let {
                     senderId = sender.userId
                 }
-
-
+                
                 if (isMessageListeningStarted.not()) {
                     val receiver = viewModel.receiverFlow.value
 
@@ -216,6 +210,24 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             }
         }
     }
+    
+    private fun initReceiverViews(receiver: ChatItem) {
+        with(viewBinding) {
+            receiverNameTv.text = receiver.name.let {
+                if (it.length > 20) {
+                    "${it.substring(0, 19)}..."
+                } else {
+                    it
+                }
+            }
+            receiver.photo.let {
+                if (!it.isNullOrEmpty()) {
+                    showImage(it, userImageIv)
+                }
+            }
+            
+        }
+    }
 
     private fun setUpScheduleEventButton() {
         viewBinding.scheduleEventBtn.setOnClickListener {
@@ -241,6 +253,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     }
 
     private fun showImage(url: String, imageView: ImageView) {
-        Glide.with(requireContext()).load(url).optionalCircleCrop().into(imageView)
+        Glide.with(requireContext()).load(url).into(imageView)
     }
 }

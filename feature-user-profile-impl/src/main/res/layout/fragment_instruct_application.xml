@@ -131,7 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        app:counterMaxLength="256"
+        app:counterMaxLength="255"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description_tv">
 
@@ -142,7 +142,7 @@
             android:fontFamily="@font/inter_regular"
             android:gravity="top"
             android:inputType="text|textMultiLine"
-            android:maxLength="256" />
+            android:maxLength="255" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

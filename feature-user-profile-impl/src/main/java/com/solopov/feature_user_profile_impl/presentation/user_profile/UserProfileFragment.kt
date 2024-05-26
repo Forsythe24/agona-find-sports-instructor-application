@@ -260,9 +260,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 userInfoTv.text =
                     resources.getString(R.string.instructor_info_template).format(fullGender, age)
                 nameTv.text = name
-                if (photo.isNullOrEmpty()) {
-                    userIv.setImageResource(R.drawable.no_profile_photo)
-                } else {
+                if (!photo.isNullOrEmpty()) {
                     showImage(photo!!, userIv)
                 }
                 rating?.let { rating ->

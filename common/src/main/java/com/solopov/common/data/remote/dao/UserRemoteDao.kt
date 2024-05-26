@@ -83,7 +83,7 @@ class UserRemoteDao @Inject constructor(
         val now = Date()
         val filename = formatter.format(now)
         val location =
-            resManager.getString(R.string.profile_image_upload_date_format).format(filename)
+            resManager.getString(R.string.profile_image_file_path_template).format(filename)
 
 
         val ref = storage.getReference(location)

@@ -44,4 +44,7 @@
     <string name="describe_your_unique_way_of_training">Describe your unique way of training</string>
     <string name="image_intent_type">image/*</string>
     <string name="rugby">Rugby</string>
+    <string name="empty_experience_field_message">It\'s important to tell us something about your experience in the sport you are applying for so your future clients know more about their instructor. It doesn\'t have to be about training others, it can be just about you mastering this sport</string>
+    <string name="empty_experience_field">Your experience is important to us</string>
+    <string name="experience_field_empty_helper_text">Experience field can\'t be empty</string>
 </resources>

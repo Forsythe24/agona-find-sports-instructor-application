@@ -35,9 +35,10 @@
             android:id="@+id/user_image_iv"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:src="@drawable/ross_geller"
+            android:src="@drawable/no_profile_photo"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop">
         </ImageView>
     </androidx.cardview.widget.CardView>
 
@@ -52,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_semibold"
-        android:text="@string/user_name_sample"
+        android:text="@string/long_name_sample"
         android:textColor="@color/black"
         />
 
@@ -101,7 +102,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/message_et"
             android:hint="@string/type_something_hint"
-            android:textColorHint="@color/subtleBlack"
+            android:textColorHint="@color/black_75"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingHorizontal="20dp"

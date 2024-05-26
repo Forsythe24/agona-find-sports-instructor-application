@@ -24,6 +24,14 @@ class ChatsViewHolder(
                     lastMessageDateTv.text = it
                 }
 
+                nameTv.text = nameTv.text.let {
+                    if (it.length > 24) {
+                        "${it.substring(0, 23)}..."
+                    } else {
+                        it
+                    }
+                }
+
                 lastMessageText?.let {
                     lastMessagePreviewTv.text = if (it.length > 37) {
                         "${it.substring(0, 36)}..."
@@ -31,7 +39,6 @@ class ChatsViewHolder(
                         it
                     }
                 }
-
             }
         }
     }

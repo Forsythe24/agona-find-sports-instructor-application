@@ -52,7 +52,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:src="@drawable/no_profile_photo"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         />
 
                     <View
@@ -96,7 +96,6 @@
                         android:fontFamily="@font/inter_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/rating_sample"
                         android:layout_marginTop="8dp"
                         android:layout_marginStart="8dp"
                         android:textSize="20sp"
@@ -110,7 +109,6 @@
                         android:fontFamily="@font/inter_regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/number_of_ratings_sample"
                         android:textSize="12sp"
                         android:textColor="@color/white"
                         app:layout_constraintTop_toBottomOf="@id/rating_tv"
@@ -123,7 +121,6 @@
                         android:fontFamily="@font/inter_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/hourly_rate_sample"
                         android:layout_margin="8dp"
                         android:textSize="24sp"
                         android:textColor="@color/white"
@@ -137,13 +134,12 @@
                         android:fontFamily="@font/inter_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/name_sample"
                         android:layout_marginStart="8dp"
                         android:textSize="24sp"
+                        android:maxWidth="360dp"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toTopOf="@id/experience_tv"
                         app:layout_constraintStart_toStartOf="parent"
-
                         />
 
                     <TextView
@@ -151,7 +147,6 @@
                         android:fontFamily="@font/inter_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/experience_sample"
                         android:textSize="12sp"
                         android:textColor="@color/white"
                         app:layout_constraintTop_toBottomOf="@id/name_tv"
@@ -167,7 +162,6 @@
                         android:fontFamily="@font/inter_regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/user_info_sample"
                         android:textSize="12sp"
                         android:textColor="@color/white"
                         app:layout_constraintTop_toBottomOf="@id/experience_tv"
@@ -189,7 +183,6 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/inter_regular"
                 android:gravity="start"
-                android:text="@string/description_sample"
                 android:textSize="16sp"
                 android:maxLines="6"
                 app:layout_constraintStart_toStartOf="@id/user_item_cv"

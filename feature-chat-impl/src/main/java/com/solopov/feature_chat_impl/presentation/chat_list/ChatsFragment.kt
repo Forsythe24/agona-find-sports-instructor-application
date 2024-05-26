@@ -134,7 +134,6 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
     private fun showImage(url: String, imageView: ImageView) {
         Glide.with(requireContext())
             .load(url)
-            .optionalCircleCrop()
             .into(imageView)
 
     }

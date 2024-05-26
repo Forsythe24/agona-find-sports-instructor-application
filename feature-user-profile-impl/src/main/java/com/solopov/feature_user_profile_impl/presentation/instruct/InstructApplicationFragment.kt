@@ -2,6 +2,8 @@ package com.solopov.feature_user_profile_impl.presentation.instruct
 
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,19 +82,38 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
                 }
             }
 
-            applyBtn.setOnClickListener {
-
-                userProfile?.let {
-                    it.description = descriptionEt.text.toString()
-                    it.experience = experienceEt.text.toString()
-                    it.sport = sportsTypeAutocompleteTv.text.toString()
-                    it.hourlyRate = hourlyRateSb.progress.toFloat()
-                    it.isInstructor = true
-
-                    viewModel.updateUser(it, ::onUserUpdatedCallback)
+            experienceEt.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    validateForm()
                 }
+                override fun afterTextChanged(p0: Editable?) {}
+            })
+
+            applyBtn.setOnClickListener {
+                validateForm()
+                if (experienceTextInput.helperText.isNullOrEmpty()) {
+                    userProfile?.let {
+                        it.description = descriptionEt.text.toString()
+                        it.experience = experienceEt.text.toString()
+                        it.sport = sportsTypeAutocompleteTv.text.toString()
+                        it.hourlyRate = hourlyRateSb.progress.toFloat()
+                        it.isInstructor = true
+
+                        viewModel.updateUser(it, ::onUserUpdatedCallback)
+                    }
+                } else {
+                    showAlert(getString(R.string.empty_experience_field), getString(R.string.empty_experience_field_message))
+                }
+
             }
 
+        }
+    }
+
+    private fun validateForm() {
+        with(binding) {
+            experienceTextInput.helperText = viewModel.validateExperienceField(experienceEt.text.toString())
         }
     }
 

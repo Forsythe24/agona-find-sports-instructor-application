@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.solopov.instructors.R
 import com.solopov.instructors.databinding.ItemInstructorBinding
 
-class InstructorViewHolder (
+class InstructorViewHolder(
     private val viewBinding: ItemInstructorBinding,
     private val showImage: (url: String, imageView: ImageView) -> Unit,
     private val onItemClicked: (InstructorsAdapter.ListItem) -> Unit,
@@ -13,14 +13,21 @@ class InstructorViewHolder (
 ) : ViewHolder(viewBinding.root) {
 
     fun bindItem(instructor: InstructorsAdapter.ListItem) {
-        with (viewBinding) {
+        with(viewBinding) {
             with(instructor) {
                 nameTv.text = name
-                hourlyRateTv.text = root.context.getString(R.string.hourly_rate_template).format(hourlyRate)
+                hourlyRateTv.text =
+                    getStringCallback(R.string.hourly_rate_template).format(hourlyRate)
                 ratingTv.text = getStringCallback(R.string.rating_template).format(rating)
-                numberOfRatingsTv.text = getStringCallback(R.string.number_of_ratings_template).format(numberOfRatings)
+                numberOfRatingsTv.text =
+                    getStringCallback(R.string.number_of_ratings_template).format(numberOfRatings)
+
+                experienceTv.text = experience
+
+                instructorInfoTv.text =
+                    getStringCallback(R.string.instructor_info_template).format(gender, age)
+
                 descriptionTv.text = description
-                instructorInfoTv.text = instructorInfo.format(experience, gender, age)
 
                 if (photo.isNotEmpty()) {
                     showImage(photo, instructorIv)
@@ -32,9 +39,4 @@ class InstructorViewHolder (
             }
         }
     }
-
-    companion object {
-        private const val instructorInfo = "%s, %s, %d"
-    }
-
 }
