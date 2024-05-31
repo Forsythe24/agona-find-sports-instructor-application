@@ -36,10 +36,9 @@ interface SportApi {
         @Body credentials: CredentialsRemote
     ): Response<Boolean>
 
-    @POST("user/verify")
-    suspend fun u(
-        @Body credentials: CredentialsRemote
-    ): Boolean
+    @GET("user/delete")
+    suspend fun deleteUser(
+    ): Response<Boolean>
 
     @GET("instructors/{id}")
     suspend fun getInstructorsBySportId(

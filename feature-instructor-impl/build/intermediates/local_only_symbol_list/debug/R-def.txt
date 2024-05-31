@@ -11,6 +11,7 @@ drawable lionel_messi
 drawable search_view_background
 drawable tab_indicator
 id description_tv
+id experience_tv
 id hourly_rate_tv
 id instructor_info_tv
 id instructor_iv
@@ -36,6 +37,7 @@ string football
 string handball
 string hello_blank_fragment
 string hockey
+string instructor_info_short_template
 string instructors
 string no_instructors_found
 string unknown_error_occurred

@@ -21,10 +21,8 @@ import java.net.URI
 import javax.inject.Inject
 
 class ChatRemoteDao @Inject constructor(
-    private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val resManager: ResourceManager,
     private val api: SportApi,
-    private val networkProperties: NetworkProperties,
 ) : PagingSource<DataSnapshot, MessageRemote>() {
 
     suspend fun createMessage(

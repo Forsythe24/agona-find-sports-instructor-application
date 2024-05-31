@@ -101,6 +101,7 @@ class ChatViewModel(
             }.onSuccess {
                 _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
             }.onFailure {
+                println(it)
                 errorsChannel.send(it)
             }
         }

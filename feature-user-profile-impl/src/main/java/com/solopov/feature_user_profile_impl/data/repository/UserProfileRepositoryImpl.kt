@@ -35,5 +35,9 @@ class UserProfileRepositoryImpl @Inject constructor (
     override suspend fun verifyCredentials(password: String): Boolean {
         return userRemoteDao.verifyCredentials(password)
     }
+
+    override suspend fun deleteProfile(): Boolean {
+        return userRemoteDao.deleteProfile()
+    }
 }
 

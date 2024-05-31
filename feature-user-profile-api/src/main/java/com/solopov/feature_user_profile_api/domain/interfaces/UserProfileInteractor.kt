@@ -66,4 +66,10 @@ class  UserProfileInteractor(
         }
     }
 
+    suspend fun deleteProfile(): Boolean {
+        return withContext(dispatcher) {
+            userProfileRepository.deleteProfile()
+        }
+    }
+
 }

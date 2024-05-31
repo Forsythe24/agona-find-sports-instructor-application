@@ -3,26 +3,35 @@ package com.solopov.feature_user_profile_impl.presentation.user_profile
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RatingBar.OnRatingBarChangeListener
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.solopov.com.solopov.feature_user_profile_impl.R
 import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentUserProfileBinding
 import com.solopov.common.base.BaseFragment
+import com.solopov.common.base.view.ProgressButton
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.Constants.READ_EXTERNAL_STORAGE_REQUEST_CODE
@@ -30,20 +39,17 @@ import com.solopov.common.utils.Constants.READ_MEDIA_IMAGES_REQUEST_CODE
 import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
 import com.solopov.common.utils.ParamsKey.USER_ID_KEY
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
-import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.RatingUi
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.flow.receiveAsFlow
-import javax.inject.Inject
 
 
 class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
-
     private lateinit var binding: FragmentUserProfileBinding
-
-    @Inject
-    lateinit var userMappers: UserMappers
+    private lateinit var dialog: Dialog
+    private lateinit var deleteButton: MaterialButton
+    private lateinit var cancelButton: MaterialButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -97,6 +103,11 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 viewModel.userProfileFlow.value?.let {
                     viewModel.goToEditingProfile(it)
                 }
+            }
+
+            deleteProfileBtn.setOnClickListener {
+                initDialogViews()
+                showCurrentPasswordInputDialog()
             }
 
             sendMessageBtn.setOnClickListener {
@@ -153,6 +164,27 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     }
 
+    private fun initDialogViews() {
+        dialog = Dialog(requireContext())
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_delete_profile)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        deleteButton = dialog.findViewById(R.id.delete_btn)
+        cancelButton = dialog.findViewById(R.id.cancel_button)
+    }
+
+    private fun showCurrentPasswordInputDialog() {
+        dialog.show()
+
+        deleteButton.setOnClickListener {
+            viewModel.deleteProfile(::onProfileDeleted)
+        }
+
+        cancelButton.setOnClickListener {
+            dialog.hide()
+        }
+    }
+
 
     override fun inject() {
         FeatureUtils.getFeature<UserProfileFeatureComponent>(
@@ -203,6 +235,16 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun onProfileDeleted() {
+        dialog.hide()
+        viewModel.goToLogInScreen()
+        Snackbar.make(
+            binding.root,
+            getString(R.string.profile_deleted_successfully),
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     private fun addRating(currentRating: Float) {
@@ -280,8 +322,8 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         ) {
             val message = getString(R.string.grant_message)
             Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).setAction(
-                    getString(R.string.allow).uppercase()
-                ) { requestPerms() }.show()
+                getString(R.string.allow).uppercase()
+            ) { requestPerms() }.show()
         } else {
             requestPerms()
         }
@@ -340,7 +382,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             setCurrentUserProfileHeader()
         }
     }
-    
+
     private fun setCurrentUserProfileHeader() {
         binding.profileTv.text = getString(R.string.your_profile)
     }
@@ -365,6 +407,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
         with(binding) {
             editBtn.visibility = GONE
             imageSearchIv.visibility = GONE
+            deleteProfileBtn.visibility = GONE
         }
 
     }

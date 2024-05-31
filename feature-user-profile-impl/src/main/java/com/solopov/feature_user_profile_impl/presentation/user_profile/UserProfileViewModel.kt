@@ -77,6 +77,18 @@ class UserProfileViewModel(
         }
     }
 
+    fun deleteProfile(onProfileDeletedCallback: () -> Unit) {
+        viewModelScope.launch {
+            runCatching(exceptionHandlerDelegate) {
+                interactor.deleteProfile()
+            }.onSuccess {
+                onProfileDeletedCallback()
+            }.onFailure {
+                errorsChannel.send(it)
+            }
+        }
+    }
+
     fun setCurrentUserProfile() {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
@@ -195,6 +207,10 @@ class UserProfileViewModel(
     }
     fun openChat(chat: ChatCommon) {
         router.goFromUserProfileToChat(chat)
+    }
+
+    fun goToLogInScreen() {
+        router.goFromUserProfileToLogInScreen()
     }
 
     override fun onCleared() {

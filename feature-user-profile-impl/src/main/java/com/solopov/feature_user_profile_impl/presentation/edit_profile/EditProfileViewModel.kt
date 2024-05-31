@@ -3,6 +3,7 @@ package com.solopov.feature_user_profile_impl.presentation.edit_profile
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.utils.ExceptionHandlerDelegate
+import com.solopov.common.utils.UserDataValidator
 import com.solopov.common.utils.runCatching
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
 import com.solopov.feature_user_profile_impl.UserProfileRouter
@@ -19,6 +20,7 @@ class EditProfileViewModel @Inject constructor(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val mappers: UserMappers,
     private val router: UserProfileRouter,
+    private val userDataValidator: UserDataValidator,
 ) : BaseViewModel() {
 
     private val _editProfileFlow = MutableStateFlow<UserProfile?>(null)
@@ -90,6 +92,19 @@ class EditProfileViewModel @Inject constructor(
             }
         }
     }
+
+    fun validateAge(text: String): String? {
+        return userDataValidator.validateAge(text)
+    }
+
+    fun validateName(text: String): String? {
+        return userDataValidator.validateName(text)
+    }
+
+    fun validatePassword(text: String): String? {
+        return userDataValidator.validatePassword(text)
+    }
+
 
     fun goBack() {
         router.goBack()

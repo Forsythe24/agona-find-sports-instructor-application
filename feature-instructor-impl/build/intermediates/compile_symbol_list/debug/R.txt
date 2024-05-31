@@ -1170,6 +1170,8 @@ int color background_floating_material_light 0x0
 int color background_material_dark 0x0
 int color background_material_light 0x0
 int color black 0x0
+int color black_75 0x0
+int color black_BB 0x0
 int color blueberry_button_text_color_selector 0x0
 int color bright_foreground_disabled_material_dark 0x0
 int color bright_foreground_disabled_material_light 0x0
@@ -1258,10 +1260,10 @@ int color error_color_material_dark 0x0
 int color error_color_material_light 0x0
 int color foreground_material_dark 0x0
 int color foreground_material_light 0x0
+int color gray 0x0
 int color green 0x0
 int color highlighted_text_material_dark 0x0
 int color highlighted_text_material_light 0x0
-int color lightGrey 0x0
 int color m3_appbar_overlay_color 0x0
 int color m3_assist_chip_icon_tint_color 0x0
 int color m3_assist_chip_stroke_color 0x0
@@ -1754,8 +1756,6 @@ int color secondary_text_default_material_light 0x0
 int color secondary_text_disabled_material_dark 0x0
 int color secondary_text_disabled_material_light 0x0
 int color snow 0x0
-int color subtleBlack 0x0
-int color subtleWhite 0x0
 int color subtle_black 0x0
 int color switch_thumb_disabled_material_dark 0x0
 int color switch_thumb_disabled_material_light 0x0
@@ -1772,6 +1772,7 @@ int color tooltip_background_dark 0x0
 int color tooltip_background_light 0x0
 int color vividCerulean 0x0
 int color white 0x0
+int color white_75 0x0
 int dimen abc_action_bar_content_inset_material 0x0
 int dimen abc_action_bar_content_inset_with_nav 0x0
 int dimen abc_action_bar_default_height_material 0x0
@@ -2341,7 +2342,7 @@ int dimen notification_small_icon_size_as_large 0x0
 int dimen notification_subtext_size 0x0
 int dimen notification_top_pad 0x0
 int dimen notification_top_pad_large_text 0x0
-int dimen screen_heading_text_size 0x0
+int dimen screen_header_text_size 0x0
 int dimen splashscreen_icon_mask_size_no_background 0x0
 int dimen splashscreen_icon_mask_size_with_background 0x0
 int dimen splashscreen_icon_mask_stroke_no_background 0x0
@@ -2747,6 +2748,7 @@ int id end 0x0
 int id endToStart 0x0
 int id expand_activities_button 0x0
 int id expanded_menu 0x0
+int id experience_tv 0x0
 int id fade 0x0
 int id fill 0x0
 int id filled 0x0
@@ -3326,6 +3328,7 @@ int string exposed_dropdown_menu_content_description 0x0
 int string fab_transformation_scrim_behavior 0x0
 int string fab_transformation_sheet_behavior 0x0
 int string failed_save_message_exception 0x0
+int string failed_to_connect_to_server_exception 0x0
 int string failed_to_rate_this_user 0x0
 int string failed_to_retrieve_chat_data 0x0
 int string failed_to_update_your_password 0x0
@@ -3353,6 +3356,7 @@ int string icon_content_description 0x0
 int string id 0x0
 int string instructor 0x0
 int string instructor_info_sample 0x0
+int string instructor_info_short_template 0x0
 int string instructor_info_template 0x0
 int string instructor_lower 0x0
 int string instructors 0x0
@@ -3493,6 +3497,7 @@ int string sport_lower 0x0
 int string status_bar_notification_info_overflow 0x0
 int string text 0x0
 int string this_user_does_not_exist_exception 0x0
+int string try_again_later 0x0
 int string unauthorized_exception 0x0
 int string unknown_error 0x0
 int string unknown_error_occurred 0x0

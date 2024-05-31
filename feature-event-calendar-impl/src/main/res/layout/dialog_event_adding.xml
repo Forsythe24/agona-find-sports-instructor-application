@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="420dp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/snow"
+    android:backgroundTint="?attr/backgroundColor"
     app:cardCornerRadius="32dp"
-    app:cardElevation="16dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:cardElevation="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,7 +21,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/inter_bold"
             android:text="@string/let_s_schedule"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -139,14 +143,14 @@
 
         <nl.joery.timerangepicker.TimeRangePicker
             android:id="@+id/picker"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="200dp"
             app:trp_startTime="12:00"
             app:trp_endTime="14:00"
-            app:trp_thumbColor="@color/colorAccent"
-            app:trp_sliderRangeColor="@color/colorPrimary"
-            app:trp_clockTickColor="@color/colorPrimary"
-            app:trp_clockLabelColor="@color/colorPrimaryDark"
+            app:trp_thumbColor="?attr/colorAccent"
+            app:trp_sliderRangeColor="?attr/colorPrimary"
+            app:trp_clockTickColor="?attr/colorPrimary"
+            app:trp_clockLabelColor="?attr/colorPrimaryDark"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/time_tv"
             app:layout_constraintStart_toStartOf="parent"
@@ -180,3 +184,4 @@
             app:enabled="true"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
+</ScrollView>

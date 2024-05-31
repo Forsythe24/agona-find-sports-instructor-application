@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.textfield.TextInputEditText;
@@ -23,7 +23,7 @@ import java.lang.String;
 
 public final class FragmentSignUpBinding implements ViewBinding {
   @NonNull
-  private final ConstraintLayout rootView;
+  private final ScrollView rootView;
 
   @NonNull
   public final TextInputEditText ageEt;
@@ -85,17 +85,16 @@ public final class FragmentSignUpBinding implements ViewBinding {
   @NonNull
   public final TextView signUpTv;
 
-  private FragmentSignUpBinding(@NonNull ConstraintLayout rootView,
-      @NonNull TextInputEditText ageEt, @NonNull TextInputLayout ageTextInput,
-      @NonNull TextView ageTv, @NonNull AppCompatImageButton backBtn,
-      @NonNull TextView createAccountTv, @NonNull TextInputEditText emailEt,
-      @NonNull TextInputLayout emailTextInput, @NonNull TextView emailTv,
-      @NonNull RadioButton femaleRb, @NonNull ProgressButton finishSignUpBtn,
-      @NonNull RadioGroup genderRg, @NonNull TextView genderTv, @NonNull RadioButton maleRb,
-      @NonNull TextInputEditText nameEt, @NonNull TextInputLayout nameTextInput,
-      @NonNull TextView nameTv, @NonNull TextInputEditText passwordEt,
-      @NonNull TextInputLayout passwordTextInput, @NonNull TextView passwordTv,
-      @NonNull TextView signUpTv) {
+  private FragmentSignUpBinding(@NonNull ScrollView rootView, @NonNull TextInputEditText ageEt,
+      @NonNull TextInputLayout ageTextInput, @NonNull TextView ageTv,
+      @NonNull AppCompatImageButton backBtn, @NonNull TextView createAccountTv,
+      @NonNull TextInputEditText emailEt, @NonNull TextInputLayout emailTextInput,
+      @NonNull TextView emailTv, @NonNull RadioButton femaleRb,
+      @NonNull ProgressButton finishSignUpBtn, @NonNull RadioGroup genderRg,
+      @NonNull TextView genderTv, @NonNull RadioButton maleRb, @NonNull TextInputEditText nameEt,
+      @NonNull TextInputLayout nameTextInput, @NonNull TextView nameTv,
+      @NonNull TextInputEditText passwordEt, @NonNull TextInputLayout passwordTextInput,
+      @NonNull TextView passwordTv, @NonNull TextView signUpTv) {
     this.rootView = rootView;
     this.ageEt = ageEt;
     this.ageTextInput = ageTextInput;
@@ -121,7 +120,7 @@ public final class FragmentSignUpBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public ConstraintLayout getRoot() {
+  public ScrollView getRoot() {
     return rootView;
   }
 
@@ -266,9 +265,9 @@ public final class FragmentSignUpBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentSignUpBinding((ConstraintLayout) rootView, ageEt, ageTextInput, ageTv,
-          backBtn, createAccountTv, emailEt, emailTextInput, emailTv, femaleRb, finishSignUpBtn,
-          genderRg, genderTv, maleRb, nameEt, nameTextInput, nameTv, passwordEt, passwordTextInput,
+      return new FragmentSignUpBinding((ScrollView) rootView, ageEt, ageTextInput, ageTv, backBtn,
+          createAccountTv, emailEt, emailTextInput, emailTv, femaleRb, finishSignUpBtn, genderRg,
+          genderTv, maleRb, nameEt, nameTextInput, nameTv, passwordEt, passwordTextInput,
           passwordTv, signUpTv);
     }
     String missingId = rootView.getResources().getResourceName(id);

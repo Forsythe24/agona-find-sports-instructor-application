@@ -13,6 +13,7 @@ import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -90,7 +91,6 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
             eventListFlow.observe { eventList ->
                 eventList?.let {
                     updateEventList(it)
-//                    binding.eventRv.scrollToPosition(0)
                 }
             }
 
@@ -281,6 +281,8 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
 
         setUpTimeRangePicker()
 
+        dialog.window?.setLayout(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT)
+
         dialog.setOnCancelListener {
             clearDialogViews()
         }
@@ -365,13 +367,13 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
     }
 
     private fun getTimeRangeString(startTime: Int, endTime: Int): String {
-        return String.format("%s-%s", convertMinutesToHHmm(startTime), convertMinutesToHHmm(endTime))
+        return String.format(getString(R.string.time_range_template), convertMinutesToHHmm(startTime), convertMinutesToHHmm(endTime))
     }
 
     private fun convertMinutesToHHmm(minutesTotalNumber: Int): String {
         val hours = minutesTotalNumber / 60
         val minutes = minutesTotalNumber % 60
-        return String.format("%02d:%02d", hours, minutes)
+        return String.format(getString(R.string.time_template), hours, minutes)
     }
 
 

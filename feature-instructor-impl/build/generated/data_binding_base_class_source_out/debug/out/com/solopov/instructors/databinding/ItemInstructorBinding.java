@@ -25,6 +25,9 @@ public final class ItemInstructorBinding implements ViewBinding {
   public final TextView descriptionTv;
 
   @NonNull
+  public final TextView experienceTv;
+
+  @NonNull
   public final TextView hourlyRateTv;
 
   @NonNull
@@ -49,11 +52,13 @@ public final class ItemInstructorBinding implements ViewBinding {
   public final TextView ratingTv;
 
   private ItemInstructorBinding(@NonNull ConstraintLayout rootView, @NonNull TextView descriptionTv,
-      @NonNull TextView hourlyRateTv, @NonNull TextView instructorInfoTv,
-      @NonNull ImageView instructorIv, @NonNull ConstraintLayout itemCl, @NonNull CardView itemCv,
-      @NonNull TextView nameTv, @NonNull TextView numberOfRatingsTv, @NonNull TextView ratingTv) {
+      @NonNull TextView experienceTv, @NonNull TextView hourlyRateTv,
+      @NonNull TextView instructorInfoTv, @NonNull ImageView instructorIv,
+      @NonNull ConstraintLayout itemCl, @NonNull CardView itemCv, @NonNull TextView nameTv,
+      @NonNull TextView numberOfRatingsTv, @NonNull TextView ratingTv) {
     this.rootView = rootView;
     this.descriptionTv = descriptionTv;
+    this.experienceTv = experienceTv;
     this.hourlyRateTv = hourlyRateTv;
     this.instructorInfoTv = instructorInfoTv;
     this.instructorIv = instructorIv;
@@ -94,6 +99,12 @@ public final class ItemInstructorBinding implements ViewBinding {
       id = R.id.description_tv;
       TextView descriptionTv = ViewBindings.findChildViewById(rootView, id);
       if (descriptionTv == null) {
+        break missingId;
+      }
+
+      id = R.id.experience_tv;
+      TextView experienceTv = ViewBindings.findChildViewById(rootView, id);
+      if (experienceTv == null) {
         break missingId;
       }
 
@@ -145,8 +156,9 @@ public final class ItemInstructorBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemInstructorBinding((ConstraintLayout) rootView, descriptionTv, hourlyRateTv,
-          instructorInfoTv, instructorIv, itemCl, itemCv, nameTv, numberOfRatingsTv, ratingTv);
+      return new ItemInstructorBinding((ConstraintLayout) rootView, descriptionTv, experienceTv,
+          hourlyRateTv, instructorInfoTv, instructorIv, itemCl, itemCv, nameTv, numberOfRatingsTv,
+          ratingTv);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

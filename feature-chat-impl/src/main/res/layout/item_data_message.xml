@@ -11,13 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         app:cardCornerRadius="48dp"
-        android:backgroundTint="@color/intenseBlack"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_marginBottom="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorOnPrimary"
+            android:background="@color/gray"
             android:fontFamily="@font/inter_semibold"
             android:text="@string/chat_date_sample"
             android:gravity="center"

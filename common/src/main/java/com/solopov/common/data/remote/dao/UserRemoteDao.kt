@@ -28,7 +28,6 @@ import java.util.Locale
 import javax.inject.Inject
 
 class UserRemoteDao @Inject constructor(
-    private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val resManager: ResourceManager,
     private val storage: FirebaseStorage,
     private val api: SportApi,
@@ -114,6 +113,15 @@ class UserRemoteDao @Inject constructor(
             500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
             503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
             404 -> throw UserException.UserNotFound(resManager.getString(R.string.user_not_found_exception))
+            else -> return response.body()!!
+        }
+    }
+
+    suspend fun deleteProfile(): Boolean {
+        val response = api.deleteUser()
+        when (response.code()) {
+            500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
+            503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
             else -> return response.body()!!
         }
     }

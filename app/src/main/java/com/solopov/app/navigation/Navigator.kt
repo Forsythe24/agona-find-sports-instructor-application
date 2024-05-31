@@ -87,6 +87,11 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter, 
         navController?.navigate(R.id.action_userProfileFragment_to_chatFragment, bundleOf(CHAT_KEY to chat))
     }
 
+    override fun goFromUserProfileToLogInScreen() {
+        navController?.navigate(R.id.action_userProfileFragment_to_logInFragment)
+
+    }
+
     override fun goBack() {
         navController?.popBackStack()
     }

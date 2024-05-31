@@ -53,7 +53,7 @@
     <string name="email_in_use">The email address is already in use by another account</string>
     <string name="invalid_user">Invalid user</string>
 
-    <string name="description_sample">Hi! I\'m Ross Geller. My way of learning is to never give up! Me and you are gonna have so much fun training! I have a major experience in swimming which is going to make your training sessions a pleasure! SampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSample</string>
+    <string name="description_sample">Hi! I\'m Ross Geller. My way of learning is to never give up! Me and you are gonna have so much fun training! I have major experience in swimming which is going to make your training sessions a pleasure! SampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSampleSample</string>
     <string name="instructor_info_sample">Won a world cup, have 8 Ballon d\'Ors. Male, 36</string>
     <string name="hourly_rate_sample">20 $</string>
     <string name="number_of_ratings_sample">(0)</string>
@@ -123,7 +123,9 @@
     <string name="email_already_in_use_exception">User with such email already exists</string>
     <string name="failed_to_retrieve_chat_data">Failed to retrieve chat data</string>
     <string name="firebase_connection_failed_exception">Remote service has failed due to network error. Inspect the device\'s network connectivity state or retry later to resolve</string>
-    <string name="socket_connection_timeout_exception">HTTP failed: failed to connect to server after 10 seconds</string>
+    <string name="socket_connection_timeout_exception">Failed to connect to server after 10 seconds. Try again later</string>
+    <string name="try_again_later">\nTry again later</string>
+    <string name="failed_to_connect_to_server_exception">Failed to connect to the server.\nCheck the device\'s connection</string>
 
     <string-array name="sports_types">
         <item>Football</item>

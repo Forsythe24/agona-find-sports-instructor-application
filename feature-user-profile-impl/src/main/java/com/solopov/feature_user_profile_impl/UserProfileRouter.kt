@@ -9,4 +9,5 @@ interface UserProfileRouter {
     fun goBack()
     fun goToEditingProfile(userProfile: UserProfile)
     fun goFromUserProfileToChat(chat: ChatCommon)
+    fun goFromUserProfileToLogInScreen()
 }

@@ -2,14 +2,16 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.SportsInstructorApp">
-
+        <item name="android:textColorPrimary">@color/black_BB</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="background">@color/snow</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:textColorPrimary">@color/colorTextPrimary</item>
-        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
-
+        <item name="colorSurface">@color/white</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="colorOnSecondary">@color/black_BB</item>
+        <item name="backgroundColor">@color/snow</item>
         <item name="android:colorEdgeEffect">@color/colorPrimary</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -51,7 +53,7 @@
 
     <!-- Button -->
     <style name="DefaultButton">
-        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="textAllCaps">true</item>
         <item name="cornerRadius">8dp</item>
     </style>

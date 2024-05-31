@@ -51,4 +51,8 @@
     <string name="grant_message">Give our app access to your media to set profile image. You can do it later in settings</string>
     <string name="profile">Profile</string>
     <string name="your_profile">Your Profile</string>
+    <string name="delete_profile">Delete profile</string>
+    <string name="profile_deleted_successfully">Your profile has been successfully deleted</string>
+    <string name="delete">delete</string>
+    <string name="delete_profile_question">Are you sure you want to delete your profile? Once you do it there is no way back</string>
 </resources>

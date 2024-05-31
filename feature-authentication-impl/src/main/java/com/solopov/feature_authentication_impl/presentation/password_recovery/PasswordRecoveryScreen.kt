@@ -169,7 +169,7 @@ fun BackIconButton(
 
     IconButton(
         onClick = onClick,
-        modifier = Modifier.size(width = 120.dp, height = 120.dp),
+        modifier = Modifier.size(width = 80.dp, height = 80.dp),
         content = {
             Icon(painter = icon, contentDescription = null)
         },

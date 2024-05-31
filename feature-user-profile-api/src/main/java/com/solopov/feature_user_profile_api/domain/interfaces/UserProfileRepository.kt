@@ -9,4 +9,5 @@ interface UserProfileRepository {
     suspend fun updateUserPassword(password: String)
     suspend fun uploadProfileImage(imageUri: String): String
     suspend fun verifyCredentials(password: String): Boolean
+    suspend fun deleteProfile(): Boolean
 }

@@ -4,10 +4,10 @@ package com.solopov.feature_authentication_impl.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.textfield.TextInputEditText;
@@ -20,7 +20,7 @@ import java.lang.String;
 
 public final class FragmentLogInBinding implements ViewBinding {
   @NonNull
-  private final ConstraintLayout rootView;
+  private final ScrollView rootView;
 
   @NonNull
   public final TextInputEditText emailEt;
@@ -58,13 +58,13 @@ public final class FragmentLogInBinding implements ViewBinding {
   @NonNull
   public final TextView signupLnk;
 
-  private FragmentLogInBinding(@NonNull ConstraintLayout rootView,
-      @NonNull TextInputEditText emailEt, @NonNull TextInputLayout emailTextInput,
-      @NonNull TextView emailTv, @NonNull TextView forgotPasswordLnk,
-      @NonNull TextView haveAccountQuestionTv, @NonNull ProgressButton logInBtn,
-      @NonNull TextView logInIntoAccountTv, @NonNull TextView logInTv,
-      @NonNull TextInputEditText passwordEt, @NonNull TextInputLayout passwordTextInput,
-      @NonNull TextView passwordTv, @NonNull TextView signupLnk) {
+  private FragmentLogInBinding(@NonNull ScrollView rootView, @NonNull TextInputEditText emailEt,
+      @NonNull TextInputLayout emailTextInput, @NonNull TextView emailTv,
+      @NonNull TextView forgotPasswordLnk, @NonNull TextView haveAccountQuestionTv,
+      @NonNull ProgressButton logInBtn, @NonNull TextView logInIntoAccountTv,
+      @NonNull TextView logInTv, @NonNull TextInputEditText passwordEt,
+      @NonNull TextInputLayout passwordTextInput, @NonNull TextView passwordTv,
+      @NonNull TextView signupLnk) {
     this.rootView = rootView;
     this.emailEt = emailEt;
     this.emailTextInput = emailTextInput;
@@ -82,7 +82,7 @@ public final class FragmentLogInBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public ConstraintLayout getRoot() {
+  public ScrollView getRoot() {
     return rootView;
   }
 
@@ -179,7 +179,7 @@ public final class FragmentLogInBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentLogInBinding((ConstraintLayout) rootView, emailEt, emailTextInput, emailTv,
+      return new FragmentLogInBinding((ScrollView) rootView, emailEt, emailTextInput, emailTv,
           forgotPasswordLnk, haveAccountQuestionTv, logInBtn, logInIntoAccountTv, logInTv,
           passwordEt, passwordTextInput, passwordTv, signupLnk);
     }

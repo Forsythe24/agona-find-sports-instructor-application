@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.ExceptionHandlerDelegate
+import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
@@ -37,7 +38,8 @@ class EditProfileModule {
         exceptionHandlerDelegate: ExceptionHandlerDelegate,
         userMappers: UserMappers,
         router: UserProfileRouter,
+        userDataValidator: UserDataValidator,
     ): ViewModel {
-        return EditProfileViewModel(interactor, exceptionHandlerDelegate, userMappers, router)
+        return EditProfileViewModel(interactor, exceptionHandlerDelegate, userMappers, router, userDataValidator)
     }
 }

@@ -11,6 +11,7 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -20,31 +21,23 @@ import com.solopov.common.base.BaseFragment
 import com.solopov.common.base.view.ProgressButton
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.ParamsKey
-import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.flow.receiveAsFlow
-import javax.inject.Inject
 
 
 class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
     private lateinit var binding: FragmentEditProfileBinding
 
-    @Inject
-    lateinit var userDataValidator: UserDataValidator
-
     private var currentUser: UserProfile? = null
     private lateinit var dialog: Dialog
-
     private lateinit var dialogButton: ProgressButton
     private lateinit var passwordEt: TextInputEditText
     private lateinit var passwordTextInput: TextInputLayout
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -64,8 +57,8 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
             saveBtn.setOnClickListener {
 
-                ageTextInput.helperText = userDataValidator.validateAge(ageEt.text.toString())
-                nameTextInput.helperText = userDataValidator.validateName(nameEt.text.toString())
+                ageTextInput.helperText = viewModel.validateAge(ageEt.text.toString())
+                nameTextInput.helperText = viewModel.validateName(nameEt.text.toString())
 
                 if (isValidForm()) {
                     currentUser?.let {
@@ -113,12 +106,17 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
-        dialog.setContentView(R.layout.password_setting_dialog)
+        dialog.setContentView(R.layout.dialog_password_setting)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         dialogButton = dialog.findViewById(R.id.take_user_data_btn)
         passwordEt = dialog.findViewById(R.id.password_et)
         passwordTextInput = dialog.findViewById(R.id.password_text_input)
+
+        dialog.window?.setLayout(
+            LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+            LinearLayoutCompat.LayoutParams.MATCH_PARENT
+        )
     }
 
 
@@ -128,9 +126,7 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
         dialogButton.setOnClickListener {
             currentUser?.let {
                 viewModel.verifyCredentials(
-                    passwordEt.text.toString(),
-                    ::onCorrectPassword,
-                    ::onWrongPassword
+                    passwordEt.text.toString(), ::onCorrectPassword, ::onWrongPassword
                 )
             }
         }
@@ -157,7 +153,7 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
         dialogButton.setOnClickListener {
             val potentialNewPassword = passwordEt.text.toString()
-            passwordTextInput.helperText = userDataValidator.validatePassword(potentialNewPassword)
+            passwordTextInput.helperText = viewModel.validatePassword(potentialNewPassword)
             if (passwordTextInput.helperText.isNullOrEmpty()) {
                 currentUser?.let {
                     viewModel.updateUserPassword(potentialNewPassword, ::onPasswordChangedCallback)
@@ -186,12 +182,8 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
     override fun inject() {
         FeatureUtils.getFeature<UserProfileFeatureComponent>(
-            this,
-            UserProfileFeatureApi::class.java
-        )
-            .editProfileComponentFactory()
-            .create(this)
-            .inject(this)
+            this, UserProfileFeatureApi::class.java
+        ).editProfileComponentFactory().create(this).inject(this)
     }
 
     override fun subscribe(viewModel: EditProfileViewModel) {

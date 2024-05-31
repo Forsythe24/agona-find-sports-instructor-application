@@ -34,7 +34,6 @@ class ProgressButton @JvmOverloads constructor(
             0
         )
 
-        R.styleable.ActionBar_background
         val buttonText = arr.getString(R.styleable.ProgressButton_text)
         val loading = arr.getBoolean(R.styleable.ProgressButton_loading, false)
         val enabled = arr.getBoolean(R.styleable.ProgressButton_enabled, true)
@@ -45,7 +44,6 @@ class ProgressButton @JvmOverloads constructor(
         buttonTextView.isEnabled = enabled
         setText(buttonText)
         progressBar.setAnimation(lottieResId)
-//        progressBar.setAnimationFromUrl("https://lottie.host/127f4dc2-63bb-4f04-bd4f-cb3cb09d514d/irrcB6Baq7.json")
         setLoading(loading)
     }
 

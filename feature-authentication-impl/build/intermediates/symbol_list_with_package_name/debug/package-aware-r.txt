@@ -1171,6 +1171,8 @@ color background_floating_material_light
 color background_material_dark
 color background_material_light
 color black
+color black_75
+color black_BB
 color blueberry_button_text_color_selector
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
@@ -1259,10 +1261,10 @@ color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
 color foreground_material_light
+color gray
 color green
 color highlighted_text_material_dark
 color highlighted_text_material_light
-color lightGrey
 color m3_appbar_overlay_color
 color m3_assist_chip_icon_tint_color
 color m3_assist_chip_stroke_color
@@ -1755,8 +1757,6 @@ color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
 color snow
-color subtleBlack
-color subtleWhite
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
 color switch_thumb_material_dark
@@ -1774,6 +1774,7 @@ color vector_tint_color
 color vector_tint_theme_color
 color vividCerulean
 color white
+color white_75
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
 dimen abc_action_bar_default_height_material
@@ -2343,7 +2344,7 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
-dimen screen_heading_text_size
+dimen screen_header_text_size
 dimen splashscreen_icon_mask_size_no_background
 dimen splashscreen_icon_mask_size_with_background
 dimen splashscreen_icon_mask_stroke_no_background
@@ -3343,6 +3344,7 @@ string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string failed_save_message_exception
+string failed_to_connect_to_server_exception
 string failed_to_rate_this_user
 string failed_to_retrieve_chat_data
 string failed_to_update_your_password
@@ -3583,6 +3585,7 @@ string text
 string this_user_does_not_exist_exception
 string tooltip_description
 string tooltip_label
+string try_again_later
 string type_in_email_used_for_registration
 string unauthorized_exception
 string unknown_error
