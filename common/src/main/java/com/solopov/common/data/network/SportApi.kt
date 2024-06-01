@@ -3,6 +3,7 @@ package com.solopov.common.data.network
 import com.solopov.common.data.network.model.ChatRemote
 import com.solopov.common.data.network.model.CredentialsRemote
 import com.solopov.common.data.network.model.MessageRemote
+import com.solopov.common.data.network.model.RefreshJwtRequestDto
 import com.solopov.common.data.network.model.UserRemote
 import retrofit2.Response
 import retrofit2.http.Body
@@ -73,4 +74,7 @@ interface SportApi {
     suspend fun getLastMessageByChatId(
         @Path("id") id: String
     ): Response<MessageRemote>
+
+    @POST("auth/token")
+    suspend fun logOut(@Body refreshJwtRequestDto: RefreshJwtRequestDto): Response<Unit>
 }

@@ -27,7 +27,4 @@ interface AuthService {
     suspend fun sendPassword(
         @Body user: SendNewPasswordOnEmailRequestDto
     ): Response<ResponseBody>
-
-    @POST("auth/token")
-    suspend fun logOut(@Body refreshJwtRequestDto: RefreshJwtRequestDto): Response<Unit>
 }

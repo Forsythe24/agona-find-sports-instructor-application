@@ -23,15 +23,12 @@ class PasswordRecoveryViewModel @Inject constructor(
     private val _state = MutableStateFlow(Boolean)
     val state = _state.asStateFlow()
 
-    private val _progressBarFlow = MutableStateFlow(false)
-    val progressBarFlow = _state.asStateFlow()
-
-    fun sendNewPassword(email: String) {
+    fun sendNewPassword(email: String, onPasswordSentCallback: (String) -> Unit) {
         viewModelScope.launch {
             runCatching(exceptionHandlerDelegate) {
                 interactor.sendNewPassword(email)
             }.onSuccess {
-
+                onPasswordSentCallback(email)
             }.onFailure {
                 errorsChannel.send(it)
             }
@@ -46,6 +43,4 @@ class PasswordRecoveryViewModel @Inject constructor(
         errorsChannel.close()
         super.onCleared()
     }
-
-    class FirstState
 }

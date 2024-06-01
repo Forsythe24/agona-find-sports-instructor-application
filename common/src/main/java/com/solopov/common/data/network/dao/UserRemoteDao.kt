@@ -197,7 +197,7 @@ class UserRemoteDao @Inject constructor(
         if (token == null) {
             throw HttpException.UnauthorizedException(resManager.getString(R.string.unauthorized_exception))
         } else {
-            val response = authService.logOut(RefreshJwtRequestDto(token))
+            val response = api.logOut(RefreshJwtRequestDto(token))
             when (response.code()) {
                 500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
                 503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
