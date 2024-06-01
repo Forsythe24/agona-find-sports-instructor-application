@@ -44,8 +44,6 @@ class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
             )
         )
         composeView.setContent {
-            val errorsState by viewModel.errorsChannel.receiveAsFlow().collectAsState(null)
-            val state by viewModel.state.collectAsState()
             PasswordRecoveryScreen(
                 onSendClicked = ::sendNewPasswordOnEmail,
                 onBackClicked = { viewModel.goBack() },
@@ -55,14 +53,10 @@ class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
     }
 
     private fun sendNewPasswordOnEmail(email: String) {
-        viewModel.sendNewPassword(email)
-
-        Toast.makeText(requireContext(), getString(R.string.new_password_sent_template).format(email), Toast.LENGTH_LONG).show()
+        viewModel.sendNewPassword(email, ::onPasswordSent)
     }
 
-    override fun initViews() {
-
-    }
+    override fun initViews() {}
 
 
     override fun inject() {
@@ -82,6 +76,10 @@ class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
         }
 
         viewModel.state.observe { }
+    }
+
+    private fun onPasswordSent(email: String) {
+        Toast.makeText(requireContext(), getString(R.string.new_password_sent_template).format(email), Toast.LENGTH_LONG).show()
     }
 
 }

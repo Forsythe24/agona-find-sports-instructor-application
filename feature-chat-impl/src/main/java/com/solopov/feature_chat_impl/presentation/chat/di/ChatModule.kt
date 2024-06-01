@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.data.remote.jwt.JwtManager
+import com.solopov.common.data.network.jwt.JwtManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.DateFormatter

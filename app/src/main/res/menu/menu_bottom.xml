@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/instructorsFragment"
-        android:icon="@drawable/baseline_sports_24"
+        android:icon="@drawable/ic_whistle"
         android:title="@string/instructors" />
     <item
         android:id="@+id/eventCalendarFragment"

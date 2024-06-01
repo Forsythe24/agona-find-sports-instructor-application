@@ -8,8 +8,8 @@ import com.google.gson.Gson
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.data.remote.jwt.JwtManager
-import com.solopov.common.data.remote.model.MessageRemote
+import com.solopov.common.data.network.jwt.JwtManager
+import com.solopov.common.data.network.model.MessageRemote
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
 import com.solopov.common.utils.ExceptionHandlerDelegate

@@ -10,18 +10,15 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RatingBar.OnRatingBarChangeListener
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -31,7 +28,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.solopov.com.solopov.feature_user_profile_impl.R
 import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentUserProfileBinding
 import com.solopov.common.base.BaseFragment
-import com.solopov.common.base.view.ProgressButton
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.Constants.READ_EXTERNAL_STORAGE_REQUEST_CODE
@@ -48,8 +44,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     private lateinit var binding: FragmentUserProfileBinding
     private lateinit var dialog: Dialog
-    private lateinit var deleteButton: MaterialButton
+    private lateinit var submitButton: MaterialButton
     private lateinit var cancelButton: MaterialButton
+    private lateinit var dialogTv: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -107,7 +104,16 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
             deleteProfileBtn.setOnClickListener {
                 initDialogViews()
-                showCurrentPasswordInputDialog()
+                submitButton.setOnClickListener {
+                    viewModel.deleteProfile(::onProfileDeleted)
+                }
+                dialog.show()
+            }
+
+            logOutBtn.setOnClickListener {
+                initDialogViews()
+                setDialogViewsToLogOutMode()
+                dialog.show()
             }
 
             sendMessageBtn.setOnClickListener {
@@ -164,28 +170,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     }
 
-    private fun initDialogViews() {
-        dialog = Dialog(requireContext())
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.dialog_delete_profile)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        deleteButton = dialog.findViewById(R.id.delete_btn)
-        cancelButton = dialog.findViewById(R.id.cancel_button)
-    }
-
-    private fun showCurrentPasswordInputDialog() {
-        dialog.show()
-
-        deleteButton.setOnClickListener {
-            viewModel.deleteProfile(::onProfileDeleted)
-        }
-
-        cancelButton.setOnClickListener {
-            dialog.hide()
-        }
-    }
-
-
     override fun inject() {
         FeatureUtils.getFeature<UserProfileFeatureComponent>(
             this, UserProfileFeatureApi::class.java
@@ -232,19 +216,40 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             errorsChannel.receiveAsFlow().observe { error ->
                 val errorMessage = error.message ?: getString(R.string.unknown_error)
 
-                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+                showSnackbarLong(errorMessage)
             }
+        }
+    }
+
+    private fun initDialogViews() {
+        dialog = Dialog(requireContext())
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_two_options)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        submitButton = dialog.findViewById(R.id.submit_btn)
+        cancelButton = dialog.findViewById(R.id.cancel_button)
+        dialogTv = dialog.findViewById(R.id.dialog_question_tv)
+
+        cancelButton.setOnClickListener {
+            dialog.hide()
         }
     }
 
     private fun onProfileDeleted() {
         dialog.hide()
-        viewModel.goToLogInScreen()
-        Snackbar.make(
-            binding.root,
-            getString(R.string.profile_deleted_successfully),
-            Snackbar.LENGTH_LONG
-        ).show()
+        showSnackbarLong(getString(R.string.profile_deleted_successfully))
+    }
+
+    private fun onLoggedOut() {
+        dialog.hide()
+        showSnackbarLong(getString(R.string.logged_out_success))
+    }
+
+    private fun setDialogViewsToLogOutMode() {
+        dialogTv.text = getString(R.string.log_out_question)
+        submitButton.setOnClickListener {
+            viewModel.logOut(::onLoggedOut)
+        }
     }
 
     private fun addRating(currentRating: Float) {
@@ -408,6 +413,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             editBtn.visibility = GONE
             imageSearchIv.visibility = GONE
             deleteProfileBtn.visibility = GONE
+            logOutBtn.visibility = GONE
         }
 
     }
@@ -429,6 +435,12 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
             }
         }
+
+    private fun showSnackbarLong(text: String) {
+        Snackbar.make(
+            binding.root, text, Snackbar.LENGTH_LONG
+        ).show()
+    }
 
     private fun selectImage() {
         val intent = Intent()

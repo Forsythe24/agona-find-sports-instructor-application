@@ -167,7 +167,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginHorizontal="64dp"
             android:text="@string/instructor_s_bio"
-            android:drawableEnd="@drawable/baseline_sports_24"/>
+            android:drawableEnd="@drawable/ic_whistle"/>
 
         <com.solopov.common.base.view.ProgressButton
             android:id="@+id/save_btn"

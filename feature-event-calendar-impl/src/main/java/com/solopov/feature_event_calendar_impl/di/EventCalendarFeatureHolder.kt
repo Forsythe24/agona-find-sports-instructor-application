@@ -1,7 +1,7 @@
 package com.solopov.feature_event_calendar_impl.di
 
 import com.solopov.common.data.db.di.DbApi
-import com.solopov.common.data.remote.di.RemoteApi
+import com.solopov.common.data.network.di.RemoteApi
 import com.solopov.common.di.FeatureApiHolder
 import com.solopov.common.di.FeatureContainer
 import com.solopov.common.di.scope.ApplicationScope

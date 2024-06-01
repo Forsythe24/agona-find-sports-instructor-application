@@ -18,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -100,8 +99,6 @@ fun PasswordRecoveryScreen(
         TextField(
             modifier = Modifier
                 .requiredWidth(280.dp),
-//                .border(1.dp, colorResource(id = R.color.text_input_box_stroke_color), shape),
-//                .background(colorResource(id = R.color.cultured), shape),
             shape = shape,
             singleLine = true,
             colors = TextFieldDefaults.colors(
@@ -140,9 +137,7 @@ fun PasswordRecoveryScreen(
 
         Button(
             onClick = {
-                val result = onSendClicked(text)
-
-
+                onSendClicked(text)
                 text = ""
             },
             enabled = isEnabled,

@@ -63,6 +63,8 @@ dependencies {
     implementation composeActivityDep
     implementation composeMaterialDep
 
+    implementation dataStoreDep
+    implementation dataStoreCoreDep
 
     implementation kotlinDep
 

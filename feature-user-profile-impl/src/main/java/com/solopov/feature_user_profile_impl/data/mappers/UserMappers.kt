@@ -1,6 +1,6 @@
 package com.solopov.feature_user_profile_impl.data.mappers
 
-import com.solopov.common.data.remote.model.UserRemote
+import com.solopov.common.data.network.model.UserRemote
 import com.solopov.feature_user_profile_api.domain.model.User
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import javax.inject.Inject

@@ -3,9 +3,9 @@ package com.solopov.common.utils
 import com.google.firebase.FirebaseNetworkException
 import com.solopov.common.R
 import com.solopov.common.core.resources.ResourceManager
-import com.solopov.common.data.remote.exceptions.FailedToConnectException
-import com.solopov.common.data.remote.exceptions.FirebaseException
-import com.solopov.common.data.remote.exceptions.SocketConnectionTimeoutException
+import com.solopov.common.data.network.exceptions.FailedToConnectException
+import com.solopov.common.data.network.exceptions.FirebaseException
+import com.solopov.common.data.network.exceptions.SocketConnectionTimeoutException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import javax.inject.Inject

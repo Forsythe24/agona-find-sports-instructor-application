@@ -1,6 +1,6 @@
 package com.solopov.feature_authentication_impl.data.mappers
 
-import com.solopov.common.data.remote.model.UserRemote
+import com.solopov.common.data.network.model.UserRemote
 import com.solopov.feature_authentication_api.domain.model.User
 import javax.inject.Inject
 

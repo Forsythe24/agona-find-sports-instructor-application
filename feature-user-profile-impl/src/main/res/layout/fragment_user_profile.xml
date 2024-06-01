@@ -23,6 +23,15 @@
         android:backgroundTint="?attr/backgroundColor"
         android:src="@drawable/baseline_keyboard_arrow_left_24"/>
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/log_out_btn"
+        android:layout_gravity="top|end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/backgroundColor"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/baseline_logout_24"/>
+
 
         <ScrollView
             android:layout_width="match_parent"
@@ -215,7 +224,7 @@
                     android:backgroundTint="?attr/colorPrimaryVariant"
                     android:layout_marginHorizontal="24dp"
                     android:text="@string/instruct_others"
-                    android:drawableEnd="@drawable/baseline_sports_24"/>
+                    android:drawableEnd="@drawable/ic_whistle"/>
 
                 <RatingBar
                     android:id="@+id/instructor_rating_bar"
@@ -270,40 +279,42 @@
                     android:fontFamily="@font/inter_semibold"
                     android:layout_gravity="bottom|center_horizontal" />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/cancel_btn"
+                        style="@style/DefaultButton"
+                        android:backgroundTint="?attr/colorOnSecondary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:paddingHorizontal="12dp"
+                        android:text="@string/cancel"
+                        android:drawableEnd="@drawable/baseline_cancel_24"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:fontFamily="@font/inter_semibold"
+                        android:layout_gravity="start"
+                        android:visibility="gone" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/rate_btn"
+                        style="@style/DefaultButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:paddingHorizontal="12dp"
+                        android:text="@string/rate"
+                        android:visibility="gone"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:fontFamily="@font/inter_semibold"
+                        android:drawableEnd="@drawable/baseline_stars_24"
+                        android:layout_gravity="end"
+                        android:layout_toEndOf="@id/cancel_btn"/>
+                </RelativeLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/cancel_btn"
-        style="@style/DefaultButton"
-        android:backgroundTint="?attr/colorOnSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="96dp"
-        android:layout_marginTop="20dp"
-        android:paddingHorizontal="12dp"
-        android:layout_marginBottom="120dp"
-        android:text="@string/cancel"
-        android:drawableEnd="@drawable/baseline_cancel_24"
-        android:textAllCaps="true"
-        android:textColor="?attr/colorOnPrimary"
-        android:fontFamily="@font/inter_semibold"
-        android:layout_gravity="bottom|start"
-        android:visibility="gone"/>
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/rate_btn"
-        style="@style/DefaultButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="96dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="120dp"
-        android:paddingHorizontal="12dp"
-        android:text="@string/rate"
-        android:visibility="gone"
-        android:textAllCaps="true"
-        android:textColor="?attr/colorOnPrimary"
-        android:fontFamily="@font/inter_semibold"
-        android:drawableEnd="@drawable/baseline_stars_24"
-        android:layout_gravity="bottom|end" />
 </FrameLayout>

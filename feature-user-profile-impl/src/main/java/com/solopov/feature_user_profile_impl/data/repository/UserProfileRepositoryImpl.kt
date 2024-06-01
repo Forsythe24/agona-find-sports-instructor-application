@@ -1,6 +1,6 @@
 package com.solopov.feature_user_profile_impl.data.repository
 
-import com.solopov.common.data.remote.dao.UserRemoteDao
+import com.solopov.common.data.network.dao.UserRemoteDao
 import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileRepository
 import com.solopov.feature_user_profile_api.domain.model.User
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
@@ -38,6 +38,10 @@ class UserProfileRepositoryImpl @Inject constructor (
 
     override suspend fun deleteProfile(): Boolean {
         return userRemoteDao.deleteProfile()
+    }
+
+    override suspend fun logOut() {
+        return userRemoteDao.logOut()
     }
 }
 

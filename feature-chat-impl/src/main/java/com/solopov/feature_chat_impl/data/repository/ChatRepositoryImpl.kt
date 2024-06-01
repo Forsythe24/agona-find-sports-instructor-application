@@ -4,8 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.solopov.common.data.remote.dao.ChatRemoteDao
-import com.solopov.common.data.remote.dao.UserRemoteDao
+import com.solopov.common.data.network.dao.ChatRemoteDao
+import com.solopov.common.data.network.dao.UserRemoteDao
 import com.solopov.feature_chat_api.domain.interfaces.ChatRepository
 import com.solopov.feature_chat_api.domain.model.Chat
 import com.solopov.feature_chat_api.domain.model.Message

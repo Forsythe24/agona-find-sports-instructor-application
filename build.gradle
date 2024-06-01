@@ -75,7 +75,8 @@ buildscript {
 
         httpLoggingDep = "com.squareup.okhttp3:logging-interceptor:$loggingVersion"
 
-        dataStoreDep = "androidx.datastore:datastore-preferences-core-jvm:$dataStoreVersion"
+        dataStoreCoreDep = "androidx.datastore:datastore-preferences-core-jvm:$dataStoreVersion"
+        dataStoreDep = "androidx.datastore:datastore-preferences:$dataStoreVersion"
 
         pagingDep = "androidx.paging:paging-runtime:$pagingVersion"
 

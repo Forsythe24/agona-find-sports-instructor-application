@@ -2,7 +2,7 @@ package com.solopov.feature_authentication_impl.presentation.login
 
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
-import com.solopov.common.core.resources.ResourceManager
+import com.solopov.common.data.storage.UserDataStore
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.UserDataValidator
 import com.solopov.common.utils.runCatching
@@ -17,7 +17,6 @@ import javax.inject.Inject
 class LogInViewModel @Inject constructor(
     private val interactor: AuthInteractor,
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
-    private val resManager: ResourceManager,
     private val router: AuthRouter,
     private val validator: UserDataValidator,
 ) : BaseViewModel() {

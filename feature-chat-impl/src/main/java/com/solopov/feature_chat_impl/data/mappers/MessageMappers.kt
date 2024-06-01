@@ -1,6 +1,6 @@
 package com.solopov.feature_chat_impl.data.mappers
 
-import com.solopov.common.data.remote.model.MessageRemote
+import com.solopov.common.data.network.model.MessageRemote
 import com.solopov.feature_chat_api.domain.model.Message
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import javax.inject.Inject

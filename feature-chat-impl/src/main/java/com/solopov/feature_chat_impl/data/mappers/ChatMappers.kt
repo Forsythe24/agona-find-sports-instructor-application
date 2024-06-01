@@ -1,6 +1,6 @@
 package com.solopov.feature_chat_impl.data.mappers
 
-import com.solopov.common.data.remote.model.UserRemote
+import com.solopov.common.data.network.model.UserRemote
 import com.solopov.common.model.ChatCommon
 import com.solopov.feature_chat_api.domain.model.Chat
 import com.solopov.feature_chat_api.domain.model.User

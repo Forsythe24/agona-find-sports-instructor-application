@@ -1,7 +1,10 @@
 package com.solopov.feature_authentication_impl.presentation.signup
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
+import com.solopov.common.data.storage.UserDataStore
 import com.solopov.common.utils.ExceptionHandlerDelegate
 import com.solopov.common.utils.UserDataValidator
 import com.solopov.common.utils.runCatching
