@@ -83,6 +83,7 @@ class UserProfileViewModel(
                 interactor.deleteProfile()
             }.onSuccess {
                 onProfileDeletedCallback()
+                goToLogInScreen()
             }.onFailure {
                 errorsChannel.send(it)
             }
@@ -95,6 +96,19 @@ class UserProfileViewModel(
                 interactor.getCurrentUser()
             }.onSuccess {
                 _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
+            }.onFailure {
+                errorsChannel.send(it)
+            }
+        }
+    }
+
+    fun logOut(onLoggedOutCallback: () -> Unit) {
+        viewModelScope.launch {
+            runCatching(exceptionHandlerDelegate) {
+                interactor.logOut()
+            }.onSuccess {
+                onLoggedOutCallback()
+                goToLogInScreen()
             }.onFailure {
                 errorsChannel.send(it)
             }

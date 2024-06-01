@@ -72,4 +72,10 @@ class  UserProfileInteractor(
         }
     }
 
+    suspend fun logOut() {
+        return withContext(dispatcher) {
+            userProfileRepository.logOut()
+        }
+    }
+
 }

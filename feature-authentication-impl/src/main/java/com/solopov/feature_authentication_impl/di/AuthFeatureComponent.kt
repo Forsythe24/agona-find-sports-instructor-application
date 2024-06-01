@@ -1,6 +1,6 @@
 package com.solopov.feature_authentication_impl.di
 
-import com.solopov.common.data.remote.di.RemoteApi
+import com.solopov.common.data.network.di.RemoteApi
 import com.solopov.common.di.CommonApi
 import com.solopov.common.di.scope.FeatureScope
 import com.solopov.feature_authentication_api.di.AuthFeatureApi

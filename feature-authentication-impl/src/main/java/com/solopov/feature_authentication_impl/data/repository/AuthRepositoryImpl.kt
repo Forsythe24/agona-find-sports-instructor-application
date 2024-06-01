@@ -1,6 +1,6 @@
 package com.solopov.feature_authentication_impl.data.repository
 
-import com.solopov.common.data.remote.dao.UserRemoteDao
+import com.solopov.common.data.network.dao.UserRemoteDao
 import com.solopov.feature_authentication_api.domain.interfaces.AuthRepository
 import com.solopov.feature_authentication_impl.data.mappers.UserMappers
 import javax.inject.Inject

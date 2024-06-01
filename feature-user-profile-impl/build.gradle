@@ -72,6 +72,9 @@ dependencies {
     implementation rxRoomDep
     kapt roomKapt
 
+    implementation dataStoreDep
+    implementation dataStoreCoreDep
+
     implementation lifecycleDep
     kapt lifecycleKapt
 

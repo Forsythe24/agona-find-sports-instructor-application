@@ -11,4 +11,5 @@ object ParamsKey {
     const val FROM_INSTRUCTORS_SCREEN_FLAG_KEY = "from_instructors_screen_flag"
 
     const val AUTH_PREFERENCES_KEY = "auth_preferences"
+    const val USER_PREFERENCES_KEY = "user_preferences"
 }

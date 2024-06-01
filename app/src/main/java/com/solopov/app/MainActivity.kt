@@ -3,6 +3,7 @@ package com.solopov.app
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupWithNavController
@@ -11,14 +12,20 @@ import com.solopov.app.di.deps.findComponentDependencies
 import com.solopov.app.di.main.MainComponent
 import com.solopov.app.navigation.Navigator
 import com.solopov.common.base.BaseActivity
+import com.solopov.common.data.storage.UserDataStore
+import com.solopov.common.data.storage.UserDataStore.Companion.USER_ID_KEY
 import com.solopov.common.utils.Constants.READ_MEDIA_IMAGES_REQUEST_CODE
 import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
     @Inject
     lateinit var navigator: Navigator
+
+    @Inject
+    lateinit var userDataStore: UserDataStore
 
     private var navController: NavController? = null
 
@@ -37,8 +44,17 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun initViews() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        navigator.attachNavController(navController!!, R.navigation.main_nav_graph)
+        attachNavControllerWithRespectToStartDestination()
+        setupBottomNavigation()
+    }
 
+    private fun isFromInstructorsList(bundle: Bundle?): Boolean {
+        val isFromInstructorsList = bundle?.getBoolean(FROM_INSTRUCTORS_SCREEN_FLAG_KEY)
+
+        return isFromInstructorsList ?: false
+    }
+
+    private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.main_bnv)
 
         navController?.addOnDestinationChangedListener { _, destination, bundle ->
@@ -58,17 +74,24 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
         }
 
-        findViewById<BottomNavigationView>(R.id.main_bnv).apply {
+        bottomNavigationView.apply {
             navController?.let {
                 setupWithNavController(this, it)
             }
         }
     }
 
-    private fun isFromInstructorsList(bundle: Bundle?): Boolean {
-        val isFromInstructorsList = bundle?.getBoolean(FROM_INSTRUCTORS_SCREEN_FLAG_KEY)
-
-        return isFromInstructorsList ?: false
+    private fun attachNavControllerWithRespectToStartDestination() {
+        lifecycleScope.launch {
+            val id = userDataStore.getUserId()
+            val graph = navController!!.navInflater.inflate(R.navigation.main_nav_graph)
+            if (id != null) {
+                graph.setStartDestination(R.id.userProfileFragment)
+            } else {
+                graph.setStartDestination(R.id.logInFragment)
+            }
+            navigator.attachNavController(navController!!, graph)
+        }
     }
 
     override fun subscribe(viewModel: MainViewModel) {

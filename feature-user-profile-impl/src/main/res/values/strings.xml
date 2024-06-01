@@ -55,4 +55,6 @@
     <string name="profile_deleted_successfully">Your profile has been successfully deleted</string>
     <string name="delete">delete</string>
     <string name="delete_profile_question">Are you sure you want to delete your profile? Once you do it there is no way back</string>
+    <string name="log_out_question">Do you want to log out of your account?</string>
+    <string name="logged_out_success">You\'ve successfully logged out</string>
 </resources>

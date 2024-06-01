@@ -23,6 +23,15 @@
         android:backgroundTint="?attr/backgroundColor"
         android:src="@drawable/baseline_keyboard_arrow_left_24"/>
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/log_out_btn"
+        android:layout_gravity="top|end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/backgroundColor"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/baseline_logout_24"/>
+
 
         <ScrollView
             android:layout_width="match_parent"

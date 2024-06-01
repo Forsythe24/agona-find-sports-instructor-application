@@ -50,6 +50,9 @@ dependencies {
     implementation constraintDep
     implementation materialDep
 
+    implementation dataStoreDep
+    implementation dataStoreCoreDep
+
     implementation pagingDep
 
     implementation 'com.google.firebase:firebase-database:20.3.1'

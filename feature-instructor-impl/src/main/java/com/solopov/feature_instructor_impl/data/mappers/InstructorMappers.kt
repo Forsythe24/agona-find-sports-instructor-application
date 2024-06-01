@@ -1,6 +1,6 @@
 package com.solopov.feature_instructor_impl.data.mappers
 
-import com.solopov.common.data.remote.model.UserRemote
+import com.solopov.common.data.network.model.UserRemote
 import com.solopov.feature_instructor_api.domain.model.Instructor
 import javax.inject.Inject
 

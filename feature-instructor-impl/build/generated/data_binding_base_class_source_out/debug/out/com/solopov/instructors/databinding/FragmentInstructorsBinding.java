@@ -8,7 +8,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import androidx.viewpager2.widget.ViewPager2;
@@ -20,7 +20,7 @@ import java.lang.String;
 
 public final class FragmentInstructorsBinding implements ViewBinding {
   @NonNull
-  private final ConstraintLayout rootView;
+  private final LinearLayoutCompat rootView;
 
   @NonNull
   public final SearchView instructorsSv;
@@ -34,7 +34,7 @@ public final class FragmentInstructorsBinding implements ViewBinding {
   @NonNull
   public final ViewPager2 sportsKindsVp;
 
-  private FragmentInstructorsBinding(@NonNull ConstraintLayout rootView,
+  private FragmentInstructorsBinding(@NonNull LinearLayoutCompat rootView,
       @NonNull SearchView instructorsSv, @NonNull TextView instructorsTv,
       @NonNull TabLayout sportsKindsTabLayout, @NonNull ViewPager2 sportsKindsVp) {
     this.rootView = rootView;
@@ -46,7 +46,7 @@ public final class FragmentInstructorsBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public ConstraintLayout getRoot() {
+  public LinearLayoutCompat getRoot() {
     return rootView;
   }
 
@@ -95,7 +95,7 @@ public final class FragmentInstructorsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentInstructorsBinding((ConstraintLayout) rootView, instructorsSv,
+      return new FragmentInstructorsBinding((LinearLayoutCompat) rootView, instructorsSv,
           instructorsTv, sportsKindsTabLayout, sportsKindsVp);
     }
     String missingId = rootView.getResources().getResourceName(id);

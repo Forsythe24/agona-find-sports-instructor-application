@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
-import com.solopov.common.data.remote.exceptions.AuthException
+import com.solopov.common.data.network.exceptions.AuthException
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.di.AuthFeatureApi

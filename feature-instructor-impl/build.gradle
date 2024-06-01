@@ -51,6 +51,9 @@ dependencies {
     implementation rxJavaDep
     implementation rxAndroidDep
 
+    implementation dataStoreDep
+    implementation dataStoreCoreDep
+
     implementation fragmentDep
 
     implementation daggerDep

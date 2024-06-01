@@ -1,6 +1,6 @@
 package com.solopov.feature_instructor_impl.data.repository
 
-import com.solopov.common.data.remote.dao.UserRemoteDao
+import com.solopov.common.data.network.dao.UserRemoteDao
 import com.solopov.feature_instructor_api.domain.interfaces.InstructorRepository
 import com.solopov.feature_instructor_api.domain.model.Instructor
 import com.solopov.feature_instructor_impl.data.mappers.InstructorMappers

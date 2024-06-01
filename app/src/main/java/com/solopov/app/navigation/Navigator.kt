@@ -2,6 +2,7 @@ package com.solopov.app.navigation
 
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import com.solopov.app.R
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.ParamsKey.CHAT_KEY
@@ -20,8 +21,8 @@ class Navigator : InstructorsRouter, AuthRouter, UserProfileRouter, ChatRouter, 
 
     private var navController: NavController? = null
 
-    fun attachNavController(navController: NavController, graph: Int) {
-        navController.setGraph(graph)
+    fun attachNavController(navController: NavController, graph: NavGraph) {
+        navController.graph = graph
         this.navController = navController
     }
 
