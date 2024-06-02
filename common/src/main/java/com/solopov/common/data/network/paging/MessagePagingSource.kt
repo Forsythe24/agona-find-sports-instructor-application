@@ -6,7 +6,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.solopov.common.data.network.model.MessageRemote
 import com.solopov.common.utils.Constants
-import com.solopov.common.utils.ParamsKey
 import kotlinx.coroutines.tasks.await
 
 class MessagePagingSource : PagingSource<DataSnapshot, MessageRemote>() {

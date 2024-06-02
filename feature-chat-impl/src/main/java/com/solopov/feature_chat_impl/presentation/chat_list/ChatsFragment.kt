@@ -15,16 +15,12 @@ import com.solopov.common.R
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
-import com.solopov.common.utils.DateFormatter
 import com.solopov.feature_chat_api.di.ChatFeatureApi
 import com.solopov.feature_chat_impl.databinding.FragmentChatListBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 import kotlinx.coroutines.flow.receiveAsFlow
-import java.util.Calendar
-import java.util.Date
-import javax.inject.Inject
 
 class ChatsFragment : BaseFragment<ChatsViewModel>() {
 

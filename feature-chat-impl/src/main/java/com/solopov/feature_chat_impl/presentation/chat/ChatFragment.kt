@@ -23,7 +23,6 @@ import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
-import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 import kotlinx.coroutines.flow.receiveAsFlow
 import java.util.Date
 
@@ -123,16 +122,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             .chatComponentFactory().create(this).inject(this)
     }
 
-    //    private suspend fun updateRecentMessages(messages: PagingData<MessageItem>) {
-//        with(viewBinding) {
-//            if (chatRv.adapter == null) {
-//                adapter = ChatAdapter(senderId)
-//                chatRv.adapter = adapter
-//            }
-//            (chatRv.adapter as ChatAdapter).(viewLifecycleOwner.lifecycle, messages)
-//
-//        }
-//    }
     private fun updateMessages(messages: List<MessageItem>) {
         with(viewBinding) {
             if (chatRv.adapter == null) {
@@ -195,14 +184,6 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                     currentMessageListWithDates = messagesWithDates.toMutableList()
                 }
             }
-//            viewModel.getRecentMessages()
-
-//            messageFlow.observe { messages ->
-//                messages?.let {
-//                    updateMessages(it)
-//                }
-//
-//            }
 
             errorsChannel.receiveAsFlow().observe { error ->
                 val errorMessage = error.message ?: getString(R.string.unknown_error)

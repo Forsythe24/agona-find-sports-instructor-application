@@ -3,7 +3,6 @@ package com.solopov.feature_chat_impl.presentation.chat
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.google.gson.Gson
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.config.AppProperties
@@ -31,8 +30,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.launch
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
@@ -138,24 +135,6 @@ class ChatViewModel(
 
     fun goBack() {
         router.goBackToChats()
-    }
-
-    fun getRecentMessages() {
-        viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
-                interactor.getRecentMessages()
-            }.onSuccess {
-                val list: MutableCollection<PagingData<MessageItem>> = mutableListOf()
-                val collection = it.map { pagingData ->
-                    pagingData.map { message ->
-                        messageMappers.mapMessageToMessageItem(message)
-                    }
-                }.toCollection(list)
-
-            }.onFailure {
-                errorsChannel.send(it)
-            }
-        }
     }
 
     fun initStomp(chatId: String?) {

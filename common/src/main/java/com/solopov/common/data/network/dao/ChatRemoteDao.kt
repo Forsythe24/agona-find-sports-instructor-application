@@ -1,29 +1,18 @@
 package com.solopov.common.data.network.dao
 
-import android.util.Log
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
-import com.google.firebase.database.DataSnapshot
-import com.google.gson.Gson
 import com.solopov.common.R
-import com.solopov.common.core.config.NetworkProperties
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.SportApi
 import com.solopov.common.data.network.exceptions.ChatDataRetrievingException
 import com.solopov.common.data.network.exceptions.HttpException
 import com.solopov.common.data.network.model.ChatRemote
 import com.solopov.common.data.network.model.MessageRemote
-import com.solopov.common.utils.ExceptionHandlerDelegate
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import org.java_websocket.client.WebSocketClient
-import java.net.URI
 import javax.inject.Inject
 
 class ChatRemoteDao @Inject constructor(
     private val resManager: ResourceManager,
     private val api: SportApi,
-) : PagingSource<DataSnapshot, MessageRemote>() {
+) {
 
     suspend fun createMessage(
         userId: String,
@@ -103,51 +92,4 @@ class ChatRemoteDao @Inject constructor(
             else -> throw ChatDataRetrievingException(resManager.getString(R.string.failed_to_retrieve_chat_data))
         }
     }
-
-    override fun getRefreshKey(state: PagingState<DataSnapshot, MessageRemote>): DataSnapshot? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun load(params: LoadParams<DataSnapshot>): LoadResult<DataSnapshot, MessageRemote> {
-        TODO("Not yet implemented")
-    }
-
-//    override fun getRefreshKey(state: PagingState<DataSnapshot, MessageRemote>): DataSnapshot? =
-//        null
-
-//    override suspend fun load(params: LoadParams<DataSnapshot>): LoadResult<DataSnapshot, MessageRemote> =
-//        try {
-//
-//
-//            val queryMessages = dbReference.child("chat")
-//                .child("HqmLsYR0YbQ2NlIIyF688pz7s5g2JK3EIt4BouOBWCQjmqOVwa0CbjW2").child("message")
-//                .orderByKey().limitToLast(ParamsKey.PAGE_SIZE)
-//
-//            val currentPage = params.key ?: queryMessages.get().await()
-//
-//            val lastVisibleMessageKey = currentPage.children.last().key
-//            val nextPage = queryMessages.startAfter(lastVisibleMessageKey).get().await()
-//
-//            val messages = currentPage.children.map { snapshot ->
-//                with(snapshot) {
-//                    MessageRemote(
-//                        0,
-//                        "",
-//                        child("text").value.toString(),
-//                        child("senderId").value.toString(),
-//                        child("date").value.toString(),
-//                    )
-//                }
-//            }
-//
-//            LoadResult.Page(
-//                data = messages,
-//                prevKey = null,
-//                nextKey = nextPage
-//            )
-//        } catch (e: Exception) {
-//            throw e
-//        }
-
-
 }
