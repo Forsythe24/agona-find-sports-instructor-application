@@ -54,8 +54,6 @@ dependencies {
     implementation project(':common')
     implementation project(':feature-authentication-api')
 
-    implementation 'com.kizitonwose.calendar:compose:2.0.4'
-
     implementation composeMaterialDep
     implementation composeUiToolingPreviewDep
     implementation composeUiToolingPDep

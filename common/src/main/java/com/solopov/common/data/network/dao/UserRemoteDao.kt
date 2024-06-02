@@ -20,7 +20,6 @@ import com.solopov.common.data.network.model.SendNewPasswordOnEmailRequestDto
 import com.solopov.common.data.network.model.UserRemote
 import com.solopov.common.data.network.model.UserSignUpRemote
 import com.solopov.common.data.storage.UserDataStore
-import com.solopov.common.utils.ExceptionHandlerDelegate
 import kotlinx.coroutines.tasks.await
 import retrofit2.Response
 import java.text.SimpleDateFormat
@@ -124,7 +123,10 @@ class UserRemoteDao @Inject constructor(
         when (response.code()) {
             500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
             503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
-            else -> return response.body()!!
+            else -> {
+                userDataStore.clearUserId()
+                return response.body()!!
+            }
         }
     }
 
@@ -202,6 +204,7 @@ class UserRemoteDao @Inject constructor(
                 500 -> throw HttpException.InternalServerErrorException(resManager.getString(R.string.internal_server_error_exception))
                 503 -> throw HttpException.ServiceUnavailableException(resManager.getString(R.string.service_unavailable_exception))
             }
+            saveTokens(response)
             userDataStore.clearUserId()
         }
     }

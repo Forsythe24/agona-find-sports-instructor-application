@@ -221,10 +221,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     style="@style/DefaultButton"
-                    android:backgroundTint="?attr/colorPrimaryVariant"
+                    android:backgroundTint="@color/black"
                     android:layout_marginHorizontal="24dp"
                     android:text="@string/instruct_others"
-                    android:drawableEnd="@drawable/ic_whistle"/>
+                    android:drawableEnd="@drawable/baseline_sports_24"/>
 
                 <RatingBar
                     android:id="@+id/instructor_rating_bar"

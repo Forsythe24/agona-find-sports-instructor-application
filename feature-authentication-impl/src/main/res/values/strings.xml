@@ -30,4 +30,5 @@
     <string name="log_in">Log in</string>
     <string name="finish">FINISH</string>
     <string name="new_password_sent_template">Your new password was sent on %s</string>
+    <string name="sportland">Sportland</string>
 </resources>

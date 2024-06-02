@@ -1,5 +1,6 @@
 package com.solopov.common.data.network
 
+import com.solopov.common.data.network.model.AuthNetworkResponse
 import com.solopov.common.data.network.model.ChatRemote
 import com.solopov.common.data.network.model.CredentialsRemote
 import com.solopov.common.data.network.model.MessageRemote
@@ -76,5 +77,5 @@ interface SportApi {
     ): Response<MessageRemote>
 
     @POST("auth/token")
-    suspend fun logOut(@Body refreshJwtRequestDto: RefreshJwtRequestDto): Response<Unit>
+    suspend fun logOut(@Body refreshJwtRequestDto: RefreshJwtRequestDto): Response<AuthNetworkResponse>
 }

@@ -210,7 +210,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/inter_semibold"
-            android:backgroundTint="?attr/colorPrimaryVariant"
+            android:backgroundTint="@color/black"
             app:text="@string/apply"
             style="@style/Widget.ProgressButton.Blueberry"
             android:layout_centerInParent="true"
