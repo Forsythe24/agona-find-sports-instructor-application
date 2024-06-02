@@ -32,11 +32,6 @@ class InstructorsAdapter(
         ), showImage, onItemClicked, getStringCallback)
     }
 
-//    @SuppressLint("NotifyDataSetChanged")
-//    fun setFilteredList(list: List<ListItem>) {
-//        items = list
-//        notifyDataSetChanged()
-//    }
 
     override fun onBindViewHolder(holder: InstructorViewHolder, position: Int) {
         holder.bindItem(getItem(position))
