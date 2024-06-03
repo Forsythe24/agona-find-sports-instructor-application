@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkApiCreator(
-    private val okHttpClient: OkHttpClient,
+    var okHttpClient: OkHttpClient,
     private val baseUrl: String,
 ) {
 
@@ -18,4 +18,5 @@ class NetworkApiCreator(
 
         return retrofit.create(service)
     }
+
 }

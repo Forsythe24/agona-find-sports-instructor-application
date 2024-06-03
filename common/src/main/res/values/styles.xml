@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
+    <style name="AppTheme" parent="Theme.SportsInstructorApp">
+        <item name="android:textColorPrimary">@color/black_BB</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="background">@color/snow</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:textColorPrimary">@color/colorTextPrimary</item>
-        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
-
+        <item name="colorSurface">@color/white</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="colorOnSecondary">@color/black_BB</item>
+        <item name="backgroundColor">@color/snow</item>
         <item name="android:colorEdgeEffect">@color/colorPrimary</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -35,6 +37,53 @@
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Text -->
+    <style name="UserInfoFieldTextInputLayout">
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxBackgroundColor">@color/text_input_box_background_color_selector</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
+        <item name="helperTextTextColor">@color/neonRed</item>
+    </style>
+
+    <!-- Button -->
+    <style name="DefaultButton">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="textAllCaps">true</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="ratingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar_full</item>
+        <item name="android:minHeight">23dip</item>
+        <item name="android:maxHeight">25dip</item>
+    </style>
+
+    <style name="ThemeOverlay.Widget.ProgressButton.Blueberry" parent="">
+        <item name="android:textAppearanceButton">@style/TextAppearance.ProgressButton.Blueberry</item>
+    </style>
+
+    <style name="TextAppearance.Body.White" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--Text styiling for blueberry button, with selector-->
+    <style name="TextAppearance.ProgressButton.Blueberry" parent="@style/TextAppearance.Body.White">
+        <item name="android:textColor">@color/blueberry_button_text_color_selector</item>
+    </style>
+
+    <style name="Widget.ProgressButton.Blueberry" parent="">
+        <item name="android:theme">@style/ThemeOverlay.Widget.ProgressButton.Blueberry</item>
+        <item name="android:background">@drawable/progress_button_blueberry</item>
     </style>
 
 </resources>

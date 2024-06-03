@@ -1,11 +1,22 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
+    }
+    kotlinOptions {
+        jvmTarget = "18"
+    }
+
     defaultConfig {
+
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
 
@@ -23,6 +34,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'com.solopov.common'
 }
 
 dependencies {
@@ -30,14 +42,29 @@ dependencies {
 
     implementation kotlinDep
 
+    implementation materialDep
+
     implementation androidDep
     implementation cardViewDep
     implementation recyclerViewDep
     implementation constraintDep
 
-    implementation rxJavaDep
+    implementation pagingDep
+
+    implementation coroutinesCoreDep
+    implementation coroutinesAndroidDep
+
+    implementation dataStoreDep
+    implementation dataStoreCoreDep
+
+    implementation httpLoggingDep
 
     implementation daggerDep
+    implementation androidXCoreDep
+    implementation lifecycleViewModelDep
+    implementation 'com.google.firebase:firebase-auth:22.3.1'
+    implementation 'com.google.firebase:firebase-database:20.3.1'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     kapt daggerKapt
 
     implementation lifecycleDep
@@ -54,5 +81,13 @@ dependencies {
     testImplementation jUnitDep
     testImplementation mockitoDep
 
+    implementation stompProtocolDep
+    implementation rxAndroidDep
+
     implementation splashScreenDep
+
+    implementation lottieDep
+
+    implementation platform('com.google.firebase:firebase-bom:32.8.0')
+    implementation 'com.google.firebase:firebase-analytics'
 }

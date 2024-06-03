@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "688575772913",
+    "project_id": "find-sports-instructor-app",
+    "storage_bucket": "find-sports-instructor-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688575772913:android:4b15a6027ebfabb1a15150",
+        "android_client_info": {
+          "package_name": "com.solopov.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBgnq4WIuHvX3Dk9iRI6TVy94wM7IOhbo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

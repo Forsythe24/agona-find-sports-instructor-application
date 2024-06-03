@@ -1,11 +1,14 @@
 package com.solopov.common.base
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.solopov.common.utils.Event
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.CoroutineContext
 
 open class BaseViewModel : ViewModel() {
 
@@ -14,28 +17,63 @@ open class BaseViewModel : ViewModel() {
         val message: String
     )
 
-    private val _alertLiveData = MutableLiveData<Event<String>>()
-    val alertLiveData: LiveData<Event<String>> = _alertLiveData
-
-    private val _errorWithTitleLiveData = MutableLiveData<Event<BaseDialogData>>()
-    val errorWithTitleLiveData: LiveData<Event<BaseDialogData>> = _errorWithTitleLiveData
-
-    protected val disposables = CompositeDisposable()
-
-    override fun onCleared() {
-        super.onCleared()
-        if (!disposables.isDisposed) disposables.dispose()
-    }
-
-    operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
-        add(disposable)
-    }
-
     protected fun showAlert(errorText: String) {
-        _alertLiveData.value = Event(errorText)
     }
 
     protected fun showErrorDialog(dialogData: BaseDialogData) {
-        _errorWithTitleLiveData.value = Event(dialogData)
+    }
+
+    private var viewModelJob = Job()
+    private val viewModelScope = CoroutineScope(Main + viewModelJob)
+    private var isActive = true
+
+    // Do work in IO
+    fun <P> doWork(doOnAsyncBlock: suspend CoroutineScope.() -> P) {
+        doCoroutineWork(doOnAsyncBlock, viewModelScope, Dispatchers.IO)
+    }
+
+    // Do work in Main
+// doWorkInMainThread {...}
+    fun <P> doWorkInMainThread(doOnAsyncBlock: suspend CoroutineScope.() -> P) {
+        doCoroutineWork(doOnAsyncBlock, viewModelScope, Main)
+    }
+
+    // Do work in IO repeately
+// doRepeatWork(1000) {...}
+// then we need to stop it calling stopRepeatWork()
+    fun <P> doRepeatWork(delay: Long, doOnAsyncBlock: suspend CoroutineScope.() -> P) {
+        isActive = true
+        viewModelScope.launch {
+            while (this@BaseViewModel.isActive) {
+                withContext(Dispatchers.IO) {
+                    doOnAsyncBlock.invoke(this)
+                }
+                if (this@BaseViewModel.isActive) {
+                    delay(delay)
+                }
+            }
+        }
+    }
+
+    fun stopRepeatWork() {
+        isActive = false
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        isActive = false
+        viewModelJob.cancel()
+    }
+
+    private inline fun <P> doCoroutineWork(
+        crossinline doOnAsyncBlock: suspend CoroutineScope.() -> P,
+        coroutineScope: CoroutineScope,
+        context: CoroutineContext
+    ) {
+        coroutineScope.launch {
+            withContext(context) {
+                doOnAsyncBlock.invoke(this)
+            }
+        }
     }
 }

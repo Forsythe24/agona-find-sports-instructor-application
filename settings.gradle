@@ -1,1 +1,32 @@
-include ':app', ':test-shared', ':common'
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven {
+            url = uri("https://www.jitpack.io" )
+        }
+    }
+}
+
+rootProject.name = "agona-find-sports-instructor-application"
+
+include ':app', ':test-shared', ':common', ':'
+include ':feature-instructor-api'
+include ':feature-instructor-impl'
+include ':feature-authentication-api'
+include ':feature-authentication-impl'
+include ':feature-user-profile-api'
+include ':feature-user-profile-impl'
+include ':feature-chat-api'
+include ':feature-chat-impl'
+include ':feature-event-calendar-api'
+include ':feature-event-calendar-impl'

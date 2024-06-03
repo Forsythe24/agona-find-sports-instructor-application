@@ -4,32 +4,27 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import com.solopov.common.R
-import com.solopov.common.utils.Event
-import com.solopov.common.utils.EventObserver
+import com.solopov.common.utils.observe
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 abstract class BaseFragment<T : BaseViewModel> : Fragment() {
 
-    @Inject protected open lateinit var viewModel: T
-
-    private val observables = mutableListOf<LiveData<*>>()
-
+    @Inject
+    protected open lateinit var viewModel: T
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         inject()
         initViews()
         subscribe(viewModel)
 
-        viewModel.alertLiveData.observeEvent(::showAlert)
-        viewModel.errorWithTitleLiveData.observeEvent(::showErrorWithTitle)
     }
 
-    protected fun showAlert(alertMessage: String) {
+    protected fun showAlert(title: String, alertMessage: String) {
         AlertDialog.Builder(requireContext())
-            .setTitle(R.string.common_error_general_title)
+            .setTitle(title)
             .setMessage(alertMessage)
             .setPositiveButton(R.string.common_ok) { _, _ -> }
             .show()
@@ -43,25 +38,10 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
             .show()
     }
 
-    override fun onDestroyView() {
-        observables.forEach { it.removeObservers(this) }
-        super.onDestroyView()
+    inline fun <T> Flow<T>.observe(crossinline block: (T) -> Unit): Job {
+        return observe(fragment = this@BaseFragment, block)
     }
 
-    protected fun <T> LiveData<T>.observe(observer: Observer<T>) {
-        observe(viewLifecycleOwner, observer)
-        observables.add(this)
-    }
-
-    protected fun <T> LiveData<Event<T>>.observeEvent(observer: EventObserver<T>) {
-        observe(viewLifecycleOwner, observer)
-        observables.add(this)
-    }
-
-    protected fun <T> LiveData<Event<T>>.observeEvent(observer: (T) -> Unit) {
-        observe(viewLifecycleOwner, EventObserver { observer(it) })
-        observables.add(this)
-    }
 
     abstract fun initViews()
 

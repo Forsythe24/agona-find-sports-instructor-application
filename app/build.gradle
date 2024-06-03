@@ -1,9 +1,22 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
+
+    android {
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_18
+            targetCompatibility = JavaVersion.VERSION_18
+        }
+        kotlinOptions {
+            jvmTarget = "18"
+        }
+    }
+
     defaultConfig {
         applicationId "com.solopov.find_sports_instructor_application"
         minSdkVersion rootProject.minSdkVersion
@@ -12,6 +25,7 @@ android {
         versionName rootProject.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,11 +36,23 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.solopov.app'
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common')
+    implementation project(':feature-instructor-api')
+    implementation project(':feature-instructor-impl')
+    implementation project(':feature-authentication-api')
+    implementation project(':feature-authentication-impl')
+    implementation project(':feature-user-profile-api')
+    implementation project(':feature-user-profile-impl')
+    implementation project(':feature-chat-api')
+    implementation project(':feature-chat-impl')
+    implementation project(':feature-event-calendar-api')
+    implementation project(':feature-event-calendar-impl')
 
     implementation kotlinDep
 
@@ -35,6 +61,9 @@ dependencies {
 
     implementation navigationFragmentDep
     implementation navigationUiDep
+
+    implementation navUiKtxDep
+    implementation navFragmentKtxDep
 
     implementation roomDep
 
@@ -47,4 +76,12 @@ dependencies {
     implementation retrofitDep
     implementation gsonConvertedDep
     implementation rxCallAdapterDep
+
+    implementation dataStoreDep
+    implementation dataStoreCoreDep
+
+    implementation materialDep
+
+    implementation platform('com.google.firebase:firebase-bom:32.8.0')
+    implementation 'com.google.firebase:firebase-analytics'
 }

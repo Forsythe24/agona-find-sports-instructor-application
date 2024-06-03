@@ -2,5 +2,6 @@
 <resources>
 
     <item name="text_line_spacing" format="float" type="dimen">1.2</item>
-
+    <item name="screen_header_text_size" format="dimension" type="dimen">36sp</item>
+    <item name="standard_corner_radius" format="dimension" type="dimen">8dp</item>
 </resources>

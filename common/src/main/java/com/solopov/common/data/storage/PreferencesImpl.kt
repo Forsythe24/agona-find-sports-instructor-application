@@ -10,7 +10,8 @@ class PreferencesImpl(context: Context) : Preferences {
         private const val KEY_ACCESS_TOKEN = "access_token"
     }
 
-    private val prefs: SharedPreferences = context.getSharedPreferences("config", Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences =
+        context.getSharedPreferences("config", Context.MODE_PRIVATE)
 
     override fun saveAccessToken(token: String) {
         prefs.edit().putString(KEY_ACCESS_TOKEN, token).apply()

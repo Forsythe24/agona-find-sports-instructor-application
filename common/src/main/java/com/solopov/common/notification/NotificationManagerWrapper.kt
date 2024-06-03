@@ -47,7 +47,11 @@ class NotificationManagerWrapperImpl(
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createChannel() {
         val channels = NotificationManagerWrapper.Channel.values().map {
-            NotificationChannel(it.getId(context), it.channelName, NotificationManager.IMPORTANCE_DEFAULT).apply {
+            NotificationChannel(
+                it.getId(context),
+                it.channelName,
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
                 description = it.channelDescription
             }
         }
@@ -62,12 +66,22 @@ class NotificationManagerWrapperImpl(
 
     private fun mapSimpleNotification(simpleNotification: NotificationManagerWrapper.SimpleNotification): Notification {
         val style = NotificationCompat.BigTextStyle().bigText(simpleNotification.text)
-        val pendingIntent = PendingIntent.getActivity(context, simpleNotification.id, simpleNotification.intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            simpleNotification.id,
+            simpleNotification.intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
         return NotificationCompat.Builder(context, simpleNotification.channel.getId(context))
             .setStyle(style)
             .setSmallIcon(simpleNotification.smallIcon)
-            .setLargeIcon(BitmapFactory.decodeResource(context.resources, simpleNotification.largeIcon))
+            .setLargeIcon(
+                BitmapFactory.decodeResource(
+                    context.resources,
+                    simpleNotification.largeIcon
+                )
+            )
             .setContentTitle(simpleNotification.title)
             .setContentText(simpleNotification.text)
             .setContentIntent(pendingIntent)

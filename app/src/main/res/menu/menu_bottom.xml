@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/instructorsFragment"
+        android:icon="@drawable/ic_whistle"
+        android:title="@string/instructors" />
+    <item
+        android:id="@+id/eventCalendarFragment"
+        android:icon="@drawable/baseline_calendar_month_24"
+        android:title="@string/calendar" />
+
+    <item
+        android:id="@+id/chatsFragment"
+        android:icon="@drawable/baseline_message_24"
+        android:title="@string/chats" />
+
+    <item
+        android:id="@+id/userProfileFragment"
+        android:icon="@drawable/baseline_person_24"
+        android:title="@string/profile" />
+
+</menu>

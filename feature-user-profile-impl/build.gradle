@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
+    }
+    kotlinOptions {
+        jvmTarget = "18"
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+    namespace 'com.solopov.com.solopov.feature_user_profile_impl'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':common')
+    implementation project(':feature-user-profile-api')
+
+    implementation kotlinDep
+
+    implementation androidDep
+    implementation materialDep
+    implementation cardViewDep
+    implementation constraintDep
+    implementation materialDep
+
+    implementation rxJavaDep
+    implementation rxAndroidDep
+
+    implementation fragmentDep
+
+    implementation daggerDep
+    implementation androidXCoreDep
+    implementation lifecycleViewModelDep
+    kapt daggerKapt
+
+    implementation viewPagerDep
+
+    implementation retrofitDep
+    implementation gsonConvertedDep
+    implementation gsonDep
+
+    implementation glideDep
+
+    implementation roomDep
+    implementation rxRoomDep
+    kapt roomKapt
+
+    implementation dataStoreDep
+    implementation dataStoreCoreDep
+
+    implementation lifecycleDep
+    kapt lifecycleKapt
+
+    testImplementation jUnitDep
+    testImplementation mockitoDep
+
+    coroutinesCoreDep
+    coroutinesAndroidDep
+}

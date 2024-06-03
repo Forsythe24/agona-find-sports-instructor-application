@@ -15,7 +15,8 @@ class Toolbar @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private val binding: ToolBarBinding = ToolBarBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding: ToolBarBinding =
+        ToolBarBinding.inflate(LayoutInflater.from(context), this, true)
 
     fun setTitle(title: String) {
         binding.titleTv.text = title
