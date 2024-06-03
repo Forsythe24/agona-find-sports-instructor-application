@@ -1,5 +1,3 @@
-# Android feature-modules
+# Sportland
 
-This scheme demonstrates a dependency graph in a project built by feature-modules architecture.
-
-You can use this project as a template for your new Android projects.
+Android application that will help you find your perfect sport instructor or, if you are a specialist yourself, find clients and exchange knowledge with other professionals
