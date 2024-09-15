@@ -1,4 +1,5 @@
 # Sportland
+Server part: https://github.com/Forsythe24/sportland
 &nbsp;
   <p align="center">
     <img height = "500" src="https://github.com/user-attachments/assets/e67dfc97-18bc-4361-a5d7-b7a8f1aad71a"/>
