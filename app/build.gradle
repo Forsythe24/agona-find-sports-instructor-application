@@ -9,11 +9,11 @@ android {
 
     android {
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_18
-            targetCompatibility = JavaVersion.VERSION_18
+            sourceCompatibility = JavaVersion.VERSION_19
+            targetCompatibility = JavaVersion.VERSION_19
         }
         kotlinOptions {
-            jvmTarget = "18"
+            jvmTarget = "19"
         }
     }
 
@@ -82,6 +82,6 @@ dependencies {
 
     implementation materialDep
 
-    implementation platform('com.google.firebase:firebase-bom:32.8.0')
-    implementation 'com.google.firebase:firebase-analytics'
+    implementation platform(firebaseBomDep)
+    implementation firebaseAnalyticsDep
 }

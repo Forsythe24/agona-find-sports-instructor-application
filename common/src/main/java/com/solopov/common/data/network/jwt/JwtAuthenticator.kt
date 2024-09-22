@@ -1,6 +1,6 @@
 package com.solopov.common.data.network.jwt
 
-import com.solopov.common.data.network.RefreshTokenService
+import com.solopov.common.data.network.api.RefreshTokenService
 import com.solopov.common.data.network.model.RefreshJwtRequestDto
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator

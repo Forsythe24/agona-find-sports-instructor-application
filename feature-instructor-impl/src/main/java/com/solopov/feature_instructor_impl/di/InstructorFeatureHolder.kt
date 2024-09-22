@@ -11,11 +11,9 @@ import javax.inject.Inject
 @ApplicationScope
 class InstructorFeatureHolder @Inject constructor(
     featureContainer: FeatureContainer,
-    private val instructorsRouter: InstructorsRouter
+    private val instructorsRouter: InstructorsRouter,
 ) : FeatureApiHolder(featureContainer) {
 
-
-    //Помогаем даггеру создать компонент именно с теми зависимостями, которые нам нужны
 
     override fun initializeDependencies(): Any {
         val instructorFeatureDependencies = DaggerInstructorFeatureComponent_InstructorFeatureDependenciesComponent.builder()

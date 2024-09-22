@@ -2,13 +2,14 @@ package com.solopov.common.data.network.di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.solopov.common.core.config.NetworkProperties
-import com.solopov.common.data.network.NetworkApiCreator
-import com.solopov.common.data.network.AuthService
-import com.solopov.common.data.network.RefreshTokenService
-import com.solopov.common.data.network.SportApi
+import com.solopov.common.data.network.utils.NetworkApiCreator
+import com.solopov.common.data.network.api.AuthService
+import com.solopov.common.data.network.api.ChatApiService
+import com.solopov.common.data.network.api.RefreshTokenService
+import com.solopov.common.data.network.api.SportApi
+import com.solopov.common.data.network.api.UserApiService
 import com.solopov.common.data.network.di.qualifier.AuthenticatedClient
 import com.solopov.common.data.network.di.qualifier.TokenRefreshClient
 import com.solopov.common.data.network.interceptor.AccessTokenInterceptor
@@ -17,6 +18,7 @@ import com.solopov.common.data.network.jwt.JwtAuthenticator
 import com.solopov.common.data.network.jwt.JwtDataStore
 import com.solopov.common.data.network.jwt.JwtManager
 import com.solopov.common.di.scope.ApplicationScope
+import com.solopov.common.di.scope.FeatureScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -25,10 +27,6 @@ import java.util.concurrent.TimeUnit
 
 @Module
 class RemoteModule {
-
-    @ApplicationScope
-    @Provides
-    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
     @ApplicationScope
     @Provides
@@ -47,8 +45,19 @@ class RemoteModule {
 
     @ApplicationScope
     @Provides
+    fun provideUserApiService(
+        @AuthenticatedClient
+        okHttpClient: OkHttpClient,
+        apiCreator: NetworkApiCreator,
+    ): UserApiService {
+        apiCreator.okHttpClient = okHttpClient
+        return apiCreator.create(UserApiService::class.java)
+    }
+
+    @ApplicationScope
+    @Provides
     fun provideAuthService(
-        apiCreator: NetworkApiCreator
+        apiCreator: NetworkApiCreator,
     ): AuthService {
         return apiCreator.create(AuthService::class.java)
     }
@@ -58,10 +67,21 @@ class RemoteModule {
     fun provideRefreshTokenService(
         @TokenRefreshClient
         okHttpClient: OkHttpClient,
-        apiCreator: NetworkApiCreator
+        apiCreator: NetworkApiCreator,
     ): RefreshTokenService {
         apiCreator.okHttpClient = okHttpClient
         return apiCreator.create(RefreshTokenService::class.java)
+    }
+
+    @Provides
+    @ApplicationScope
+    fun provideChatApiService(
+        @AuthenticatedClient
+        okHttpClient: OkHttpClient,
+        apiCreator: NetworkApiCreator,
+    ): ChatApiService {
+        apiCreator.okHttpClient = okHttpClient
+        return apiCreator.create(ChatApiService::class.java)
     }
 
     @Provides
@@ -70,7 +90,7 @@ class RemoteModule {
     fun provideAccessOkHttpClient(
         accessTokenInterceptor: AccessTokenInterceptor,
         authenticator: JwtAuthenticator,
-        networkProperties: NetworkProperties
+        networkProperties: NetworkProperties,
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -90,7 +110,7 @@ class RemoteModule {
     @ApplicationScope
     fun provideRefreshOkHttpClient(
         refreshTokenInterceptor: RefreshTokenInterceptor,
-        networkProperties: NetworkProperties
+        networkProperties: NetworkProperties,
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY

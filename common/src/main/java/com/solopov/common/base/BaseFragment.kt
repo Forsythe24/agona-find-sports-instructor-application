@@ -13,7 +13,7 @@ import javax.inject.Inject
 abstract class BaseFragment<T : BaseViewModel> : Fragment() {
 
     @Inject
-    protected open lateinit var viewModel: T
+    open lateinit var viewModel: T
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         inject()

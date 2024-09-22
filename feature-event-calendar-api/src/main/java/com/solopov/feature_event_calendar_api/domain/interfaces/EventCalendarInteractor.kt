@@ -8,7 +8,6 @@ import java.util.Date
 
 class EventCalendarInteractor(
     private val eventCalendarRepository: EventCalendarRepository,
-    private val ratingRepository: RatingRepository,
     private val dispatcher: CoroutineDispatcher
 ) {
 
