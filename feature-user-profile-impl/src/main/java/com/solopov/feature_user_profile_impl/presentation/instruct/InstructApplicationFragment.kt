@@ -28,7 +28,7 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentInstructApplicationBinding.inflate(inflater, container, false)
         return binding.root
@@ -87,6 +87,7 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
                 override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     validateForm()
                 }
+
                 override fun afterTextChanged(p0: Editable?) {}
             })
 
@@ -113,7 +114,7 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
 
     private fun validateForm() {
         with(binding) {
-            experienceTextInput.helperText = viewModel.validateExperienceField(experienceEt.text.toString())
+            experienceTextInput.helperText = if (experienceEt.text.isNullOrEmpty()) getString(R.string.experience_field_empty_helper_text) else null
         }
     }
 

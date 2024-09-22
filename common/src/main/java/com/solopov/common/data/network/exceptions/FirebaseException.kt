@@ -1,6 +1,6 @@
 package com.solopov.common.data.network.exceptions
 
-sealed class FirebaseException {
-    class FirebaseConnectionFailedException(message: String) : Throwable(message)
-    class FileUploadingException(message: String) : Throwable(message)
+sealed class FirebaseException(message: String): Exception(message) {
+    class FirebaseConnectionFailedException(message: String) : FirebaseException(message)
+    class FileUploadingException(message: String) : FirebaseException(message)
 }

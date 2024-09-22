@@ -245,7 +245,6 @@ class ChatViewModel(
         if (messages.isEmpty()) {
             return messages
         }
-        // 0 by default because the first message in a chat always needs its' date above it
         val dateIndices = mutableListOf(0)
         var offset = 1
         for (i in 0 until messages.size - 1) {
@@ -270,9 +269,7 @@ class ChatViewModel(
                 )
 
                 if (todayString == chatDate) {
-                    //change to "today" if the chat date and the current date match
-                    chatDate =
-                        resManager.getString(com.solopov.feature_chat_impl.R.string.today)
+                    chatDate = resManager.getString(com.solopov.feature_chat_impl.R.string.today)
                 }
 
                 mutableMessages.add(

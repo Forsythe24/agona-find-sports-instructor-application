@@ -21,7 +21,6 @@ class InstructApplicationViewModel @Inject constructor(
     private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val mappers: UserMappers,
     private val router: UserProfileRouter,
-    private val resManager: ResourceManager
 ) : BaseViewModel() {
 
     private val _progressBarFlow = MutableStateFlow(false)
@@ -32,7 +31,7 @@ class InstructApplicationViewModel @Inject constructor(
 
     fun updateUser(
         userProfile: UserProfile,
-        onUserUpdated: () -> Unit
+        onUserUpdated: () -> Unit,
     ) {
         _progressBarFlow.value = true
         viewModelScope.launch {
@@ -47,13 +46,6 @@ class InstructApplicationViewModel @Inject constructor(
             }
         }
     }
-
-    fun validateExperienceField(experience: String): String? = if (experience.isEmpty()) {
-        resManager.getString(R.string.experience_field_empty_helper_text)
-    } else {
-        null
-    }
-
 
     fun goBack() {
         router.goBack()
