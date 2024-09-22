@@ -8,11 +8,11 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
     kotlinOptions {
-        jvmTarget = "18"
+        jvmTarget = "19"
     }
 
     defaultConfig {
@@ -62,9 +62,8 @@ dependencies {
     implementation daggerDep
     implementation androidXCoreDep
     implementation lifecycleViewModelDep
-    implementation 'com.google.firebase:firebase-auth:22.3.1'
-    implementation 'com.google.firebase:firebase-database:20.3.1'
-    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
+    implementation firebaseDataBaseDep
+    implementation firebaseStorageDep
     kapt daggerKapt
 
     implementation lifecycleDep
@@ -88,6 +87,11 @@ dependencies {
 
     implementation lottieDep
 
-    implementation platform('com.google.firebase:firebase-bom:32.8.0')
-    implementation 'com.google.firebase:firebase-analytics'
+    implementation platform(firebaseBomDep)
+    implementation firebaseAnalyticsDep
+}
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        languageVersion = "1.9"
+    }
 }

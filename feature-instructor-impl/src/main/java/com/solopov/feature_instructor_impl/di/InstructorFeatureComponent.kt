@@ -19,7 +19,7 @@ import dagger.Component
         InstructorFeatureModule::class
     ]
 )
-interface  InstructorFeatureComponent : InstructorFeatureApi {
+interface InstructorFeatureComponent : InstructorFeatureApi {
 
     fun instructorsComponentFactory(): InstructorsComponent.Factory
 

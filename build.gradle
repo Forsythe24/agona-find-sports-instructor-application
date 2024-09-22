@@ -5,9 +5,9 @@ buildscript {
 
         compileSdkVersion = 34
         minSdkVersion = 21
-        targetSdkVersion = 34
+        targetSdkVersion = 31
 
-        kotlinVersion = '1.8.20'
+        kotlinVersion = '1.9.0'
 
         supportVersion = '1.6.0'
         cardViewVersion = '1.0.0'
@@ -17,7 +17,7 @@ buildscript {
         rxJavaVersion = '2.2.7'
         rxAndroidVersion = '2.1.0'
 
-        daggerVersion = '2.44.2'
+        daggerVersion = '2.51.1'
 
         architectureComponentVersion = '2.5.0'
         lifecycleVersion = '2.2.0'
@@ -57,6 +57,14 @@ buildscript {
         composeActivityVersion = "1.9.0"
         composeMaterialVersion = "1.2.1"
 
+        firebaseStorageVersion = "20.1.0"
+        firebaseBomVersion = "32.8.0"
+        firebaseDataBaseVersion = "20.3.1"
+
+        timeRangePickerVersion = "1.0.0"
+
+        webSocketVersion = "2.0.2"
+
         lottieVersion = "6.4.0"
 
         stompProtocolVersion = "1.6.4"
@@ -64,6 +72,15 @@ buildscript {
         stompProtocolDep = "com.github.NaikSoftware:StompProtocolAndroid:$stompProtocolVersion"
 
         lottieDep =  "com.airbnb.android:lottie:$lottieVersion"
+
+        firebaseStorageDep = "com.google.firebase:firebase-storage-ktx:$firebaseStorageVersion"
+        firebaseAnalyticsDep = "com.google.firebase:firebase-analytics"
+        firebaseBomDep = "com.google.firebase:firebase-bom:$firebaseBomVersion"
+        firebaseDataBaseDep = "com.google.firebase:firebase-database:$firebaseDataBaseVersion"
+
+        timeRangePickerDep = "nl.joery.timerangepicker:timerangepicker:$timeRangePickerVersion"
+
+        webSocketDep = "dev.gustavoavila:java-android-websocket-client:$webSocketVersion"
 
         composeMaterialDep = "androidx.compose.material:material:$composeVersion"
         composeUiToolingPreviewDep = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
@@ -90,7 +107,7 @@ buildscript {
 
         lifecycleViewModelDep = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
-        androidXCoreDep = "androidx.core:core-ktx:+"
+        androidXCoreDep = "androidx.core:core-ktx:1.12.0"
 
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -143,7 +160,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath 'com.android.tools.build:gradle:8.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath 'com.google.gms:google-services:4.4.1'
     }

@@ -44,9 +44,6 @@ public final class FragmentLogInBinding implements ViewBinding {
   public final TextView logInIntoAccountTv;
 
   @NonNull
-  public final TextView logInTv;
-
-  @NonNull
   public final TextInputEditText passwordEt;
 
   @NonNull
@@ -58,13 +55,15 @@ public final class FragmentLogInBinding implements ViewBinding {
   @NonNull
   public final TextView signupLnk;
 
+  @NonNull
+  public final TextView sportlandTv;
+
   private FragmentLogInBinding(@NonNull ScrollView rootView, @NonNull TextInputEditText emailEt,
       @NonNull TextInputLayout emailTextInput, @NonNull TextView emailTv,
       @NonNull TextView forgotPasswordLnk, @NonNull TextView haveAccountQuestionTv,
       @NonNull ProgressButton logInBtn, @NonNull TextView logInIntoAccountTv,
-      @NonNull TextView logInTv, @NonNull TextInputEditText passwordEt,
-      @NonNull TextInputLayout passwordTextInput, @NonNull TextView passwordTv,
-      @NonNull TextView signupLnk) {
+      @NonNull TextInputEditText passwordEt, @NonNull TextInputLayout passwordTextInput,
+      @NonNull TextView passwordTv, @NonNull TextView signupLnk, @NonNull TextView sportlandTv) {
     this.rootView = rootView;
     this.emailEt = emailEt;
     this.emailTextInput = emailTextInput;
@@ -73,11 +72,11 @@ public final class FragmentLogInBinding implements ViewBinding {
     this.haveAccountQuestionTv = haveAccountQuestionTv;
     this.logInBtn = logInBtn;
     this.logInIntoAccountTv = logInIntoAccountTv;
-    this.logInTv = logInTv;
     this.passwordEt = passwordEt;
     this.passwordTextInput = passwordTextInput;
     this.passwordTv = passwordTv;
     this.signupLnk = signupLnk;
+    this.sportlandTv = sportlandTv;
   }
 
   @Override
@@ -149,12 +148,6 @@ public final class FragmentLogInBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.log_in_tv;
-      TextView logInTv = ViewBindings.findChildViewById(rootView, id);
-      if (logInTv == null) {
-        break missingId;
-      }
-
       id = R.id.password_et;
       TextInputEditText passwordEt = ViewBindings.findChildViewById(rootView, id);
       if (passwordEt == null) {
@@ -179,9 +172,15 @@ public final class FragmentLogInBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.sportland_tv;
+      TextView sportlandTv = ViewBindings.findChildViewById(rootView, id);
+      if (sportlandTv == null) {
+        break missingId;
+      }
+
       return new FragmentLogInBinding((ScrollView) rootView, emailEt, emailTextInput, emailTv,
-          forgotPasswordLnk, haveAccountQuestionTv, logInBtn, logInIntoAccountTv, logInTv,
-          passwordEt, passwordTextInput, passwordTv, signupLnk);
+          forgotPasswordLnk, haveAccountQuestionTv, logInBtn, logInIntoAccountTv, passwordEt,
+          passwordTextInput, passwordTv, signupLnk, sportlandTv);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

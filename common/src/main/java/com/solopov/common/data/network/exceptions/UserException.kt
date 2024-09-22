@@ -1,7 +1,7 @@
 package com.solopov.common.data.network.exceptions
 
-sealed class UserException {
-    class UserNotFound(message: String) : Throwable(message)
-    class UserDataUpdateFailedException(message: String) : Throwable(message)
-    class UserNotCreatedException(message: String) : Throwable(message)
+sealed class UserException(message: String): Exception(message) {
+    class UserNotFoundException(message: String) : UserException(message)
+    class UserDataUpdateFailedException(message: String) : UserException(message)
+    class UserNotCreatedException(message: String) : UserException(message)
 }

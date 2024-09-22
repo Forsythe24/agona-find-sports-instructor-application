@@ -2,7 +2,7 @@ package com.solopov.common.di.modules
 
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.config.NetworkProperties
-import com.solopov.common.data.network.NetworkApiCreator
+import com.solopov.common.data.network.utils.NetworkApiCreator
 import com.solopov.common.data.network.di.qualifier.PublicClient
 import com.solopov.common.di.scope.ApplicationScope
 import dagger.Module

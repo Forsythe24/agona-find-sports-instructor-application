@@ -18,7 +18,7 @@ inline fun <T, R> T.runCatching(
 ): Result<R> {
     return try {
         Result.success(block())
-    } catch (ex: Throwable) {
+    } catch (ex: Exception) {
         Result.failure(exceptionHandlerDelegate.handleException(ex))
     }
 }

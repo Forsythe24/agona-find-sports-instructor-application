@@ -9,6 +9,7 @@ class DateFormatter {
     private val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private val simpleDateTimeFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
     private val ddMMMyyyyDateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+    private val yyyyMMddHHmmssDateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
     private val simpleTimeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     fun formatDate(date: Date): String {
@@ -17,6 +18,10 @@ class DateFormatter {
 
     fun formatDateTo_ddMMMyyyy_DateFormat(date: Date): String {
         return ddMMMyyyyDateFormat.format(date)
+    }
+
+    fun formatDateTo_yyyyMMddHHmmss_DateFormat(date: Date): String {
+        return yyyyMMddHHmmssDateFormat.format(date)
     }
 
     fun formatDateTime(date: Date): String {
