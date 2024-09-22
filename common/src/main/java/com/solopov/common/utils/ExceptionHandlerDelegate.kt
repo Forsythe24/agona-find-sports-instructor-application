@@ -10,29 +10,14 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
-class ExceptionHandlerDelegate @Inject constructor(
-    private val resManager: ResourceManager
-) {
+class ExceptionHandlerDelegate @Inject constructor() {
     fun handleException(ex: Throwable): Throwable {
         return when (ex) {
-            is FirebaseNetworkException -> FirebaseException.FirebaseConnectionFailedException(
-                resManager.getString(
-                    R.string.firebase_connection_failed_exception
-                )
-            )
+            is FirebaseNetworkException -> FirebaseException.FirebaseConnectionFailedException("Remote service has failed due to network error. Inspect the device's network connectivity state or retry later to resolve")
 
+            is SocketTimeoutException -> SocketConnectionTimeoutException("Failed to connect to server after 10 seconds. Try again later")
 
-            is SocketTimeoutException -> SocketConnectionTimeoutException(
-                resManager.getString(
-                    R.string.socket_connection_timeout_exception
-                )
-            )
-
-            is ConnectException -> FailedToConnectException(
-                resManager.getString(
-                    R.string.failed_to_connect_to_server_exception
-                )
-            )
+            is ConnectException -> FailedToConnectException("Failed to connect to the server.Check the device's connection")
 
             else -> ex
         }

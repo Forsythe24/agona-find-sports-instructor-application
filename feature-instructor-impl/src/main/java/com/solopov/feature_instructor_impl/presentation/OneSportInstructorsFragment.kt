@@ -85,7 +85,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
     private fun updateInstructors(instructors: List<InstructorsAdapter.ListItem>) {
         with(binding) {
             if (instructorsRv.adapter == null) {
-                instructorsAdapter = InstructorsAdapter(::showImage, ::onItemClicked, ::getStringCallback)
+                instructorsAdapter = InstructorsAdapter(::showImage, ::onItemClicked)
                 instructorsRv.adapter = instructorsAdapter
             }
             (instructorsRv.adapter as InstructorsAdapter).submitList(instructors)
@@ -106,7 +106,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
 
     private fun setOnInstructorsSearchListener() {
 
-        instructorsSearchView.setOnQueryTextListener(object:
+        instructorsSearchView.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(text: String?): Boolean {
                 if (text != null) {
@@ -131,18 +131,14 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
         viewModel.openInstructor(instructor.id)
     }
 
-    private fun getStringCallback(id: Int): String {
-        return getString(id)
-    }
-
     private fun filterInstructorsList(text: String) {
         val query = text.trim().lowercase()
         val filteredList = mutableListOf<InstructorsAdapter.ListItem>()
-        instructorsList.forEach {instructor ->
+        instructorsList.forEach { instructor ->
             val nameParts = instructor.name.split(" ", "-")
             for (i in nameParts.indices) {
                 nameParts[i].trim()
-                if(nameParts[i].lowercase().startsWith(query) || instructor.name.lowercase().startsWith(query)) {
+                if (nameParts[i].lowercase().startsWith(query) || instructor.name.lowercase().startsWith(query)) {
                     filteredList.add(instructor)
                     break
                 }
@@ -156,7 +152,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
         }
         updateInstructors(filteredList)
     }
-    
+
     companion object {
         fun newInstance(sport: Int) = OneSportInstructorsFragment().apply {
             arguments = bundleOf(ParamsKey.SPORT_KEY to sport)

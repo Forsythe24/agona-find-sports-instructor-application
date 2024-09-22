@@ -9,7 +9,6 @@ import com.solopov.instructors.databinding.ItemInstructorBinding
 class InstructorsAdapter(
     private val showImage: (url: String, imageView: ImageView) -> Unit,
     private val onItemClicked: (ListItem) -> Unit,
-    private val getStringCallback: (id: Int) -> String,
 ) : ListAdapter<InstructorsAdapter.ListItem, InstructorViewHolder>(InstructorDiffUtilItemCallback()) {
 
     data class ListItem(
@@ -29,7 +28,7 @@ class InstructorsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InstructorViewHolder {
         return InstructorViewHolder(ItemInstructorBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
-        ), showImage, onItemClicked, getStringCallback)
+        ), showImage, onItemClicked)
     }
 
 
