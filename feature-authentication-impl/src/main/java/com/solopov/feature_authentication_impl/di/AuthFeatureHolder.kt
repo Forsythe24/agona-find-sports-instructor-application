@@ -10,7 +10,7 @@ import javax.inject.Inject
 @ApplicationScope
 class AuthFeatureHolder @Inject constructor(
     featureContainer: FeatureContainer,
-    private val authRouter: AuthRouter
+    private val authRouter: AuthRouter,
 ) : FeatureApiHolder(featureContainer) {
 
 

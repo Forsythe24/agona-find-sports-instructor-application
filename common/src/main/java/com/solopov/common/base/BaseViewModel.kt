@@ -14,7 +14,7 @@ open class BaseViewModel : ViewModel() {
 
     data class BaseDialogData(
         val title: String,
-        val message: String
+        val message: String,
     )
 
     protected fun showAlert(errorText: String) {
@@ -68,7 +68,7 @@ open class BaseViewModel : ViewModel() {
     private inline fun <P> doCoroutineWork(
         crossinline doOnAsyncBlock: suspend CoroutineScope.() -> P,
         coroutineScope: CoroutineScope,
-        context: CoroutineContext
+        context: CoroutineContext,
     ) {
         coroutineScope.launch {
             withContext(context) {

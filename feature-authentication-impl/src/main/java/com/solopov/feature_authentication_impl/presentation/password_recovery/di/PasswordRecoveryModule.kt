@@ -3,10 +3,11 @@ package com.solopov.feature_authentication_impl.presentation.password_recovery.d
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
-import com.solopov.common.utils.ExceptionHandlerDelegate
-import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
+import com.solopov.common.utils.UserDataValidator
+import com.solopov.feature_authentication_api.domain.AuthInteractor
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.presentation.password_recovery.PasswordRecoveryViewModel
 import dagger.Module
@@ -24,7 +25,7 @@ class PasswordRecoveryModule {
     @Provides
     fun provideMainViewModel(
         fragment: Fragment,
-        factory: ViewModelProvider.Factory
+        factory: ViewModelProvider.Factory,
     ): PasswordRecoveryViewModel {
         return ViewModelProvider(fragment, factory)[PasswordRecoveryViewModel::class.java]
     }
@@ -34,9 +35,10 @@ class PasswordRecoveryModule {
     @ViewModelKey(PasswordRecoveryViewModel::class)
     fun providePasswordRecoveryViewModel(
         interactor: AuthInteractor,
-        exceptionHandlerDelegate: ExceptionHandlerDelegate,
-        router: AuthRouter
+        router: AuthRouter,
+        userDataValidator: UserDataValidator,
+        resourceManager: ResourceManager,
     ): ViewModel {
-        return PasswordRecoveryViewModel(interactor, exceptionHandlerDelegate, router)
+        return PasswordRecoveryViewModel(interactor, router, userDataValidator, resourceManager)
     }
 }

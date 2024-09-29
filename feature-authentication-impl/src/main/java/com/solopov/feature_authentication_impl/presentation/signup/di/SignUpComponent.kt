@@ -17,7 +17,7 @@ interface SignUpComponent {
     @Subcomponent.Factory
     interface Factory {
         fun create(
-            @BindsInstance fragment: Fragment
+            @BindsInstance fragment: Fragment,
         ): SignUpComponent
     }
 

@@ -67,7 +67,7 @@ class ChatAdapter(
     }
 
     class SentMessageViewHolder(
-        private val viewBinding: ItemSentMessageBinding
+        private val viewBinding: ItemSentMessageBinding,
     ) : ViewHolder(viewBinding.root) {
         fun bindItem(messageItem: MessageItem) {
             with(viewBinding) {
@@ -80,7 +80,7 @@ class ChatAdapter(
     }
 
     class ReceivedMessageViewHolder(
-        private val viewBinding: ItemReceivedMessageBinding
+        private val viewBinding: ItemReceivedMessageBinding,
     ) : ViewHolder(viewBinding.root) {
         fun bindItem(messageItem: MessageItem) {
             with(viewBinding) {
@@ -93,7 +93,7 @@ class ChatAdapter(
     }
 
     class DataMessageViewHolder(
-        private val viewBinding: ItemDataMessageBinding
+        private val viewBinding: ItemDataMessageBinding,
     ) : ViewHolder(viewBinding.root) {
 
         fun bindItem(messageItem: MessageItem) {

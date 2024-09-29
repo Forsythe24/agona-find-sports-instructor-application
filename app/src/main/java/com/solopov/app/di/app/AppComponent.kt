@@ -5,6 +5,7 @@ import com.solopov.app.di.deps.ComponentDependenciesModule
 import com.solopov.app.di.deps.ComponentHolderModule
 import com.solopov.app.di.main.MainDependencies
 import com.solopov.common.di.CommonApi
+import com.solopov.common.di.coroutine.CoroutineModule
 import com.solopov.common.di.modules.CommonModule
 import com.solopov.common.di.modules.NetworkModule
 import com.solopov.common.di.scope.ApplicationScope
@@ -20,7 +21,8 @@ import dagger.Component
         NavigationModule::class,
         ComponentHolderModule::class,
         ComponentDependenciesModule::class,
-        FeatureManagerModule::class
+        FeatureManagerModule::class,
+        CoroutineModule::class,
     ]
 )
 interface AppComponent : MainDependencies, CommonApi {

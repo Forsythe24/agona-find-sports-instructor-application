@@ -9,8 +9,7 @@
         android:id="@+id/instructorsFragment"
         android:name="com.solopov.feature_instructor_impl.presentation.InstructorsFragment"
         android:label="fragment_instructors"
-        tools:layout="@layout/fragment_instructors">
-    </fragment>
+        tools:layout="@layout/fragment_instructors"></fragment>
 
     <fragment
         android:id="@+id/signUpFragment"
@@ -29,8 +28,7 @@
         android:id="@+id/logInFragment"
         android:name="com.solopov.feature_authentication_impl.presentation.login.LogInFragment"
         android:label="fragment_log_in"
-        tools:layout="@layout/fragment_log_in"
-        >
+        tools:layout="@layout/fragment_log_in">
         <action
             android:id="@+id/action_logInFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment"
@@ -40,15 +38,13 @@
 
         <action
             android:id="@+id/action_logInFragment_to_passwordRecoveryFragment"
-            app:destination="@id/passwordRecoveryFragment"
-            />
+            app:destination="@id/passwordRecoveryFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/passwordRecoveryFragment"
         android:name="com.solopov.feature_authentication_impl.presentation.password_recovery.PasswordRecoveryFragment"
-        android:label="fragment_password_recovery">
-    </fragment>
+        android:label="fragment_password_recovery"></fragment>
 
     <fragment
         android:id="@+id/userProfileFragment"
@@ -73,15 +69,13 @@
         android:id="@+id/instructApplicationFragment"
         android:name="com.solopov.feature_user_profile_impl.presentation.instruct.InstructApplicationFragment"
         android:label="fragment_instruct_application"
-        tools:layout="@layout/fragment_instruct_application">
-    </fragment>
+        tools:layout="@layout/fragment_instruct_application"></fragment>
 
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.solopov.feature_user_profile_impl.presentation.edit_profile.EditProfileFragment"
         android:label="fragment_edit_profile"
-        tools:layout="@layout/fragment_edit_profile">
-    </fragment>
+        tools:layout="@layout/fragment_edit_profile"></fragment>
 
     <fragment
         android:id="@+id/chatFragment"
@@ -115,8 +109,7 @@
         android:id="@+id/eventCalendarFragment"
         android:name="com.solopov.feature_event_calendar_impl.presentation.EventCalendarFragment"
         android:label="fragment_chats"
-        tools:layout="@layout/fragment_event_calendar">
-    </fragment>
+        tools:layout="@layout/fragment_event_calendar"></fragment>
 
 
 </navigation>

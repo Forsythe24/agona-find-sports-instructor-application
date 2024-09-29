@@ -28,7 +28,7 @@ interface MainComponent {
     interface Factory {
         fun create(
             @BindsInstance activity: AppCompatActivity,
-            deps: MainDependencies
+            deps: MainDependencies,
         ): MainComponent
     }
 

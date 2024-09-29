@@ -10,7 +10,6 @@ class FragmentAdapter(manager: FragmentManager, lifecycle: Lifecycle) : Fragment
     override fun getItemCount(): Int = 5
 
 
-
     override fun createFragment(position: Int): Fragment {
         return OneSportInstructorsFragment.newInstance(position)
     }

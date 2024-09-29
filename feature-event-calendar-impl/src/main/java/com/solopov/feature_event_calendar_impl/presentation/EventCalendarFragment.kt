@@ -29,7 +29,6 @@ import com.solopov.feature_event_calendar_impl.R
 import com.solopov.feature_event_calendar_impl.databinding.FragmentEventCalendarBinding
 import com.solopov.feature_event_calendar_impl.di.EventCalendarFeatureComponent
 import com.solopov.feature_event_calendar_impl.presentation.model.EventItem
-import kotlinx.coroutines.flow.receiveAsFlow
 import nl.joery.timerangepicker.TimeRangePicker
 import java.util.Calendar
 import java.util.Date
@@ -54,7 +53,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentEventCalendarBinding.inflate(inflater, container, false)
         return binding.root
@@ -113,10 +112,8 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
             currentEventFlow.observe {
             }
 
-            errorsChannel.receiveAsFlow().observe { error ->
-                val errorMessage = error.message ?: getString(R.string.unknown_error)
-
-                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+            errorMessageChannel.observe { message ->
+                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
             }
         }
     }
@@ -149,7 +146,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
+                    target: RecyclerView.ViewHolder,
                 ): Boolean {
                     return false
                 }
@@ -195,7 +192,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
     private fun setSaveEventButtonOnClickListener() {
         scheduleButton.setOnClickListener {
             if (activityEt.text.isNullOrEmpty()) {
-                activityTextInput.helperText = getString(R.string.activity_field_must_not_be_empty)
+                activityTextInput.error = getString(R.string.activity_field_must_not_be_empty)
             } else {
                 // if id is present, that means we are just editing an event saved earlier
                 val id = viewModel.currentEventFlow.value?.id ?: 0L
@@ -292,10 +289,10 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
 
             override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (text.isNullOrEmpty()) {
-                    activityTextInput.helperText =
+                    activityTextInput.error =
                         getString(R.string.activity_field_must_not_be_empty)
                 } else {
-                    activityTextInput.helperText = ""
+                    activityTextInput.error = ""
                 }
             }
 
@@ -307,7 +304,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
     private fun clearDialogViews() {
         placeEt.setText("")
         activityEt.setText("")
-        activityTextInput.helperText = ""
+        activityTextInput.error = ""
 
         setTimeRange(TWELVE_O_CLOCK_IN_MINUTES, TWO_O_CLOCK_IN_MINUTES)
     }

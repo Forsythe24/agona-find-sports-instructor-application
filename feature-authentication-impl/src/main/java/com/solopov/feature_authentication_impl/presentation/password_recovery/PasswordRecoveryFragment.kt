@@ -5,29 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
-import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
-import kotlinx.coroutines.flow.receiveAsFlow
-import javax.inject.Inject
 
 class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
-
-    @Inject
-    lateinit var userDataValidator: UserDataValidator
 
     private lateinit var composeView: ComposeView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         return ComposeView(requireContext()).also {
@@ -47,7 +40,7 @@ class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
             PasswordRecoveryScreen(
                 onSendClicked = ::sendNewPasswordOnEmail,
                 onBackClicked = { viewModel.goBack() },
-                userDataValidator = userDataValidator
+                onValidateEmail = viewModel::validateEmail
             )
         }
     }
@@ -67,15 +60,9 @@ class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
     }
 
     override fun subscribe(viewModel: PasswordRecoveryViewModel) {
-
-        viewModel.errorsChannel.receiveAsFlow().observe { error ->
-            val errorMessage = error.message ?: getString(R.string.unknown_error)
-
-            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
-
+        viewModel.errorMessageChannel.observe { message ->
+            showSnackbar(message, Snackbar.LENGTH_SHORT)
         }
-
-        viewModel.state.observe { }
     }
 
     private fun onPasswordSent(email: String) {

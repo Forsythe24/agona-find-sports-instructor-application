@@ -9,6 +9,6 @@ import retrofit2.http.POST
 interface RefreshTokenService {
     @POST("auth/refresh")
     suspend fun refreshToken(
-        @Body requestDto: RefreshJwtRequestDto
+        @Body requestDto: RefreshJwtRequestDto,
     ): Response<AuthNetworkResponse>
 }

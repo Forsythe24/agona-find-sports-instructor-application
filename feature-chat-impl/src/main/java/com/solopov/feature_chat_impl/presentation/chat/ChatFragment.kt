@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.solopov.common.R
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
@@ -23,7 +22,6 @@ import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
-import kotlinx.coroutines.flow.receiveAsFlow
 import java.util.Date
 
 class ChatFragment : BaseFragment<ChatViewModel>() {
@@ -35,7 +33,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     private lateinit var currentMessageList: MutableList<MessageItem>
     private lateinit var currentMessageListWithDates: MutableList<MessageItem>
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         viewBinding = FragmentChatBinding.inflate(inflater, container, false)
         return viewBinding.root
@@ -50,7 +48,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
         with(viewBinding) {
             chatRv.layoutManager =
                 LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            
+
             sendBtn.setOnClickListener {
 
                 val senderRoomId = senderId + receiverId
@@ -137,18 +135,17 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
         with(viewModel) {
             receiverFlow.observe { receiver ->
-                receiver?.let { 
+                receiver?.let {
                     receiverId = receiver.userId
                     initReceiverViews(receiver)
                 }
-                
             }
 
             senderFlow.observe { sender ->
                 sender?.let {
                     senderId = sender.userId
                 }
-                
+
                 if (isMessageListeningStarted.not()) {
                     val receiver = viewModel.receiverFlow.value
 
@@ -185,13 +182,12 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                 }
             }
 
-            errorsChannel.receiveAsFlow().observe { error ->
-                val errorMessage = error.message ?: getString(R.string.unknown_error)
-                Snackbar.make(viewBinding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+            errorMessageChannel.observe { message ->
+                Snackbar.make(viewBinding.root, message, Snackbar.LENGTH_LONG).show()
             }
         }
     }
-    
+
     private fun initReceiverViews(receiver: ChatItem) {
         with(viewBinding) {
             receiverNameTv.text = receiver.name.let {
@@ -206,7 +202,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                     showImage(it, userImageIv)
                 }
             }
-            
+
         }
     }
 

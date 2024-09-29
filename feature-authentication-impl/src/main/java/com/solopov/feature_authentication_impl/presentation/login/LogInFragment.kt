@@ -8,15 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
-import com.solopov.common.data.network.exceptions.AuthException
 import com.solopov.common.di.FeatureUtils
-import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
 import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.databinding.FragmentLogInBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
-import kotlinx.coroutines.flow.receiveAsFlow
-import javax.inject.Inject
 
 class LogInFragment : BaseFragment<LogInViewModel>() {
 
@@ -25,7 +21,7 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentLogInBinding.inflate(inflater, container, false)
         return binding.root
@@ -44,16 +40,18 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
             emailEt.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    emailTextInput.helperText = viewModel.validateEmail(text.toString())
+                    emailTextInput.error = viewModel.validateEmail(text.toString())
                 }
+
                 override fun afterTextChanged(p0: Editable?) {}
             })
 
             logInBtn.setOnClickListener {
-                emailTextInput.helperText = null
-                passwordTextInput.helperText = null
-                viewModel.signIn(emailEt.text.toString(), passwordEt.text.toString())
-                logInBtn.setLoading(true)
+                emailTextInput.error = viewModel.validateEmail(emailEt.text.toString())
+                if (emailTextInput.error == null) {
+                    viewModel.signIn(emailEt.text.toString(), passwordEt.text.toString())
+                    logInBtn.setLoading(true)
+                }
             }
         }
     }
@@ -74,24 +72,15 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
                 }
             }
 
-            errorsChannel.receiveAsFlow().observe { error ->
+            errorMessageChannel.observe { message ->
                 with(binding) {
-                    val errorMessage = error.message ?: getString(R.string.unknown_error)
-
                     logInBtn.setLoading(false)
+                    when (message) {
+                        getString(R.string.wrong_password_message) -> passwordTextInput.error = message
 
-                    when (error) {
-                        is AuthException.NoSuchEmailException, is AuthException.InvalidEmailException -> {
-                            emailTextInput.helperText = error.message
+                        else -> {
+                            showSnackbar(message, Snackbar.LENGTH_SHORT)
                         }
-
-                        is AuthException.NoEmptyPasswordException, is AuthException.WrongPasswordException -> {
-                            passwordTextInput.helperText = error.message
-                        }
-
-                        else -> Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG)
-                            .show()
-
                     }
                 }
             }

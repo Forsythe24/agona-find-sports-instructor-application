@@ -1,11 +1,11 @@
-package com.solopov.feature_authentication_api.domain.interfaces
+package com.solopov.feature_authentication_api.domain
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 class AuthInteractor(
     private val authRepository: AuthRepository,
-    private val dispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher,
 ) {
     suspend fun createUser(
         email: String,
@@ -14,7 +14,7 @@ class AuthInteractor(
         age: Int,
         gender: String,
     ) {
-        return withContext(dispatcher) {
+        return withContext(ioDispatcher) {
             authRepository.createUser(
                 email,
                 password,
@@ -25,14 +25,14 @@ class AuthInteractor(
         }
     }
 
-    suspend fun signInUser(email: String?, password: String?): Boolean {
-        return withContext(dispatcher) {
+    suspend fun signInUser(email: String, password: String): Boolean {
+        return withContext(ioDispatcher) {
             authRepository.signInUser(email, password)
         }
     }
 
     suspend fun sendNewPassword(email: String) {
-        return withContext(dispatcher) {
+        return withContext(ioDispatcher) {
             authRepository.sendNewPassword(email)
         }
     }

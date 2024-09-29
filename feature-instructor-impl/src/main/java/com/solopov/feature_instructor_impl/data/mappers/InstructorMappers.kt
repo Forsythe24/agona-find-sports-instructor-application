@@ -14,12 +14,12 @@ class InstructorMappers @Inject constructor() {
                 age = age,
                 gender = gender,
                 sport = sportName ?: "Football",
-                photo = photo?: "",
-                experience = experience?: "",
-                description = description?: "",
-                rating = rating?: 0f,
-                numberOfRatings = numberOfRatings?: 0,
-                hourlyRate = hourlyRate?: 0f,
+                photo = photo ?: "",
+                experience = experience ?: "",
+                description = description ?: "",
+                rating = rating ?: 0f,
+                numberOfRatings = numberOfRatings ?: 0,
+                hourlyRate = hourlyRate ?: 0f,
             )
         }
     }

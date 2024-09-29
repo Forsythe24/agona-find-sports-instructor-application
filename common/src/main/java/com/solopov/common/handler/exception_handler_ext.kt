@@ -1,5 +1,6 @@
-package com.solopov.common.utils
+package com.solopov.common.handler
 
+import com.solopov.common.data.network.exceptions.handler.ExceptionHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.catch
@@ -13,7 +14,7 @@ fun <T> Flow<T>.catchWithHandler(
 }
 
 inline fun <T, R> T.runCatching(
-    exceptionHandlerDelegate: ExceptionHandlerDelegate,
+    exceptionHandlerDelegate: ExceptionHandler,
     block: T.() -> R,
 ): Result<R> {
     return try {

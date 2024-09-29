@@ -7,8 +7,7 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.DateFormatter
-import com.solopov.common.utils.ExceptionHandlerDelegate
-import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
+import com.solopov.feature_chat_api.domain.ChatInteractor
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.presentation.chat_list.ChatsViewModel
@@ -25,7 +24,7 @@ class ChatsModule {
     @Provides
     fun provideMainViewModel(
         fragment: Fragment,
-        factory: ViewModelProvider.Factory
+        factory: ViewModelProvider.Factory,
     ): ChatsViewModel {
         return ViewModelProvider(fragment, factory)[ChatsViewModel::class.java]
     }
@@ -35,12 +34,11 @@ class ChatsModule {
     @ViewModelKey(ChatsViewModel::class)
     fun provideSignInViewModel(
         interactor: ChatInteractor,
-        exceptionHandlerDelegate: ExceptionHandlerDelegate,
         chatMappers: ChatMappers,
         router: ChatRouter,
-        resManager: ResourceManager,
-        dateFormatter: DateFormatter
+        resourceManager: ResourceManager,
+        dateFormatter: DateFormatter,
     ): ViewModel {
-        return ChatsViewModel(interactor, exceptionHandlerDelegate, chatMappers, router, resManager, dateFormatter)
+        return ChatsViewModel(interactor, chatMappers, router, resourceManager, dateFormatter)
     }
 }

@@ -7,7 +7,7 @@ import com.solopov.feature_event_calendar_impl.presentation.model.EventItem
 
 class EventViewHolder(
     private val viewBinding: ItemEventBinding,
-    private val onItemClicked: (EventItem) -> Unit
+    private val onItemClicked: (EventItem) -> Unit,
 ) :
     RecyclerView.ViewHolder(viewBinding.root) {
 

@@ -1,4 +1,4 @@
-package com.solopov.feature_authentication_api.domain.interfaces
+package com.solopov.feature_authentication_api.domain
 
 interface AuthRepository {
     suspend fun createUser(
@@ -9,7 +9,7 @@ interface AuthRepository {
         gender: String,
     )
 
-    suspend fun signInUser(email: String?, password: String?): Boolean
+    suspend fun signInUser(email: String, password: String): Boolean
 
     suspend fun sendNewPassword(email: String)
 }

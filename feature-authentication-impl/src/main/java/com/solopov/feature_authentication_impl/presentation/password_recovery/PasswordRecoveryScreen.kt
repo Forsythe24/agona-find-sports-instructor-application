@@ -33,14 +33,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_impl.R
 
 @Composable
 fun PasswordRecoveryScreen(
     onSendClicked: (String) -> Unit,
     onBackClicked: () -> Unit,
-    userDataValidator: UserDataValidator,
+    onValidateEmail: (String) -> String?,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -66,7 +65,7 @@ fun PasswordRecoveryScreen(
         var isEnabled by rememberSaveable() { mutableStateOf(false) }
 
         fun validate(email: String) {
-            errorMessage = userDataValidator.validateEmail(email)
+            errorMessage = onValidateEmail(email)
             isError = !errorMessage.isNullOrEmpty()
             isEnabled = !isError
         }
@@ -158,7 +157,7 @@ fun PasswordRecoveryScreen(
 @Composable
 fun BackIconButton(
     icon: Painter,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(20.dp))
 

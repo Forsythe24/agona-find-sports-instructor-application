@@ -18,7 +18,7 @@ interface EventCalendarComponent {
     interface Factory {
 
         fun create(
-            @BindsInstance fragment: Fragment
+            @BindsInstance fragment: Fragment,
         ): EventCalendarComponent
     }
 

@@ -10,7 +10,7 @@ import javax.inject.Inject
 @ApplicationScope
 class ChatFeatureHolder @Inject constructor(
     featureContainer: FeatureContainer,
-    private val chatRouter: ChatRouter
+    private val chatRouter: ChatRouter,
 ) : FeatureApiHolder(featureContainer) {
 
 

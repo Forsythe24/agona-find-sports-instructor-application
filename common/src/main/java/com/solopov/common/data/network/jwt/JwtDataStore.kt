@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class JwtDataStore @Inject constructor(
-     private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : JwtManager {
 
     companion object {

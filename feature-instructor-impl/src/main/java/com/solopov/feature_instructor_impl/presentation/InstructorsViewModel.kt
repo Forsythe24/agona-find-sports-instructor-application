@@ -2,24 +2,29 @@ package com.solopov.feature_instructor_impl.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
-import com.solopov.feature_instructor_api.domain.interfaces.InstructorInteractor
+import com.solopov.common.core.resources.ResourceManager
+import com.solopov.common.data.network.getMessage
+import com.solopov.feature_instructor_api.domain.InstructorInteractor
 import com.solopov.feature_instructor_api.domain.model.Instructor
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class InstructorsViewModel @Inject constructor (
+class InstructorsViewModel @Inject constructor(
     private val interactor: InstructorInteractor,
     private val router: InstructorsRouter,
+    private val resourceManager: ResourceManager,
 ) : BaseViewModel() {
     private val _currentInstructorsFlow = MutableStateFlow<List<InstructorsAdapter.ListItem>?>(null)
     val currentInstructorsFlow: StateFlow<List<InstructorsAdapter.ListItem>?>
         get() = _currentInstructorsFlow
 
-    val errorsChannel = Channel<Throwable>()
+    private val _errorMessageChannel = Channel<String>()
+    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
 
     fun getInstructorsBySportId(sportId: Int) {
         viewModelScope.launch {
@@ -28,7 +33,7 @@ class InstructorsViewModel @Inject constructor (
             }.onSuccess {
                 _currentInstructorsFlow.value = mapInstructorsToListItems(it)
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
@@ -60,7 +65,7 @@ class InstructorsViewModel @Inject constructor (
     }
 
     override fun onCleared() {
-        errorsChannel.close()
+        _errorMessageChannel.close()
         super.onCleared()
     }
 

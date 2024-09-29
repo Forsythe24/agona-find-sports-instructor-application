@@ -57,7 +57,7 @@ fun View.gone() {
 
 public suspend fun Lifecycle.repeatOnLifecycle(
     state: Lifecycle.State,
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ) {
     require(state !== Lifecycle.State.INITIALIZED) {
         "repeatOnLifecycle cannot start work with the INITIALIZED lifecycle state."
@@ -124,5 +124,5 @@ public suspend fun Lifecycle.repeatOnLifecycle(
 
 public suspend fun LifecycleOwner.repeatOnLifecycle(
     state: Lifecycle.State,
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ): Unit = lifecycle.repeatOnLifecycle(state, block)

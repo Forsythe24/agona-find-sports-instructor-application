@@ -5,7 +5,7 @@ import com.solopov.feature_user_profile_api.domain.model.Rating
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.RatingUi
 import javax.inject.Inject
 
-class RatingMappers @Inject constructor(){
+class RatingMappers @Inject constructor() {
 
     fun mapRatingLocalToRating(ratingLocal: RatingLocal): Rating {
         return with(ratingLocal) {

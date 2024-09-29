@@ -38,7 +38,6 @@ import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.RatingUi
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.flow.receiveAsFlow
 
 
 class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
@@ -49,7 +48,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     private lateinit var dialogTv: TextView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -213,10 +212,8 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 binding.progressBar.isVisible = isLoading
             }
 
-            errorsChannel.receiveAsFlow().observe { error ->
-                val errorMessage = error.message ?: getString(R.string.unknown_error)
-
-                showSnackbarLong(errorMessage)
+            errorMessageChannel.observe { message ->
+                showSnackbarLong(message)
             }
         }
     }

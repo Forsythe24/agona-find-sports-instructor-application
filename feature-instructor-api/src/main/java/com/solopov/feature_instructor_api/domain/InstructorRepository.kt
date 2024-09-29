@@ -1,4 +1,4 @@
-package com.solopov.feature_instructor_api.domain.interfaces
+package com.solopov.feature_instructor_api.domain
 
 import com.solopov.feature_instructor_api.domain.model.Instructor
 

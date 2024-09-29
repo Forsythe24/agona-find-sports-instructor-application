@@ -19,5 +19,5 @@ data class RatingLocal(
     @ColumnInfo(name = "user_id")
     val userId: String,
 
-    val rating: Float
+    val rating: Float,
 )

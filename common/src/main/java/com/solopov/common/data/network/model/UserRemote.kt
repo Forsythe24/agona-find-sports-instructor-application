@@ -12,5 +12,5 @@ data class UserRemote(
     var rating: Float?,
     var numberOfRatings: Int?,
     var hourlyRate: Float?,
-    var isInstructor: Boolean = false
+    var isInstructor: Boolean = false,
 )

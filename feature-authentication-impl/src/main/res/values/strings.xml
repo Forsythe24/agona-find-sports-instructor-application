@@ -31,4 +31,6 @@
     <string name="finish">FINISH</string>
     <string name="new_password_sent_template">Your new password was sent on %s</string>
     <string name="sportland">Sportland</string>
+    <string name="no_such_email_message">User with such email doesn\'t exist</string>
+    <string name="wrong_password_message">Wrong password</string>
 </resources>

@@ -24,7 +24,6 @@ import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.flow.receiveAsFlow
 
 
 class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
@@ -37,7 +36,7 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
     private lateinit var passwordTextInput: TextInputLayout
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -57,14 +56,14 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
             saveBtn.setOnClickListener {
 
-                ageTextInput.helperText = viewModel.validateAge(ageEt.text.toString())
-                nameTextInput.helperText = viewModel.validateName(nameEt.text.toString())
+                ageTextInput.error = viewModel.validateAge(ageEt.text.toString())
+                nameTextInput.error = viewModel.validateName(nameEt.text.toString())
 
                 if (isValidForm()) {
                     currentUser?.let {
                         it.name = nameEt.text.toString()
                         it.age = ageEt.text.toString().toInt()
-                        it.gender = if (maleRb.isChecked) "M" else "F"
+                        it.gender = if (maleRb.isChecked) getString(R.string.male_gender_mark) else getString(R.string.female_gender_mark)
                         viewModel.updateUser(it, ::onUserUpdatedCallback)
                         viewModel.setCurrentUser(it)
                     }
@@ -82,7 +81,7 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
     private fun isValidForm(): Boolean {
         with(binding) {
-            return ageTextInput.helperText.isNullOrEmpty() && nameTextInput.helperText.isNullOrEmpty()
+            return ageTextInput.error.isNullOrEmpty() && nameTextInput.error.isNullOrEmpty()
         }
     }
 
@@ -122,7 +121,6 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
     private fun showCurrentPasswordInputDialog() {
         dialog.show()
-
         dialogButton.setOnClickListener {
             currentUser?.let {
                 viewModel.verifyCredentials(
@@ -138,14 +136,14 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
     }
 
     private fun onWrongPassword() {
-        passwordTextInput.helperText = getString(R.string.wrong_password)
+        passwordTextInput.error = getString(R.string.wrong_password)
     }
 
     private fun showPasswordSettingDialog() {
         dialog.show()
 
         passwordEt.setText("")
-        passwordTextInput.helperText = ""
+        passwordTextInput.error = ""
 
         val tvHeader = dialog.findViewById<TextView>(R.id.header_tv)
         tvHeader.text = getString(R.string.new_password_header)
@@ -153,8 +151,8 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
         dialogButton.setOnClickListener {
             val potentialNewPassword = passwordEt.text.toString()
-            passwordTextInput.helperText = viewModel.validatePassword(potentialNewPassword)
-            if (passwordTextInput.helperText.isNullOrEmpty()) {
+            passwordTextInput.error = viewModel.validatePassword(potentialNewPassword)
+            if (passwordTextInput.error.isNullOrEmpty()) {
                 currentUser?.let {
                     viewModel.updateUserPassword(potentialNewPassword, ::onPasswordChangedCallback)
                 }
@@ -221,10 +219,8 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
                 binding.saveBtn.setLoading(isLoading)
             }
 
-            errorsChannel.receiveAsFlow().observe { error ->
-                val errorMessage = error.message ?: getString(R.string.unknown_error)
-
-                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+            errorMessageChannel.observe { message ->
+                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
             }
         }
 

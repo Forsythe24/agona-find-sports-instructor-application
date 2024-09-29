@@ -5,5 +5,5 @@ data class Chat(
     val name: String,
     val photo: String?,
     var lastMessageDate: String?,
-    var lastMessageText: String?
+    var lastMessageText: String?,
 )

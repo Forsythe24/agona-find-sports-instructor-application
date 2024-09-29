@@ -3,10 +3,10 @@ package com.solopov.feature_user_profile_impl.presentation.user_profile.di
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
-import com.solopov.common.utils.ExceptionHandlerDelegate
-import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
+import com.solopov.feature_user_profile_api.domain.UserProfileInteractor
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.RatingMappers
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
@@ -25,7 +25,7 @@ class UserProfileModule {
     @Provides
     fun provideMainViewModel(
         fragment: Fragment,
-        factory: ViewModelProvider.Factory
+        factory: ViewModelProvider.Factory,
     ): UserProfileViewModel {
         return ViewModelProvider(fragment, factory)[UserProfileViewModel::class.java]
     }
@@ -35,17 +35,17 @@ class UserProfileModule {
     @ViewModelKey(UserProfileViewModel::class)
     fun provideInstructorViewModel(
         interactor: UserProfileInteractor,
-        exceptionHandlerDelegate: ExceptionHandlerDelegate,
         userMappers: UserMappers,
         ratingMappers: RatingMappers,
-        router: UserProfileRouter
+        router: UserProfileRouter,
+        resourceManager: ResourceManager,
     ): ViewModel {
         return UserProfileViewModel(
             interactor,
-            exceptionHandlerDelegate,
             userMappers,
             ratingMappers,
-            router
+            router,
+            resourceManager,
         )
     }
 }

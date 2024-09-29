@@ -29,9 +29,15 @@
     <string name="click_here_to_sign_up">Click here to sign up!</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
 
+    <string name="error_connection">Failed to connect, check the device\'s internet connection</string>
+    <string name="error_invalid_token">Your session is over. You need to log in again</string>
+    <string name="error_server">The service is unavailable. Try again later</string>
+    <string name="error_unknown">An error occurred. Try again later</string>
+    <string name="error_not_found_update">An error occurred\n Try updating the page</string>
+
     <string name="weak_password_exception">Password must be at least 6 characters</string>
     <string name="invalid_email_exception">Invalid email address</string>
-    <string name="unknown_error">Unknown error occurred</string>
+    <string name="unknown_error_message">An error occurred</string>
     <string name="no_user_with_such_email">No user with such email</string>
     <string name="id">id</string>
     <string name="user">user</string>
@@ -77,6 +83,7 @@
     <string name="female_gender">W</string>
     <string name="authentication_error">Authentication Error</string>
     <string name="must_not_be_empty">Must not be empty</string>
+    <string name="must_not_be_blank">Must not be blank</string>
     <string name="must_contain_only_digits">Must contain only digits</string>
     <string name="must_be_adult">You must be at least 18 years old to use our app</string>
     <string name="minimum_character_password">Minimum 8 character password</string>
@@ -120,12 +127,13 @@
     <string name="unauthorized_exception">Access to this resource is denied due to lack of authority</string>
     <string name="email_not_found_exception">User with such email does not exist</string>
     <string name="user_not_found_exception">This user was not found</string>
-    <string name="email_already_in_use_exception">User with such email already exists</string>
+    <string name="email_already_in_use_message">User with such email already exists</string>
     <string name="failed_to_retrieve_chat_data">Failed to retrieve chat data</string>
     <string name="firebase_connection_failed_exception">Remote service has failed due to network error. Inspect the device\'s network connectivity state or retry later to resolve</string>
     <string name="socket_connection_timeout_exception">Failed to connect to server after 10 seconds. Try again later</string>
     <string name="try_again_later">\nTry again later</string>
     <string name="failed_to_connect_to_server_exception">Failed to connect to the server.\nCheck the device\'s connection</string>
+    <string name="error_conflict">The data you\'re providing already exists</string>
 
     <string-array name="sports_types">
         <item>Football</item>

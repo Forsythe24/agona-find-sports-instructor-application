@@ -5,7 +5,7 @@ import java.io.IOException
 class BaseError(
     val kind: Kind,
     message: String,
-    exception: Throwable? = null
+    exception: Throwable? = null,
 ) : RuntimeException(message, exception) {
 
     enum class Kind {

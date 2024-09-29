@@ -8,12 +8,12 @@
     android:layout_marginBottom="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="4dp">
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        >
+        android:padding="16dp">
+
         <TextView
             android:id="@+id/time_range_tv"
             android:layout_width="wrap_content"
@@ -23,8 +23,7 @@
             android:textColor="?attr/colorOnPrimary"
             android:text="@string/time_range_sample"
             android:textSize="12sp"
-            android:fontFamily="@font/inter_bold"
-            />
+            android:fontFamily="@font/inter_bold" />
 
         <TextView
             android:id="@+id/person_name_tv"
@@ -36,8 +35,7 @@
             android:text="@string/name_sample"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:fontFamily="@font/inter_regular"
-            />
+            android:fontFamily="@font/inter_regular" />
 
         <TextView
             android:id="@+id/name_tv"
@@ -50,8 +48,7 @@
             android:textColor="?attr/colorOnPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:fontFamily="@font/inter_semibold"
-            />
+            android:fontFamily="@font/inter_semibold" />
 
         <TextView
             android:id="@+id/place_tv"
@@ -62,12 +59,10 @@
             android:textColor="?attr/colorOnPrimary"
             android:text="@string/absalyamova_26"
             android:textSize="14sp"
-            android:fontFamily="@font/inter_regular"
-            />
+            android:fontFamily="@font/inter_regular" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </androidx.cardview.widget.CardView>

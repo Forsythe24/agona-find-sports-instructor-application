@@ -1,4 +1,4 @@
-package com.solopov.feature_user_profile_api.domain.interfaces
+package com.solopov.feature_user_profile_api.domain
 
 import com.solopov.feature_user_profile_api.domain.model.Rating
 import com.solopov.feature_user_profile_api.domain.model.User
@@ -6,10 +6,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 
-class  UserProfileInteractor(
+class UserProfileInteractor(
     private val userProfileRepository: UserProfileRepository,
     private val ratingRepository: RatingRepository,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
 ) {
 
     suspend fun getUserByUid(uid: String): User {

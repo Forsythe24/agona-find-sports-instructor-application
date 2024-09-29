@@ -16,7 +16,7 @@ interface InstructApplicationComponent {
     @Subcomponent.Factory
     interface Factory {
         fun create(
-            @BindsInstance fragment: Fragment
+            @BindsInstance fragment: Fragment,
         ): InstructApplicationComponent
     }
 

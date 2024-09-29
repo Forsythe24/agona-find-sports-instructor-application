@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/backgroundColor"
             android:layout_marginTop="12dp"
-            android:src="@drawable/baseline_keyboard_arrow_left_24"/>
+            android:src="@drawable/baseline_keyboard_arrow_left_24" />
 
         <TextView
             android:fontFamily="@font/inter_bold"
@@ -27,8 +28,7 @@
             android:text="@string/sign_up"
             android:textSize="36sp"
             android:textColor="?attr/colorPrimary"
-            android:layout_gravity="center_horizontal"
-            />
+            android:layout_gravity="center_horizontal" />
 
 
         <TextView
@@ -38,7 +38,7 @@
             android:text="@string/create_a_new_account_here"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="12dp"
-            android:fontFamily="@font/inter_semibold"/>
+            android:fontFamily="@font/inter_semibold" />
 
         <TextView
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             app:layout_constraintTop_toBottomOf="@id/create_account_tv"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_text_input"
@@ -60,8 +60,8 @@
             android:layout_marginHorizontal="24dp"
             style="@style/UserInfoFieldTextInputLayout"
             app:hintEnabled="false"
-            app:counterMaxLength="50"
-            >
+            app:counterMaxLength="50">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_et"
                 android:layout_width="match_parent"
@@ -69,8 +69,7 @@
                 android:paddingHorizontal="20dp"
                 android:inputType="text"
                 android:fontFamily="@font/inter_regular"
-                android:maxLength="50"
-                />
+                android:maxLength="50" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -84,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@id/name_text_input"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/age_text_input"
@@ -94,8 +93,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginHorizontal="24dp"
             style="@style/UserInfoFieldTextInputLayout"
-            app:counterMaxLength="2"
-            >
+            app:counterMaxLength="2">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/age_et"
                 android:paddingHorizontal="20dp"
@@ -103,8 +102,7 @@
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:fontFamily="@font/inter_regular"
-                android:maxLength="2"
-                />
+                android:maxLength="2" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -119,7 +117,7 @@
             app:layout_constraintTop_toBottomOf="@id/age_text_input"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
 
         <RadioGroup
             android:id="@+id/gender_rg"
@@ -127,14 +125,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
+
             <RadioButton
                 android:fontFamily="@font/inter_regular"
                 android:id="@+id/male_rb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/male"
-                android:checked="true"
-                />
+                android:checked="true" />
 
             <RadioButton
                 android:fontFamily="@font/inter_regular"
@@ -152,7 +150,7 @@
             android:fontFamily="@font/inter_bold"
             android:text="@string/email"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_text_input"
@@ -162,8 +160,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginHorizontal="24dp"
             style="@style/UserInfoFieldTextInputLayout"
-            app:counterMaxLength="256"
-            >
+            app:counterMaxLength="256">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:fontFamily="@font/inter_regular"
                 android:id="@+id/email_et"
@@ -171,11 +169,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textEmailAddress"
-                android:maxLength="256"
-                />
+                android:maxLength="256" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
 
         <TextView
@@ -187,7 +183,7 @@
             app:layout_constraintTop_toBottomOf="@id/email_text_input"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_text_input"
@@ -197,16 +193,15 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginHorizontal="24dp"
             style="@style/UserInfoFieldTextInputLayout"
-            app:passwordToggleEnabled="true"
-            >
+            app:passwordToggleEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_et"
                 android:paddingHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:maxLength="30"
-                />
+                android:maxLength="30" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -223,7 +218,7 @@
             app:text="@string/finish"
             style="@style/Widget.ProgressButton.Blueberry"
             android:layout_centerInParent="true"
-            app:enabled="true"/>
+            app:enabled="true" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

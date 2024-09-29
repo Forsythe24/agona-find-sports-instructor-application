@@ -1,8 +1,6 @@
-package com.solopov.common.utils
+package com.solopov.common.handler
 
 import com.google.firebase.FirebaseNetworkException
-import com.solopov.common.R
-import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.exceptions.FailedToConnectException
 import com.solopov.common.data.network.exceptions.FirebaseException
 import com.solopov.common.data.network.exceptions.SocketConnectionTimeoutException
@@ -13,7 +11,7 @@ import javax.inject.Inject
 class ExceptionHandlerDelegate @Inject constructor() {
     fun handleException(ex: Throwable): Throwable {
         return when (ex) {
-            is FirebaseNetworkException -> FirebaseException.FirebaseConnectionFailedException("Remote service has failed due to network error. Inspect the device's network connectivity state or retry later to resolve")
+            is FirebaseNetworkException -> FirebaseException.FirebaseConnectionFailedException("Remote service has failed due to network message. Inspect the device's network connectivity state or retry later to resolve")
 
             is SocketTimeoutException -> SocketConnectionTimeoutException("Failed to connect to server after 10 seconds. Try again later")
 

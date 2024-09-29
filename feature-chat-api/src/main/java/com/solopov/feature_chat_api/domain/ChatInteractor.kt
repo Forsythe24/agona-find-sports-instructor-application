@@ -1,4 +1,4 @@
-package com.solopov.feature_chat_api.domain.interfaces
+package com.solopov.feature_chat_api.domain
 
 import com.solopov.feature_chat_api.domain.model.Chat
 import com.solopov.feature_chat_api.domain.model.Message
@@ -8,28 +8,28 @@ import kotlinx.coroutines.withContext
 
 class ChatInteractor(
     private val chatRepository: ChatRepository,
-    private val dispatcher: CoroutineDispatcher
+    private val ioDispatcher: CoroutineDispatcher,
 ) {
     suspend fun createNewMessage(userId: String, message: Message) {
-        return withContext(dispatcher) {
+        return withContext(ioDispatcher) {
             chatRepository.createNewMessage(userId, message)
         }
     }
 
     suspend fun getCurrentUser(): User {
-        return withContext(dispatcher) {
+        return withContext(ioDispatcher) {
             chatRepository.getCurrentUser()
         }
     }
 
     suspend fun downloadMessages(roomId: String): List<Message> {
-        return withContext(dispatcher) {
+        return withContext(ioDispatcher) {
             chatRepository.downloadMessages(roomId)
         }
     }
 
     suspend fun getAllChatsByUserId(userId: String): List<Chat> {
-        return withContext(dispatcher) {
+        return withContext(ioDispatcher) {
             chatRepository.getAllChatsByUserId(userId)
         }
     }

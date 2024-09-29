@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/progressshape">
         <clip>
-            <color android:color="@color/cultured"/>
+            <color android:color="@color/cultured" />
             <shape android:shape="rectangle">
                 <size android:height="5dp" />
                 <corners android:radius="5dp" />

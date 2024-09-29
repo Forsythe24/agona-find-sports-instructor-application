@@ -12,7 +12,7 @@ import javax.inject.Inject
 @ApplicationScope
 class UserProfileFeatureHolder @Inject constructor(
     featureContainer: FeatureContainer,
-    private val router: UserProfileRouter
+    private val router: UserProfileRouter,
 ) : FeatureApiHolder(featureContainer) {
 
 

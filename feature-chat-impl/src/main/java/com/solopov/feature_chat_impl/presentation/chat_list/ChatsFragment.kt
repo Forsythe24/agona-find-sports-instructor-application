@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.solopov.common.R
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.model.ChatCommon
@@ -20,7 +19,6 @@ import com.solopov.feature_chat_impl.databinding.FragmentChatListBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
-import kotlinx.coroutines.flow.receiveAsFlow
 
 class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
@@ -28,7 +26,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         viewBinding = FragmentChatListBinding.inflate(inflater, container, false)
         return viewBinding.root
@@ -120,9 +118,8 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                 }
             }
 
-            errorsChannel.receiveAsFlow().observe { error ->
-                val errorMessage = error.message ?: getString(R.string.unknown_error)
-                Snackbar.make(viewBinding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+            errorMessageChannel.observe { message ->
+                Snackbar.make(viewBinding.root, message, Snackbar.LENGTH_LONG).show()
             }
         }
     }

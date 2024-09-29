@@ -17,7 +17,7 @@ class DateFormatterTests {
 
     private data class DateTestData(
         val date: Date,
-        val fullDateStr: String
+        val fullDateStr: String,
     )
 
     @Before
