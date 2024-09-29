@@ -21,7 +21,6 @@ import com.solopov.feature_instructor_impl.data.mappers.InstructorMappers
 import com.solopov.feature_instructor_impl.di.InstructorFeatureComponent
 import com.solopov.instructors.R
 import com.solopov.instructors.databinding.FragmentOneSportInstructorsBinding
-import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
@@ -73,10 +72,8 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
                     updateInstructors(it)
                 }
             }
-            errorsChannel.receiveAsFlow().observe { error ->
-                val errorMessage = error.message ?: getString(R.string.unknown_error)
-
-                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+            errorMessageChannel.observe { message ->
+                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
             }
         }
 

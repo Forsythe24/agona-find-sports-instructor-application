@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @ApplicationScope
 class RemoteHolder @Inject constructor(
-    featureContainer: FeatureContainer
+    featureContainer: FeatureContainer,
 ) : FeatureApiHolder(featureContainer) {
     override fun initializeDependencies(): Any {
         val remoteDependencies = DaggerRemoteComponent_RemoteDependenciesComponent.builder()

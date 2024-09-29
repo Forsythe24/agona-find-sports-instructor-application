@@ -2,8 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/backgroundColor"
             android:layout_marginTop="20dp"
-            android:src="@drawable/baseline_keyboard_arrow_left_24"/>
+            android:src="@drawable/baseline_keyboard_arrow_left_24" />
 
         <TextView
             android:fontFamily="@font/inter_bold"
@@ -29,8 +29,7 @@
             android:text="@string/edit_profile"
             android:textSize="36sp"
             android:textColor="?attr/colorPrimary"
-            android:layout_gravity="center_horizontal"
-            />
+            android:layout_gravity="center_horizontal" />
 
 
         <TextView
@@ -40,7 +39,7 @@
             android:text="@string/here_you_can_edit_your_profile_information"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="12dp"
-            android:fontFamily="@font/inter_semibold"/>
+            android:fontFamily="@font/inter_semibold" />
 
         <TextView
             android:layout_height="wrap_content"
@@ -49,7 +48,7 @@
             android:fontFamily="@font/inter_bold"
             android:text="@string/name"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_text_input"
@@ -59,8 +58,8 @@
             android:layout_marginHorizontal="24dp"
             style="@style/UserInfoFieldTextInputLayout"
             app:hintEnabled="false"
-            app:counterMaxLength="50"
-            >
+            app:counterMaxLength="50">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_et"
                 android:layout_width="match_parent"
@@ -68,8 +67,7 @@
                 android:paddingHorizontal="20dp"
                 android:inputType="text"
                 android:fontFamily="@font/inter_regular"
-                android:maxLength="50"
-                />
+                android:maxLength="50" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -81,7 +79,7 @@
             android:fontFamily="@font/inter_bold"
             android:text="@string/age"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="28dp"/>
+            android:layout_marginTop="28dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/age_text_input"
@@ -90,8 +88,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="24dp"
             style="@style/UserInfoFieldTextInputLayout"
-            app:counterMaxLength="2"
-            >
+            app:counterMaxLength="2">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/age_et"
                 android:paddingHorizontal="20dp"
@@ -99,8 +97,7 @@
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:fontFamily="@font/inter_regular"
-                android:maxLength="2"
-                />
+                android:maxLength="2" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -113,7 +110,7 @@
             android:fontFamily="@font/inter_bold"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="28dp"/>
+            android:layout_marginTop="28dp" />
 
         <RadioGroup
             android:id="@+id/gender_rg"
@@ -122,6 +119,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal">
+
             <RadioButton
 
                 android:fontFamily="@font/inter_regular"
@@ -129,8 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/male"
-                android:checked="true"
-                />
+                android:checked="true" />
 
             <RadioButton
                 android:fontFamily="@font/inter_regular"
@@ -154,7 +151,7 @@
             android:backgroundTint="?attr/colorPrimaryDark"
             android:drawableEnd="@drawable/baseline_key_24"
             android:textColor="?attr/colorOnPrimary"
-            android:fontFamily="@font/inter_semibold"/>
+            android:fontFamily="@font/inter_semibold" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -167,7 +164,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginHorizontal="64dp"
             android:text="@string/instructor_s_bio"
-            android:drawableEnd="@drawable/baseline_sports_24"/>
+            android:drawableEnd="@drawable/baseline_sports_24" />
 
         <com.solopov.common.base.view.ProgressButton
             android:id="@+id/save_btn"
@@ -179,7 +176,7 @@
             app:text="@string/save"
             style="@style/Widget.ProgressButton.Blueberry"
             android:layout_centerInParent="true"
-            app:enabled="true"/>
+            app:enabled="true" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

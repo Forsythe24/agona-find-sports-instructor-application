@@ -11,5 +11,5 @@ data class User(
     var description: String?,
     var rating: Float?,
     var hourlyRate: Float?,
-    var isInstructor: Boolean = false
+    var isInstructor: Boolean = false,
 )

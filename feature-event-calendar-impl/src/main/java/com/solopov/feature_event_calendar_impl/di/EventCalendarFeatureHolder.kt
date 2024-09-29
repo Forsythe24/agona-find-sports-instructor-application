@@ -12,7 +12,7 @@ import javax.inject.Inject
 @ApplicationScope
 class EventCalendarFeatureHolder @Inject constructor(
     featureContainer: FeatureContainer,
-    private val router: EventCalendarRouter
+    private val router: EventCalendarRouter,
 ) : FeatureApiHolder(featureContainer) {
 
 

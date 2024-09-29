@@ -6,10 +6,13 @@ import com.solopov.common.core.resources.ResourceManager
 import javax.inject.Inject
 
 class UserDataValidator @Inject constructor(
-    private val resourceManager: ResourceManager
+    private val resourceManager: ResourceManager,
 ) {
 
     fun validateEmail(text: String): String? {
+        if (text.isBlank()) {
+            return resourceManager.getString(R.string.must_not_be_blank)
+        }
         if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
             return resourceManager.getString(R.string.invalid_email)
         }
@@ -17,8 +20,8 @@ class UserDataValidator @Inject constructor(
     }
 
     fun validateAge(text: String): String? {
-        if (text.isEmpty()) {
-            return resourceManager.getString(R.string.must_not_be_empty)
+        if (text.isBlank()) {
+            return resourceManager.getString(R.string.must_not_be_blank)
         }
         if (!text.matches(resourceManager.getString(R.string.age_regex).toRegex())) {
             return resourceManager.getString(R.string.must_contain_only_digits)

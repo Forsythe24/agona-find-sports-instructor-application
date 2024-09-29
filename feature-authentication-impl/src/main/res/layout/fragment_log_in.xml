@@ -2,8 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,8 +19,7 @@
             android:fontFamily="@font/inter_bold"
             android:textColor="?attr/colorPrimary"
             android:layout_marginTop="120dp"
-            android:layout_marginStart="28dp"
-            />
+            android:layout_marginStart="28dp" />
 
 
         <TextView
@@ -31,7 +30,7 @@
             android:text="@string/please_log_in_into_your_account"
             android:layout_marginStart="28dp"
             android:layout_marginTop="12dp"
-            android:fontFamily="@font/inter_semibold"/>
+            android:fontFamily="@font/inter_semibold" />
 
         <TextView
             android:id="@+id/email_tv"
@@ -40,8 +39,7 @@
             android:text="@string/email"
             android:fontFamily="@font/inter_bold"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="40dp"/>
-
+            android:layout_marginTop="40dp" />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -51,16 +49,15 @@
             android:layout_height="wrap_content"
             style="@style/UserInfoFieldTextInputLayout"
             android:layout_marginHorizontal="28dp"
-            app:hintEnabled="false"
-            >
+            app:hintEnabled="false">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_et"
                 android:paddingHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textEmailAddress"
-                android:fontFamily="@font/inter_regular"
-                />
+                android:fontFamily="@font/inter_regular" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -70,7 +67,7 @@
             android:text="@string/password"
             android:fontFamily="@font/inter_bold"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="24dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_text_input"
@@ -79,15 +76,15 @@
             android:layout_height="wrap_content"
             style="@style/UserInfoFieldTextInputLayout"
             app:passwordToggleEnabled="true"
-            android:layout_marginHorizontal="28dp"
-            >
+            android:layout_marginHorizontal="28dp">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_et"
                 android:paddingHorizontal="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:inputType="textPassword"
-                android:fontFamily="@font/inter_regular"
-                />
+                android:layout_height="match_parent"
+                android:inputType="textPassword"
+                android:fontFamily="@font/inter_regular" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,9 +99,7 @@
             android:layout_gravity="center_horizontal"
             style="@style/Widget.ProgressButton.Blueberry"
             android:layout_centerInParent="true"
-            app:enabled="true"/>
-
-
+            app:enabled="true" />
 
 
         <TextView
@@ -115,7 +110,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/forgot_my_password"
             android:textColor="?attr/colorPrimary"
-            android:fontFamily="@font/inter_bold"/>
+            android:fontFamily="@font/inter_bold" />
 
         <TextView
             android:id="@+id/have_account_question_tv"
@@ -124,8 +119,7 @@
             android:layout_marginTop="12dp"
             android:layout_gravity="center_horizontal"
             android:text="@string/don_t_have_an_account"
-            android:fontFamily="@font/inter_semibold"
-            />
+            android:fontFamily="@font/inter_semibold" />
 
         <TextView
             android:id="@+id/signup_lnk"
@@ -136,6 +130,6 @@
             android:text="@string/sign_up"
             android:textSize="16sp"
             android:textColor="?attr/colorPrimary"
-            android:fontFamily="@font/inter_bold"/>
+            android:fontFamily="@font/inter_bold" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

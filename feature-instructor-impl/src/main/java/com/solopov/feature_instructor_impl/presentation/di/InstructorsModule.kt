@@ -3,9 +3,10 @@ package com.solopov.feature_instructor_impl.presentation.di
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
-import com.solopov.feature_instructor_api.domain.interfaces.InstructorInteractor
+import com.solopov.feature_instructor_api.domain.InstructorInteractor
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.feature_instructor_impl.presentation.InstructorsViewModel
 import dagger.Module
@@ -27,7 +28,7 @@ class InstructorsModule {
     @Provides
     @IntoMap
     @ViewModelKey(InstructorsViewModel::class)
-    fun provideInstructorsViewModel(interactor: InstructorInteractor, router: InstructorsRouter): ViewModel {
-        return InstructorsViewModel(interactor, router)
+    fun provideInstructorsViewModel(interactor: InstructorInteractor, router: InstructorsRouter, resourceManager: ResourceManager): ViewModel {
+        return InstructorsViewModel(interactor, router, resourceManager)
     }
 }

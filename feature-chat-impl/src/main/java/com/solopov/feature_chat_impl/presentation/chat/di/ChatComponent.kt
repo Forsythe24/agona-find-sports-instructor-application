@@ -17,7 +17,7 @@ interface ChatComponent {
     @Subcomponent.Factory
     interface Factory {
         fun create(
-            @BindsInstance fragment: Fragment
+            @BindsInstance fragment: Fragment,
         ): ChatComponent
     }
 

@@ -11,17 +11,17 @@ import retrofit2.http.Path
 interface ChatApiService {
     @POST("chat/create")
     suspend fun createChat(
-        @Body chat: ChatRemote
+        @Body chat: ChatRemote,
     ): Boolean
 
     @GET("chat/{id}")
     suspend fun getChatById(
-        @Path("id") id: String
+        @Path("id") id: String,
     ): Response<ChatRemote>
 
     @POST("chat/add_message")
     suspend fun addMessage(
-        @Body message: MessageRemote
+        @Body message: MessageRemote,
     ): MessageRemote
 
     @GET("chat/all")
@@ -30,11 +30,11 @@ interface ChatApiService {
 
     @GET("chat/{id}/messages")
     suspend fun getAllMessagesByChatId(
-        @Path("id") id: String
+        @Path("id") id: String,
     ): Response<List<MessageRemote>>
 
     @GET("chat/{id}/last_message")
     suspend fun getLastMessageByChatId(
-        @Path("id") id: String
+        @Path("id") id: String,
     ): Response<MessageRemote>
 }

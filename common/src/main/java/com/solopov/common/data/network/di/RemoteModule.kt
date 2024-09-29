@@ -4,7 +4,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.google.firebase.storage.FirebaseStorage
 import com.solopov.common.core.config.NetworkProperties
-import com.solopov.common.data.network.utils.NetworkApiCreator
 import com.solopov.common.data.network.api.AuthService
 import com.solopov.common.data.network.api.ChatApiService
 import com.solopov.common.data.network.api.RefreshTokenService
@@ -17,8 +16,8 @@ import com.solopov.common.data.network.interceptor.RefreshTokenInterceptor
 import com.solopov.common.data.network.jwt.JwtAuthenticator
 import com.solopov.common.data.network.jwt.JwtDataStore
 import com.solopov.common.data.network.jwt.JwtManager
+import com.solopov.common.data.network.utils.NetworkApiCreator
 import com.solopov.common.di.scope.ApplicationScope
-import com.solopov.common.di.scope.FeatureScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

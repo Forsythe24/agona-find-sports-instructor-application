@@ -13,8 +13,6 @@ import com.solopov.app.di.main.MainComponent
 import com.solopov.app.navigation.Navigator
 import com.solopov.common.base.BaseActivity
 import com.solopov.common.data.storage.UserDataStore
-import com.solopov.common.data.storage.UserDataStore.Companion.USER_ID_KEY
-import com.solopov.common.utils.Constants.READ_MEDIA_IMAGES_REQUEST_CODE
 import com.solopov.common.utils.ParamsKey.FROM_INSTRUCTORS_SCREEN_FLAG_KEY
 import kotlinx.coroutines.launch
 import javax.inject.Inject

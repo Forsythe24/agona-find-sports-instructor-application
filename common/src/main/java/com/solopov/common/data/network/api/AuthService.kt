@@ -13,16 +13,16 @@ import retrofit2.http.POST
 interface AuthService {
     @POST("auth/login")
     suspend fun logIn(
-        @Body credentials: CredentialsRemote
+        @Body credentials: CredentialsRemote,
     ): Response<AuthNetworkResponse>
 
     @POST("auth/sign_up")
     suspend fun createUser(
-        @Body user: UserSignUpRemote
+        @Body user: UserSignUpRemote,
     ): Response<UserRemote>
 
     @POST("auth/send_new_password")
     suspend fun sendPassword(
-        @Body user: SendNewPasswordOnEmailRequestDto
+        @Body user: SendNewPasswordOnEmailRequestDto,
     ): Response<ResponseBody>
 }

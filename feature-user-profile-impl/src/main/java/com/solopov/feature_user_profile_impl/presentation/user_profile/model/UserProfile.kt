@@ -14,5 +14,5 @@ data class UserProfile(
     var rating: Float?,
     var numberOfRatings: Int?,
     var hourlyRate: Float?,
-    var isInstructor: Boolean
+    var isInstructor: Boolean,
 ) : Serializable

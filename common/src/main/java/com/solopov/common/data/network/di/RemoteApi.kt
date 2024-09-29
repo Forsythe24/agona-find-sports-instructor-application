@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 
 interface RemoteApi {
     fun provideJwtManager(): JwtManager
+
     @AuthenticatedClient
     fun provideOkHttpClient(): OkHttpClient
     fun provideUserServiceApi(): UserApiService

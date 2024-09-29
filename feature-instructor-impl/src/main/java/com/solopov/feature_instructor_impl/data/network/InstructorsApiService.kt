@@ -8,6 +8,6 @@ import retrofit2.http.Path
 interface InstructorsApiService {
     @GET("instructors/{id}")
     suspend fun getInstructorsBySportId(
-        @Path("id") id: Int
+        @Path("id") id: Int,
     ): Response<List<UserRemote>>
 }

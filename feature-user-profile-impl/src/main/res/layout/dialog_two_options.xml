@@ -12,8 +12,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/dialog_question_tv"
             android:layout_gravity="center_horizontal"
@@ -24,7 +24,7 @@
             android:textSize="16sp"
             android:padding="8dp"
             android:fontFamily="@font/inter_semibold"
-            android:layout_marginBottom="80dp"/>
+            android:layout_marginBottom="80dp" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -52,7 +52,7 @@
             android:layout_gravity="start|bottom"
             app:enabled="true"
             android:layout_marginStart="32dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp" />
 
     </FrameLayout>
 </androidx.cardview.widget.CardView>

@@ -18,7 +18,7 @@ interface UserProfileComponent {
     interface Factory {
 
         fun create(
-            @BindsInstance fragment: Fragment
+            @BindsInstance fragment: Fragment,
         ): UserProfileComponent
     }
 

@@ -2,37 +2,40 @@ package com.solopov.feature_authentication_impl.presentation.login
 
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
-import com.solopov.common.data.storage.UserDataStore
-import com.solopov.common.utils.ExceptionHandlerDelegate
+import com.solopov.common.core.resources.ResourceManager
+import com.solopov.common.data.network.ApiError
+import com.solopov.common.data.network.getMessage
 import com.solopov.common.utils.UserDataValidator
-import com.solopov.common.utils.runCatching
-import com.solopov.feature_authentication_api.domain.interfaces.AuthInteractor
+import com.solopov.feature_authentication_api.domain.AuthInteractor
 import com.solopov.feature_authentication_impl.AuthRouter
+import com.solopov.feature_authentication_impl.R
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LogInViewModel @Inject constructor(
     private val interactor: AuthInteractor,
-    private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val router: AuthRouter,
     private val validator: UserDataValidator,
+    private val resourceManager: ResourceManager,
 ) : BaseViewModel() {
 
-    val errorsChannel = Channel<Throwable>()
+    private val _errorMessageChannel = Channel<String>()
+    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
 
     private val _authenticationResultFlow = MutableStateFlow(false)
     val authenticationResultFlow: StateFlow<Boolean>
         get() = _authenticationResultFlow
 
     fun signIn(
-        email: String?,
-        password: String?,
+        email: String,
+        password: String,
     ) {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.signInUser(
                     email,
                     password,
@@ -40,7 +43,12 @@ class LogInViewModel @Inject constructor(
             }.onSuccess {
                 _authenticationResultFlow.value = it
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(
+                    when (it) {
+                        is ApiError.FailedAuthorizationException -> resourceManager.getString(R.string.wrong_password_message)
+                        else -> it.getMessage(resourceManager)
+                    }
+                )
             }
         }
     }
@@ -62,7 +70,7 @@ class LogInViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        errorsChannel.close()
+        _errorMessageChannel.close()
         super.onCleared()
     }
 }

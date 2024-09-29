@@ -3,7 +3,7 @@ package com.solopov.common.di
 import java.util.concurrent.locks.ReentrantLock
 
 abstract class FeatureApiHolder(
-    private val mFeatureContainer: FeatureContainer
+    private val mFeatureContainer: FeatureContainer,
 ) {
     private val mFeatureLocker = ReentrantLock()
 

@@ -18,7 +18,7 @@ interface InstructorsComponent {
     interface Factory {
 
         fun create(
-            @BindsInstance fragment: Fragment
+            @BindsInstance fragment: Fragment,
         ): InstructorsComponent
     }
 

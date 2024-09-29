@@ -3,10 +3,10 @@ package com.solopov.feature_user_profile_impl.presentation.user_profile
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
+import com.solopov.common.core.resources.ResourceManager
+import com.solopov.common.data.network.getMessage
 import com.solopov.common.model.ChatCommon
-import com.solopov.common.utils.ExceptionHandlerDelegate
-import com.solopov.common.utils.runCatching
-import com.solopov.feature_user_profile_api.domain.interfaces.UserProfileInteractor
+import com.solopov.feature_user_profile_api.domain.UserProfileInteractor
 import com.solopov.feature_user_profile_api.domain.model.User
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.RatingMappers
@@ -16,14 +16,15 @@ import com.solopov.feature_user_profile_impl.presentation.user_profile.model.Use
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class UserProfileViewModel(
     private val interactor: UserProfileInteractor,
-    private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val userMappers: UserMappers,
     private val ratingMappers: RatingMappers,
     private val router: UserProfileRouter,
+    private val resourceManager: ResourceManager,
 ) : BaseViewModel() {
 
     private val _userProfileFlow = MutableStateFlow<UserProfile?>(null)
@@ -46,16 +47,17 @@ class UserProfileViewModel(
     val progressBarFlow: StateFlow<Boolean>
         get() = _progressBarFlow
 
-    val errorsChannel = Channel<Throwable>()
+    private val _errorMessageChannel = Channel<String>()
+    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
 
     fun setUserProfileByUid(uid: String) {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.getUserByUid(uid)
             }.onSuccess {
                 _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
@@ -66,93 +68,93 @@ class UserProfileViewModel(
 
     fun setCurrentUser(userId: String, onUserSetCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.getCurrentUser()
             }.onSuccess {
                 _currentUserFlow.value = it
                 onUserSetCallback(it.id == userId)
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
 
     fun deleteProfile(onProfileDeletedCallback: () -> Unit) {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.deleteProfile()
             }.onSuccess {
                 onProfileDeletedCallback()
                 goToLogInScreen()
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
 
     fun setCurrentUserProfile() {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.getCurrentUser()
             }.onSuccess {
                 _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
 
     fun logOut(onLoggedOutCallback: () -> Unit) {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.logOut()
             }.onSuccess {
                 onLoggedOutCallback()
                 goToLogInScreen()
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
 
     fun addRating(ratingUi: RatingUi) {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.addRating(ratingMappers.mapRatingUiToRating(ratingUi))
             }.onSuccess {
                 getAllInstructorRatingsById(ratingUi.instructorId)
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
 
     private fun updateUser(
-        userProfile: UserProfile
+        userProfile: UserProfile,
     ) {
         _progressBarFlow.value = true
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.updateUser(userMappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
                 _progressBarFlow.value = false
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
                 _progressBarFlow.value = false
             }
         }
     }
 
     private fun getAllInstructorRatingsById(
-        instructorId: String
+        instructorId: String,
     ) {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.getAllInstructorRatingsById(instructorId)
             }.onSuccess {
                 _ratingsFlow.value = it?.map(ratingMappers::mapRatingToRatingUi) ?: listOf()
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
@@ -175,13 +177,13 @@ class UserProfileViewModel(
     fun uploadProfileImage(imageUri: Uri) {
         _progressBarFlow.value = true
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.uploadProfileImage(imageUri.toString())
             }.onSuccess {
                 updateProfileImage(it)
                 _progressBarFlow.value = false
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
                 _progressBarFlow.value = false
             }
         }
@@ -212,6 +214,7 @@ class UserProfileViewModel(
     fun goBack() {
         router.goBack()
     }
+
     fun goToEditingProfile(userProfile: UserProfile) {
         router.goToEditingProfile(userProfile)
     }
@@ -219,6 +222,7 @@ class UserProfileViewModel(
     fun goToInstructApplication(userProfile: UserProfile) {
         router.goToInstructApplication(userProfile)
     }
+
     fun openChat(chat: ChatCommon) {
         router.goFromUserProfileToChat(chat)
     }
@@ -228,7 +232,7 @@ class UserProfileViewModel(
     }
 
     override fun onCleared() {
-        errorsChannel.close()
+        _errorMessageChannel.close()
         super.onCleared()
     }
 }

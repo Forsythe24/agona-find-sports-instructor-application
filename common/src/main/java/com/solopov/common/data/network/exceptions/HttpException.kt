@@ -9,5 +9,5 @@ sealed class HttpException(message: String? = "Exception occurred during making 
 
     class ClientException(
         message: String? = "The request for the resource contains bad syntax or cannot be filled for some other reason",
-    ): HttpException(message)
+    ) : HttpException(message)
 }

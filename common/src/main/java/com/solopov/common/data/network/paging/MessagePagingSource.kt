@@ -17,8 +17,8 @@ class MessagePagingSource : PagingSource<DataSnapshot, MessageRemote>() {
             val queryMessages = FirebaseDatabase.getInstance().reference.child("chat")
                 .child("HqmLsYR0YbQ2NlIIyF688pz7s5g2JK3EIt4BouOBWCQjmqOVwa0CbjW2").child("message")
                 .orderByKey().limitToLast(
-                Constants.PAGE_SIZE
-            )
+                    Constants.PAGE_SIZE
+                )
 
             val currentPage = params.key ?: queryMessages.get().await()
 

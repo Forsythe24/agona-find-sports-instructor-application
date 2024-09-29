@@ -16,7 +16,7 @@ interface SportApi {
 
     @GET("user/{id}")
     suspend fun getUser(
-        @Path("id") id: String
+        @Path("id") id: String,
     ): Response<UserRemote>
 
     @GET("user/current")
@@ -25,17 +25,17 @@ interface SportApi {
 
     @POST("user/update")
     suspend fun updateUser(
-        @Body user: UserRemote
+        @Body user: UserRemote,
     ): Response<Boolean>
 
     @POST("user/update_password")
     suspend fun updatePassword(
-        @Body credentials: CredentialsRemote
+        @Body credentials: CredentialsRemote,
     ): Response<Boolean>
 
     @POST("user/verify")
     suspend fun verifyCredentials(
-        @Body credentials: CredentialsRemote
+        @Body credentials: CredentialsRemote,
     ): Response<Boolean>
 
     @GET("user/delete")
@@ -44,17 +44,17 @@ interface SportApi {
 
     @POST("chat/create")
     suspend fun createChat(
-        @Body chat: ChatRemote
+        @Body chat: ChatRemote,
     ): Boolean
 
     @GET("chat/{id}")
     suspend fun getChatById(
-        @Path("id") id: String
+        @Path("id") id: String,
     ): Response<ChatRemote>
 
     @POST("chat/add_message")
     suspend fun addMessage(
-        @Body message: MessageRemote
+        @Body message: MessageRemote,
     ): MessageRemote
 
     @GET("chat/all")
@@ -63,12 +63,12 @@ interface SportApi {
 
     @GET("chat/{id}/messages")
     suspend fun getAllMessagesByChatId(
-        @Path("id") id: String
+        @Path("id") id: String,
     ): Response<List<MessageRemote>>
 
     @GET("chat/{id}/last_message")
     suspend fun getLastMessageByChatId(
-        @Path("id") id: String
+        @Path("id") id: String,
     ): Response<MessageRemote>
 
     @POST("auth/token")

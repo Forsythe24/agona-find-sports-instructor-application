@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @ApplicationScope
 class DbHolder @Inject constructor(
-    featureContainer: FeatureContainer
+    featureContainer: FeatureContainer,
 ) : FeatureApiHolder(featureContainer) {
 
     override fun initializeDependencies(): Any {

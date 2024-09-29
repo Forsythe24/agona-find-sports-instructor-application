@@ -3,7 +3,7 @@ package com.solopov.app.di.deps
 import com.solopov.common.di.FeatureApiHolder
 
 class FeatureHolderManager(
-    private val mFeatureHolders: Map<Class<*>, FeatureApiHolder>
+    private val mFeatureHolders: Map<Class<*>, FeatureApiHolder>,
 ) {
 
     fun <T> getFeature(key: Class<*>): T? {

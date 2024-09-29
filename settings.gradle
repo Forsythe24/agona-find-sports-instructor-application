@@ -12,7 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter()
         maven {
-            url = uri("https://www.jitpack.io" )
+            url = uri("https://www.jitpack.io")
         }
     }
 }

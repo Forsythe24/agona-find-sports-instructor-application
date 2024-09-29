@@ -27,7 +27,6 @@ class InstructorsFragment : Fragment() {
     }
 
 
-
     private fun initViews() {
         with(binding) {
             sportsKindsVp.adapter = FragmentAdapter(childFragmentManager, lifecycle)

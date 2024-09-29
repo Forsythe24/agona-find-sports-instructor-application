@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class JwtAuthenticator @Inject constructor(
     private val tokenManager: JwtManager,
-    private val refreshTokenService: RefreshTokenService
+    private val refreshTokenService: RefreshTokenService,
 ) : Authenticator {
     companion object {
         const val HEADER_AUTHORIZATION = "Authorization"

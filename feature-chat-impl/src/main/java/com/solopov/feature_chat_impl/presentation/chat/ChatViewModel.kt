@@ -7,13 +7,12 @@ import com.google.gson.Gson
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.resources.ResourceManager
+import com.solopov.common.data.network.getMessage
 import com.solopov.common.data.network.jwt.JwtManager
 import com.solopov.common.data.network.model.MessageRemote
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
-import com.solopov.common.utils.ExceptionHandlerDelegate
-import com.solopov.common.utils.runCatching
-import com.solopov.feature_chat_api.domain.interfaces.ChatInteractor
+import com.solopov.feature_chat_api.domain.ChatInteractor
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.data.mappers.MessageMappers
@@ -30,6 +29,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
@@ -41,7 +41,6 @@ import java.util.Date
 
 class ChatViewModel(
     private val interactor: ChatInteractor,
-    private val exceptionHandlerDelegate: ExceptionHandlerDelegate,
     private val chatMappers: ChatMappers,
     private val messageMappers: MessageMappers,
     private val router: ChatRouter,
@@ -49,6 +48,7 @@ class ChatViewModel(
     private val resManager: ResourceManager,
     private val appProperties: AppProperties,
     private val jwtManager: JwtManager,
+    private val resourceManager: ResourceManager,
 ) : BaseViewModel() {
 
     private val _chatFlow = MutableStateFlow<List<MessageItem>?>(null)
@@ -67,7 +67,8 @@ class ChatViewModel(
     val senderFlow: StateFlow<ChatItem?>
         get() = _senderFlow
 
-    val errorsChannel = Channel<Throwable>()
+    private val _errorMessageChannel = Channel<String>()
+    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
 
     private var stompClient: StompClient? = null
     private var compositeDisposable: CompositeDisposable? = null
@@ -80,38 +81,35 @@ class ChatViewModel(
 
     fun createNewMessage(userId: String, message: MessageItem) {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.createNewMessage(userId, messageMappers.mapMessageItemToMessage(message))
-
                 sendMessage(message)
-            }.onSuccess {
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
 
     fun downloadMessages(chatId: String) {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.downloadMessages(chatId)
             }.onSuccess {
                 _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
             }.onFailure {
-                println(it)
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
 
     fun setSender() {
         viewModelScope.launch {
-            runCatching(exceptionHandlerDelegate) {
+            runCatching {
                 interactor.getCurrentUser()
             }.onSuccess {
                 _senderFlow.value = chatMappers.mapUserToChatItem(it)
             }.onFailure {
-                errorsChannel.send(it)
+                _errorMessageChannel.send(it.getMessage(resourceManager))
             }
         }
     }
@@ -183,7 +181,8 @@ class ChatViewModel(
                             )
 
                             LifecycleEvent.Type.FAILED_SERVER_HEARTBEAT,
-                            LifecycleEvent.Type.CLOSED -> {
+                            LifecycleEvent.Type.CLOSED,
+                            -> {
                                 Log.d(STOMP_TAG, "Stomp connection closed")
                             }
                         }
@@ -235,7 +234,7 @@ class ChatViewModel(
                         Log.i(STOMP_TAG, "Stomp send")
                     },
                     {
-                        Log.e(STOMP_TAG, "Stomp error", it)
+                        Log.e(STOMP_TAG, "Stomp message", it)
                     }
                 )
         )
@@ -289,7 +288,7 @@ class ChatViewModel(
     }
 
     override fun onCleared() {
-        errorsChannel.close()
+        _errorMessageChannel.close()
         stompClient?.disconnect()
         compositeDisposable?.dispose()
         super.onCleared()
@@ -299,7 +298,7 @@ class ChatViewModel(
 
 fun <T> Flow<T>.mutableStateIn(
     scope: CoroutineScope,
-    initialValue: T
+    initialValue: T,
 ): MutableStateFlow<T> {
     val flow = MutableStateFlow(initialValue)
 

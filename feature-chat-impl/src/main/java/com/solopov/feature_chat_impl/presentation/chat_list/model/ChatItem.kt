@@ -6,5 +6,5 @@ data class ChatItem(
     val photo: String?,
     var lastMessageDate: String?,
     var lastMessageText: String?,
-    var userFriendlyLastMessageDate: String?
+    var userFriendlyLastMessageDate: String?,
 )

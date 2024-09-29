@@ -1,12 +1,17 @@
 package com.solopov.common.di.modules
 
+import android.content.Context
+import android.net.ConnectivityManager
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.config.NetworkProperties
-import com.solopov.common.data.network.utils.NetworkApiCreator
 import com.solopov.common.data.network.di.qualifier.PublicClient
+import com.solopov.common.data.network.utils.NetworkApiCreator
+import com.solopov.common.data.network.utils.NetworkStateProvider
+import com.solopov.common.data.network.utils.NetworkStateProviderImpl
 import com.solopov.common.di.scope.ApplicationScope
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
@@ -19,6 +24,12 @@ class NetworkModule {
     fun provideNetworkProperties(appProperties: AppProperties): NetworkProperties {
         return appProperties.networkProperties()
     }
+
+    @Provides
+    @ApplicationScope
+    fun provideConnectivityManager(
+        context: Context,
+    ) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     @Provides
     @PublicClient
@@ -43,5 +54,14 @@ class NetworkModule {
         appProperties: AppProperties,
     ): NetworkApiCreator {
         return NetworkApiCreator(okHttpClient, appProperties.getBaseUrl())
+    }
+
+    @Provides
+    @ApplicationScope
+    fun provideNetworkStateProvider(
+        connectivityManager: ConnectivityManager,
+        scope: CoroutineScope,
+    ): NetworkStateProvider {
+        return NetworkStateProviderImpl(connectivityManager, scope)
     }
 }

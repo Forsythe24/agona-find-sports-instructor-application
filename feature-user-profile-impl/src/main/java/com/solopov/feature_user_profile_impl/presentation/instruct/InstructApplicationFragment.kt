@@ -20,7 +20,6 @@ import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.flow.receiveAsFlow
 
 
 class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>() {
@@ -63,7 +62,7 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
             userProfile?.let {
                 if (it.isInstructor) {
 
-                    setViewsToEditingMode() //since the user is already an instructor that means they are just editing the information provided before
+                    setViewsToEditingMode()
 
                     descriptionEt.setText(it.description)
                     experienceEt.setText(it.experience)
@@ -93,7 +92,7 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
 
             applyBtn.setOnClickListener {
                 validateForm()
-                if (experienceTextInput.helperText.isNullOrEmpty()) {
+                if (experienceTextInput.error.isNullOrEmpty()) {
                     userProfile?.let {
                         it.description = descriptionEt.text.toString()
                         it.experience = experienceEt.text.toString()
@@ -114,7 +113,7 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
 
     private fun validateForm() {
         with(binding) {
-            experienceTextInput.helperText = if (experienceEt.text.isNullOrEmpty()) getString(R.string.experience_field_empty_helper_text) else null
+            experienceTextInput.error = if (experienceEt.text.isNullOrEmpty()) getString(R.string.experience_field_empty_helper_text) else null
         }
     }
 
@@ -188,10 +187,8 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
                 binding.applyBtn.setLoading(isLoading)
             }
 
-            errorsChannel.receiveAsFlow().observe { error ->
-                val errorMessage = error.message ?: getString(R.string.unknown_error)
-
-                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+            errorMessageChannel.observe { message ->
+                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
             }
         }
     }

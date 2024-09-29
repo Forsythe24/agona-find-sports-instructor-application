@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.R
 import com.solopov.common.utils.observe
 import kotlinx.coroutines.Job
@@ -36,6 +37,10 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
             .setMessage(payload.message)
             .setPositiveButton(android.R.string.ok) { _, _ -> }
             .show()
+    }
+
+    protected fun showSnackbar(message: String, duration: Int) {
+        Snackbar.make(requireView(), message, duration).show()
     }
 
     inline fun <T> Flow<T>.observe(crossinline block: (T) -> Unit): Job {

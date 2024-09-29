@@ -13,7 +13,7 @@ import retrofit2.http.Path
 interface UserApiService {
     @GET("user/{id}")
     suspend fun getUser(
-        @Path("id") id: String
+        @Path("id") id: String,
     ): Response<UserRemote>
 
     @GET("user/current")
@@ -22,17 +22,17 @@ interface UserApiService {
 
     @POST("user/update")
     suspend fun updateUser(
-        @Body user: UserRemote
+        @Body user: UserRemote,
     ): Response<Boolean>
 
     @POST("user/update_password")
     suspend fun updatePassword(
-        @Body credentials: CredentialsRemote
+        @Body credentials: CredentialsRemote,
     ): Response<Boolean>
 
     @POST("user/verify")
     suspend fun verifyCredentials(
-        @Body credentials: CredentialsRemote
+        @Body credentials: CredentialsRemote,
     ): Response<Boolean>
 
     @GET("user/delete")

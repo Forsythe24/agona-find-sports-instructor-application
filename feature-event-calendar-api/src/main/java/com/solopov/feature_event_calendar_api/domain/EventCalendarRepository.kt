@@ -1,4 +1,4 @@
-package com.solopov.feature_event_calendar_api.domain.interfaces
+package com.solopov.feature_event_calendar_api.domain
 
 import com.solopov.feature_event_calendar_api.domain.model.Event
 import java.util.Date

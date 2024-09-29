@@ -60,7 +60,7 @@ class CommonModule {
     @Provides
     fun provideNotificationWrapper(
         context: Context,
-        notificationManager: NotificationManager
+        notificationManager: NotificationManager,
     ): NotificationManagerWrapper {
         return NotificationManagerWrapperImpl(context, notificationManager)
     }

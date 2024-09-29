@@ -22,7 +22,7 @@ import dagger.Component
         UserProfileFeatureModule::class
     ]
 )
-interface UserProfileFeatureComponent: UserProfileFeatureApi {
+interface UserProfileFeatureComponent : UserProfileFeatureApi {
 
     fun userProfileComponentFactory(): UserProfileComponent.Factory
     fun instructApplicationComponentFactory(): InstructApplicationComponent.Factory

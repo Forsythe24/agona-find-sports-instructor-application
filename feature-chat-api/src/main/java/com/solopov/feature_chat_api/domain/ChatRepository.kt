@@ -1,4 +1,4 @@
-package com.solopov.feature_chat_api.domain.interfaces
+package com.solopov.feature_chat_api.domain
 
 import com.solopov.feature_chat_api.domain.model.Chat
 import com.solopov.feature_chat_api.domain.model.Message
