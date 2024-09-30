@@ -6,6 +6,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
@@ -13,14 +14,13 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 interface NetworkStateProvider {
-
     val state: StateFlow<Boolean>
     val isNetworkAvailable: Boolean
 }
 
 @SuppressLint("MissingPermission")
 class NetworkStateProviderImpl @Inject constructor(
-    connectivityManager: ConnectivityManager,
+    private val connectivityManager: ConnectivityManager,
     private val scope: CoroutineScope,
 ) : NetworkStateProvider {
 
@@ -32,10 +32,20 @@ class NetworkStateProviderImpl @Inject constructor(
                 stopTimeoutMillis = 1_000,
                 replayExpirationMillis = 1_000
             ),
-            initialValue = connectivityManager.activeNetworkInfo?.isConnectedOrConnecting == true,
+            initialValue = isNetworkAvailable,
         )
 
-    override val isNetworkAvailable = connectivityManager.isDefaultNetworkActive
+    override val isNetworkAvailable: Boolean
+        get() {
+            return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                val network = connectivityManager.activeNetwork ?: return false
+                val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            } else {
+                val networkInfo = connectivityManager.activeNetworkInfo
+                networkInfo != null && networkInfo.isConnected
+            }
+        }
 
     private val networkRequest = NetworkRequest.Builder()
         .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
@@ -44,16 +54,18 @@ class NetworkStateProviderImpl @Inject constructor(
     private fun ConnectivityManager.networkChangesFlow() = callbackFlow {
         val listener = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
-                super.onAvailable(network)
-                trySend(true)
+                trySend(true).isSuccess
             }
 
             override fun onLost(network: Network) {
-                super.onLost(network)
-                trySend(false)
+                trySend(false).isSuccess
             }
         }
 
         registerNetworkCallback(networkRequest, listener)
+
+        awaitClose {
+            unregisterNetworkCallback(listener)
+        }
     }
 }

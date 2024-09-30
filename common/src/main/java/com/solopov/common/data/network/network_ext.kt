@@ -45,7 +45,7 @@ sealed class ResultWrapper<out T> {
 fun <T> ResultWrapper<T>.processResult(
     networkStateProvider: NetworkStateProvider,
 ): T {
-    if (networkStateProvider.isNetworkAvailable) {
+    if (!networkStateProvider.isNetworkAvailable) {
         throw ApiError.NoInternetException()
     }
     when (this) {

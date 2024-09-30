@@ -3,6 +3,7 @@
     <string name="common_error_general_title">Error</string>
     <string name="common_error_network">Please, check internet connection and try again later.</string>
     <string name="common_error_general_message">We are working hard to fix the problem. Please, try again later.</string>
+    <string name="empty_string" />
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_up">Sign up</string>
@@ -33,7 +34,7 @@
     <string name="error_invalid_token">Your session is over. You need to log in again</string>
     <string name="error_server">The service is unavailable. Try again later</string>
     <string name="error_unknown">An error occurred. Try again later</string>
-    <string name="error_not_found_update">An error occurred\n Try updating the page</string>
+    <string name="error_not_found_update">An error occurred\nTry updating the page</string>
 
     <string name="weak_password_exception">Password must be at least 6 characters</string>
     <string name="invalid_email_exception">Invalid email address</string>
@@ -92,11 +93,6 @@
     <string name="must_contain_special_character"><![CDATA[Must contain at least 1 special character (@#$%^&+=)]]></string>
     <string name="name_must_be_at_least_two_characters">Name must be at least 2 characters</string>
     <string name="must_contain_only_letters_of_the_latin_alphabet">Must contain only letters of the Latin alphabet, dashes, or hyphens</string>
-    <string name="name_regex">[A-Za-z -]{2,}</string>
-    <string name="password_regex_one_uppercase_char">.*[A-Z].*</string>
-    <string name="password_regex_one_lowercase_char">.*[a-z].*</string>
-    <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
-    <string name="age_regex">[0-9]+</string>
 
     <string name="file_uploading_exception">Failed to upload the file to the remote storage</string>
     <string name="profile_image_upload_date_format">yyyy_MM_dd_HH_mm_ss</string>

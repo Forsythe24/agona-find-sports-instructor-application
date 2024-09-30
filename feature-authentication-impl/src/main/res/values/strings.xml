@@ -18,11 +18,6 @@
     <string name="must_contain_special_character"><![CDATA[Must contain at least 1 special character (@#$%^&+=)]]></string>
     <string name="name_must_be_at_least_two_characters">Name must be at least 2 characters</string>
     <string name="must_contain_only_letters_of_the_latin_alphabet">Must contain only letters of the Latin alphabet, dashes, or hyphens</string>
-    <string name="name_regex">[A-Za-z -]{2,}</string>
-    <string name="password_regex_one_uppercase_char">.*[A-Z].*</string>
-    <string name="password_regex_one_lowercase_char">.*[a-z].*</string>
-    <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
-    <string name="age_regex">[0-9]+</string>
     <string name="forgot_my_password">Forgot my password</string>
     <string name="send">SEND</string>
     <string name="type_in_email_used_for_registration">Type in the email you used for registration</string>
