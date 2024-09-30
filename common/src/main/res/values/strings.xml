@@ -93,11 +93,6 @@
     <string name="must_contain_special_character"><![CDATA[Must contain at least 1 special character (@#$%^&+=)]]></string>
     <string name="name_must_be_at_least_two_characters">Name must be at least 2 characters</string>
     <string name="must_contain_only_letters_of_the_latin_alphabet">Must contain only letters of the Latin alphabet, dashes, or hyphens</string>
-    <string name="name_regex">[A-Za-z -]{2,}</string>
-    <string name="password_regex_one_uppercase_char">.*[A-Z].*</string>
-    <string name="password_regex_one_lowercase_char">.*[a-z].*</string>
-    <string name="password_regex_one_special_char"><![CDATA[.*[@#$%^&+=].*]]></string>
-    <string name="age_regex">[0-9]+</string>
 
     <string name="file_uploading_exception">Failed to upload the file to the remote storage</string>
     <string name="profile_image_upload_date_format">yyyy_MM_dd_HH_mm_ss</string>

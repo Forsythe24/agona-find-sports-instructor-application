@@ -32,7 +32,7 @@ class NetworkStateProviderImpl @Inject constructor(
                 stopTimeoutMillis = 1_000,
                 replayExpirationMillis = 1_000
             ),
-            initialValue = isNetworkAvailable,  // This now checks for older versions as well
+            initialValue = isNetworkAvailable,
         )
 
     override val isNetworkAvailable: Boolean
