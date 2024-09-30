@@ -1,8 +1,10 @@
 package com.solopov.feature_user_profile_impl.presentation.edit_profile
 
 import androidx.lifecycle.viewModelScope
+import com.solopov.com.solopov.feature_user_profile_impl.R
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.resources.ResourceManager
+import com.solopov.common.data.network.ApiError
 import com.solopov.common.data.network.getMessage
 import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_user_profile_api.domain.UserProfileInteractor
@@ -38,6 +40,10 @@ class EditProfileViewModel @Inject constructor(
 
     private val _errorMessageChannel = Channel<String>()
     val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
+
+    private val _passwordErrorTextFlow = MutableStateFlow<String?>(null)
+    val passwordErrorTextFlow: StateFlow<String?>
+        get() = _passwordErrorTextFlow
 
     fun updateUser(
         userProfile: UserProfile,
@@ -89,7 +95,10 @@ class EditProfileViewModel @Inject constructor(
                 }
                 _dialogBtnProgressBarFlow.value = false
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                when (it) {
+                    is ApiError.FailedAuthorizationException -> _passwordErrorTextFlow.value = resourceManager.getString(R.string.wrong_password)
+                    else -> _errorMessageChannel.send(it.getMessage(resourceManager))
+                }
                 _dialogBtnProgressBarFlow.value = false
             }
         }

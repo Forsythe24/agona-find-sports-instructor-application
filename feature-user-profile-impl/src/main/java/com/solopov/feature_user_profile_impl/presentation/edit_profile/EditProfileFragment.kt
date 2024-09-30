@@ -116,6 +116,10 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
             LinearLayoutCompat.LayoutParams.MATCH_PARENT,
             LinearLayoutCompat.LayoutParams.MATCH_PARENT
         )
+
+        viewModel.passwordErrorTextFlow.observe { text ->
+            passwordTextInput.error = text
+        }
     }
 
 
@@ -142,8 +146,8 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
     private fun showPasswordSettingDialog() {
         dialog.show()
 
-        passwordEt.setText("")
-        passwordTextInput.error = ""
+        passwordEt.setText(getString(R.string.empty_string))
+        passwordTextInput.error = null
 
         val tvHeader = dialog.findViewById<TextView>(R.id.header_tv)
         tvHeader.text = getString(R.string.new_password_header)
@@ -194,7 +198,7 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
                     userProfile?.let { user ->
                         nameEt.setText(user.name)
                         ageEt.setText(user.age.toString())
-                        if (user.gender == "M") {
+                        if (user.gender == getString(R.string.male_gender_mark)) {
                             maleRb.isChecked = true
                         } else {
                             femaleRb.isChecked = true

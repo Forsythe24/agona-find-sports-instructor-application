@@ -10,7 +10,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.base.BaseFragment
 import com.solopov.common.di.FeatureUtils
 import com.solopov.feature_authentication_api.di.AuthFeatureApi
-import com.solopov.feature_authentication_impl.R
 import com.solopov.feature_authentication_impl.databinding.FragmentLogInBinding
 import com.solopov.feature_authentication_impl.di.AuthFeatureComponent
 
@@ -66,22 +65,27 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
 
     override fun subscribe(viewModel: LogInViewModel) {
         with(viewModel) {
-            authenticationResultFlow.observe {
-                if (it) {
-                    viewModel.goFromLogInToUserProfile()
-                }
-            }
-
-            errorMessageChannel.observe { message ->
-                with(binding) {
-                    logInBtn.setLoading(false)
-                    when (message) {
-                        getString(R.string.wrong_password_message) -> passwordTextInput.error = message
-
-                        else -> {
-                            showSnackbar(message, Snackbar.LENGTH_SHORT)
-                        }
+            with(binding) {
+                authenticationResultFlow.observe { authenticated ->
+                    if (authenticated) {
+                        viewModel.goFromLogInToUserProfile()
                     }
+                }
+
+                errorMessageChannel.observe { message ->
+                    logInBtn.setLoading(false)
+                    showSnackbar(message, Snackbar.LENGTH_SHORT)
+
+                }
+
+                emailErrorTextFlow.observe { text ->
+                    logInBtn.setLoading(false)
+                    emailTextInput.error = text
+                }
+
+                passwordErrorTextFlow.observe { text ->
+                    logInBtn.setLoading(false)
+                    passwordTextInput.error = text
                 }
             }
         }

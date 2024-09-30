@@ -45,12 +45,8 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
                         )
                     )
 
-                } else {
-                    showInvalidFormAlert()
                 }
-
             }
-
             addTextChangeListeners()
         }
     }
@@ -95,25 +91,6 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
         }
     }
 
-    private fun showInvalidFormAlert() {
-        var message = ""
-        with(binding) {
-            if (emailTextInput.error != null)
-                message += getString(R.string.alert_email) + emailTextInput.error
-
-            if (passwordTextInput.error != null)
-                message += getString(R.string.alert_password) + passwordTextInput.error
-
-            if (nameTextInput.error != null)
-                message += getString(R.string.alert_name) + nameTextInput.error
-
-            if (ageTextInput.error != null)
-                message += getString(R.string.alert_age) + ageTextInput.error
-        }
-
-        showAlert(getString(R.string.invalid_form), message)
-    }
-
     private fun isValidForm(): Boolean {
         with(binding) {
             emailTextInput.error = viewModel.validateEmail(emailEt.text.toString())
@@ -139,13 +116,12 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
             }
 
             errorMessageChannel.observe { message ->
-                when (message) {
-                    getString(R.string.email_already_in_use_message) -> binding.emailTextInput.error = message
+                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+            }
 
-                    else -> Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
-                }
+            emailErrorTextFlow.observe { text ->
+                binding.emailTextInput.error = text
             }
         }
     }
-
 }

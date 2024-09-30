@@ -30,6 +30,14 @@ class LogInViewModel @Inject constructor(
     val authenticationResultFlow: StateFlow<Boolean>
         get() = _authenticationResultFlow
 
+    private val _emailErrorTextFlow = MutableStateFlow<String?>(null)
+    val emailErrorTextFlow: StateFlow<String?>
+        get() = _emailErrorTextFlow
+
+    private val _passwordErrorTextFlow = MutableStateFlow<String?>(null)
+    val passwordErrorTextFlow: StateFlow<String?>
+        get() = _passwordErrorTextFlow
+
     fun signIn(
         email: String,
         password: String,
@@ -43,12 +51,11 @@ class LogInViewModel @Inject constructor(
             }.onSuccess {
                 _authenticationResultFlow.value = it
             }.onFailure {
-                _errorMessageChannel.send(
-                    when (it) {
-                        is ApiError.FailedAuthorizationException -> resourceManager.getString(R.string.wrong_password_message)
-                        else -> it.getMessage(resourceManager)
-                    }
-                )
+                when (it) {
+                    is ApiError.NotFoundException -> _emailErrorTextFlow.value = resourceManager.getString(R.string.no_such_email_message)
+                    is ApiError.FailedAuthorizationException -> _passwordErrorTextFlow.value = resourceManager.getString(R.string.wrong_password_message)
+                    else -> _errorMessageChannel.send(it.getMessage(resourceManager))
+                }
             }
         }
     }

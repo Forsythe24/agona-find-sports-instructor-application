@@ -80,7 +80,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             hideProfileEditingViews()
             hideRegularUserSpecificViews()
         } else {
-            //if it's the current user's profile
             viewModel.setCurrentUserProfile()
 
             setCurrentUserProfileHeader()
@@ -198,10 +197,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
             }
 
-            chatFlow.observe {}
-
-            currentUserFlow.observe {}
-
             ratingsFlow.observe { ratings ->
                 ratings?.let {
                     updateRating()
@@ -267,7 +262,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     private fun setUserDetails(userProfile: UserProfile) {
         with(binding) {
             with(userProfile) {
-                val fullGender = if (gender == "M") getString(R.string.male) else getString(
+                val fullGender = if (gender == getString(R.string.male_gender)) getString(R.string.male) else getString(
                     R.string.female
                 )
                 userInfoTv.text =

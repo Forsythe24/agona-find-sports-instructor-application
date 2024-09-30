@@ -30,6 +30,10 @@ class SignUpViewModel @Inject constructor(
     val progressBarFlow: StateFlow<Boolean>
         get() = _progressBarFlow
 
+    private val _emailErrorTextFlow = MutableStateFlow<String?>(null)
+    val emailErrorTextFlow: StateFlow<String?>
+        get() = _emailErrorTextFlow
+
     fun createUser(
         email: String,
         password: String,
@@ -51,12 +55,10 @@ class SignUpViewModel @Inject constructor(
                 router.goFromSignUpToInstructors()
                 _progressBarFlow.value = false
             }.onFailure {
-                _errorMessageChannel.send(
-                    when (it) {
-                        is ApiError.ConflictException -> resourceManager.getString(R.string.email_already_in_use_message)
-                        else -> it.getMessage(resourceManager)
-                    }
-                )
+                when (it) {
+                    is ApiError.ConflictException -> _emailErrorTextFlow.value = resourceManager.getString(R.string.email_already_in_use_message)
+                    else -> _errorMessageChannel.send(it.getMessage(resourceManager))
+                }
                 _progressBarFlow.value = false
             }
         }
