@@ -11,7 +11,6 @@ import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.DateFormatter
 import com.solopov.feature_chat_api.domain.ChatInteractor
 import com.solopov.feature_chat_impl.ChatRouter
-import com.solopov.feature_chat_impl.ExceptionHandlerDelegate
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.data.mappers.MessageMappers
 import com.solopov.feature_chat_impl.presentation.chat.ChatViewModel
@@ -38,7 +37,6 @@ class ChatModule {
     @ViewModelKey(ChatViewModel::class)
     fun provideSignInViewModel(
         interactor: ChatInteractor,
-        exceptionHandlerDelegate: ExceptionHandlerDelegate,
         chatMappers: ChatMappers,
         messageMappers: MessageMappers,
         router: ChatRouter,

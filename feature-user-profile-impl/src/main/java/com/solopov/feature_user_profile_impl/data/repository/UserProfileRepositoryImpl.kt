@@ -5,7 +5,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.solopov.common.data.network.ApiError
 import com.solopov.common.data.network.api.RefreshTokenService
 import com.solopov.common.data.network.api.UserApiService
-import com.solopov.common.data.network.exceptions.FirebaseException
 import com.solopov.common.data.network.jwt.JwtManager
 import com.solopov.common.data.network.jwt.saveTokensFromResponse
 import com.solopov.common.data.network.makeSafeApiCall
@@ -77,7 +76,7 @@ class UserProfileRepositoryImpl @Inject constructor(
             ref.putFile(imageUri.toUri()).await()
             return ref.downloadUrl.await().toString()
         } catch (ex: Exception) {
-            throw FirebaseException.FileUploadingException("Failed to upload the file to the remote storage")
+            throw ApiError.HostException("Failed to upload the file to the remote storage. Try again later")
         }
     }
 
@@ -101,7 +100,7 @@ class UserProfileRepositoryImpl @Inject constructor(
     override suspend fun logOut() {
         val token = jwtManager.getRefreshJwt()
         if (token == null) {
-            throw ApiError.FailedAuthorizationException("Failed to log out because refresh token is not valid")
+            throw ApiError.FailedAuthorizationException("Failed to log out because your session is over")
         } else {
             val response = makeSafeApiCall(networkStateProvider) {
                 apiService.logOut(RefreshJwtRequestDto(token))
