@@ -13,6 +13,7 @@ import com.solopov.feature_chat_api.domain.ChatInteractor
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.data.mappers.MessageMappers
+import com.solopov.feature_chat_impl.data.network.StompManager
 import com.solopov.feature_chat_impl.presentation.chat.ChatViewModel
 import dagger.Module
 import dagger.Provides
@@ -42,8 +43,7 @@ class ChatModule {
         router: ChatRouter,
         dateFormatter: DateFormatter,
         resManager: ResourceManager,
-        appProperties: AppProperties,
-        jwtManager: JwtManager,
+        stompManager: StompManager,
         resourceManager: ResourceManager,
     ): ViewModel {
         return ChatViewModel(
@@ -53,8 +53,7 @@ class ChatModule {
             router,
             dateFormatter,
             resManager,
-            appProperties,
-            jwtManager,
+            stompManager,
             resourceManager,
         )
     }

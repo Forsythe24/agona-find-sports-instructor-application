@@ -157,7 +157,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                         val senderRoomId = senderId + receiverId
 
                         downloadMessages(senderRoomId)
-                        initStomp(senderRoomId)
+                        initMessageReceiving(senderRoomId)
                     }
                 }
 

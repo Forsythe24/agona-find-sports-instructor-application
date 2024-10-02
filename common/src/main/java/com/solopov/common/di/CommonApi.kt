@@ -3,6 +3,7 @@ package com.solopov.common.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.google.gson.Gson
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.config.NetworkProperties
 import com.solopov.common.core.resources.ResourceManager
@@ -35,4 +36,6 @@ interface CommonApi {
 
     @IoDispatcher
     fun provideIoDispatcher(): CoroutineDispatcher
+
+    fun provideGson(): Gson
 }
