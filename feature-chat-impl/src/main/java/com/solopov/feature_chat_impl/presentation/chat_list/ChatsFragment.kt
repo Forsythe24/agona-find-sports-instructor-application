@@ -18,7 +18,6 @@ import com.solopov.feature_chat_api.di.ChatFeatureApi
 import com.solopov.feature_chat_impl.databinding.FragmentChatListBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
-import com.solopov.feature_chat_impl.utils.Constants.MESSAGE_UPDATE_INTERVAL
 
 class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
@@ -51,7 +50,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
     private fun repeatCheckingMessagesForUpdates() {
         viewModel.let { vm ->
             vm.doRepeatWork(
-                MESSAGE_UPDATE_INTERVAL
+                MESSAGE_SYNC_INTERVAL
             ) {
                 vm.userFlow.value?.let {
                     vm.getAllChatsByUserId(it.userId)
@@ -129,5 +128,9 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
             .load(url)
             .into(imageView)
 
+    }
+
+    companion object {
+        const val MESSAGE_SYNC_INTERVAL = 5000L
     }
 }

@@ -1,5 +1,6 @@
 package com.solopov.feature_chat_impl.di
 
+import com.google.gson.Gson
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.api.ChatApiService
@@ -18,6 +19,7 @@ interface ChatFeatureDependencies {
     fun userApiService(): UserApiService
     fun chatApiService(): ChatApiService
     fun networkStateProvider(): NetworkStateProvider
+    fun gson(): Gson
 
     @IoDispatcher
     fun ioDispatcher(): CoroutineDispatcher

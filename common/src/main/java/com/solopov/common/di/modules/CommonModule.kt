@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.google.gson.Gson
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.core.resources.ResourceManagerImpl
@@ -63,5 +64,11 @@ class CommonModule {
         notificationManager: NotificationManager,
     ): NotificationManagerWrapper {
         return NotificationManagerWrapperImpl(context, notificationManager)
+    }
+
+    @Provides
+    @ApplicationScope
+    fun provideGson(): Gson {
+        return Gson()
     }
 }
