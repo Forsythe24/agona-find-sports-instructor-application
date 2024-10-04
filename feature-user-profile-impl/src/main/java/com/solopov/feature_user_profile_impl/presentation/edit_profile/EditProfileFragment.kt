@@ -146,7 +146,7 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
     private fun showPasswordSettingDialog() {
         dialog.show()
 
-        passwordEt.setText(getString(R.string.empty_string))
+        passwordEt.setText("")
         passwordTextInput.error = null
 
         val tvHeader = dialog.findViewById<TextView>(R.id.header_tv)
