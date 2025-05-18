@@ -1,9 +1,9 @@
 package com.solopov.feature_user_profile_impl.di
 
-import com.solopov.feature_user_profile_api.domain.usecase.GetCurrentUserUseCase
 import com.solopov.feature_user_profile_api.domain.usecase.AddRatingUseCase
 import com.solopov.feature_user_profile_api.domain.usecase.DeleteProfileUseCase
 import com.solopov.feature_user_profile_api.domain.usecase.GetAllInstructorRatingsUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.GetCurrentUserUseCase
 import com.solopov.feature_user_profile_api.domain.usecase.GetRatingByUserAndInstructorUseCase
 import com.solopov.feature_user_profile_api.domain.usecase.LoadUserInfoUseCase
 import com.solopov.feature_user_profile_api.domain.usecase.LogOutUseCase
@@ -40,7 +40,7 @@ interface UserProfileFeatureUseCaseModule {
     fun bindGetRatingByUserAndInstructorIdsUseCase(impl: GetRatingByUserAndInstructorIdsUseCaseImpl): GetRatingByUserAndInstructorUseCase
 
     @Binds
-    fun bindUpdateUserInfoUseCase(impl: UpdateUserInfoUseCase): UpdateUserInfoUseCaseImpl
+    fun bindUpdateUserInfoUseCase(impl: UpdateUserInfoUseCaseImpl): UpdateUserInfoUseCase
 
     @Binds
     fun bindDeleteProfileUseCase(impl: DeleteProfileUseCaseImpl): DeleteProfileUseCase

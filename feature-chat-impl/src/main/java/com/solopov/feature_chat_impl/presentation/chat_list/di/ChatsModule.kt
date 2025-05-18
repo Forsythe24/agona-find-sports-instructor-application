@@ -7,9 +7,8 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.DateFormatter
-import com.solopov.feature_chat_api.domain.usecase.CreateNewMessageUseCase
+import com.solopov.feature_chat_api.domain.usecase.GetCurrentUserUseCase
 import com.solopov.feature_chat_api.domain.usecase.LoadAllUserChatsUseCase
-import com.solopov.feature_chat_api.domain.usecase.LoadChatMessagesUseCase
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.presentation.chat_list.ChatsViewModel
@@ -39,16 +38,16 @@ class ChatsModule {
         router: ChatRouter,
         resourceManager: ResourceManager,
         dateFormatter: DateFormatter,
-        createNewMessageUseCase: CreateNewMessageUseCase,
+        getCurrentUserUseCase: GetCurrentUserUseCase,
         loadAllUserChatsUseCase: LoadAllUserChatsUseCase,
     ): ViewModel {
         return ChatsViewModel(
-            createNewMessageUseCase = createNewMessageUseCase,
-            loadAllUserChatsUseCase = loadAllUserChatsUseCase,
             chatMappers = chatMappers,
             router = router,
             resourceManager = resourceManager,
-            dateFormatter = dateFormatter
+            dateFormatter = dateFormatter,
+            loadAllUserChatsUseCase = loadAllUserChatsUseCase,
+            getCurrentUserUseCase = getCurrentUserUseCase
         )
     }
 }

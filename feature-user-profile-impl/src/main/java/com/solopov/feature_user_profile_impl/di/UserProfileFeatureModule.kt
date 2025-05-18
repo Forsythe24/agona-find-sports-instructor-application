@@ -5,17 +5,17 @@ import com.solopov.feature_user_profile_api.domain.RatingRepository
 import com.solopov.feature_user_profile_api.domain.UserProfileRepository
 import com.solopov.feature_user_profile_impl.data.repository.RatingRepositoryImpl
 import com.solopov.feature_user_profile_impl.data.repository.UserProfileRepositoryImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 @Module
-class UserProfileFeatureModule {
+interface UserProfileFeatureModule {
 
-    @Provides
+    @Binds
     @FeatureScope
-    fun provideUserProfileRepository(repository: UserProfileRepositoryImpl): UserProfileRepository = repository
+    fun provideUserProfileRepository(repository: UserProfileRepositoryImpl): UserProfileRepository
 
-    @Provides
+    @Binds
     @FeatureScope
-    fun provideRatingRepository(repository: RatingRepositoryImpl): RatingRepository = repository
+    fun provideRatingRepository(repository: RatingRepositoryImpl): RatingRepository
 }

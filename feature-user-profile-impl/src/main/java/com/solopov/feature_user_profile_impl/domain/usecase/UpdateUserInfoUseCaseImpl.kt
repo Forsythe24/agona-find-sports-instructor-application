@@ -6,8 +6,9 @@ import com.solopov.feature_user_profile_api.domain.model.User
 import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserInfoUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class UpdateUserInfoUseCaseImpl(
+class UpdateUserInfoUseCaseImpl @Inject constructor(
     private val userProfileRepository: UserProfileRepository,
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) : UpdateUserInfoUseCase {

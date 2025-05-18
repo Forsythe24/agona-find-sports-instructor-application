@@ -4,7 +4,12 @@ import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.getMessage
-import com.solopov.feature_event_calendar_api.domain.EventCalendarInteractor
+import com.solopov.feature_event_calendar_api.domain.usecase.AddEventUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.DeleteAllRecentEventsUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.DeleteEventUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.GetAllEventsByDateUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.GetAllPossiblePartnersNamesUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.GetCurrentUserIdUseCase
 import com.solopov.feature_event_calendar_impl.data.mappers.EventMappers
 import com.solopov.feature_event_calendar_impl.presentation.model.EventItem
 import kotlinx.coroutines.channels.Channel
@@ -15,9 +20,14 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class EventCalendarViewModel(
-    private val interactor: EventCalendarInteractor,
     private val eventMappers: EventMappers,
     private val resourceManager: ResourceManager,
+    private val getAllEventsByDateUseCase: GetAllEventsByDateUseCase,
+    private val deleteAllRecentEventsUseCase: DeleteAllRecentEventsUseCase,
+    private val getAllPossiblePartnersNamesUseCase: GetAllPossiblePartnersNamesUseCase,
+    private val deleteEventUseCase: DeleteEventUseCase,
+    private val addEventUseCase: AddEventUseCase,
+    private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
 ) : BaseViewModel() {
 
     private val _progressBarFlow = MutableStateFlow(false)
@@ -47,7 +57,7 @@ class EventCalendarViewModel(
         _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching {
-                interactor.getAllEventsByDate(date)
+                getAllEventsByDateUseCase(date)
             }.onSuccess {
                 _eventListFlow.value = it?.map(eventMappers::mapEventToEventItem)?.sortByStartTime()
                 _progressBarFlow.value = false
@@ -61,7 +71,7 @@ class EventCalendarViewModel(
     fun deleteAllEventsThreeOrMoreDaysAgo(date: Date) {
         viewModelScope.launch {
             runCatching {
-                interactor.deleteAllEventsThreeOrMoreDaysAgo(date)
+                deleteAllRecentEventsUseCase(date)
             }.onSuccess {
             }.onFailure {
                 _errorMessageChannel.send(it.getMessage(resourceManager))
@@ -72,7 +82,7 @@ class EventCalendarViewModel(
     fun getAllPossiblePartnersNamesByUserId(userId: String) {
         viewModelScope.launch {
             runCatching {
-                interactor.getAllPossiblePartnersNamesByUserId(userId)
+                getAllPossiblePartnersNamesUseCase(userId)
             }.onSuccess {
                 _possiblePartnersNameListFlow.value = it
             }.onFailure {
@@ -84,7 +94,7 @@ class EventCalendarViewModel(
     fun deleteEvent(event: EventItem, onEventDeletedCallback: () -> Unit) {
         viewModelScope.launch {
             runCatching {
-                interactor.deleteEventById(event.id)
+                deleteEventUseCase(event.id)
             }.onSuccess {
                 onEventDeletedCallback()
             }.onFailure {
@@ -100,7 +110,7 @@ class EventCalendarViewModel(
     fun saveEvent(eventItem: EventItem, onEventSavedCallback: () -> Unit) {
         viewModelScope.launch {
             runCatching {
-                interactor.addEvent(eventMappers.mapEventItemToEvent(eventItem))
+                addEventUseCase(eventMappers.mapEventItemToEvent(eventItem))
             }.onSuccess {
                 onEventSavedCallback()
                 _currentEventFlow.value = null
@@ -113,7 +123,7 @@ class EventCalendarViewModel(
     fun getCurrentUserId() {
         viewModelScope.launch {
             runCatching {
-                interactor.getCurrentUserId()
+                getCurrentUserIdUseCase()
             }.onSuccess {
                 _currentUserIdFlow.value = it
             }.onFailure {

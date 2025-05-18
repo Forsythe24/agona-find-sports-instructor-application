@@ -7,6 +7,7 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.UserDataValidator
+import com.solopov.feature_authentication_api.domain.usecase.RegisterUserUseCase
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.presentation.signup.SignUpViewModel
 import dagger.Module
@@ -22,7 +23,7 @@ import dagger.multibindings.IntoMap
 class SignUpModule {
 
     @Provides
-    fun provideMainViewModel(
+    fun provideSignUpViewModel(
         fragment: Fragment,
         factory: ViewModelProvider.Factory,
     ): SignUpViewModel {
@@ -32,12 +33,17 @@ class SignUpModule {
     @Provides
     @IntoMap
     @ViewModelKey(SignUpViewModel::class)
-    fun provideSignInViewModel(
-        interactor: AuthInteractor,
+    fun provideViewModel(
         authRouter: AuthRouter,
         validator: UserDataValidator,
         resourceManager: ResourceManager,
+        registerUserUseCase: RegisterUserUseCase
     ): ViewModel {
-        return SignUpViewModel(interactor, authRouter, validator, resourceManager)
+        return SignUpViewModel(
+            router = authRouter,
+            validator = validator,
+            resourceManager = resourceManager,
+            registerUserUseCase = registerUserUseCase
+        )
     }
 }

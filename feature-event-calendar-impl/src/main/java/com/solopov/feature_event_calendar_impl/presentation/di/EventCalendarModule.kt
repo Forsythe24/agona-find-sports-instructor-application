@@ -6,7 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
-import com.solopov.feature_event_calendar_api.domain.EventCalendarInteractor
+import com.solopov.feature_event_calendar_api.domain.usecase.AddEventUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.DeleteAllRecentEventsUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.DeleteEventUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.GetAllEventsByDateUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.GetAllPossiblePartnersNamesUseCase
+import com.solopov.feature_event_calendar_api.domain.usecase.GetCurrentUserIdUseCase
 import com.solopov.feature_event_calendar_impl.data.mappers.EventMappers
 import com.solopov.feature_event_calendar_impl.presentation.EventCalendarViewModel
 import dagger.Module
@@ -32,14 +37,24 @@ class EventCalendarModule {
     @IntoMap
     @ViewModelKey(EventCalendarViewModel::class)
     fun provideViewModel(
-        interactor: EventCalendarInteractor,
         eventMappers: EventMappers,
         resourceManager: ResourceManager,
+        getAllEventsByDateUseCase: GetAllEventsByDateUseCase,
+        deleteAllRecentEventsUseCase: DeleteAllRecentEventsUseCase,
+        getAllPossiblePartnersNamesUseCase: GetAllPossiblePartnersNamesUseCase,
+        deleteEventUseCase: DeleteEventUseCase,
+        addEventUseCase: AddEventUseCase,
+        getCurrentUserIdUseCase: GetCurrentUserIdUseCase
     ): ViewModel {
         return EventCalendarViewModel(
-            interactor,
-            eventMappers,
-            resourceManager
+            eventMappers = eventMappers,
+            resourceManager = resourceManager,
+            getAllEventsByDateUseCase = getAllEventsByDateUseCase,
+            deleteAllRecentEventsUseCase = deleteAllRecentEventsUseCase,
+            getAllPossiblePartnersNamesUseCase = getAllPossiblePartnersNamesUseCase,
+            deleteEventUseCase = deleteEventUseCase,
+            addEventUseCase = addEventUseCase,
+            getCurrentUserIdUseCase = getCurrentUserIdUseCase
         )
     }
 }
