@@ -6,14 +6,14 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.getMessage
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
-import com.solopov.feature_chat_api.domain.usecase.CreateNewMessageUseCase
+import com.solopov.feature_chat_api.domain.usecase.SendMessageUseCase
+import com.solopov.feature_chat_api.domain.usecase.GetCurrentUserUseCase
 import com.solopov.feature_chat_api.domain.usecase.LoadChatMessagesUseCase
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.R
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.data.mappers.MessageMappers
 import com.solopov.feature_chat_impl.data.network.StompManager
-import com.solopov.feature_chat_impl.domain.usecase.GetCurrentUserUseCase
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 import kotlinx.coroutines.channels.Channel
@@ -25,8 +25,6 @@ import java.util.Date
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
-    private val createNewMessageUseCase: CreateNewMessageUseCase,
-    private val loadChatMessagesUseCase: LoadChatMessagesUseCase,
     private val chatMappers: ChatMappers,
     private val messageMappers: MessageMappers,
     private val router: ChatRouter,
@@ -34,7 +32,9 @@ class ChatViewModel @Inject constructor(
     private val resManager: ResourceManager,
     private val stompManager: StompManager,
     private val resourceManager: ResourceManager,
-    private val getCurrentUserUseCase: GetCurrentUserUseCase
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val sendMessageUseCase: SendMessageUseCase,
+    private val loadChatMessagesUseCase: LoadChatMessagesUseCase,
 ) : BaseViewModel() {
 
     private val _chatFlow = MutableStateFlow<List<MessageItem>?>(null)
@@ -61,7 +61,7 @@ class ChatViewModel @Inject constructor(
     fun createNewMessage(userId: String, message: MessageItem) {
         viewModelScope.launch {
             runCatching {
-                createNewMessageUseCase(userId, messageMappers.mapMessageItemToMessage(message))
+                sendMessageUseCase(userId, messageMappers.mapMessageItemToMessage(message))
                 sendMessage(message)
             }.onFailure {
                 _errorMessageChannel.send(it.getMessage(resourceManager))

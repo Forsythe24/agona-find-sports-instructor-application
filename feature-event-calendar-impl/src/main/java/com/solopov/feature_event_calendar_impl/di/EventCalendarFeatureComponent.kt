@@ -17,7 +17,8 @@ import dagger.Component
         EventCalendarFeatureDependencies::class
     ],
     modules = [
-        EventCalendarFeatureModule::class
+        EventCalendarFeatureModule::class,
+        EventCalendarFeatureUseCaseModule::class
     ]
 )
 interface EventCalendarFeatureComponent : EventCalendarFeatureApi {

@@ -4,8 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.getMessage
-import com.solopov.feature_instructor_api.domain.InstructorInteractor
 import com.solopov.feature_instructor_api.domain.model.Instructor
+import com.solopov.feature_instructor_api.domain.usecase.LoadSportInstructorsUseCase
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,9 +15,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class InstructorsViewModel @Inject constructor(
-    private val interactor: InstructorInteractor,
     private val router: InstructorsRouter,
     private val resourceManager: ResourceManager,
+    private val loadSportInstructorsUseCase: LoadSportInstructorsUseCase
 ) : BaseViewModel() {
     private val _currentInstructorsFlow = MutableStateFlow<List<InstructorsAdapter.ListItem>?>(null)
     val currentInstructorsFlow: StateFlow<List<InstructorsAdapter.ListItem>?>
@@ -29,7 +29,7 @@ class InstructorsViewModel @Inject constructor(
     fun getInstructorsBySportId(sportId: Int) {
         viewModelScope.launch {
             runCatching {
-                interactor.getInstructorsBySportId(sportId)
+                loadSportInstructorsUseCase(sportId)
             }.onSuccess {
                 _currentInstructorsFlow.value = mapInstructorsToListItems(it)
             }.onFailure {

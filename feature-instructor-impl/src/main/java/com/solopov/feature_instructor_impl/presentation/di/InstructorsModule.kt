@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
-import com.solopov.feature_instructor_api.domain.InstructorInteractor
+import com.solopov.feature_instructor_api.domain.usecase.LoadSportInstructorsUseCase
 import com.solopov.feature_instructor_impl.InstructorsRouter
 import com.solopov.feature_instructor_impl.presentation.InstructorsViewModel
 import dagger.Module
@@ -21,14 +21,25 @@ import dagger.multibindings.IntoMap
 class InstructorsModule {
 
     @Provides
-    fun provideMainViewModel(fragment: Fragment, factory: ViewModelProvider.Factory): InstructorsViewModel {
+    fun provideInstructorsViewModel(
+        fragment: Fragment,
+        factory: ViewModelProvider.Factory
+    ): InstructorsViewModel {
         return ViewModelProvider(fragment, factory)[InstructorsViewModel::class.java]
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(InstructorsViewModel::class)
-    fun provideInstructorsViewModel(interactor: InstructorInteractor, router: InstructorsRouter, resourceManager: ResourceManager): ViewModel {
-        return InstructorsViewModel(interactor, router, resourceManager)
+    fun provideViewModel(
+        router: InstructorsRouter,
+        resourceManager: ResourceManager,
+        loadSportInstructorsUseCase: LoadSportInstructorsUseCase
+    ): ViewModel {
+        return InstructorsViewModel(
+            router = router,
+            resourceManager = resourceManager,
+            loadSportInstructorsUseCase = loadSportInstructorsUseCase
+        )
     }
 }

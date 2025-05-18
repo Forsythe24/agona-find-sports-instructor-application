@@ -7,6 +7,7 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.UserDataValidator
+import com.solopov.feature_authentication_api.domain.usecase.SendNewPasswordUseCase
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.presentation.password_recovery.PasswordRecoveryViewModel
 import dagger.Module
@@ -22,7 +23,7 @@ import dagger.multibindings.IntoMap
 class PasswordRecoveryModule {
 
     @Provides
-    fun provideMainViewModel(
+    fun providePasswordRecoveryViewModel(
         fragment: Fragment,
         factory: ViewModelProvider.Factory,
     ): PasswordRecoveryViewModel {
@@ -32,12 +33,17 @@ class PasswordRecoveryModule {
     @Provides
     @IntoMap
     @ViewModelKey(PasswordRecoveryViewModel::class)
-    fun providePasswordRecoveryViewModel(
-        interactor: AuthInteractor,
+    fun provideViewModel(
         router: AuthRouter,
         userDataValidator: UserDataValidator,
         resourceManager: ResourceManager,
+        sendNewPasswordUseCase: SendNewPasswordUseCase
     ): ViewModel {
-        return PasswordRecoveryViewModel(interactor, router, userDataValidator, resourceManager)
+        return PasswordRecoveryViewModel(
+            router = router,
+            validator = userDataValidator,
+            resourceManager = resourceManager,
+            sendNewPasswordUseCase = sendNewPasswordUseCase
+        )
     }
 }

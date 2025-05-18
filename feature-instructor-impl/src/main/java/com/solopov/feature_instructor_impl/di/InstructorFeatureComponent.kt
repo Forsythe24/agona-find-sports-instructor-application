@@ -16,7 +16,8 @@ import dagger.Component
         InstructorFeatureDependencies::class
     ],
     modules = [
-        InstructorFeatureModule::class
+        InstructorFeatureModule::class,
+        InstructorUseCaseFeatureModule::class
     ]
 )
 interface InstructorFeatureComponent : InstructorFeatureApi {
