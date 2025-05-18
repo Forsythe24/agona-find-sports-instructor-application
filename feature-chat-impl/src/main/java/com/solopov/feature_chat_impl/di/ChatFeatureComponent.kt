@@ -17,7 +17,8 @@ import dagger.Component
         ChatFeatureDependencies::class
     ],
     modules = [
-        ChatFeatureModule::class
+        ChatFeatureModule::class,
+        ChatFeatureUseCaseModule::class,
     ]
 )
 interface ChatFeatureComponent : ChatFeatureApi {

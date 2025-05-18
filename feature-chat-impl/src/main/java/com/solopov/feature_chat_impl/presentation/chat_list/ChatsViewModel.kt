@@ -6,7 +6,8 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.getMessage
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
-import com.solopov.feature_chat_api.domain.ChatInteractor
+import com.solopov.feature_chat_api.domain.usecase.GetCurrentUserUseCase
+import com.solopov.feature_chat_api.domain.usecase.LoadAllUserChatsUseCase
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
@@ -19,11 +20,12 @@ import java.util.Calendar
 import java.util.Date
 
 class ChatsViewModel(
-    private val interactor: ChatInteractor,
+    private val loadAllUserChatsUseCase: LoadAllUserChatsUseCase,
     private val chatMappers: ChatMappers,
     private val router: ChatRouter,
     private val resourceManager: ResourceManager,
     private val dateFormatter: DateFormatter,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase
 ) : BaseViewModel() {
     private val _chatsFlow = MutableStateFlow<List<ChatItem>?>(null)
     val chatsFlow: StateFlow<List<ChatItem>?>
@@ -41,12 +43,16 @@ class ChatsViewModel(
     val progressBarFlow: StateFlow<Boolean>
         get() = _progressBarFlow
 
+    init {
+        setUser()
+    }
+
 
     fun getAllChatsByUserId(userId: String) {
         _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching {
-                interactor.getAllChatsByUserId(userId)
+                loadAllUserChatsUseCase(userId)
             }.onSuccess {
                 _chatsFlow.value = it.map(chatMappers::mapChatToChatItem)
                 _progressBarFlow.value = false
@@ -87,10 +93,10 @@ class ChatsViewModel(
         return chats
     }
 
-    fun setUser() {
+    private fun setUser() {
         viewModelScope.launch {
             runCatching {
-                interactor.getCurrentUser()
+                getCurrentUserUseCase()
             }.onSuccess {
                 _userFlow.value = chatMappers.mapUserToChatItem(it)
             }.onFailure {
@@ -101,5 +107,9 @@ class ChatsViewModel(
 
     fun openChat(chat: ChatCommon) {
         router.goFromChatsToChat(chat)
+    }
+
+    companion object {
+        const val MESSAGE_SYNC_INTERVAL = 5000L
     }
 }

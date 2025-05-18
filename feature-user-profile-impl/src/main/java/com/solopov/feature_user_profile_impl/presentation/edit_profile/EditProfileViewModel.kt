@@ -7,7 +7,9 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.ApiError
 import com.solopov.common.data.network.getMessage
 import com.solopov.common.utils.UserDataValidator
-import com.solopov.feature_user_profile_api.domain.UserProfileInteractor
+import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserInfoUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserPasswordUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.VerifyCredentialsUseCase
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
@@ -19,11 +21,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EditProfileViewModel @Inject constructor(
-    private val interactor: UserProfileInteractor,
     private val mappers: UserMappers,
     private val router: UserProfileRouter,
     private val userDataValidator: UserDataValidator,
     private val resourceManager: ResourceManager,
+    private val updateUserInfoUseCase: UpdateUserInfoUseCase,
+    private val updateUserPasswordUseCase: UpdateUserPasswordUseCase,
+    private val verifyCredentialsUseCase: VerifyCredentialsUseCase
 ) : BaseViewModel() {
 
     private val _editProfileFlow = MutableStateFlow<UserProfile?>(null)
@@ -52,7 +56,7 @@ class EditProfileViewModel @Inject constructor(
         _saveBtnProgressBarFlow.value = true
         viewModelScope.launch {
             runCatching {
-                interactor.updateUser(mappers.mapUserProfileToUser(userProfile))
+                updateUserInfoUseCase(mappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
                 onUserUpdated()
                 _saveBtnProgressBarFlow.value = false
@@ -67,7 +71,7 @@ class EditProfileViewModel @Inject constructor(
         _dialogBtnProgressBarFlow.value = true
         viewModelScope.launch {
             runCatching {
-                interactor.updateUserPassword(password)
+                updateUserPasswordUseCase(password)
             }.onSuccess {
                 onPasswordUpdated()
                 _dialogBtnProgressBarFlow.value = false
@@ -86,7 +90,7 @@ class EditProfileViewModel @Inject constructor(
         _dialogBtnProgressBarFlow.value = true
         viewModelScope.launch {
             runCatching {
-                interactor.verifyCredentials(allegedPassword)
+                verifyCredentialsUseCase(allegedPassword)
             }.onSuccess { areVerified ->
                 if (areVerified) {
                     onCorrectPasswordCallback()

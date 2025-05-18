@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
-import com.solopov.feature_user_profile_api.domain.UserProfileInteractor
+import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserInfoUseCase
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.instruct.InstructApplicationViewModel
@@ -33,16 +33,16 @@ class InstructApplicationModule {
     @IntoMap
     @ViewModelKey(InstructApplicationViewModel::class)
     fun provideInstructApplicationViewModel(
-        interactor: UserProfileInteractor,
         userMappers: UserMappers,
         router: UserProfileRouter,
         resourceManager: ResourceManager,
+        updateUserInfoUseCase: UpdateUserInfoUseCase
     ): ViewModel {
         return InstructApplicationViewModel(
-            interactor,
-            userMappers,
-            router,
-            resourceManager,
+            mappers = userMappers,
+            router = router,
+            resourceManager = resourceManager,
+            updateUserInfoUseCase = updateUserInfoUseCase
         )
     }
 }

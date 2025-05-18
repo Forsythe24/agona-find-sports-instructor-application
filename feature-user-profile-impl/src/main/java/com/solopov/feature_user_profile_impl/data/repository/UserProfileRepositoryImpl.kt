@@ -32,10 +32,10 @@ class UserProfileRepositoryImpl @Inject constructor(
 ) : UserProfileRepository {
 
 
-    override suspend fun getUserByUid(uid: String): User {
+    override suspend fun getUserById(id: String): User {
         return userMappers.mapUserRemoteToUser(
             makeSafeApiCall(networkStateProvider) {
-                apiService.getUser(uid)
+                apiService.getUser(id)
             }
         )
     }

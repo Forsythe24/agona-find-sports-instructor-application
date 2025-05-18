@@ -6,8 +6,15 @@ import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.getMessage
 import com.solopov.common.model.ChatCommon
-import com.solopov.feature_user_profile_api.domain.UserProfileInteractor
 import com.solopov.feature_user_profile_api.domain.model.User
+import com.solopov.feature_user_profile_api.domain.usecase.AddRatingUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.DeleteProfileUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.GetAllInstructorRatingsUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.GetCurrentUserUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.LoadUserInfoUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.LogOutUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserInfoUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.UploadProfileImageUseCase
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.RatingMappers
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
@@ -20,11 +27,18 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class UserProfileViewModel(
-    private val interactor: UserProfileInteractor,
     private val userMappers: UserMappers,
     private val ratingMappers: RatingMappers,
     private val router: UserProfileRouter,
     private val resourceManager: ResourceManager,
+    private val loadUserInfoUseCase: LoadUserInfoUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val deleteProfileUseCase: DeleteProfileUseCase,
+    private val logOutUseCase: LogOutUseCase,
+    private val addRatingUseCase: AddRatingUseCase,
+    private val updateUserInfoUseCase: UpdateUserInfoUseCase,
+    private val getAllInstructorRatingsUseCase: GetAllInstructorRatingsUseCase,
+    private val uploadProfileImageUseCase: UploadProfileImageUseCase
 ) : BaseViewModel() {
 
     private val _userProfileFlow = MutableStateFlow<UserProfile?>(null)
@@ -50,10 +64,10 @@ class UserProfileViewModel(
     private val _errorMessageChannel = Channel<String>()
     val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
 
-    fun setUserProfileByUid(uid: String) {
+    fun setUserProfileById(uid: String) {
         viewModelScope.launch {
             runCatching {
-                interactor.getUserByUid(uid)
+                loadUserInfoUseCase(uid)
             }.onSuccess {
                 _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
@@ -69,7 +83,7 @@ class UserProfileViewModel(
     fun setCurrentUser(userId: String, onUserSetCallback: (Boolean) -> Unit) {
         viewModelScope.launch {
             runCatching {
-                interactor.getCurrentUser()
+                getCurrentUserUseCase()
             }.onSuccess {
                 _currentUserFlow.value = it
                 onUserSetCallback(it.id == userId)
@@ -82,7 +96,7 @@ class UserProfileViewModel(
     fun deleteProfile(onProfileDeletedCallback: () -> Unit) {
         viewModelScope.launch {
             runCatching {
-                interactor.deleteProfile()
+                deleteProfileUseCase()
             }.onSuccess {
                 onProfileDeletedCallback()
                 goToLogInScreen()
@@ -95,7 +109,7 @@ class UserProfileViewModel(
     fun setCurrentUserProfile() {
         viewModelScope.launch {
             runCatching {
-                interactor.getCurrentUser()
+                getCurrentUserUseCase()
             }.onSuccess {
                 _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
@@ -107,7 +121,7 @@ class UserProfileViewModel(
     fun logOut(onLoggedOutCallback: () -> Unit) {
         viewModelScope.launch {
             runCatching {
-                interactor.logOut()
+                logOutUseCase()
             }.onSuccess {
                 onLoggedOutCallback()
                 goToLogInScreen()
@@ -120,7 +134,7 @@ class UserProfileViewModel(
     fun addRating(ratingUi: RatingUi) {
         viewModelScope.launch {
             runCatching {
-                interactor.addRating(ratingMappers.mapRatingUiToRating(ratingUi))
+                addRatingUseCase(ratingMappers.mapRatingUiToRating(ratingUi))
             }.onSuccess {
                 getAllInstructorRatingsById(ratingUi.instructorId)
             }.onFailure {
@@ -129,13 +143,13 @@ class UserProfileViewModel(
         }
     }
 
-    private fun updateUser(
+    private fun updateUserProfile(
         userProfile: UserProfile,
     ) {
         _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching {
-                interactor.updateUser(userMappers.mapUserProfileToUser(userProfile))
+                updateUserInfoUseCase(userMappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
                 _progressBarFlow.value = false
             }.onFailure {
@@ -150,7 +164,7 @@ class UserProfileViewModel(
     ) {
         viewModelScope.launch {
             runCatching {
-                interactor.getAllInstructorRatingsById(instructorId)
+                getAllInstructorRatingsUseCase(instructorId)
             }.onSuccess {
                 _ratingsFlow.value = it?.map(ratingMappers::mapRatingToRatingUi) ?: listOf()
             }.onFailure {
@@ -167,10 +181,10 @@ class UserProfileViewModel(
         _userProfileFlow.value = user
     }
 
-    fun updateProfileImage(imageUri: String) {
+    private fun updateProfileImage(imageUri: String) {
         _userProfileFlow.value?.let {
             it.photo = imageUri
-            updateUser(it)
+            updateUserProfile(it)
         }
     }
 
@@ -178,7 +192,7 @@ class UserProfileViewModel(
         _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching {
-                interactor.uploadProfileImage(imageUri.toString())
+                uploadProfileImageUseCase(imageUri.toString())
             }.onSuccess {
                 updateProfileImage(it)
                 _progressBarFlow.value = false
@@ -205,7 +219,7 @@ class UserProfileViewModel(
                 val newUserProfile =
                     it.copy(rating = newRating, numberOfRatings = newNumberOfRatings)
 
-                updateUser(newUserProfile)
+                updateUserProfile(newUserProfile)
                 setUserProfile(newUserProfile)
             }
         }
@@ -227,7 +241,7 @@ class UserProfileViewModel(
         router.goFromUserProfileToChat(chat)
     }
 
-    fun goToLogInScreen() {
+    private fun goToLogInScreen() {
         router.goFromUserProfileToLogInScreen()
     }
 

@@ -17,6 +17,7 @@ import com.solopov.common.model.ChatCommon
 import com.solopov.feature_chat_api.di.ChatFeatureApi
 import com.solopov.feature_chat_impl.databinding.FragmentChatListBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
+import com.solopov.feature_chat_impl.presentation.chat_list.ChatsViewModel.Companion.MESSAGE_SYNC_INTERVAL
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 
 class ChatsFragment : BaseFragment<ChatsViewModel>() {
@@ -30,36 +31,6 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
         viewBinding = FragmentChatListBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initUser()
-    }
-
-
-    override fun onStop() {
-        viewModel.stopRepeatWork()
-        super.onStop()
-    }
-
-    override fun onStart() {
-        repeatCheckingMessagesForUpdates()
-        super.onStart()
-    }
-
-    private fun repeatCheckingMessagesForUpdates() {
-        viewModel.let { vm ->
-            vm.doRepeatWork(
-                MESSAGE_SYNC_INTERVAL
-            ) {
-                vm.userFlow.value?.let {
-                    vm.getAllChatsByUserId(it.userId)
-                }
-            }
-        }
-    }
-
-    private fun initUser() = viewModel.setUser()
 
     private fun initChats(userId: String) = viewModel.getAllChatsByUserId(userId)
 
@@ -123,14 +94,32 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
         }
     }
 
+    override fun onStop() {
+        viewModel.stopRepeatWork()
+        super.onStop()
+    }
+
+    override fun onStart() {
+        repeatCheckingMessagesForUpdates()
+        super.onStart()
+    }
+
+    private fun repeatCheckingMessagesForUpdates() {
+        with(viewModel) {
+            doRepeatWork(
+                MESSAGE_SYNC_INTERVAL
+            ) {
+                userFlow.value?.let {
+                    getAllChatsByUserId(it.userId)
+                }
+            }
+        }
+    }
+
     private fun showImage(url: String, imageView: ImageView) {
         Glide.with(requireContext())
             .load(url)
             .into(imageView)
 
-    }
-
-    companion object {
-        const val MESSAGE_SYNC_INTERVAL = 5000L
     }
 }

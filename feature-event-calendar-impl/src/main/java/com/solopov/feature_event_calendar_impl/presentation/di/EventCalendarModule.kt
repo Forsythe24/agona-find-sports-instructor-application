@@ -21,7 +21,7 @@ import dagger.multibindings.IntoMap
 class EventCalendarModule {
 
     @Provides
-    fun provideMainViewModel(
+    fun provideEventCalendarViewModel(
         fragment: Fragment,
         factory: ViewModelProvider.Factory,
     ): EventCalendarViewModel {
@@ -31,7 +31,7 @@ class EventCalendarModule {
     @Provides
     @IntoMap
     @ViewModelKey(EventCalendarViewModel::class)
-    fun provideInstructorViewModel(
+    fun provideViewModel(
         interactor: EventCalendarInteractor,
         eventMappers: EventMappers,
         resourceManager: ResourceManager,

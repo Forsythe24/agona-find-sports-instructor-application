@@ -6,7 +6,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
-import com.solopov.feature_user_profile_api.domain.UserProfileInteractor
+import com.solopov.feature_user_profile_api.domain.usecase.AddRatingUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.DeleteProfileUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.GetAllInstructorRatingsUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.GetCurrentUserUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.LoadUserInfoUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.LogOutUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserInfoUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.UploadProfileImageUseCase
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.RatingMappers
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
@@ -34,18 +41,32 @@ class UserProfileModule {
     @IntoMap
     @ViewModelKey(UserProfileViewModel::class)
     fun provideInstructorViewModel(
-        interactor: UserProfileInteractor,
         userMappers: UserMappers,
         ratingMappers: RatingMappers,
         router: UserProfileRouter,
         resourceManager: ResourceManager,
+        loadUserInfoUseCase: LoadUserInfoUseCase,
+        getCurrentUserUseCase: GetCurrentUserUseCase,
+        deleteProfileUseCase: DeleteProfileUseCase,
+        logOutUseCase: LogOutUseCase,
+        addRatingUseCase: AddRatingUseCase,
+        updateUserInfoUseCase: UpdateUserInfoUseCase,
+        getAllInstructorRatingsUseCase: GetAllInstructorRatingsUseCase,
+        uploadProfileImageUseCase: UploadProfileImageUseCase
     ): ViewModel {
         return UserProfileViewModel(
-            interactor,
-            userMappers,
-            ratingMappers,
-            router,
-            resourceManager,
+            userMappers = userMappers,
+            ratingMappers = ratingMappers,
+            router = router,
+            resourceManager = resourceManager,
+            loadUserInfoUseCase = loadUserInfoUseCase,
+            getCurrentUserUseCase = getCurrentUserUseCase,
+            deleteProfileUseCase = deleteProfileUseCase,
+            logOutUseCase = logOutUseCase,
+            addRatingUseCase = addRatingUseCase,
+            updateUserInfoUseCase = updateUserInfoUseCase,
+            getAllInstructorRatingsUseCase = getAllInstructorRatingsUseCase,
+            uploadProfileImageUseCase = uploadProfileImageUseCase
         )
     }
 }

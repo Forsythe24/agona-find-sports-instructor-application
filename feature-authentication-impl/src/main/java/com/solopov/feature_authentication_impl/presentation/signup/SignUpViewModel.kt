@@ -6,7 +6,7 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.ApiError
 import com.solopov.common.data.network.getMessage
 import com.solopov.common.utils.UserDataValidator
-import com.solopov.feature_authentication_api.domain.AuthInteractor
+import com.solopov.feature_authentication_api.domain.usecase.RegisterUserUseCase
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import kotlinx.coroutines.channels.Channel
@@ -17,10 +17,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SignUpViewModel @Inject constructor(
-    private val interactor: AuthInteractor,
     private val router: AuthRouter,
     private val validator: UserDataValidator,
     private val resourceManager: ResourceManager,
+    private val registerUserUseCase: RegisterUserUseCase
 ) : BaseViewModel() {
 
     private val _errorMessageChannel = Channel<String>()
@@ -44,7 +44,7 @@ class SignUpViewModel @Inject constructor(
         _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching {
-                interactor.createUser(
+                registerUserUseCase(
                     email,
                     password,
                     name,

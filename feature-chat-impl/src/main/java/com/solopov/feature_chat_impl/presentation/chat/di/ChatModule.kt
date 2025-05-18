@@ -9,7 +9,6 @@ import com.solopov.common.data.network.jwt.JwtManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.DateFormatter
-import com.solopov.feature_chat_api.domain.ChatInteractor
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.data.mappers.MessageMappers
@@ -26,7 +25,7 @@ import dagger.multibindings.IntoMap
 )
 class ChatModule {
     @Provides
-    fun provideMainViewModel(
+    fun provideChatViewModel(
         fragment: Fragment,
         factory: ViewModelProvider.Factory,
     ): ChatViewModel {
@@ -36,7 +35,7 @@ class ChatModule {
     @Provides
     @IntoMap
     @ViewModelKey(ChatViewModel::class)
-    fun provideSignInViewModel(
+    fun provideViewModel(
         interactor: ChatInteractor,
         chatMappers: ChatMappers,
         messageMappers: MessageMappers,

@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.solopov.common.core.config.AppProperties
 import com.solopov.common.di.coroutine.qualifier.IoDispatcher
 import com.solopov.common.di.scope.FeatureScope
-import com.solopov.feature_chat_api.domain.ChatInteractor
 import com.solopov.feature_chat_api.domain.ChatRepository
 import com.solopov.feature_chat_impl.data.mappers.MessageMappers
 import com.solopov.feature_chat_impl.data.network.StompManager
@@ -18,12 +17,6 @@ class ChatFeatureModule {
     @Provides
     @FeatureScope
     fun provideChatRepository(chatRepository: ChatRepositoryImpl): ChatRepository = chatRepository
-
-
-    @Provides
-    @FeatureScope
-    fun provideChatInteractor(chatRepository: ChatRepository, @IoDispatcher ioDispatcher: CoroutineDispatcher): ChatInteractor =
-        ChatInteractor(chatRepository, ioDispatcher)
 
     @Provides
     @FeatureScope

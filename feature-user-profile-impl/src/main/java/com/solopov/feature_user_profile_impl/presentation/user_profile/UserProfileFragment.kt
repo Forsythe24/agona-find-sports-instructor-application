@@ -66,7 +66,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             viewModel.setCurrentUser(userId, ::onUserSetCallback)
 
             with(viewModel) {
-                setUserProfileByUid(userId)
+                setUserProfileById(userId)
                 binding.sendMessageBtn.setOnClickListener {
                     chatFlow.value?.let {
                         viewModel.openChat(

@@ -7,7 +7,9 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.UserDataValidator
-import com.solopov.feature_user_profile_api.domain.UserProfileInteractor
+import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserInfoUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserPasswordUseCase
+import com.solopov.feature_user_profile_api.domain.usecase.VerifyCredentialsUseCase
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.edit_profile.EditProfileViewModel
@@ -34,12 +36,22 @@ class EditProfileModule {
     @IntoMap
     @ViewModelKey(EditProfileViewModel::class)
     fun provideEditProfileViewModel(
-        interactor: UserProfileInteractor,
         userMappers: UserMappers,
         router: UserProfileRouter,
         userDataValidator: UserDataValidator,
         resourceManager: ResourceManager,
+        updateUserInfoUseCase: UpdateUserInfoUseCase,
+        updateUserPasswordUseCase: UpdateUserPasswordUseCase,
+        verifyCredentialsUseCase: VerifyCredentialsUseCase,
     ): ViewModel {
-        return EditProfileViewModel(interactor, userMappers, router, userDataValidator, resourceManager)
+        return EditProfileViewModel(
+            userMappers,
+            router,
+            userDataValidator,
+            resourceManager,
+            updateUserInfoUseCase = updateUserInfoUseCase,
+            updateUserPasswordUseCase = updateUserPasswordUseCase,
+            verifyCredentialsUseCase = verifyCredentialsUseCase,
+        )
     }
 }

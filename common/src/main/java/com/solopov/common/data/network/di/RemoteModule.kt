@@ -7,7 +7,6 @@ import com.solopov.common.core.config.NetworkProperties
 import com.solopov.common.data.network.api.AuthService
 import com.solopov.common.data.network.api.ChatApiService
 import com.solopov.common.data.network.api.RefreshTokenService
-import com.solopov.common.data.network.api.SportApi
 import com.solopov.common.data.network.api.UserApiService
 import com.solopov.common.data.network.di.qualifier.AuthenticatedClient
 import com.solopov.common.data.network.di.qualifier.TokenRefreshClient
@@ -30,17 +29,6 @@ class RemoteModule {
     @ApplicationScope
     @Provides
     fun provideStorage(): FirebaseStorage = FirebaseStorage.getInstance()
-
-    @ApplicationScope
-    @Provides
-    fun provideSportApi(
-        @AuthenticatedClient
-        okHttpClient: OkHttpClient,
-        apiCreator: NetworkApiCreator,
-    ): SportApi {
-        apiCreator.okHttpClient = okHttpClient
-        return apiCreator.create(SportApi::class.java)
-    }
 
     @ApplicationScope
     @Provides

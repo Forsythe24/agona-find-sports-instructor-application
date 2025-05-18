@@ -7,7 +7,9 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.DateFormatter
-import com.solopov.feature_chat_api.domain.ChatInteractor
+import com.solopov.feature_chat_api.domain.usecase.CreateNewMessageUseCase
+import com.solopov.feature_chat_api.domain.usecase.LoadAllUserChatsUseCase
+import com.solopov.feature_chat_api.domain.usecase.LoadChatMessagesUseCase
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.presentation.chat_list.ChatsViewModel
@@ -22,7 +24,7 @@ import dagger.multibindings.IntoMap
 )
 class ChatsModule {
     @Provides
-    fun provideMainViewModel(
+    fun provideChatsViewModel(
         fragment: Fragment,
         factory: ViewModelProvider.Factory,
     ): ChatsViewModel {
@@ -32,13 +34,21 @@ class ChatsModule {
     @Provides
     @IntoMap
     @ViewModelKey(ChatsViewModel::class)
-    fun provideSignInViewModel(
-        interactor: ChatInteractor,
+    fun provideViewModel(
         chatMappers: ChatMappers,
         router: ChatRouter,
         resourceManager: ResourceManager,
         dateFormatter: DateFormatter,
+        createNewMessageUseCase: CreateNewMessageUseCase,
+        loadAllUserChatsUseCase: LoadAllUserChatsUseCase,
     ): ViewModel {
-        return ChatsViewModel(interactor, chatMappers, router, resourceManager, dateFormatter)
+        return ChatsViewModel(
+            createNewMessageUseCase = createNewMessageUseCase,
+            loadAllUserChatsUseCase = loadAllUserChatsUseCase,
+            chatMappers = chatMappers,
+            router = router,
+            resourceManager = resourceManager,
+            dateFormatter = dateFormatter
+        )
     }
 }

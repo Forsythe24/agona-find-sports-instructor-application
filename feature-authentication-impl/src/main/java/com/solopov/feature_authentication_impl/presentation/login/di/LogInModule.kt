@@ -7,7 +7,6 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.di.viewmodel.ViewModelKey
 import com.solopov.common.di.viewmodel.ViewModelModule
 import com.solopov.common.utils.UserDataValidator
-import com.solopov.feature_authentication_api.domain.AuthInteractor
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.presentation.login.LogInViewModel
 import dagger.Module

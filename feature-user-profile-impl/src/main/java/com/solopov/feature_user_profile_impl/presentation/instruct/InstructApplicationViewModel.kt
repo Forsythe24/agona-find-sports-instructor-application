@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.solopov.common.base.BaseViewModel
 import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.getMessage
-import com.solopov.feature_user_profile_api.domain.UserProfileInteractor
+import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserInfoUseCase
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
@@ -16,10 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class InstructApplicationViewModel @Inject constructor(
-    private val interactor: UserProfileInteractor,
     private val mappers: UserMappers,
     private val router: UserProfileRouter,
     private val resourceManager: ResourceManager,
+    private val updateUserInfoUseCase: UpdateUserInfoUseCase
 ) : BaseViewModel() {
 
     private val _progressBarFlow = MutableStateFlow(false)
@@ -36,7 +36,7 @@ class InstructApplicationViewModel @Inject constructor(
         _progressBarFlow.value = true
         viewModelScope.launch {
             runCatching {
-                interactor.updateUser(mappers.mapUserProfileToUser(userProfile))
+                updateUserInfoUseCase(mappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
                 onUserUpdated()
                 _progressBarFlow.value = false

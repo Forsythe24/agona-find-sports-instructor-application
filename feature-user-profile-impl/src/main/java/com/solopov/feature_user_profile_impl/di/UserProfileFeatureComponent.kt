@@ -19,7 +19,8 @@ import dagger.Component
         UserProfileFeatureDependencies::class
     ],
     modules = [
-        UserProfileFeatureModule::class
+        UserProfileFeatureModule::class,
+        UserProfileFeatureUseCaseModule::class
     ]
 )
 interface UserProfileFeatureComponent : UserProfileFeatureApi {

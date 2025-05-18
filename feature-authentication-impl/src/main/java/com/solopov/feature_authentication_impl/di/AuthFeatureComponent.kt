@@ -18,7 +18,8 @@ import dagger.Component
         AuthFeatureDependencies::class
     ],
     modules = [
-        AuthFeatureModule::class
+        AuthFeatureModule::class,
+        AuthFeatureUseCaseModule::class,
     ]
 )
 interface AuthFeatureComponent : AuthFeatureApi {
