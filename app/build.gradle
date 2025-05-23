@@ -1,11 +1,13 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'org.jetbrains.kotlin.android'
-apply plugin: 'com.google.gms.google-services'
+plugins {
+    id('com.android.application')
+    id('kotlin-android')
+    id('kotlin-kapt')
+    id('org.jetbrains.kotlin.android')
+    id('com.google.gms.google-services')
+}
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
+    compileSdkVersion = rootProject.compileSdkVersion
 
     android {
         compileOptions {
