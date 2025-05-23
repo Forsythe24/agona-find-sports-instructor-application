@@ -1,8 +1,14 @@
-apply plugin: 'java-library'
-apply plugin: 'kotlin'
+plugins {
+    id("java-library")
+    id("org.jetbrains.kotlin.jvm")
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation kotlinDep
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_19
+    targetCompatibility = JavaVersion.VERSION_19
 }

@@ -1,19 +1,16 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'org.jetbrains.kotlin.android'
+    id('com.android.library')
+    id('kotlin-android')
+    id('kotlin-kapt')
+    id('org.jetbrains.kotlin.android')
 }
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
+    compileSdkVersion = rootProject.compileSdkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_19
         targetCompatibility = JavaVersion.VERSION_19
-    }
-    kotlinOptions {
-        jvmTarget = "19"
     }
 
     defaultConfig {
@@ -29,13 +26,6 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.2"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 
     buildFeatures {
@@ -57,7 +47,6 @@ dependencies {
     implementation composeUiToolingPDep
     implementation composeCompilerVersion
     implementation composeActivityDep
-    implementation composeMaterialDep
 
     implementation dataStoreDep
     implementation dataStoreCoreDep
