@@ -60,8 +60,8 @@ class PasswordRecoveryFragment : BaseFragment<PasswordRecoveryViewModel>() {
     }
 
     override fun subscribe(viewModel: PasswordRecoveryViewModel) {
-        viewModel.errorMessageChannel.observe { message ->
-            showSnackbar(message, Snackbar.LENGTH_SHORT)
+        viewModel.message.observe { message ->
+            showSnackbar(message.text, Snackbar.LENGTH_SHORT)
         }
     }
 

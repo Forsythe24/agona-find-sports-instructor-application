@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.solopov.common.R
+import com.solopov.common.base.model.DialogData
 import com.solopov.common.utils.observe
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +32,7 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
             .show()
     }
 
-    protected fun showErrorWithTitle(payload: BaseViewModel.BaseDialogData) {
+    protected fun showErrorWithTitle(payload: DialogData) {
         AlertDialog.Builder(requireContext())
             .setTitle(payload.title)
             .setMessage(payload.message)

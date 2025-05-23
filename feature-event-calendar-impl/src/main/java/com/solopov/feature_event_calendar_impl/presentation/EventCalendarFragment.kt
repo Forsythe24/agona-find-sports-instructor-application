@@ -21,7 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.solopov.common.base.BaseFragment
-import com.solopov.common.base.view.ProgressButton
+import com.solopov.common.ui.ProgressButton
 import com.solopov.common.di.FeatureUtils
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_event_calendar_api.di.EventCalendarFeatureApi
@@ -112,8 +112,8 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
             currentEventFlow.observe {
             }
 
-            errorMessageChannel.observe { message ->
-                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+            message.observe { message ->
+                Snackbar.make(binding.root, message.text, Snackbar.LENGTH_LONG).show()
             }
         }
     }

@@ -20,10 +20,8 @@ import com.solopov.feature_user_profile_impl.data.mappers.RatingMappers
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.RatingUi
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class UserProfileViewModel(
@@ -61,9 +59,6 @@ class UserProfileViewModel(
     val progressBarFlow: StateFlow<Boolean>
         get() = _progressBarFlow
 
-    private val _errorMessageChannel = Channel<String>()
-    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
-
     fun setUserProfileById(uid: String) {
         viewModelScope.launch {
             runCatching {
@@ -71,7 +66,7 @@ class UserProfileViewModel(
             }.onSuccess {
                 _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -88,7 +83,7 @@ class UserProfileViewModel(
                 _currentUserFlow.value = it
                 onUserSetCallback(it.id == userId)
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -101,7 +96,7 @@ class UserProfileViewModel(
                 onProfileDeletedCallback()
                 goToLogInScreen()
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -113,7 +108,7 @@ class UserProfileViewModel(
             }.onSuccess {
                 _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -126,7 +121,7 @@ class UserProfileViewModel(
                 onLoggedOutCallback()
                 goToLogInScreen()
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -138,7 +133,7 @@ class UserProfileViewModel(
             }.onSuccess {
                 getAllInstructorRatingsById(ratingUi.instructorId)
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -153,7 +148,7 @@ class UserProfileViewModel(
             }.onSuccess {
                 _progressBarFlow.value = false
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
                 _progressBarFlow.value = false
             }
         }
@@ -168,7 +163,7 @@ class UserProfileViewModel(
             }.onSuccess {
                 _ratingsFlow.value = it?.map(ratingMappers::mapRatingToRatingUi) ?: listOf()
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -197,7 +192,7 @@ class UserProfileViewModel(
                 updateProfileImage(it)
                 _progressBarFlow.value = false
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
                 _progressBarFlow.value = false
             }
         }
@@ -243,10 +238,5 @@ class UserProfileViewModel(
 
     private fun goToLogInScreen() {
         router.goFromUserProfileToLogInScreen()
-    }
-
-    override fun onCleared() {
-        _errorMessageChannel.close()
-        super.onCleared()
     }
 }

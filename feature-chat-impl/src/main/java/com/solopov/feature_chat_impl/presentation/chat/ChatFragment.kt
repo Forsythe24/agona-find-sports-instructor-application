@@ -182,8 +182,8 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
                 }
             }
 
-            errorMessageChannel.observe { message ->
-                Snackbar.make(viewBinding.root, message, Snackbar.LENGTH_LONG).show()
+            message.observe { message ->
+                Snackbar.make(viewBinding.root, message.text, Snackbar.LENGTH_LONG).show()
             }
         }
     }

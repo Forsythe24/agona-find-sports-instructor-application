@@ -201,7 +201,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.solopov.common.base.view.ProgressButton
+        <com.solopov.common.ui.ProgressButton
             android:id="@+id/apply_btn"
             android:layout_width="match_parent"
             android:layout_height="52dp"

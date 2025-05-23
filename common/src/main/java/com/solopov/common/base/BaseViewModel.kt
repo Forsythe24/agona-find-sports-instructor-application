@@ -1,46 +1,41 @@
 package com.solopov.common.base
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.solopov.common.base.model.Message
+import com.solopov.common.base.model.MessageAction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 open class BaseViewModel : ViewModel() {
-
-    data class BaseDialogData(
-        val title: String,
-        val message: String,
-    )
-
-    protected fun showAlert(errorText: String) {
-    }
-
-    protected fun showErrorDialog(dialogData: BaseDialogData) {
-    }
+    private val _message: MutableSharedFlow<Message> = MutableSharedFlow()
+    val message = _message.asSharedFlow()
 
     private var viewModelJob = Job()
-    private val viewModelScope = CoroutineScope(Main + viewModelJob)
     private var isActive = true
 
-    // Do work in IO
-    fun <P> doWork(doOnAsyncBlock: suspend CoroutineScope.() -> P) {
-        doCoroutineWork(doOnAsyncBlock, viewModelScope, Dispatchers.IO)
+    protected fun showMessage(
+        message: String,
+        action: MessageAction? = null
+    ) {
+        viewModelScope.launch {
+            _message.emit(
+                Message(
+                    text = message,
+                    action = action
+                )
+            )
+        }
     }
 
-    // Do work in Main
-// doWorkInMainThread {...}
-    fun <P> doWorkInMainThread(doOnAsyncBlock: suspend CoroutineScope.() -> P) {
-        doCoroutineWork(doOnAsyncBlock, viewModelScope, Main)
-    }
 
-    // Do work in IO repeately
-// doRepeatWork(1000) {...}
-// then we need to stop it calling stopRepeatWork()
     fun <P> doRepeatWork(delay: Long, doOnAsyncBlock: suspend CoroutineScope.() -> P) {
         isActive = true
         viewModelScope.launch {
@@ -55,16 +50,6 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
-    fun stopRepeatWork() {
-        isActive = false
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        isActive = false
-        viewModelJob.cancel()
-    }
-
     private inline fun <P> doCoroutineWork(
         crossinline doOnAsyncBlock: suspend CoroutineScope.() -> P,
         coroutineScope: CoroutineScope,
@@ -75,5 +60,15 @@ open class BaseViewModel : ViewModel() {
                 doOnAsyncBlock.invoke(this)
             }
         }
+    }
+
+    fun stopRepeatWork() {
+        isActive = false
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        isActive = false
+        viewModelJob.cancel()
     }
 }

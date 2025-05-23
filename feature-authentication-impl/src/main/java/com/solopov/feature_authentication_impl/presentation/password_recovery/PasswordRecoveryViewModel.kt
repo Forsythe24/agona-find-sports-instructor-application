@@ -9,8 +9,6 @@ import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.domain.usecase.SendNewPasswordUseCase
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,9 +19,6 @@ class PasswordRecoveryViewModel @Inject constructor(
     private val sendNewPasswordUseCase: SendNewPasswordUseCase
 ) : BaseViewModel() {
 
-    private val _errorMessageChannel = Channel<String>()
-    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
-
     fun sendNewPassword(email: String, onPasswordSentCallback: (String) -> Unit) {
         viewModelScope.launch {
             runCatching {
@@ -31,7 +26,7 @@ class PasswordRecoveryViewModel @Inject constructor(
             }.onSuccess {
                 onPasswordSentCallback(email)
             }.onFailure {
-                _errorMessageChannel.send(
+                showMessage(
                     when (it) {
                         is ApiError.NotFoundException -> resourceManager.getString(R.string.no_such_email_message)
                         else -> it.getMessage(resourceManager)
@@ -47,10 +42,5 @@ class PasswordRecoveryViewModel @Inject constructor(
 
     fun validateEmail(text: String): String? {
         return validator.validateEmail(text)
-    }
-
-    override fun onCleared() {
-        _errorMessageChannel.close()
-        super.onCleared()
     }
 }

@@ -7,10 +7,8 @@ import com.solopov.common.data.network.getMessage
 import com.solopov.feature_instructor_api.domain.model.Instructor
 import com.solopov.feature_instructor_api.domain.usecase.LoadSportInstructorsUseCase
 import com.solopov.feature_instructor_impl.InstructorsRouter
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,9 +21,6 @@ class InstructorsViewModel @Inject constructor(
     val currentInstructorsFlow: StateFlow<List<InstructorsAdapter.ListItem>?>
         get() = _currentInstructorsFlow
 
-    private val _errorMessageChannel = Channel<String>()
-    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
-
     fun getInstructorsBySportId(sportId: Int) {
         viewModelScope.launch {
             runCatching {
@@ -33,7 +28,7 @@ class InstructorsViewModel @Inject constructor(
             }.onSuccess {
                 _currentInstructorsFlow.value = mapInstructorsToListItems(it)
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -63,10 +58,4 @@ class InstructorsViewModel @Inject constructor(
     fun openInstructor(instructorId: String) {
         router.openInstructor(instructorId)
     }
-
-    override fun onCleared() {
-        _errorMessageChannel.close()
-        super.onCleared()
-    }
-
 }

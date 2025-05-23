@@ -46,6 +46,23 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     private lateinit var submitButton: MaterialButton
     private lateinit var cancelButton: MaterialButton
     private lateinit var dialogTv: TextView
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            with(result) {
+                if (resultCode == Activity.RESULT_OK && data != null && data!!.data != null) {
+                    val imageUri = data!!.data!!
+
+                    viewModel.uploadProfileImage(imageUri)
+                    showImage(imageUri.toString(), binding.userIv)
+                } else {
+                    showAlert(
+                        getString(R.string.file_uploading_error),
+                        getString(R.string.uploading_went_wrong)
+                    )
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
@@ -207,8 +224,8 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 binding.progressBar.isVisible = isLoading
             }
 
-            errorMessageChannel.observe { message ->
-                showSnackbarLong(message)
+            message.observe { message ->
+                showSnackbarLong(message.text)
             }
         }
     }
@@ -410,24 +427,6 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     }
 
-    private var resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-
-            with(result) {
-                if (resultCode == Activity.RESULT_OK && data != null && data!!.data != null) {
-                    val imageUri = data!!.data!!
-
-                    viewModel.uploadProfileImage(imageUri)
-                    showImage(imageUri.toString(), binding.userIv)
-                } else {
-                    showAlert(
-                        getString(R.string.file_uploading_error),
-                        getString(R.string.uploading_went_wrong)
-                    )
-                }
-            }
-        }
-
     private fun showSnackbarLong(text: String) {
         Snackbar.make(
             binding.root, text, Snackbar.LENGTH_LONG
@@ -435,9 +434,10 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
     }
 
     private fun selectImage() {
-        val intent = Intent()
-        intent.type = getString(R.string.image_intent_type)
-        intent.action = Intent.ACTION_GET_CONTENT
+        val intent = Intent().apply {
+            type = getString(R.string.image_intent_type)
+            action = Intent.ACTION_GET_CONTENT
+        }
 
         resultLauncher.launch(intent)
 

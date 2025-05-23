@@ -1,4 +1,4 @@
-package com.solopov.common.base.view
+package com.solopov.common.ui
 
 import android.content.Context
 import android.util.AttributeSet

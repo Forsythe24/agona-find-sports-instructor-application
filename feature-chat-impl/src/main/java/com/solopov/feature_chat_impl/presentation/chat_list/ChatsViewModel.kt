@@ -11,10 +11,8 @@ import com.solopov.feature_chat_api.domain.usecase.LoadAllUserChatsUseCase
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
@@ -30,9 +28,6 @@ class ChatsViewModel(
     private val _chatsFlow = MutableStateFlow<List<ChatItem>?>(null)
     val chatsFlow: StateFlow<List<ChatItem>?>
         get() = _chatsFlow
-
-    private val _errorMessageChannel = Channel<String>()
-    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
 
     private val _userFlow = MutableStateFlow<ChatItem?>(null)
     val userFlow: StateFlow<ChatItem?>
@@ -57,7 +52,7 @@ class ChatsViewModel(
                 _chatsFlow.value = it.map(chatMappers::mapChatToChatItem)
                 _progressBarFlow.value = false
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
                 _progressBarFlow.value = false
             }
         }
@@ -100,7 +95,7 @@ class ChatsViewModel(
             }.onSuccess {
                 _userFlow.value = chatMappers.mapUserToChatItem(it)
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }

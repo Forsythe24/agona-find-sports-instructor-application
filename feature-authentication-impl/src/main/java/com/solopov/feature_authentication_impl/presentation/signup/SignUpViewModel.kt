@@ -9,10 +9,8 @@ import com.solopov.common.utils.UserDataValidator
 import com.solopov.feature_authentication_api.domain.usecase.RegisterUserUseCase
 import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,9 +20,6 @@ class SignUpViewModel @Inject constructor(
     private val resourceManager: ResourceManager,
     private val registerUserUseCase: RegisterUserUseCase
 ) : BaseViewModel() {
-
-    private val _errorMessageChannel = Channel<String>()
-    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
 
     private val _progressBarFlow = MutableStateFlow(false)
     val progressBarFlow: StateFlow<Boolean>
@@ -57,7 +52,7 @@ class SignUpViewModel @Inject constructor(
             }.onFailure {
                 when (it) {
                     is ApiError.ConflictException -> _emailErrorTextFlow.value = resourceManager.getString(R.string.email_already_in_use_message)
-                    else -> _errorMessageChannel.send(it.getMessage(resourceManager))
+                    else -> showMessage(it.getMessage(resourceManager))
                 }
                 _progressBarFlow.value = false
             }
@@ -82,10 +77,5 @@ class SignUpViewModel @Inject constructor(
 
     fun goBack() {
         router.goBack()
-    }
-
-    override fun onCleared() {
-        _errorMessageChannel.close()
-        super.onCleared()
     }
 }

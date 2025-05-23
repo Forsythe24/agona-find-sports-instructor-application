@@ -72,8 +72,8 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
                     updateInstructors(it)
                 }
             }
-            errorMessageChannel.observe { message ->
-                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+            message.observe { message ->
+                Snackbar.make(binding.root, message.text, Snackbar.LENGTH_LONG).show()
             }
         }
 

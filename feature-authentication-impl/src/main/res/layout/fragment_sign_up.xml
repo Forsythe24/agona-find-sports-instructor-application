@@ -205,7 +205,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.solopov.common.base.view.ProgressButton
+        <com.solopov.common.ui.ProgressButton
             android:id="@+id/finish_sign_up_btn"
             android:layout_width="match_parent"
             android:layout_height="52dp"
@@ -219,7 +219,6 @@
             style="@style/Widget.ProgressButton.Blueberry"
             android:layout_centerInParent="true"
             app:enabled="true" />
-
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

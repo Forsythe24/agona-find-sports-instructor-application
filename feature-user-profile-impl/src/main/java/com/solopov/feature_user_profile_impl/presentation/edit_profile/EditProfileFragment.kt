@@ -18,8 +18,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.solopov.com.solopov.feature_user_profile_impl.R
 import com.solopov.com.solopov.feature_user_profile_impl.databinding.FragmentEditProfileBinding
 import com.solopov.common.base.BaseFragment
-import com.solopov.common.base.view.ProgressButton
 import com.solopov.common.di.FeatureUtils
+import com.solopov.common.ui.ProgressButton
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_user_profile_api.di.UserProfileFeatureApi
 import com.solopov.feature_user_profile_impl.di.UserProfileFeatureComponent
@@ -223,8 +223,8 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
                 binding.saveBtn.setLoading(isLoading)
             }
 
-            errorMessageChannel.observe { message ->
-                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+            message.observe { message ->
+                Snackbar.make(binding.root, message.text, Snackbar.LENGTH_LONG).show()
             }
         }
 

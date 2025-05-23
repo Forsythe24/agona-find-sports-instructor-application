@@ -187,8 +187,8 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
                 binding.applyBtn.setLoading(isLoading)
             }
 
-            errorMessageChannel.observe { message ->
-                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+            message.observe { message ->
+                Snackbar.make(binding.root, message.text, Snackbar.LENGTH_LONG).show()
             }
         }
     }

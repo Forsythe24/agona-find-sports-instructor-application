@@ -72,10 +72,9 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
                     }
                 }
 
-                errorMessageChannel.observe { message ->
+                message.observe { message ->
                     logInBtn.setLoading(false)
-                    showSnackbar(message, Snackbar.LENGTH_SHORT)
-
+                    showSnackbar(message.text, Snackbar.LENGTH_SHORT)
                 }
 
                 emailErrorTextFlow.observe { text ->

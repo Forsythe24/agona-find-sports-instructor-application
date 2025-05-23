@@ -115,8 +115,8 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
                 binding.finishSignUpBtn.setLoading(isLoading)
             }
 
-            errorMessageChannel.observe { message ->
-                Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+            message.observe { message ->
+                Snackbar.make(binding.root, message.text, Snackbar.LENGTH_LONG).show()
             }
 
             emailErrorTextFlow.observe { text ->

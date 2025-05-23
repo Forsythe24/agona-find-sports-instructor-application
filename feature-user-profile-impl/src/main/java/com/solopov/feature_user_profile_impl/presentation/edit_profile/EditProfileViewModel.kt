@@ -13,10 +13,8 @@ import com.solopov.feature_user_profile_api.domain.usecase.VerifyCredentialsUseC
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,9 +40,6 @@ class EditProfileViewModel @Inject constructor(
     val dialogBtnProgressBarFlow: StateFlow<Boolean>
         get() = _dialogBtnProgressBarFlow
 
-    private val _errorMessageChannel = Channel<String>()
-    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
-
     private val _passwordErrorTextFlow = MutableStateFlow<String?>(null)
     val passwordErrorTextFlow: StateFlow<String?>
         get() = _passwordErrorTextFlow
@@ -61,7 +56,7 @@ class EditProfileViewModel @Inject constructor(
                 onUserUpdated()
                 _saveBtnProgressBarFlow.value = false
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
                 _saveBtnProgressBarFlow.value = false
             }
         }
@@ -76,7 +71,7 @@ class EditProfileViewModel @Inject constructor(
                 onPasswordUpdated()
                 _dialogBtnProgressBarFlow.value = false
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
                 _dialogBtnProgressBarFlow.value = false
             }
         }
@@ -101,7 +96,7 @@ class EditProfileViewModel @Inject constructor(
             }.onFailure {
                 when (it) {
                     is ApiError.FailedAuthorizationException -> _passwordErrorTextFlow.value = resourceManager.getString(R.string.wrong_password)
-                    else -> _errorMessageChannel.send(it.getMessage(resourceManager))
+                    else -> showMessage(it.getMessage(resourceManager))
                 }
                 _dialogBtnProgressBarFlow.value = false
             }
@@ -131,10 +126,5 @@ class EditProfileViewModel @Inject constructor(
 
     fun setCurrentUser(user: UserProfile) {
         _editProfileFlow.value = user
-    }
-
-    override fun onCleared() {
-        _errorMessageChannel.close()
-        super.onCleared()
     }
 }

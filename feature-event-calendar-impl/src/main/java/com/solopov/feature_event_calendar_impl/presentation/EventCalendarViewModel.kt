@@ -12,10 +12,8 @@ import com.solopov.feature_event_calendar_api.domain.usecase.GetAllPossiblePartn
 import com.solopov.feature_event_calendar_api.domain.usecase.GetCurrentUserIdUseCase
 import com.solopov.feature_event_calendar_impl.data.mappers.EventMappers
 import com.solopov.feature_event_calendar_impl.presentation.model.EventItem
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -50,9 +48,6 @@ class EventCalendarViewModel(
     val currentEventFlow: StateFlow<EventItem?>
         get() = _currentEventFlow
 
-    private val _errorMessageChannel = Channel<String>()
-    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
-
     fun getAllEventsByDate(date: Date) {
         _progressBarFlow.value = true
         viewModelScope.launch {
@@ -63,7 +58,7 @@ class EventCalendarViewModel(
                 _progressBarFlow.value = false
             }.onFailure {
                 _progressBarFlow.value = false
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -74,7 +69,7 @@ class EventCalendarViewModel(
                 deleteAllRecentEventsUseCase(date)
             }.onSuccess {
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -86,7 +81,7 @@ class EventCalendarViewModel(
             }.onSuccess {
                 _possiblePartnersNameListFlow.value = it
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -98,7 +93,7 @@ class EventCalendarViewModel(
             }.onSuccess {
                 onEventDeletedCallback()
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -115,7 +110,7 @@ class EventCalendarViewModel(
                 onEventSavedCallback()
                 _currentEventFlow.value = null
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -127,15 +122,9 @@ class EventCalendarViewModel(
             }.onSuccess {
                 _currentUserIdFlow.value = it
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
-    }
-
-
-    override fun onCleared() {
-        _errorMessageChannel.close()
-        super.onCleared()
     }
 
     private fun List<EventItem>.sortByStartTime(): List<EventItem> {

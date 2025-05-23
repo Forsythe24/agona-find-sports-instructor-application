@@ -6,9 +6,9 @@ import com.solopov.common.core.resources.ResourceManager
 import com.solopov.common.data.network.getMessage
 import com.solopov.common.model.ChatCommon
 import com.solopov.common.utils.DateFormatter
-import com.solopov.feature_chat_api.domain.usecase.SendMessageUseCase
 import com.solopov.feature_chat_api.domain.usecase.GetCurrentUserUseCase
 import com.solopov.feature_chat_api.domain.usecase.LoadChatMessagesUseCase
+import com.solopov.feature_chat_api.domain.usecase.SendMessageUseCase
 import com.solopov.feature_chat_impl.ChatRouter
 import com.solopov.feature_chat_impl.R
 import com.solopov.feature_chat_impl.data.mappers.ChatMappers
@@ -16,10 +16,8 @@ import com.solopov.feature_chat_impl.data.mappers.MessageMappers
 import com.solopov.feature_chat_impl.data.network.StompManager
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
@@ -49,9 +47,6 @@ class ChatViewModel @Inject constructor(
     val senderFlow: StateFlow<ChatItem?>
         get() = _senderFlow
 
-    private val _errorMessageChannel = Channel<String>()
-    val errorMessageChannel = _errorMessageChannel.receiveAsFlow()
-
     var isMessageListeningStarted = false
 
     fun setReceiver(chat: ChatCommon) {
@@ -64,7 +59,7 @@ class ChatViewModel @Inject constructor(
                 sendMessageUseCase(userId, messageMappers.mapMessageItemToMessage(message))
                 sendMessage(message)
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -76,7 +71,7 @@ class ChatViewModel @Inject constructor(
             }.onSuccess {
                 _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -88,7 +83,7 @@ class ChatViewModel @Inject constructor(
             }.onSuccess {
                 _senderFlow.value = chatMappers.mapUserToChatItem(it)
             }.onFailure {
-                _errorMessageChannel.send(it.getMessage(resourceManager))
+                showMessage(it.getMessage(resourceManager))
             }
         }
     }
@@ -129,7 +124,7 @@ class ChatViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         viewModelScope.launch {
-            _errorMessageChannel.send(resourceManager.getString(R.string.unknown_error_message))
+            showMessage(resourceManager.getString(R.string.unknown_error_message))
         }
     }
 
@@ -145,7 +140,6 @@ class ChatViewModel @Inject constructor(
 
     override fun onCleared() {
         stompManager.disconnect()
-        _errorMessageChannel.close()
         super.onCleared()
     }
 
