@@ -1,4 +1,4 @@
-package com.solopov.feature_instructor_impl.presentation
+package com.solopov.feature_instructor_impl.presentation.recycler_view
 
 import androidx.recyclerview.widget.DiffUtil
 

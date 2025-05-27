@@ -1,4 +1,4 @@
-package com.solopov.feature_instructor_impl.presentation
+package com.solopov.feature_instructor_impl.presentation.recycler_view
 
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder

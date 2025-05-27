@@ -7,8 +7,10 @@ import com.solopov.common.data.network.getMessage
 import com.solopov.feature_instructor_api.domain.model.Instructor
 import com.solopov.feature_instructor_api.domain.usecase.LoadSportInstructorsUseCase
 import com.solopov.feature_instructor_impl.InstructorsRouter
+import com.solopov.feature_instructor_impl.presentation.recycler_view.InstructorsAdapter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,8 +20,7 @@ class InstructorsViewModel @Inject constructor(
     private val loadSportInstructorsUseCase: LoadSportInstructorsUseCase
 ) : BaseViewModel() {
     private val _currentInstructorsState = MutableStateFlow<List<InstructorsAdapter.ListItem>?>(null)
-    val currentInstructorsState: StateFlow<List<InstructorsAdapter.ListItem>?>
-        get() = _currentInstructorsState
+    val currentInstructorsState: StateFlow<List<InstructorsAdapter.ListItem>?> = _currentInstructorsState.asStateFlow()
 
     fun getInstructorsBySportId(sportId: Int) {
         viewModelScope.launch {

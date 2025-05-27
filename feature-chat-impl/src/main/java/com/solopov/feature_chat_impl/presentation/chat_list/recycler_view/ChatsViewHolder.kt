@@ -1,4 +1,4 @@
-package com.solopov.feature_chat_impl.presentation.chat_list
+package com.solopov.feature_chat_impl.presentation.chat_list.recycler_view
 
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder

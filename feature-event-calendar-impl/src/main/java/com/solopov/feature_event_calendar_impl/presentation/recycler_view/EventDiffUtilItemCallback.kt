@@ -1,4 +1,4 @@
-package com.solopov.feature_event_calendar_impl.presentation
+package com.solopov.feature_event_calendar_impl.presentation.recycler_view
 
 import androidx.recyclerview.widget.DiffUtil
 import com.solopov.feature_event_calendar_impl.presentation.model.EventItem

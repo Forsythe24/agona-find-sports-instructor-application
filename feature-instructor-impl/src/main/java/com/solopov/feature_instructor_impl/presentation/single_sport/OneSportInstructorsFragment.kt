@@ -1,4 +1,4 @@
-package com.solopov.feature_instructor_impl.presentation
+package com.solopov.feature_instructor_impl.presentation.single_sport
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +19,8 @@ import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_instructor_api.di.InstructorFeatureApi
 import com.solopov.feature_instructor_impl.data.mappers.InstructorMappers
 import com.solopov.feature_instructor_impl.di.InstructorFeatureComponent
+import com.solopov.feature_instructor_impl.presentation.InstructorsViewModel
+import com.solopov.feature_instructor_impl.presentation.recycler_view.InstructorsAdapter
 import com.solopov.instructors.R
 import com.solopov.instructors.databinding.FragmentOneSportInstructorsBinding
 import javax.inject.Inject

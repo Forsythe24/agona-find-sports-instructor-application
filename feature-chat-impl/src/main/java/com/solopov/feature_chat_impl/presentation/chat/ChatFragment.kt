@@ -21,6 +21,7 @@ import com.solopov.feature_chat_api.di.ChatFeatureApi
 import com.solopov.feature_chat_impl.databinding.FragmentChatBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
+import com.solopov.feature_chat_impl.presentation.chat.recycler_view.ChatAdapter
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 import java.util.Date
 

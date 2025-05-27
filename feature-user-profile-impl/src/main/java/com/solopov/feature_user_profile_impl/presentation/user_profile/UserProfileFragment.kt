@@ -85,7 +85,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             with(viewModel) {
                 setUserProfileById(userId)
                 binding.sendMessageBtn.setOnClickListener {
-                    chatFlow.value?.let {
+                    chatState.value?.let {
                         viewModel.openChat(
                             it
                         )
@@ -132,7 +132,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
             }
 
             sendMessageBtn.setOnClickListener {
-                viewModel.chatFlow.value?.let {
+                viewModel.chatState.value?.let {
                     viewModel.openChat(
                         it
                     )

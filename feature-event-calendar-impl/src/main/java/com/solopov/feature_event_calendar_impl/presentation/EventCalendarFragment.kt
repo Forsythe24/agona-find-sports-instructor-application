@@ -29,6 +29,7 @@ import com.solopov.feature_event_calendar_impl.R
 import com.solopov.feature_event_calendar_impl.databinding.FragmentEventCalendarBinding
 import com.solopov.feature_event_calendar_impl.di.EventCalendarFeatureComponent
 import com.solopov.feature_event_calendar_impl.presentation.model.EventItem
+import com.solopov.feature_event_calendar_impl.presentation.recycler_view.EventAdapter
 import nl.joery.timerangepicker.TimeRangePicker
 import java.util.Calendar
 import java.util.Date

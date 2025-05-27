@@ -1,4 +1,4 @@
-package com.solopov.feature_instructor_impl.presentation
+package com.solopov.feature_instructor_impl.presentation.single_sport
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

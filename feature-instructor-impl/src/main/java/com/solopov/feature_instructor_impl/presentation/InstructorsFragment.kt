@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.solopov.feature_instructor_impl.presentation.single_sport.FragmentAdapter
 import com.solopov.instructors.R
 import com.solopov.instructors.databinding.FragmentInstructorsBinding
 

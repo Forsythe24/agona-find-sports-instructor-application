@@ -1,4 +1,4 @@
-package com.solopov.feature_chat_impl.presentation.chat
+package com.solopov.feature_chat_impl.presentation.chat.recycler_view
 
 import androidx.recyclerview.widget.DiffUtil
 import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem

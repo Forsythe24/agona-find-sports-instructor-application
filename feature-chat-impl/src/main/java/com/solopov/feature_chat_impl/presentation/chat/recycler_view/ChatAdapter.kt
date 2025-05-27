@@ -1,4 +1,4 @@
-package com.solopov.feature_chat_impl.presentation.chat
+package com.solopov.feature_chat_impl.presentation.chat.recycler_view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

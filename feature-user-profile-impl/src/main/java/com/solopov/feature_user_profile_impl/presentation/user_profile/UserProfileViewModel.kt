@@ -47,12 +47,10 @@ class UserProfileViewModel(
     val currentUserState: StateFlow<User?> = _currentUserState.asStateFlow()
 
     private val _ratingsState = MutableStateFlow<List<RatingUi>?>(null)
-    val ratingsState: StateFlow<List<RatingUi>?>
-        get() = _ratingsState
+    val ratingsState: StateFlow<List<RatingUi>?> = _ratingsState.asStateFlow()
 
-    private val _chatFlow = MutableStateFlow<ChatCommon?>(null)
-    val chatFlow: StateFlow<ChatCommon?>
-        get() = _chatFlow
+    private val _chatState = MutableStateFlow<ChatCommon?>(null)
+    val chatState: StateFlow<ChatCommon?> = _chatState.asStateFlow()
 
     fun setUserProfileById(uid: String) {
         viewModelScope.launch {
@@ -67,7 +65,7 @@ class UserProfileViewModel(
     }
 
     fun setChat(chat: ChatCommon) {
-        _chatFlow.value = chat
+        _chatState.value = chat
     }
 
     fun setCurrentUser(userId: String, onUserSetCallback: (Boolean) -> Unit) {

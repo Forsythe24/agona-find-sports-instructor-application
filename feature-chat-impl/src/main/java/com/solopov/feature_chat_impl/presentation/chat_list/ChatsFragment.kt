@@ -19,6 +19,7 @@ import com.solopov.feature_chat_impl.databinding.FragmentChatListBinding
 import com.solopov.feature_chat_impl.di.ChatFeatureComponent
 import com.solopov.feature_chat_impl.presentation.chat_list.ChatsViewModel.Companion.MESSAGE_SYNC_INTERVAL
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
+import com.solopov.feature_chat_impl.presentation.chat_list.recycler_view.ChatsAdapter
 
 class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
