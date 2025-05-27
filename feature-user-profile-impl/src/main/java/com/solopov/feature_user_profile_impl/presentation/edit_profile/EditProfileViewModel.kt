@@ -15,6 +15,7 @@ import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,51 +29,47 @@ class EditProfileViewModel @Inject constructor(
     private val verifyCredentialsUseCase: VerifyCredentialsUseCase
 ) : BaseViewModel() {
 
-    private val _editProfileFlow = MutableStateFlow<UserProfile?>(null)
-    val editProfileFlow: StateFlow<UserProfile?>
-        get() = _editProfileFlow
+    private val _editProfileState = MutableStateFlow<UserProfile?>(null)
+    val editProfileState: StateFlow<UserProfile?> = _editProfileState.asStateFlow()
 
-    private val _saveBtnProgressBarFlow = MutableStateFlow(false)
-    val saveBtnProgressBarFlow: StateFlow<Boolean>
-        get() = _saveBtnProgressBarFlow
+    private val _saveLoadingState = MutableStateFlow(false)
+    val saveLoadingState: StateFlow<Boolean> = _saveLoadingState.asStateFlow()
 
-    private val _dialogBtnProgressBarFlow = MutableStateFlow(false)
-    val dialogBtnProgressBarFlow: StateFlow<Boolean>
-        get() = _dialogBtnProgressBarFlow
+    private val _dialogLoadingState = MutableStateFlow(false)
+    val dialogLoadingState: StateFlow<Boolean> = _dialogLoadingState.asStateFlow()
 
-    private val _passwordErrorTextFlow = MutableStateFlow<String?>(null)
-    val passwordErrorTextFlow: StateFlow<String?>
-        get() = _passwordErrorTextFlow
+    private val _passwordErrorTextState = MutableStateFlow<String?>(null)
+    val passwordErrorTextState: StateFlow<String?> = _passwordErrorTextState.asStateFlow()
 
     fun updateUser(
         userProfile: UserProfile,
         onUserUpdated: () -> Unit,
     ) {
-        _saveBtnProgressBarFlow.value = true
+        _saveLoadingState.value = true
         viewModelScope.launch {
             runCatching {
                 updateUserInfoUseCase(mappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
                 onUserUpdated()
-                _saveBtnProgressBarFlow.value = false
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
-                _saveBtnProgressBarFlow.value = false
+            }.also {
+                _saveLoadingState.value = false
             }
         }
     }
 
     fun updateUserPassword(password: String, onPasswordUpdated: () -> Unit) {
-        _dialogBtnProgressBarFlow.value = true
+        _dialogLoadingState.value = true
         viewModelScope.launch {
             runCatching {
                 updateUserPasswordUseCase(password)
             }.onSuccess {
                 onPasswordUpdated()
-                _dialogBtnProgressBarFlow.value = false
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
-                _dialogBtnProgressBarFlow.value = false
+            }.also {
+                _dialogLoadingState.value = false
             }
         }
     }
@@ -82,7 +79,7 @@ class EditProfileViewModel @Inject constructor(
         onCorrectPasswordCallback: () -> Unit,
         onWrongPasswordCallback: () -> Unit,
     ) {
-        _dialogBtnProgressBarFlow.value = true
+        _dialogLoadingState.value = true
         viewModelScope.launch {
             runCatching {
                 verifyCredentialsUseCase(allegedPassword)
@@ -92,13 +89,13 @@ class EditProfileViewModel @Inject constructor(
                 } else {
                     onWrongPasswordCallback()
                 }
-                _dialogBtnProgressBarFlow.value = false
             }.onFailure {
                 when (it) {
-                    is ApiError.FailedAuthorizationException -> _passwordErrorTextFlow.value = resourceManager.getString(R.string.wrong_password)
+                    is ApiError.FailedAuthorizationException -> _passwordErrorTextState.value = resourceManager.getString(R.string.wrong_password)
                     else -> showMessage(it.getMessage(resourceManager))
                 }
-                _dialogBtnProgressBarFlow.value = false
+            }.also {
+                _dialogLoadingState.value = false
             }
         }
     }
@@ -125,6 +122,6 @@ class EditProfileViewModel @Inject constructor(
     }
 
     fun setCurrentUser(user: UserProfile) {
-        _editProfileFlow.value = user
+        _editProfileState.value = user
     }
 }

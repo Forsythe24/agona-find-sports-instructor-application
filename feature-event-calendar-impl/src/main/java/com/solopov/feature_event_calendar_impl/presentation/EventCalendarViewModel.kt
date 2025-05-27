@@ -14,6 +14,7 @@ import com.solopov.feature_event_calendar_impl.data.mappers.EventMappers
 import com.solopov.feature_event_calendar_impl.presentation.model.EventItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -28,37 +29,29 @@ class EventCalendarViewModel(
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
 ) : BaseViewModel() {
 
-    private val _progressBarFlow = MutableStateFlow(false)
-    val progressBarFlow: StateFlow<Boolean>
-        get() = _progressBarFlow
+    private val _eventListState= MutableStateFlow<List<EventItem>?>(null)
+    val eventListState: StateFlow<List<EventItem>?> = _eventListState.asStateFlow()
 
-    private val _eventListFlow = MutableStateFlow<List<EventItem>?>(null)
-    val eventListFlow: StateFlow<List<EventItem>?>
-        get() = _eventListFlow
+    private val _possiblePartnersNameListState = MutableStateFlow<List<String>?>(null)
+    val possiblePartnersNameListState: StateFlow<List<String>?> = _possiblePartnersNameListState.asStateFlow()
 
-    private val _possiblePartnersNameListFlow = MutableStateFlow<List<String>?>(null)
-    val possiblePartnersNameListFlow: StateFlow<List<String>?>
-        get() = _possiblePartnersNameListFlow
+    private val _currentUserIdState = MutableStateFlow<String?>(null)
+    val currentUserIdState: StateFlow<String?> = _currentUserIdState.asStateFlow()
 
-    private val _currentUserIdFlow = MutableStateFlow<String?>(null)
-    val currentUserIdFlow: StateFlow<String?>
-        get() = _currentUserIdFlow
-
-    private val _currentEventFlow = MutableStateFlow<EventItem?>(null)
-    val currentEventFlow: StateFlow<EventItem?>
-        get() = _currentEventFlow
+    private val _currentEventState = MutableStateFlow<EventItem?>(null)
+    val currentEventState: StateFlow<EventItem?> = _currentEventState.asStateFlow()
 
     fun getAllEventsByDate(date: Date) {
-        _progressBarFlow.value = true
+        setLoadingState(true)
         viewModelScope.launch {
             runCatching {
                 getAllEventsByDateUseCase(date)
             }.onSuccess {
-                _eventListFlow.value = it?.map(eventMappers::mapEventToEventItem)?.sortByStartTime()
-                _progressBarFlow.value = false
+                _eventListState.value = it?.map(eventMappers::mapEventToEventItem)?.sortByStartTime()
             }.onFailure {
-                _progressBarFlow.value = false
                 showMessage(it.getMessage(resourceManager))
+            }.also {
+                setLoadingState(false)
             }
         }
     }
@@ -79,7 +72,7 @@ class EventCalendarViewModel(
             runCatching {
                 getAllPossiblePartnersNamesUseCase(userId)
             }.onSuccess {
-                _possiblePartnersNameListFlow.value = it
+                _possiblePartnersNameListState.value = it
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }
@@ -99,7 +92,7 @@ class EventCalendarViewModel(
     }
 
     fun setCurrentEvent(eventItem: EventItem) {
-        _currentEventFlow.value = eventItem
+        _currentEventState.value = eventItem
     }
 
     fun saveEvent(eventItem: EventItem, onEventSavedCallback: () -> Unit) {
@@ -108,7 +101,7 @@ class EventCalendarViewModel(
                 addEventUseCase(eventMappers.mapEventItemToEvent(eventItem))
             }.onSuccess {
                 onEventSavedCallback()
-                _currentEventFlow.value = null
+                _currentEventState.value = null
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }
@@ -120,7 +113,7 @@ class EventCalendarViewModel(
             runCatching {
                 getCurrentUserIdUseCase()
             }.onSuccess {
-                _currentUserIdFlow.value = it
+                _currentUserIdState.value = it
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }

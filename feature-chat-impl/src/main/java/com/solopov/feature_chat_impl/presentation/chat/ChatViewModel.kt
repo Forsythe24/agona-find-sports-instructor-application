@@ -18,6 +18,7 @@ import com.solopov.feature_chat_impl.presentation.chat.model.MessageItem
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
@@ -35,22 +36,19 @@ class ChatViewModel @Inject constructor(
     private val loadChatMessagesUseCase: LoadChatMessagesUseCase,
 ) : BaseViewModel() {
 
-    private val _chatFlow = MutableStateFlow<List<MessageItem>?>(null)
-    val chatFlow: StateFlow<List<MessageItem>?>
-        get() = _chatFlow
+    private val _chatState = MutableStateFlow<List<MessageItem>?>(null)
+    val chatState: StateFlow<List<MessageItem>?> = _chatState.asStateFlow()
 
-    private val _receiverFlow = MutableStateFlow<ChatItem?>(null)
-    val receiverFlow: StateFlow<ChatItem?>
-        get() = _receiverFlow
+    private val _receiverState = MutableStateFlow<ChatItem?>(null)
+    val receiverState: StateFlow<ChatItem?> = _receiverState.asStateFlow()
 
-    private val _senderFlow = MutableStateFlow<ChatItem?>(null)
-    val senderFlow: StateFlow<ChatItem?>
-        get() = _senderFlow
+    private val _senderState = MutableStateFlow<ChatItem?>(null)
+    val senderState: StateFlow<ChatItem?> = _senderState.asStateFlow()
 
     var isMessageListeningStarted = false
 
     fun setReceiver(chat: ChatCommon) {
-        _receiverFlow.value = chatMappers.mapChatCommonToChatItem(chat)
+        _receiverState.value = chatMappers.mapChatCommonToChatItem(chat)
     }
 
     fun createNewMessage(userId: String, message: MessageItem) {
@@ -69,7 +67,7 @@ class ChatViewModel @Inject constructor(
             runCatching {
                 loadChatMessagesUseCase(chatId)
             }.onSuccess {
-                _chatFlow.value = it.map(messageMappers::mapMessageToMessageItem)
+                _chatState.value = it.map(messageMappers::mapMessageToMessageItem)
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }
@@ -81,7 +79,7 @@ class ChatViewModel @Inject constructor(
             runCatching {
                 getCurrentUserUseCase()
             }.onSuccess {
-                _senderFlow.value = chatMappers.mapUserToChatItem(it)
+                _senderState.value = chatMappers.mapUserToChatItem(it)
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }
@@ -128,14 +126,14 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun sendMessage(message: MessageItem) {
+    private fun sendMessage(message: MessageItem) {
         stompManager.sendMessage(message.chatId, message)
     }
 
     private fun updateMessages(message: MessageItem) {
-        val updatedMessages = _chatFlow.value?.toMutableList() ?: mutableListOf()
+        val updatedMessages = _chatState.value?.toMutableList() ?: mutableListOf()
         updatedMessages.add(message)
-        _chatFlow.value = updatedMessages
+        _chatState.value = updatedMessages
     }
 
     override fun onCleared() {

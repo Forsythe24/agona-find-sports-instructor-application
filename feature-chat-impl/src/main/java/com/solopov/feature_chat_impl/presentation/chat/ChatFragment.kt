@@ -85,7 +85,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
             }
 
             val onReceiverClickListener = OnClickListener {
-                viewModel.receiverFlow.value?.let {
+                viewModel.receiverState.value?.let {
                     viewModel.openUserProfile(it.userId)
                 }
 
@@ -134,20 +134,20 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
     override fun subscribe(viewModel: ChatViewModel) {
 
         with(viewModel) {
-            receiverFlow.observe { receiver ->
+            receiverState.observe { receiver ->
                 receiver?.let {
                     receiverId = receiver.userId
                     initReceiverViews(receiver)
                 }
             }
 
-            senderFlow.observe { sender ->
+            senderState.observe { sender ->
                 sender?.let {
                     senderId = sender.userId
                 }
 
                 if (isMessageListeningStarted.not()) {
-                    val receiver = viewModel.receiverFlow.value
+                    val receiver = viewModel.receiverState.value
 
                     if (receiver != null && sender != null) {
 
@@ -163,7 +163,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
             }
 
-            chatFlow.observe { messages ->
+            chatState.observe { messages ->
                 viewBinding.scheduleEventBtn.let {
                     if (messages.isNullOrEmpty()) {
                         it.visibility = GONE
@@ -208,7 +208,7 @@ class ChatFragment : BaseFragment<ChatViewModel>() {
 
     private fun setUpScheduleEventButton() {
         viewBinding.scheduleEventBtn.setOnClickListener {
-            viewModel.receiverFlow.value?.let {
+            viewModel.receiverState.value?.let {
                 viewModel.goToEventCalendar(it.name)
             }
         }

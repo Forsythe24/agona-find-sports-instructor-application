@@ -3,6 +3,7 @@ package com.solopov.feature_authentication_impl.presentation.signup
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -111,7 +112,8 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
 
     override fun subscribe(viewModel: SignUpViewModel) {
         with(viewModel) {
-            progressBarFlow.observe { isLoading ->
+            loadingState.observe { isLoading ->
+                Log.d("is loading hell yeah", isLoading.toString())
                 binding.finishSignUpBtn.setLoading(isLoading)
             }
 
@@ -119,7 +121,7 @@ class SignUpFragment : BaseFragment<SignUpViewModel>() {
                 Snackbar.make(binding.root, message.text, Snackbar.LENGTH_LONG).show()
             }
 
-            emailErrorTextFlow.observe { text ->
+            emailErrorTextState.observe { text ->
                 binding.emailTextInput.error = text
             }
         }

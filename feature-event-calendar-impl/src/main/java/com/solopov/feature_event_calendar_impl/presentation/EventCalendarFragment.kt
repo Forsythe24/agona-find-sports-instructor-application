@@ -21,8 +21,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.solopov.common.base.BaseFragment
-import com.solopov.common.ui.ProgressButton
 import com.solopov.common.di.FeatureUtils
+import com.solopov.common.ui.ProgressButton
 import com.solopov.common.utils.ParamsKey
 import com.solopov.feature_event_calendar_api.di.EventCalendarFeatureApi
 import com.solopov.feature_event_calendar_impl.R
@@ -87,29 +87,29 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
     override fun subscribe(viewModel: EventCalendarViewModel) {
         with(viewModel) {
 
-            eventListFlow.observe { eventList ->
+            eventListState.observe { eventList ->
                 eventList?.let {
                     updateEventList(it)
                 }
             }
 
-            progressBarFlow.observe { isLoading ->
+            loadingState.observe { isLoading ->
                 scheduleButton.setLoading(isLoading)
             }
 
-            currentUserIdFlow.observe {
+            currentUserIdState.observe {
                 it?.let {
                     getAllPossiblePartnersNamesByUserId(it)
                 }
             }
 
-            possiblePartnersNameListFlow.observe {
+            possiblePartnersNameListState.observe {
                 it?.let {
                     setPartnerDropDownMenuAdapter(it)
                 }
             }
 
-            currentEventFlow.observe {
+            currentEventState.observe {
             }
 
             message.observe { message ->
@@ -124,7 +124,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
         if (!partnerName.isNullOrEmpty()) {
             partnerAutoCompleteTextView.setText(partnerName)
 
-            viewModel.possiblePartnersNameListFlow.value?.let {
+            viewModel.possiblePartnersNameListState.value?.let {
                 setPartnerDropDownMenuAdapter(it)
             }
 
@@ -153,7 +153,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-                    viewModel.eventListFlow.value?.let {
+                    viewModel.eventListState.value?.let {
                         viewModel.deleteEvent(
                             it[viewHolder.bindingAdapterPosition],
                             ::onEventDeleted
@@ -195,7 +195,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
                 activityTextInput.error = getString(R.string.activity_field_must_not_be_empty)
             } else {
                 // if id is present, that means we are just editing an event saved earlier
-                val id = viewModel.currentEventFlow.value?.id ?: 0L
+                val id = viewModel.currentEventState.value?.id ?: 0L
                 viewModel.saveEvent(
                     EventItem(
                         id,
@@ -220,7 +220,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
 
     private fun setDialogViewsToEventEditingMode(event: EventItem) {
         partnerAutoCompleteTextView.setText(event.personName)
-        viewModel.possiblePartnersNameListFlow.value?.let {
+        viewModel.possiblePartnersNameListState.value?.let {
             setPartnerDropDownMenuAdapter(it)
         }
         activityEt.setText(event.name)
@@ -228,7 +228,7 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
 
         setTimeRange(event.startTime, event.endTime)
 
-        viewModel.currentEventFlow.value?.id = event.id
+        viewModel.currentEventState.value?.id = event.id
     }
 
     private fun onEventSaved() {
@@ -278,7 +278,10 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
 
         setUpTimeRangePicker()
 
-        dialog.window?.setLayout(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT)
+        dialog.window?.setLayout(
+            LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+            LinearLayoutCompat.LayoutParams.MATCH_PARENT
+        )
 
         dialog.setOnCancelListener {
             clearDialogViews()
@@ -364,7 +367,11 @@ class EventCalendarFragment : BaseFragment<EventCalendarViewModel>() {
     }
 
     private fun getTimeRangeString(startTime: Int, endTime: Int): String {
-        return String.format(getString(R.string.time_range_template), convertMinutesToHHmm(startTime), convertMinutesToHHmm(endTime))
+        return String.format(
+            getString(R.string.time_range_template),
+            convertMinutesToHHmm(startTime),
+            convertMinutesToHHmm(endTime)
+        )
     }
 
     private fun convertMinutesToHHmm(minutesTotalNumber: Int): String {

@@ -9,7 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
@@ -17,6 +21,9 @@ import kotlin.coroutines.CoroutineContext
 open class BaseViewModel : ViewModel() {
     private val _message: MutableSharedFlow<Message> = MutableSharedFlow()
     val message = _message.asSharedFlow()
+
+    private val _loadingState = MutableStateFlow(false)
+    val loadingState: StateFlow<Boolean> = _loadingState.asStateFlow()
 
     private var viewModelJob = Job()
     private var isActive = true
@@ -35,6 +42,7 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
+    protected fun setLoadingState(isLoading: Boolean) = _loadingState.update { isLoading }
 
     fun <P> doRepeatWork(delay: Long, doOnAsyncBlock: suspend CoroutineScope.() -> P) {
         isActive = true

@@ -13,6 +13,7 @@ import com.solopov.feature_chat_impl.data.mappers.ChatMappers
 import com.solopov.feature_chat_impl.presentation.chat_list.model.ChatItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
@@ -25,18 +26,12 @@ class ChatsViewModel(
     private val dateFormatter: DateFormatter,
     private val getCurrentUserUseCase: GetCurrentUserUseCase
 ) : BaseViewModel() {
-    private val _chatsFlow = MutableStateFlow<List<ChatItem>?>(null)
-    val chatsFlow: StateFlow<List<ChatItem>?>
-        get() = _chatsFlow
+    private val _chatsState = MutableStateFlow<List<ChatItem>?>(null)
+    val chatsState: StateFlow<List<ChatItem>?> = _chatsState.asStateFlow()
 
-    private val _userFlow = MutableStateFlow<ChatItem?>(null)
-    val userFlow: StateFlow<ChatItem?>
-        get() = _userFlow
+    private val _userState= MutableStateFlow<ChatItem?>(null)
+    val userState: StateFlow<ChatItem?> = _userState.asStateFlow()
 
-
-    private val _progressBarFlow = MutableStateFlow(false)
-    val progressBarFlow: StateFlow<Boolean>
-        get() = _progressBarFlow
 
     init {
         setUser()
@@ -44,22 +39,22 @@ class ChatsViewModel(
 
 
     fun getAllChatsByUserId(userId: String) {
-        _progressBarFlow.value = true
+        setLoadingState(true)
         viewModelScope.launch {
             runCatching {
                 loadAllUserChatsUseCase(userId)
             }.onSuccess {
-                _chatsFlow.value = it.map(chatMappers::mapChatToChatItem)
-                _progressBarFlow.value = false
+                _chatsState.value = it.map(chatMappers::mapChatToChatItem)
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
-                _progressBarFlow.value = false
+            }.also {
+                setLoadingState(false)
             }
         }
 
     }
 
-    fun date(chats: List<ChatItem>): List<ChatItem> {
+    fun addDates(chats: List<ChatItem>): List<ChatItem> {
 
         chats.map { chatItem ->
             val date = dateFormatter.parseStringToDateTime(chatItem.lastMessageDate!!)!!
@@ -72,10 +67,10 @@ class ChatsViewModel(
                     dateFormatter.formatDateTime(date).split(" ")[1]
             }
 
-            val c1 = Calendar.getInstance();
-            c1.add(Calendar.DAY_OF_YEAR, -1); // yesterday
+            val c1 = Calendar.getInstance()
+            c1.add(Calendar.DAY_OF_YEAR, -1)
 
-            val c2 = Calendar.getInstance();
+            val c2 = Calendar.getInstance()
             c2.time = date;
 
             if (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
@@ -93,7 +88,7 @@ class ChatsViewModel(
             runCatching {
                 getCurrentUserUseCase()
             }.onSuccess {
-                _userFlow.value = chatMappers.mapUserToChatItem(it)
+                _userState.value = chatMappers.mapUserToChatItem(it)
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }

@@ -22,6 +22,7 @@ import com.solopov.feature_user_profile_impl.presentation.user_profile.model.Rat
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class UserProfileViewModel(
@@ -39,32 +40,26 @@ class UserProfileViewModel(
     private val uploadProfileImageUseCase: UploadProfileImageUseCase
 ) : BaseViewModel() {
 
-    private val _userProfileFlow = MutableStateFlow<UserProfile?>(null)
-    val userProfileFlow: StateFlow<UserProfile?>
-        get() = _userProfileFlow
+    private val _userProfileState = MutableStateFlow<UserProfile?>(null)
+    val userProfileState: StateFlow<UserProfile?> = _userProfileState.asStateFlow()
 
-    private val _currentUserFlow = MutableStateFlow<User?>(null)
-    val currentUserFlow: StateFlow<User?>
-        get() = _currentUserFlow
+    private val _currentUserState = MutableStateFlow<User?>(null)
+    val currentUserState: StateFlow<User?> = _currentUserState.asStateFlow()
 
-    private val _ratingsFlow = MutableStateFlow<List<RatingUi>?>(null)
-    val ratingsFlow: StateFlow<List<RatingUi>?>
-        get() = _ratingsFlow
+    private val _ratingsState = MutableStateFlow<List<RatingUi>?>(null)
+    val ratingsState: StateFlow<List<RatingUi>?>
+        get() = _ratingsState
 
     private val _chatFlow = MutableStateFlow<ChatCommon?>(null)
     val chatFlow: StateFlow<ChatCommon?>
         get() = _chatFlow
-
-    private val _progressBarFlow = MutableStateFlow(false)
-    val progressBarFlow: StateFlow<Boolean>
-        get() = _progressBarFlow
 
     fun setUserProfileById(uid: String) {
         viewModelScope.launch {
             runCatching {
                 loadUserInfoUseCase(uid)
             }.onSuccess {
-                _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
+                _userProfileState.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }
@@ -80,7 +75,7 @@ class UserProfileViewModel(
             runCatching {
                 getCurrentUserUseCase()
             }.onSuccess {
-                _currentUserFlow.value = it
+                _currentUserState.value = it
                 onUserSetCallback(it.id == userId)
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
@@ -106,7 +101,7 @@ class UserProfileViewModel(
             runCatching {
                 getCurrentUserUseCase()
             }.onSuccess {
-                _userProfileFlow.value = userMappers.mapUserToUserProfile(it)
+                _userProfileState.value = userMappers.mapUserToUserProfile(it)
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }
@@ -141,15 +136,14 @@ class UserProfileViewModel(
     private fun updateUserProfile(
         userProfile: UserProfile,
     ) {
-        _progressBarFlow.value = true
+        setLoadingState(true)
         viewModelScope.launch {
             runCatching {
                 updateUserInfoUseCase(userMappers.mapUserProfileToUser(userProfile))
-            }.onSuccess {
-                _progressBarFlow.value = false
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
-                _progressBarFlow.value = false
+            }.also {
+                setLoadingState(false)
             }
         }
     }
@@ -161,7 +155,7 @@ class UserProfileViewModel(
             runCatching {
                 getAllInstructorRatingsUseCase(instructorId)
             }.onSuccess {
-                _ratingsFlow.value = it?.map(ratingMappers::mapRatingToRatingUi) ?: listOf()
+                _ratingsState.value = it?.map(ratingMappers::mapRatingToRatingUi) ?: listOf()
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }
@@ -169,50 +163,48 @@ class UserProfileViewModel(
     }
 
     private fun setUserProfile(user: UserProfile) {
-        _userProfileFlow.value = user
+        _userProfileState.value = user
     }
 
     fun set(user: UserProfile) {
-        _userProfileFlow.value = user
+        _userProfileState.value = user
     }
 
     private fun updateProfileImage(imageUri: String) {
-        _userProfileFlow.value?.let {
+        _userProfileState.value?.let {
             it.photo = imageUri
             updateUserProfile(it)
         }
     }
 
     fun uploadProfileImage(imageUri: Uri) {
-        _progressBarFlow.value = true
+        setLoadingState(true)
         viewModelScope.launch {
             runCatching {
                 uploadProfileImageUseCase(imageUri.toString())
             }.onSuccess {
                 updateProfileImage(it)
-                _progressBarFlow.value = false
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
-                _progressBarFlow.value = false
+            }.also {
+                setLoadingState(false)
             }
         }
     }
 
     fun updateRating() {
-
-        val allRatings = ratingsFlow.value
+        val allRatings = ratingsState.value
 
         if (allRatings != null) {
             val ratingsSum = allRatings.map { ratingUi ->
                 ratingUi.rating
             }.sum()
 
-            val newNumberOfRatings = allRatings.size
-            val newRating = ratingsSum / if (allRatings.isEmpty()) 1 else newNumberOfRatings
+            val newRating = ratingsSum / if (allRatings.isEmpty()) 1 else allRatings.size
 
-            userProfileFlow.value?.let {
+            userProfileState.value?.let {
                 val newUserProfile =
-                    it.copy(rating = newRating, numberOfRatings = newNumberOfRatings)
+                    it.copy(rating = newRating, numberOfRatings = allRatings.size)
 
                 updateUserProfile(newUserProfile)
                 setUserProfile(newUserProfile)

@@ -8,8 +8,6 @@ import com.solopov.feature_user_profile_api.domain.usecase.UpdateUserInfoUseCase
 import com.solopov.feature_user_profile_impl.UserProfileRouter
 import com.solopov.feature_user_profile_impl.data.mappers.UserMappers
 import com.solopov.feature_user_profile_impl.presentation.user_profile.model.UserProfile
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,24 +18,20 @@ class InstructApplicationViewModel @Inject constructor(
     private val updateUserInfoUseCase: UpdateUserInfoUseCase
 ) : BaseViewModel() {
 
-    private val _progressBarFlow = MutableStateFlow(false)
-    val progressBarFlow: StateFlow<Boolean>
-        get() = _progressBarFlow
-
     fun updateUser(
         userProfile: UserProfile,
         onUserUpdated: () -> Unit,
     ) {
-        _progressBarFlow.value = true
+        setLoadingState(true)
         viewModelScope.launch {
             runCatching {
                 updateUserInfoUseCase(mappers.mapUserProfileToUser(userProfile))
             }.onSuccess {
                 onUserUpdated()
-                _progressBarFlow.value = false
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
-                _progressBarFlow.value = false
+            }.also {
+                setLoadingState(false)
             }
         }
     }

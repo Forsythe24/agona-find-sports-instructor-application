@@ -11,6 +11,7 @@ import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,36 +22,35 @@ class LogInViewModel @Inject constructor(
     private val signInUserUseCase: SignInUserUseCase
 ) : BaseViewModel() {
 
-    private val _authenticationResultFlow = MutableStateFlow(false)
-    val authenticationResultFlow: StateFlow<Boolean>
-        get() = _authenticationResultFlow
+    private val _emailErrorTextState = MutableStateFlow<String?>(null)
+    val emailErrorTextState: StateFlow<String?> = _emailErrorTextState.asStateFlow()
 
-    private val _emailErrorTextFlow = MutableStateFlow<String?>(null)
-    val emailErrorTextFlow: StateFlow<String?>
-        get() = _emailErrorTextFlow
-
-    private val _passwordErrorTextFlow = MutableStateFlow<String?>(null)
-    val passwordErrorTextFlow: StateFlow<String?>
-        get() = _passwordErrorTextFlow
+    private val _passwordErrorTextState = MutableStateFlow<String?>(null)
+    val passwordErrorTextState: StateFlow<String?> = _passwordErrorTextState.asStateFlow()
 
     fun signIn(
         email: String,
         password: String,
     ) {
+        setLoadingState(true)
         viewModelScope.launch {
             runCatching {
                 signInUserUseCase(
                     email,
                     password,
                 )
-            }.onSuccess {
-                _authenticationResultFlow.value = it
+            }.onSuccess { isAuthenticated ->
+                if (isAuthenticated) {
+                    goFromLogInToUserProfile()
+                }
             }.onFailure {
                 when (it) {
-                    is ApiError.NotFoundException -> _emailErrorTextFlow.value = resourceManager.getString(R.string.no_such_email_message)
-                    is ApiError.FailedAuthorizationException -> _passwordErrorTextFlow.value = resourceManager.getString(R.string.wrong_password_message)
+                    is ApiError.NotFoundException -> _emailErrorTextState.value = resourceManager.getString(R.string.no_such_email_message)
+                    is ApiError.FailedAuthorizationException -> _passwordErrorTextState.value = resourceManager.getString(R.string.wrong_password_message)
                     else -> showMessage(it.getMessage(resourceManager))
                 }
+            }.also {
+                setLoadingState(false)
             }
         }
     }

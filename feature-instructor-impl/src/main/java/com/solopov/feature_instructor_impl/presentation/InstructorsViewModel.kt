@@ -17,16 +17,16 @@ class InstructorsViewModel @Inject constructor(
     private val resourceManager: ResourceManager,
     private val loadSportInstructorsUseCase: LoadSportInstructorsUseCase
 ) : BaseViewModel() {
-    private val _currentInstructorsFlow = MutableStateFlow<List<InstructorsAdapter.ListItem>?>(null)
-    val currentInstructorsFlow: StateFlow<List<InstructorsAdapter.ListItem>?>
-        get() = _currentInstructorsFlow
+    private val _currentInstructorsState = MutableStateFlow<List<InstructorsAdapter.ListItem>?>(null)
+    val currentInstructorsState: StateFlow<List<InstructorsAdapter.ListItem>?>
+        get() = _currentInstructorsState
 
     fun getInstructorsBySportId(sportId: Int) {
         viewModelScope.launch {
             runCatching {
                 loadSportInstructorsUseCase(sportId)
             }.onSuccess {
-                _currentInstructorsFlow.value = mapInstructorsToListItems(it)
+                _currentInstructorsState.value = mapInstructorsToListItems(it)
             }.onFailure {
                 showMessage(it.getMessage(resourceManager))
             }

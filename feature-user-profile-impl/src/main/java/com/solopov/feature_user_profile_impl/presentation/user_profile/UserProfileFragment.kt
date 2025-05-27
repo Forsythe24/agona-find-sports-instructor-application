@@ -112,7 +112,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
         with(binding) {
             editBtn.setOnClickListener {
-                viewModel.userProfileFlow.value?.let {
+                viewModel.userProfileState.value?.let {
                     viewModel.goToEditingProfile(it)
                 }
             }
@@ -139,14 +139,14 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
             }
 
-            viewModel.userProfileFlow.value?.let { user ->
-                if (user.id == viewModel.userProfileFlow.value?.id) {
+            viewModel.userProfileState.value?.let { user ->
+                if (user.id == viewModel.userProfileState.value?.id) {
                     hideOtherUserSpecificViews()
                 }
             }
 
             instructBtn.setOnClickListener {
-                viewModel.userProfileFlow.value?.let {
+                viewModel.userProfileState.value?.let {
                     viewModel.goToInstructApplication(it)
                 }
             }
@@ -194,7 +194,7 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     override fun subscribe(viewModel: UserProfileViewModel) {
         with(viewModel) {
-            userProfileFlow.observe {
+            userProfileState.observe {
                 it?.let { user ->
                     setChat(
                         ChatCommon(
@@ -214,13 +214,13 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
                 }
             }
 
-            ratingsFlow.observe { ratings ->
+            ratingsState.observe { ratings ->
                 ratings?.let {
                     updateRating()
                 }
             }
 
-            progressBarFlow.observe { isLoading ->
+            loadingState.observe { isLoading ->
                 binding.progressBar.isVisible = isLoading
             }
 
@@ -263,8 +263,8 @@ class UserProfileFragment : BaseFragment<UserProfileViewModel>() {
 
     private fun addRating(currentRating: Float) {
         with(viewModel) {
-            userProfileFlow.value?.let { otherUser ->
-                currentUserFlow.value?.let { currentUser ->
+            userProfileState.value?.let { otherUser ->
+                currentUserState.value?.let { currentUser ->
 
                     viewModel.addRating(
                         RatingUi(

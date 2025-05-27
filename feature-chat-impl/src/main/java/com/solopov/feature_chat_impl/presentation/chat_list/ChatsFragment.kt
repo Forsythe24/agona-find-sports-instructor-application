@@ -68,7 +68,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
 
     override fun subscribe(viewModel: ChatsViewModel) {
         with(viewModel) {
-            chatsFlow.observe { chats ->
+            chatsState.observe { chats ->
                 viewBinding.noChatsYetTv.let {
                     if (chats.isNullOrEmpty()) {
                         it.visibility = VISIBLE
@@ -78,11 +78,11 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
                 }
 
                 chats?.let {
-                    updateChatList(viewModel.date(it))
+                    updateChatList(viewModel.addDates(it))
                 }
             }
 
-            userFlow.observe { user ->
+            userState.observe { user ->
                 user?.let {
                     initChats(user.userId)
                 }
@@ -109,7 +109,7 @@ class ChatsFragment : BaseFragment<ChatsViewModel>() {
             doRepeatWork(
                 MESSAGE_SYNC_INTERVAL
             ) {
-                userFlow.value?.let {
+                userState.value?.let {
                     getAllChatsByUserId(it.userId)
                 }
             }

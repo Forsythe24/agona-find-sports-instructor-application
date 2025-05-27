@@ -11,6 +11,7 @@ import com.solopov.feature_authentication_impl.AuthRouter
 import com.solopov.feature_authentication_impl.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,13 +22,8 @@ class SignUpViewModel @Inject constructor(
     private val registerUserUseCase: RegisterUserUseCase
 ) : BaseViewModel() {
 
-    private val _progressBarFlow = MutableStateFlow(false)
-    val progressBarFlow: StateFlow<Boolean>
-        get() = _progressBarFlow
-
-    private val _emailErrorTextFlow = MutableStateFlow<String?>(null)
-    val emailErrorTextFlow: StateFlow<String?>
-        get() = _emailErrorTextFlow
+    private val _emailErrorTextState = MutableStateFlow<String?>(null)
+    val emailErrorTextState: StateFlow<String?> = _emailErrorTextState.asStateFlow()
 
     fun createUser(
         email: String,
@@ -36,7 +32,7 @@ class SignUpViewModel @Inject constructor(
         age: Int,
         gender: String,
     ) {
-        _progressBarFlow.value = true
+        setLoadingState(true)
         viewModelScope.launch {
             runCatching {
                 registerUserUseCase(
@@ -48,13 +44,15 @@ class SignUpViewModel @Inject constructor(
                 )
             }.onSuccess {
                 router.goFromSignUpToInstructors()
-                _progressBarFlow.value = false
             }.onFailure {
                 when (it) {
-                    is ApiError.ConflictException -> _emailErrorTextFlow.value = resourceManager.getString(R.string.email_already_in_use_message)
+                    is ApiError.ConflictException -> _emailErrorTextState.value =
+                        resourceManager.getString(R.string.email_already_in_use_message)
+
                     else -> showMessage(it.getMessage(resourceManager))
                 }
-                _progressBarFlow.value = false
+            }.also {
+                setLoadingState(false)
             }
         }
     }

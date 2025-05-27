@@ -66,7 +66,7 @@ class OneSportInstructorsFragment : BaseFragment<InstructorsViewModel>() {
 
     override fun subscribe(viewModel: InstructorsViewModel) {
         with(viewModel) {
-            currentInstructorsFlow.observe {
+            currentInstructorsState.observe {
                 if (it != null) {
                     instructorsList = it
                     updateInstructors(it)

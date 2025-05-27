@@ -66,24 +66,20 @@ class LogInFragment : BaseFragment<LogInViewModel>() {
     override fun subscribe(viewModel: LogInViewModel) {
         with(viewModel) {
             with(binding) {
-                authenticationResultFlow.observe { authenticated ->
-                    if (authenticated) {
-                        viewModel.goFromLogInToUserProfile()
-                    }
+
+                loadingState.observe { isLoading ->
+                    binding.logInBtn.setLoading(isLoading)
                 }
 
                 message.observe { message ->
-                    logInBtn.setLoading(false)
                     showSnackbar(message.text, Snackbar.LENGTH_SHORT)
                 }
 
-                emailErrorTextFlow.observe { text ->
-                    logInBtn.setLoading(false)
+                emailErrorTextState.observe { text ->
                     emailTextInput.error = text
                 }
 
-                passwordErrorTextFlow.observe { text ->
-                    logInBtn.setLoading(false)
+                passwordErrorTextState.observe { text ->
                     passwordTextInput.error = text
                 }
             }

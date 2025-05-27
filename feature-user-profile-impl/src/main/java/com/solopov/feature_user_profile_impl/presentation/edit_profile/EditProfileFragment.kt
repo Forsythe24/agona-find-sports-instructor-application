@@ -63,7 +63,10 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
                     currentUser?.let {
                         it.name = nameEt.text.toString()
                         it.age = ageEt.text.toString().toInt()
-                        it.gender = if (maleRb.isChecked) getString(R.string.male_gender_mark) else getString(R.string.female_gender_mark)
+                        it.gender =
+                            if (maleRb.isChecked) getString(R.string.male_gender_mark) else getString(
+                                R.string.female_gender_mark
+                            )
                         viewModel.updateUser(it, ::onUserUpdatedCallback)
                         viewModel.setCurrentUser(it)
                     }
@@ -117,7 +120,7 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
             LinearLayoutCompat.LayoutParams.MATCH_PARENT
         )
 
-        viewModel.passwordErrorTextFlow.observe { text ->
+        viewModel.passwordErrorTextState.observe { text ->
             passwordTextInput.error = text
         }
     }
@@ -190,11 +193,10 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
     override fun subscribe(viewModel: EditProfileViewModel) {
         with(viewModel) {
-            editProfileFlow.observe { userProfile ->
+            editProfileState.observe { userProfile ->
                 currentUser = userProfile
 
                 with(binding) {
-
                     userProfile?.let { user ->
                         nameEt.setText(user.name)
                         ageEt.setText(user.age.toString())
@@ -215,11 +217,11 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
                 }
             }
 
-            saveBtnProgressBarFlow.observe { isLoading ->
+            saveLoadingState.observe { isLoading ->
                 binding.saveBtn.setLoading(isLoading)
             }
 
-            dialogBtnProgressBarFlow.observe { isLoading ->
+            dialogLoadingState.observe { isLoading ->
                 binding.saveBtn.setLoading(isLoading)
             }
 

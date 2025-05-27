@@ -181,9 +181,8 @@ class InstructApplicationFragment : BaseFragment<InstructApplicationViewModel>()
     }
 
     override fun subscribe(viewModel: InstructApplicationViewModel) {
-
         with(viewModel) {
-            progressBarFlow.observe { isLoading ->
+            loadingState.observe { isLoading ->
                 binding.applyBtn.setLoading(isLoading)
             }
 
